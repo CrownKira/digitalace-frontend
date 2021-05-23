@@ -1,6 +1,6 @@
 # digitalace-frontend
 
-## Contaner networking
+## Container networking
 ![frontend-container-network (2)](https://user-images.githubusercontent.com/24221801/119248231-5c35a080-bbc2-11eb-8a3e-e425b4122cf7.png)
 
 ## Mockups
