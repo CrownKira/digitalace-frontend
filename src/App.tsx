@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
+import { Admin, DataProvider } from 'react-admin';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import authProvider from './authProvider';
+import { Login } from './layout';
+
+interface AppProps {
+  onUnmount: () => void;
+  dataProvider: DataProvider;
 }
+
+const App = ({ onUnmount, dataProvider }: AppProps) => {
+  useEffect(() => onUnmount);
+
+  return (
+    <Admin
+      title="DigitaLAce"
+      dataProvider={dataProvider}
+      // customReducers={}
+      // customRoutes={}
+      authProvider={authProvider}
+      // dashboard={}
+      loginPage={Login}
+      // layout={}
+      // i18nProvider={}
+    ></Admin>
+  );
+};
 
 export default App;

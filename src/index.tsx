@@ -1,17 +1,22 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
+import dataProviderFactory from './dataProvider';
+import fakeServerFactory from './fakeServer';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const prepareDataProvider = async () => {
+  const restoreFetch = await fakeServerFactory(
+    process.env.REACT_APP_DATA_PROVIDER || ''
+  );
+  const dataProvider = await dataProviderFactory(
+    process.env.REACT_APP_DATA_PROVIDER || ''
+  );
+  return { dataProvider, restoreFetch };
+};
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+prepareDataProvider().then(({ dataProvider, restoreFetch }) => {
+  ReactDOM.render(
+    <App dataProvider={dataProvider} onUnmount={restoreFetch} />,
+    document.getElementById('root')
+  );
+});
