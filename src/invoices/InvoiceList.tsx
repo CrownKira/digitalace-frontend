@@ -16,7 +16,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import FullNameField from '../visitors/FullNameField';
 import AddressField from '../visitors/AddressField';
-import InvoiceShow from './InvoiceShow';
 
 // qn: omit?
 // Construct a type with the properties of T except for those in type K.
@@ -46,7 +45,6 @@ const InvoiceList: FC<ListProps> = (props) => {
       perPage={25}
       sort={{ field: 'date', order: 'desc' }}
     >
-      {/* show the invoice edit page on click */}
       <Datagrid rowClick="expand">
         <TextField source="id" />
         <DateField source="date" />

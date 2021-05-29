@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { FC } from 'react';
 import { FieldProps } from 'react-admin';
 import { Customer } from '../types';
