@@ -1,8 +1,10 @@
+# only used for production
+# built in travis ci enrironment
 FROM node:alpine as builder 
 WORKDIR '/app'
 COPY ./package.json ./
 RUN yarn install 
-# COPY . . 
+COPY . . 
 RUN yarn build
 
 FROM nginx
