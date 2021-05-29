@@ -4,7 +4,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t crownkira/digitalace-frontend-test -f ./Dockerfile.dev .
+  - docker build -t crownkira/digitalace-frontend-test -f ./Dockerfile.test .
 
 script:
   - docker run -e CI=true crownkira/digitalace-frontend-test yarn run test
