@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FullNameField from '../visitors/FullNameField';
 import AddressField from '../visitors/AddressField';
 
+// TODO: review this
 // qn: omit?
 // Construct a type with the properties of T except for those in type K.
 // filter by date greater than, less than
