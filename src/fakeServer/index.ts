@@ -1,6 +1,7 @@
-export default (type: string) => {
+export default async (type: string) => {
   switch (type) {
     default:
-      return import('./rest').then((factory) => factory.default());
+      const factory = await import('./rest');
+      return factory.default();
   }
 };

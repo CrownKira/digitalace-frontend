@@ -18,7 +18,7 @@ interface AppProps {
 }
 
 const App = ({ onUnmount, dataProvider }: AppProps) => {
-  useEffect(() => onUnmount);
+  useEffect(() => onUnmount, [onUnmount]);
 
   return (
     <Admin
