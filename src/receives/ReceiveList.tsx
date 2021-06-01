@@ -15,8 +15,8 @@ import {
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
-import FullNameField from '../customers/FullNameField';
-import AddressField from '../customers/AddressField';
+import FullNameField from '../suppliers/FullNameField';
+import AddressField from '../suppliers/AddressField';
 
 /// Omit: Construct a type with the properties of T except for those in type K.
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
@@ -26,8 +26,8 @@ const ListFilters = (props: Omit<FilterProps, 'children'>) => (
 
     <ReferenceInput
       label="Customer"
-      source="customer_id"
-      reference="customers"
+      source="supplier_id"
+      reference="suppliers"
       allowEmpty
     >
       <SelectInput optionText="first_name" />
@@ -58,14 +58,14 @@ const InvoiceList: FC<ListProps> = (props) => {
       <Datagrid rowClick="expand">
         <TextField source="id" />
         <DateField source="date" />
-        <ReferenceField source="customer_id" reference="customers">
+        <ReferenceField source="supplier_id" reference="suppliers">
           <FullNameField />
         </ReferenceField>
         <ReferenceField
-          source="customer_id"
-          reference="customers"
+          source="supplier_id"
+          reference="suppliers"
           link={false}
-          label="resources.invoices.fields.address"
+          label="resources.receives.fields.address"
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
         >

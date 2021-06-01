@@ -65,7 +65,7 @@ const InvoiceList: FC<ListProps> = (props) => {
           source="customer_id"
           reference="customers"
           link={false}
-          label="resources.invoices.fields.address"
+          label="resources.sales_orders.fields.address"
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
         >

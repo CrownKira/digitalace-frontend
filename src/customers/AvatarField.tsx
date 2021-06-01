@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { FieldProps } from 'react-admin';
 import { Customer } from '../types';
 
-// TODO: review this
+// copied
 interface Props extends FieldProps<Customer> {
   className?: string;
   size?: string;
