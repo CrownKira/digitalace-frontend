@@ -119,21 +119,21 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         dense={dense}
       >
         <MenuItemLink
-          to={'/purchase_orders'}
-          primaryText={translate('resources.purchase_orders.name', {
-            smart_count: 2,
-          })}
-          leftIcon={<purchase_orders.icon />}
-          onClick={onMenuClick}
-          sidebarIsOpen={open}
-          dense={dense}
-        />
-        <MenuItemLink
           to={'/sales_orders'}
           primaryText={translate('resources.sales_orders.name', {
             smart_count: 2,
           })}
           leftIcon={<sales_orders.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+        />
+        <MenuItemLink
+          to={'/purchase_orders'}
+          primaryText={translate('resources.purchase_orders.name', {
+            smart_count: 2,
+          })}
+          leftIcon={<purchase_orders.icon />}
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}

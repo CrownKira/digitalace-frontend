@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 
 /// when see reference field will go fetch the references
 const InvoiceList: FC<ListProps> = (props) => {
-  console.log('render');
   const classes = useStyles();
   return (
     <List

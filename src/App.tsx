@@ -9,6 +9,9 @@ import { Dashboard } from './dashboard';
 import englishMessages from './i18n/en';
 
 import invoices from './invoices';
+import receives from './receives';
+import sales_orders from './sales_orders';
+import purchase_orders from './purchase_orders';
 
 const i18nProvider = polyglotI18nProvider((locale) => {
   return englishMessages;
@@ -36,6 +39,9 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
       disableTelemetry
     >
       <Resource name="invoices" {...invoices} />
+      <Resource name="receives" {...receives} />
+      <Resource name="sales_orders" {...sales_orders} />
+      <Resource name="purchase_orders" {...purchase_orders} />
     </Admin>
   );
 };

@@ -25,7 +25,7 @@ const ListFilters = (props: Omit<FilterProps, 'children'>) => (
     <DateInput source="date_lte" alwaysOn />
 
     <ReferenceInput
-      label="Customer"
+      label="Supplier"
       source="customer_id"
       reference="customers"
       allowEmpty
@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 
 /// when see reference field will go fetch the references
 const InvoiceList: FC<ListProps> = (props) => {
-  console.log('render');
   const classes = useStyles();
   return (
     <List
