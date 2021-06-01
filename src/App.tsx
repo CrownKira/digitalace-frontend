@@ -12,6 +12,7 @@ import invoices from './invoices';
 import receives from './receives';
 import sales_orders from './sales_orders';
 import purchase_orders from './purchase_orders';
+import products from './products';
 
 const i18nProvider = polyglotI18nProvider((locale) => {
   return englishMessages;
@@ -42,6 +43,7 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
       <Resource name="receives" {...receives} />
       <Resource name="sales_orders" {...sales_orders} />
       <Resource name="purchase_orders" {...purchase_orders} />
+      <Resource name="products" {...products} />
     </Admin>
   );
 };
