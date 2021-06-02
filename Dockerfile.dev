@@ -8,4 +8,4 @@ WORKDIR '/app'
 # volumes in docker compose
 # to copy the references over
 # COPY . .
-CMD ["yarn", "start"]
+CMD ["yarn", "dev"]

@@ -1,0 +1,1294 @@
+{
+  "invoices": [
+    {
+      "id": 70,
+      "date": "2021-06-01T14:04:58.744Z",
+      "command_id": 225,
+      "customer_id": 67,
+      "total_ex_taxes": 488.97,
+      "delivery_fees": 3.11,
+      "tax_rate": 0.2,
+      "taxes": 98.42,
+      "total": 590.5
+    },
+    {
+      "id": 69,
+      "date": "2021-05-30T12:46:10.081Z",
+      "command_id": 591,
+      "customer_id": 268,
+      "total_ex_taxes": 71.15,
+      "delivery_fees": 4.32,
+      "tax_rate": 0.17,
+      "taxes": 12.83,
+      "total": 88.3
+    },
+    {
+      "id": 68,
+      "date": "2021-05-29T18:43:17.381Z",
+      "command_id": 526,
+      "customer_id": 808,
+      "total_ex_taxes": 248.36,
+      "delivery_fees": 4.15,
+      "tax_rate": 0.17,
+      "taxes": 42.93,
+      "total": 295.44
+    },
+    {
+      "id": 67,
+      "date": "2021-05-27T03:45:19.801Z",
+      "command_id": 428,
+      "customer_id": 442,
+      "total_ex_taxes": 99.59,
+      "delivery_fees": 7.59,
+      "tax_rate": 0.12,
+      "taxes": 12.86,
+      "total": 120.04
+    },
+    {
+      "id": 66,
+      "date": "2021-05-26T05:47:35.966Z",
+      "command_id": 201,
+      "customer_id": 281,
+      "total_ex_taxes": 91.47,
+      "delivery_fees": 4.32,
+      "tax_rate": 0.2,
+      "taxes": 19.16,
+      "total": 114.95
+    },
+    {
+      "id": 65,
+      "date": "2021-05-22T01:26:48.665Z",
+      "command_id": 218,
+      "customer_id": 808,
+      "total_ex_taxes": 61.91,
+      "delivery_fees": 4.44,
+      "tax_rate": 0.2,
+      "taxes": 13.27,
+      "total": 79.62
+    },
+    {
+      "id": 64,
+      "date": "2021-05-21T15:12:27.310Z",
+      "command_id": 589,
+      "customer_id": 36,
+      "total_ex_taxes": 23.83,
+      "delivery_fees": 6.52,
+      "tax_rate": 0.2,
+      "taxes": 6.07,
+      "total": 36.42
+    },
+    {
+      "id": 63,
+      "date": "2021-05-19T19:22:01.464Z",
+      "command_id": 260,
+      "customer_id": 442,
+      "total_ex_taxes": 93.25,
+      "delivery_fees": 7.45,
+      "tax_rate": 0.2,
+      "taxes": 20.14,
+      "total": 120.84
+    },
+    {
+      "id": 62,
+      "date": "2021-05-17T16:38:53.298Z",
+      "command_id": 573,
+      "customer_id": 733,
+      "total_ex_taxes": 160.97000000000003,
+      "delivery_fees": 7.69,
+      "tax_rate": 0.12,
+      "taxes": 20.24,
+      "total": 188.9
+    },
+    {
+      "id": 61,
+      "date": "2021-04-28T15:50:06.266Z",
+      "command_id": 248,
+      "customer_id": 64,
+      "total_ex_taxes": 61.120000000000005,
+      "delivery_fees": 4.9,
+      "tax_rate": 0.2,
+      "taxes": 13.2,
+      "total": 79.22
+    },
+    {
+      "id": 60,
+      "date": "2021-04-25T11:06:36.367Z",
+      "command_id": 495,
+      "customer_id": 53,
+      "total_ex_taxes": 86.22,
+      "delivery_fees": 6.85,
+      "tax_rate": 0.2,
+      "taxes": 18.61,
+      "total": 111.68
+    },
+    {
+      "id": 59,
+      "date": "2021-04-24T15:39:26.176Z",
+      "command_id": 432,
+      "customer_id": 272,
+      "total_ex_taxes": 108.68,
+      "delivery_fees": 5.83,
+      "tax_rate": 0.2,
+      "taxes": 22.9,
+      "total": 137.41
+    },
+    {
+      "id": 58,
+      "date": "2021-04-18T15:21:56.370Z",
+      "command_id": 162,
+      "customer_id": 554,
+      "total_ex_taxes": 51.73,
+      "delivery_fees": 7.64,
+      "tax_rate": 0.2,
+      "taxes": 11.87,
+      "total": 71.24
+    },
+    {
+      "id": 57,
+      "date": "2021-04-15T21:30:05.885Z",
+      "command_id": 584,
+      "customer_id": 71,
+      "total_ex_taxes": 164.91,
+      "delivery_fees": 3.76,
+      "tax_rate": 0.2,
+      "taxes": 33.73,
+      "total": 202.4
+    },
+    {
+      "id": 56,
+      "date": "2021-03-20T05:42:06.095Z",
+      "command_id": 504,
+      "customer_id": 552,
+      "total_ex_taxes": 117.19999999999999,
+      "delivery_fees": 5.74,
+      "tax_rate": 0.2,
+      "taxes": 24.59,
+      "total": 147.53
+    },
+    {
+      "id": 55,
+      "date": "2021-02-26T18:16:01.152Z",
+      "command_id": 326,
+      "customer_id": 274,
+      "total_ex_taxes": 87.17,
+      "delivery_fees": 7.45,
+      "tax_rate": 0.2,
+      "taxes": 18.92,
+      "total": 113.54
+    },
+    {
+      "id": 54,
+      "date": "2021-01-04T04:13:47.026Z",
+      "command_id": 446,
+      "customer_id": 459,
+      "total_ex_taxes": 39.32,
+      "delivery_fees": 4.31,
+      "tax_rate": 0.17,
+      "taxes": 7.42,
+      "total": 51.05
+    },
+    {
+      "id": 53,
+      "date": "2020-12-27T04:13:42.403Z",
+      "command_id": 423,
+      "customer_id": 495,
+      "total_ex_taxes": 91.17999999999999,
+      "delivery_fees": 4.25,
+      "tax_rate": 0.2,
+      "taxes": 19.09,
+      "total": 114.52
+    },
+    {
+      "id": 52,
+      "date": "2020-12-25T13:05:39.704Z",
+      "command_id": 173,
+      "customer_id": 764,
+      "total_ex_taxes": 109.82,
+      "delivery_fees": 4.36,
+      "tax_rate": 0.17,
+      "taxes": 19.41,
+      "total": 133.59
+    },
+    {
+      "id": 51,
+      "date": "2020-10-31T10:25:33.831Z",
+      "command_id": 542,
+      "customer_id": 294,
+      "total_ex_taxes": 75.27,
+      "delivery_fees": 3.43,
+      "tax_rate": 0.12,
+      "taxes": 9.44,
+      "total": 88.14
+    },
+    {
+      "id": 50,
+      "date": "2020-10-30T16:59:05.480Z",
+      "command_id": 288,
+      "customer_id": 113,
+      "total_ex_taxes": 107.10000000000001,
+      "delivery_fees": 6.11,
+      "tax_rate": 0.2,
+      "taxes": 22.64,
+      "total": 135.85
+    },
+    {
+      "id": 49,
+      "date": "2020-10-22T16:46:00.025Z",
+      "command_id": 291,
+      "customer_id": 114,
+      "total_ex_taxes": 87.85,
+      "delivery_fees": 5.19,
+      "tax_rate": 0.2,
+      "taxes": 18.61,
+      "total": 111.65
+    },
+    {
+      "id": 48,
+      "date": "2020-10-05T13:17:58.640Z",
+      "command_id": 450,
+      "customer_id": 493,
+      "total_ex_taxes": 37.27,
+      "delivery_fees": 6.36,
+      "tax_rate": 0.12,
+      "taxes": 5.24,
+      "total": 48.87
+    },
+    {
+      "id": 47,
+      "date": "2020-09-26T02:01:12.611Z",
+      "command_id": 269,
+      "customer_id": 114,
+      "total_ex_taxes": 289.82,
+      "delivery_fees": 7.02,
+      "tax_rate": 0.17,
+      "taxes": 50.46,
+      "total": 347.3
+    },
+    {
+      "id": 46,
+      "date": "2020-09-08T21:10:52.207Z",
+      "command_id": 11,
+      "customer_id": 486,
+      "total_ex_taxes": 102.18,
+      "delivery_fees": 7.43,
+      "tax_rate": 0.2,
+      "taxes": 21.92,
+      "total": 131.53
+    }
+  ],
+  "customers": [
+    {
+      "id": 36,
+      "first_name": "Kara",
+      "last_name": "Donnelly",
+      "email": "Kara.Donnelly@gmail.com",
+      "address": "464 Frederic Radial",
+      "zipcode": "92312-3092",
+      "city": "Pricechester",
+      "stateAbbr": "HI",
+      "avatar": "https://marmelab.com/posters/avatar-7.jpeg",
+      "birthday": "2004-02-18T06:49:04.087Z",
+      "first_seen": "2019-09-12T15:37:31.676Z",
+      "last_seen": "2021-05-29T09:03:09.242Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-05-21T15:12:27.310Z",
+      "has_newsletter": false,
+      "groups": ["collector", "compulsive"],
+      "nb_commands": 9,
+      "total_spent": 1605.7400000000002
+    },
+    {
+      "id": 53,
+      "first_name": "Dortha",
+      "last_name": "Aufderhar",
+      "email": "Dortha20@gmail.com",
+      "address": "31068 Veum Pike",
+      "zipcode": "24458",
+      "city": "Kuhnport",
+      "stateAbbr": "SC",
+      "avatar": "https://marmelab.com/posters/avatar-12.jpeg",
+      "birthday": "1982-07-01T05:11:39.929Z",
+      "first_seen": "2019-12-30T08:42:26.995Z",
+      "last_seen": "2020-12-01T11:36:43.772Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-04-25T11:06:36.367Z",
+      "has_newsletter": true,
+      "groups": ["regular", "returns", "reviewer"],
+      "nb_commands": 4,
+      "total_spent": 632.25
+    },
+    {
+      "id": 64,
+      "first_name": "Clovis",
+      "last_name": "Howell",
+      "email": "Clovis88@gmail.com",
+      "address": "22556 Sporer Plaza",
+      "zipcode": "41436-0320",
+      "city": "Zulaufshire",
+      "stateAbbr": "ID",
+      "avatar": "https://marmelab.com/posters/avatar-15.jpeg",
+      "birthday": "1966-05-26T06:59:05.657Z",
+      "first_seen": "2019-04-10T20:23:11.597Z",
+      "last_seen": "2020-07-09T21:06:53.581Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-04-28T15:50:06.266Z",
+      "has_newsletter": true,
+      "groups": ["reviewer"],
+      "nb_commands": 4,
+      "total_spent": 372.75
+    },
+    {
+      "id": 67,
+      "first_name": "Raymond",
+      "last_name": "King",
+      "email": "Raymond29@yahoo.com",
+      "address": "939 Gerhold Parkways",
+      "zipcode": "43064-1330",
+      "city": "South Camilleport",
+      "stateAbbr": "NC",
+      "avatar": "https://marmelab.com/posters/avatar-18.jpeg",
+      "birthday": "2020-02-28T04:07:20.003Z",
+      "first_seen": "2019-12-17T19:51:39.862Z",
+      "last_seen": "2021-04-26T06:29:13.275Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-06-01T14:04:58.744Z",
+      "has_newsletter": true,
+      "groups": [],
+      "nb_commands": 3,
+      "total_spent": 785.95
+    },
+    {
+      "id": 71,
+      "first_name": "Tiana",
+      "last_name": "Smitham",
+      "email": "Tiana.Smitham72@gmail.com",
+      "address": "01921 Shields Pine",
+      "zipcode": "45870",
+      "city": "South Clay",
+      "stateAbbr": "AL",
+      "avatar": "https://marmelab.com/posters/avatar-19.jpeg",
+      "birthday": "2020-11-06T01:15:55.071Z",
+      "first_seen": "2017-05-06T21:37:38.573Z",
+      "last_seen": "2020-12-11T05:10:39.220Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-04-15T21:30:05.885Z",
+      "has_newsletter": false,
+      "groups": ["collector", "reviewer"],
+      "nb_commands": 4,
+      "total_spent": 928.51
+    },
+    {
+      "id": 113,
+      "first_name": "Tristin",
+      "last_name": "Abbott",
+      "email": "Tristin.Abbott3@hotmail.com",
+      "address": "4239 Paxton Street",
+      "zipcode": "73473-5741",
+      "city": "Franciscofort",
+      "stateAbbr": "NM",
+      "avatar": "https://marmelab.com/posters/avatar-29.jpeg",
+      "birthday": "1964-06-22T13:51:30.389Z",
+      "first_seen": "2020-12-27T18:39:40.671Z",
+      "last_seen": "2021-04-16T16:15:22.128Z",
+      "has_ordered": true,
+      "latest_purchase": "2020-10-30T16:59:05.480Z",
+      "has_newsletter": false,
+      "groups": [],
+      "nb_commands": 5,
+      "total_spent": 626
+    },
+    {
+      "id": 114,
+      "first_name": "Trinity",
+      "last_name": "Smith",
+      "email": "Trinity_Smith70@yahoo.com",
+      "address": "5028 Sam Lake",
+      "zipcode": "18904-4777",
+      "city": "Ryanburgh",
+      "stateAbbr": "NM",
+      "avatar": "https://marmelab.com/posters/avatar-30.jpeg",
+      "birthday": "1972-06-28T16:27:18.364Z",
+      "first_seen": "2018-10-26T12:37:21.164Z",
+      "last_seen": "2020-07-15T12:09:55.961Z",
+      "has_ordered": true,
+      "latest_purchase": "2020-10-22T16:46:00.025Z",
+      "has_newsletter": true,
+      "groups": ["collector", "compulsive"],
+      "nb_commands": 4,
+      "total_spent": 1506.4
+    },
+    {
+      "id": 268,
+      "first_name": "Haylie",
+      "last_name": "VonRueden",
+      "email": "Haylie.VonRueden66@yahoo.com",
+      "address": "68115 Keyon Manors",
+      "zipcode": "82151-4743",
+      "city": "New Claudieport",
+      "stateAbbr": "NE",
+      "avatar": "https://marmelab.com/posters/avatar-74.jpeg",
+      "birthday": "1968-11-13T14:26:09.257Z",
+      "first_seen": "2021-04-19T19:07:29.691Z",
+      "last_seen": "2021-05-11T07:40:42.409Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-05-30T12:46:10.081Z",
+      "has_newsletter": false,
+      "groups": ["returns"],
+      "nb_commands": 4,
+      "total_spent": 488.59
+    },
+    {
+      "id": 272,
+      "first_name": "Isobel",
+      "last_name": "Franecki",
+      "email": "Isobel4@gmail.com",
+      "address": "746 Letha Circles",
+      "zipcode": "72578",
+      "city": "Blocktown",
+      "stateAbbr": "TX",
+      "avatar": "https://marmelab.com/posters/avatar-75.jpeg",
+      "birthday": "1992-02-29T04:26:06.931Z",
+      "first_seen": "2018-05-25T21:49:37.279Z",
+      "last_seen": "2019-07-18T02:02:19.781Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-04-24T15:39:26.176Z",
+      "has_newsletter": false,
+      "groups": ["collector"],
+      "nb_commands": 7,
+      "total_spent": 728.4
+    },
+    {
+      "id": 274,
+      "first_name": "Maiya",
+      "last_name": "Vandervort",
+      "email": "Maiya.Vandervort@hotmail.com",
+      "address": "568 Davis Point",
+      "zipcode": "28804",
+      "city": "South Nicholas",
+      "stateAbbr": "MI",
+      "avatar": "https://marmelab.com/posters/avatar-76.jpeg",
+      "birthday": "1996-07-16T17:11:10.799Z",
+      "first_seen": "2020-04-17T06:15:29.463Z",
+      "last_seen": "2021-05-16T04:07:59.978Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-02-26T18:16:01.152Z",
+      "has_newsletter": false,
+      "groups": [],
+      "nb_commands": 3,
+      "total_spent": 517.83
+    },
+    {
+      "id": 281,
+      "first_name": "Jaquan",
+      "last_name": "Thiel",
+      "email": "Jaquan.Thiel@hotmail.com",
+      "address": "01595 Roberta Lakes",
+      "zipcode": "76261",
+      "city": "East Natville",
+      "stateAbbr": "NE",
+      "avatar": "https://marmelab.com/posters/avatar-79.jpeg",
+      "birthday": "2000-07-25T04:00:02.774Z",
+      "first_seen": "2020-07-23T19:57:54.712Z",
+      "last_seen": "2021-05-04T01:57:46.543Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-05-26T05:47:35.966Z",
+      "has_newsletter": false,
+      "groups": ["reviewer"],
+      "nb_commands": 3,
+      "total_spent": 255.48000000000002
+    },
+    {
+      "id": 294,
+      "first_name": "Julius",
+      "last_name": "Kreiger",
+      "email": "Julius_Kreiger@yahoo.com",
+      "address": "4255 Denis Meadows",
+      "zipcode": "33294-2604",
+      "city": "Denesikbury",
+      "stateAbbr": "NH",
+      "avatar": "https://marmelab.com/posters/avatar-82.jpeg",
+      "birthday": "2019-10-11T03:32:48.985Z",
+      "first_seen": "2020-01-15T17:01:42.793Z",
+      "last_seen": "2021-01-10T23:44:20.083Z",
+      "has_ordered": true,
+      "latest_purchase": "2020-10-31T10:25:33.831Z",
+      "has_newsletter": false,
+      "groups": ["reviewer"],
+      "nb_commands": 4,
+      "total_spent": 596.88
+    },
+    {
+      "id": 442,
+      "first_name": "Brooke",
+      "last_name": "Ortiz",
+      "email": "Brooke.Ortiz83@yahoo.com",
+      "address": "1754 Quigley Square",
+      "zipcode": "52137",
+      "city": "North Bulah",
+      "stateAbbr": "MO",
+      "avatar": "https://marmelab.com/posters/avatar-123.jpeg",
+      "birthday": "1997-07-27T15:10:43.180Z",
+      "first_seen": "2019-04-10T15:14:42.145Z",
+      "last_seen": "2020-10-19T17:24:24.460Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-05-27T03:45:19.801Z",
+      "has_newsletter": false,
+      "groups": ["reviewer"],
+      "nb_commands": 5,
+      "total_spent": 631.54
+    },
+    {
+      "id": 459,
+      "first_name": "Akeem",
+      "last_name": "Kemmer",
+      "email": "Akeem.Kemmer@hotmail.com",
+      "address": "365 Kolby Wells",
+      "zipcode": "20251",
+      "city": "Port Suzanneland",
+      "stateAbbr": "VA",
+      "avatar": "https://marmelab.com/posters/avatar-125.jpeg",
+      "birthday": "1962-05-29T00:53:10.653Z",
+      "first_seen": "2019-06-02T03:06:19.873Z",
+      "last_seen": "2021-04-03T13:59:03.866Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-02-13T05:35:17.452Z",
+      "has_newsletter": true,
+      "groups": ["collector", "compulsive", "regular", "returns", "reviewer"],
+      "nb_commands": 5,
+      "total_spent": 1735.2599999999998
+    },
+    {
+      "id": 486,
+      "first_name": "Nannie",
+      "last_name": "Mraz",
+      "email": "Nannie.Mraz@yahoo.com",
+      "address": "9002 Oral Gateway",
+      "zipcode": "22260-0425",
+      "city": "Dorthyfort",
+      "stateAbbr": "AK",
+      "avatar": "https://marmelab.com/posters/avatar-129.jpeg",
+      "birthday": "2006-05-20T10:54:51.820Z",
+      "first_seen": "2019-08-11T05:32:18.869Z",
+      "last_seen": "2019-08-27T14:00:10.766Z",
+      "has_ordered": true,
+      "latest_purchase": "2020-09-08T21:10:52.207Z",
+      "has_newsletter": false,
+      "groups": ["regular", "reviewer"],
+      "nb_commands": 5,
+      "total_spent": 562.5200000000001
+    },
+    {
+      "id": 493,
+      "first_name": "Deion",
+      "last_name": "Cummerata",
+      "email": "Deion51@hotmail.com",
+      "address": "39203 Koss Ridge",
+      "zipcode": "18025",
+      "city": "Walkermouth",
+      "stateAbbr": "VA",
+      "avatar": "https://marmelab.com/posters/avatar-131.jpeg",
+      "birthday": "2021-01-17T14:25:28.459Z",
+      "first_seen": "2020-05-08T02:02:39.004Z",
+      "last_seen": "2021-05-26T07:49:13.088Z",
+      "has_ordered": true,
+      "latest_purchase": "2020-10-05T13:17:58.640Z",
+      "has_newsletter": true,
+      "groups": [],
+      "nb_commands": 3,
+      "total_spent": 155.51999999999998
+    },
+    {
+      "id": 495,
+      "first_name": "Sammie",
+      "last_name": "Schultz",
+      "email": "Sammie91@hotmail.com",
+      "address": "48112 Howell Lakes",
+      "zipcode": "66234",
+      "city": "North Maximusborough",
+      "stateAbbr": "CT",
+      "avatar": "https://marmelab.com/posters/avatar-132.jpeg",
+      "birthday": "1980-06-01T16:54:46.642Z",
+      "first_seen": "2019-01-02T14:53:55.189Z",
+      "last_seen": "2020-08-26T09:05:46.859Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-03-18T00:01:04.297Z",
+      "has_newsletter": true,
+      "groups": ["regular"],
+      "nb_commands": 4,
+      "total_spent": 405.28000000000003
+    },
+    {
+      "id": 552,
+      "first_name": "Susanna",
+      "last_name": "Zboncak",
+      "email": "Susanna_Zboncak@hotmail.com",
+      "address": "566 Gibson Rue",
+      "zipcode": "03224",
+      "city": "Weberfort",
+      "stateAbbr": "GA",
+      "avatar": "https://marmelab.com/posters/avatar-147.jpeg",
+      "birthday": "1991-09-14T17:35:02.304Z",
+      "first_seen": "2020-11-21T20:56:35.001Z",
+      "last_seen": "2021-01-01T16:59:35.304Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-03-20T05:42:06.095Z",
+      "has_newsletter": false,
+      "groups": ["collector", "reviewer"],
+      "nb_commands": 4,
+      "total_spent": 970.97
+    },
+    {
+      "id": 554,
+      "first_name": "Dawson",
+      "last_name": "Rath",
+      "email": "Dawson19@gmail.com",
+      "address": "622 Kshlerin Wall",
+      "zipcode": "50019",
+      "city": "Port Websterborough",
+      "stateAbbr": "NY",
+      "avatar": "https://marmelab.com/posters/avatar-148.jpeg",
+      "birthday": "1963-11-08T12:33:36.540Z",
+      "first_seen": "2017-05-26T09:59:41.477Z",
+      "last_seen": "2020-07-02T20:06:35.725Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-04-18T15:21:56.370Z",
+      "has_newsletter": false,
+      "groups": ["reviewer"],
+      "nb_commands": 3,
+      "total_spent": 459.6
+    },
+    {
+      "id": 733,
+      "first_name": "Johan",
+      "last_name": "Dooley",
+      "email": "Johan.Dooley@yahoo.com",
+      "address": "17305 Marian Bridge",
+      "zipcode": "88854",
+      "city": "Port Kristoferport",
+      "stateAbbr": "HI",
+      "avatar": "https://marmelab.com/posters/avatar-188.jpeg",
+      "birthday": "1985-05-12T10:03:44.447Z",
+      "first_seen": "2019-08-20T18:52:58.212Z",
+      "last_seen": "2021-01-02T10:08:30.144Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-05-17T16:38:53.298Z",
+      "has_newsletter": false,
+      "groups": ["returns", "reviewer"],
+      "nb_commands": 4,
+      "total_spent": 851.62
+    },
+    {
+      "id": 764,
+      "first_name": "Amina",
+      "last_name": "Hirthe",
+      "email": "Amina.Hirthe38@gmail.com",
+      "address": "5090 DuBuque Squares",
+      "zipcode": "29648",
+      "city": "Steuberchester",
+      "stateAbbr": "DE",
+      "avatar": "https://marmelab.com/posters/avatar-200.jpeg",
+      "birthday": "2020-07-28T20:51:05.225Z",
+      "first_seen": "2018-04-27T19:06:14.946Z",
+      "last_seen": "2019-07-01T09:40:14.509Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-04-15T13:14:13.257Z",
+      "has_newsletter": false,
+      "groups": [],
+      "nb_commands": 3,
+      "total_spent": 372.42
+    },
+    {
+      "id": 808,
+      "first_name": "Bettye",
+      "last_name": "Roob",
+      "email": "Bettye_Roob72@yahoo.com",
+      "address": "175 Crooks Ports",
+      "zipcode": "84787",
+      "city": "Cristmouth",
+      "stateAbbr": "IA",
+      "avatar": "https://marmelab.com/posters/avatar-216.jpeg",
+      "birthday": "2008-06-24T14:08:18.744Z",
+      "first_seen": "2018-02-03T07:40:26.900Z",
+      "last_seen": "2020-04-07T16:45:23.467Z",
+      "has_ordered": true,
+      "latest_purchase": "2021-05-29T18:43:17.381Z",
+      "has_newsletter": false,
+      "groups": ["reviewer"],
+      "nb_commands": 2,
+      "total_spent": 375.06
+    }
+  ],
+  "commands": [
+    {
+      "id": 11,
+      "reference": "OUWZ3H",
+      "date": "2020-09-08T21:10:52.207Z",
+      "customer_id": 486,
+      "basket": [
+        {
+          "product_id": 51,
+          "quantity": 3
+        }
+      ],
+      "total_ex_taxes": 102.18,
+      "delivery_fees": 7.43,
+      "tax_rate": 0.2,
+      "taxes": 21.92,
+      "total": 131.53,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 162,
+      "reference": "EONNO0",
+      "date": "2021-04-18T15:21:56.370Z",
+      "customer_id": 554,
+      "basket": [
+        {
+          "product_id": 60,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 51.73,
+      "delivery_fees": 7.64,
+      "tax_rate": 0.2,
+      "taxes": 11.87,
+      "total": 71.24,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 173,
+      "reference": "DWNLEC",
+      "date": "2020-12-25T13:05:39.704Z",
+      "customer_id": 764,
+      "basket": [
+        {
+          "product_id": 108,
+          "quantity": 2
+        },
+        {
+          "product_id": 94,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 109.82,
+      "delivery_fees": 4.36,
+      "tax_rate": 0.17,
+      "taxes": 19.41,
+      "total": 133.59,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 201,
+      "reference": "0GGSP7",
+      "date": "2021-05-26T05:47:35.966Z",
+      "customer_id": 281,
+      "basket": [
+        {
+          "product_id": 69,
+          "quantity": 1
+        },
+        {
+          "product_id": 76,
+          "quantity": 2
+        }
+      ],
+      "total_ex_taxes": 91.47,
+      "delivery_fees": 4.32,
+      "tax_rate": 0.2,
+      "taxes": 19.16,
+      "total": 114.95,
+      "status": "ordered",
+      "returned": false
+    },
+    {
+      "id": 218,
+      "reference": "IVD0KX",
+      "date": "2021-05-22T01:26:48.665Z",
+      "customer_id": 808,
+      "basket": [
+        {
+          "product_id": 62,
+          "quantity": 1
+        },
+        {
+          "product_id": 20,
+          "quantity": 1
+        },
+        {
+          "product_id": 8,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 61.91,
+      "delivery_fees": 4.44,
+      "tax_rate": 0.2,
+      "taxes": 13.27,
+      "total": 79.62,
+      "status": "ordered",
+      "returned": false
+    },
+    {
+      "id": 225,
+      "reference": "K56XXH",
+      "date": "2021-06-01T14:04:58.744Z",
+      "customer_id": 67,
+      "basket": [
+        {
+          "product_id": 31,
+          "quantity": 3
+        },
+        {
+          "product_id": 57,
+          "quantity": 4
+        },
+        {
+          "product_id": 39,
+          "quantity": 4
+        },
+        {
+          "product_id": 110,
+          "quantity": 2
+        },
+        {
+          "product_id": 93,
+          "quantity": 1
+        },
+        {
+          "product_id": 35,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 488.97,
+      "delivery_fees": 3.11,
+      "tax_rate": 0.2,
+      "taxes": 98.42,
+      "total": 590.5,
+      "status": "ordered",
+      "returned": false
+    },
+    {
+      "id": 248,
+      "reference": "TCZG7W",
+      "date": "2021-04-28T15:50:06.266Z",
+      "customer_id": 64,
+      "basket": [
+        {
+          "product_id": 40,
+          "quantity": 1
+        },
+        {
+          "product_id": 24,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 61.120000000000005,
+      "delivery_fees": 4.9,
+      "tax_rate": 0.2,
+      "taxes": 13.2,
+      "total": 79.22,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 260,
+      "reference": "VDN73M",
+      "date": "2021-05-19T19:22:01.464Z",
+      "customer_id": 442,
+      "basket": [
+        {
+          "product_id": 56,
+          "quantity": 1
+        },
+        {
+          "product_id": 4,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 93.25,
+      "delivery_fees": 7.45,
+      "tax_rate": 0.2,
+      "taxes": 20.14,
+      "total": 120.84,
+      "status": "ordered",
+      "returned": false
+    },
+    {
+      "id": 269,
+      "reference": "EF6Z3O",
+      "date": "2020-09-26T02:01:12.611Z",
+      "customer_id": 114,
+      "basket": [
+        {
+          "product_id": 124,
+          "quantity": 4
+        },
+        {
+          "product_id": 82,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 289.82,
+      "delivery_fees": 7.02,
+      "tax_rate": 0.17,
+      "taxes": 50.46,
+      "total": 347.3,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 288,
+      "reference": "WE4YCS",
+      "date": "2020-10-30T16:59:05.480Z",
+      "customer_id": 113,
+      "basket": [
+        {
+          "product_id": 78,
+          "quantity": 5
+        }
+      ],
+      "total_ex_taxes": 107.10000000000001,
+      "delivery_fees": 6.11,
+      "tax_rate": 0.2,
+      "taxes": 22.64,
+      "total": 135.85,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 291,
+      "reference": "IP0FI9",
+      "date": "2020-10-22T16:46:00.025Z",
+      "customer_id": 114,
+      "basket": [
+        {
+          "product_id": 57,
+          "quantity": 1
+        },
+        {
+          "product_id": 23,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 87.85,
+      "delivery_fees": 5.19,
+      "tax_rate": 0.2,
+      "taxes": 18.61,
+      "total": 111.65,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 326,
+      "reference": "TZKI9D",
+      "date": "2021-02-26T18:16:01.152Z",
+      "customer_id": 274,
+      "basket": [
+        {
+          "product_id": 11,
+          "quantity": 1
+        },
+        {
+          "product_id": 81,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 87.17,
+      "delivery_fees": 7.45,
+      "tax_rate": 0.2,
+      "taxes": 18.92,
+      "total": 113.54,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 423,
+      "reference": "PMP18L",
+      "date": "2020-12-27T04:13:42.403Z",
+      "customer_id": 495,
+      "basket": [
+        {
+          "product_id": 126,
+          "quantity": 1
+        },
+        {
+          "product_id": 8,
+          "quantity": 1
+        },
+        {
+          "product_id": 73,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 91.17999999999999,
+      "delivery_fees": 4.25,
+      "tax_rate": 0.2,
+      "taxes": 19.09,
+      "total": 114.52,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 428,
+      "reference": "DG4TS8",
+      "date": "2021-05-27T03:45:19.801Z",
+      "customer_id": 442,
+      "basket": [
+        {
+          "product_id": 0,
+          "quantity": 2
+        },
+        {
+          "product_id": 119,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 99.59,
+      "delivery_fees": 7.59,
+      "tax_rate": 0.12,
+      "taxes": 12.86,
+      "total": 120.04,
+      "status": "ordered",
+      "returned": false
+    },
+    {
+      "id": 432,
+      "reference": "K12LOU",
+      "date": "2021-04-24T15:39:26.176Z",
+      "customer_id": 272,
+      "basket": [
+        {
+          "product_id": 3,
+          "quantity": 2
+        },
+        {
+          "product_id": 100,
+          "quantity": 2
+        }
+      ],
+      "total_ex_taxes": 108.68,
+      "delivery_fees": 5.83,
+      "tax_rate": 0.2,
+      "taxes": 22.9,
+      "total": 137.41,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 446,
+      "reference": "921DJ7",
+      "date": "2021-01-04T04:13:47.026Z",
+      "customer_id": 459,
+      "basket": [
+        {
+          "product_id": 116,
+          "quantity": 2
+        }
+      ],
+      "total_ex_taxes": 39.32,
+      "delivery_fees": 4.31,
+      "tax_rate": 0.17,
+      "taxes": 7.42,
+      "total": 51.05,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 450,
+      "reference": "SM8URK",
+      "date": "2020-10-05T13:17:58.640Z",
+      "customer_id": 493,
+      "basket": [
+        {
+          "product_id": 45,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 37.27,
+      "delivery_fees": 6.36,
+      "tax_rate": 0.12,
+      "taxes": 5.24,
+      "total": 48.87,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 495,
+      "reference": "CMJCP6",
+      "date": "2021-04-25T11:06:36.367Z",
+      "customer_id": 53,
+      "basket": [
+        {
+          "product_id": 38,
+          "quantity": 1
+        },
+        {
+          "product_id": 96,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 86.22,
+      "delivery_fees": 6.85,
+      "tax_rate": 0.2,
+      "taxes": 18.61,
+      "total": 111.68,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 504,
+      "reference": "4HCUW4",
+      "date": "2021-03-20T05:42:06.095Z",
+      "customer_id": 552,
+      "basket": [
+        {
+          "product_id": 41,
+          "quantity": 2
+        },
+        {
+          "product_id": 37,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 117.19999999999999,
+      "delivery_fees": 5.74,
+      "tax_rate": 0.2,
+      "taxes": 24.59,
+      "total": 147.53,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 526,
+      "reference": "0IPV2U",
+      "date": "2021-05-29T18:43:17.381Z",
+      "customer_id": 808,
+      "basket": [
+        {
+          "product_id": 15,
+          "quantity": 4
+        },
+        {
+          "product_id": 122,
+          "quantity": 2
+        }
+      ],
+      "total_ex_taxes": 248.36,
+      "delivery_fees": 4.15,
+      "tax_rate": 0.17,
+      "taxes": 42.93,
+      "total": 295.44,
+      "status": "ordered",
+      "returned": false
+    },
+    {
+      "id": 542,
+      "reference": "GIXZGC",
+      "date": "2020-10-31T10:25:33.831Z",
+      "customer_id": 294,
+      "basket": [
+        {
+          "product_id": 16,
+          "quantity": 1
+        },
+        {
+          "product_id": 35,
+          "quantity": 2
+        }
+      ],
+      "total_ex_taxes": 75.27,
+      "delivery_fees": 3.43,
+      "tax_rate": 0.12,
+      "taxes": 9.44,
+      "total": 88.14,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 573,
+      "reference": "D578GM",
+      "date": "2021-05-17T16:38:53.298Z",
+      "customer_id": 733,
+      "basket": [
+        {
+          "product_id": 3,
+          "quantity": 1
+        },
+        {
+          "product_id": 109,
+          "quantity": 5
+        }
+      ],
+      "total_ex_taxes": 160.97000000000003,
+      "delivery_fees": 7.69,
+      "tax_rate": 0.12,
+      "taxes": 20.24,
+      "total": 188.9,
+      "status": "ordered",
+      "returned": false
+    },
+    {
+      "id": 584,
+      "reference": "75MW5W",
+      "date": "2021-04-15T21:30:05.885Z",
+      "customer_id": 71,
+      "basket": [
+        {
+          "product_id": 73,
+          "quantity": 1
+        },
+        {
+          "product_id": 25,
+          "quantity": 2
+        }
+      ],
+      "total_ex_taxes": 164.91,
+      "delivery_fees": 3.76,
+      "tax_rate": 0.2,
+      "taxes": 33.73,
+      "total": 202.4,
+      "status": "cancelled",
+      "returned": false
+    },
+    {
+      "id": 589,
+      "reference": "1CMK8P",
+      "date": "2021-05-21T15:12:27.310Z",
+      "customer_id": 36,
+      "basket": [
+        {
+          "product_id": 16,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 23.83,
+      "delivery_fees": 6.52,
+      "tax_rate": 0.2,
+      "taxes": 6.07,
+      "total": 36.42,
+      "status": "ordered",
+      "returned": false
+    },
+    {
+      "id": 591,
+      "reference": "0JKY8E",
+      "date": "2021-05-30T12:46:10.081Z",
+      "customer_id": 268,
+      "basket": [
+        {
+          "product_id": 112,
+          "quantity": 1
+        }
+      ],
+      "total_ex_taxes": 71.15,
+      "delivery_fees": 4.32,
+      "tax_rate": 0.17,
+      "taxes": 12.83,
+      "total": 88.3,
+      "status": "ordered",
+      "returned": false
+    }
+  ]
+}
