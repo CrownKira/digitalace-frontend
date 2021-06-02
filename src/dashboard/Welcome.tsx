@@ -55,14 +55,14 @@ const Welcome: FC = () => {
           <CardActions className={classes.actions}>
             <Button
               variant="contained"
-              href="https://marmelab.com/react-admin"
+              href="https://github.com/CrownKira/digitalace"
               startIcon={<HomeIcon />}
             >
               {translate('pos.dashboard.welcome.ra_button')}
             </Button>
             <Button
               variant="contained"
-              href="https://github.com/marmelab/react-admin/tree/master/examples/demo"
+              href="https://github.com/CrownKira/digitalace-frontend.git"
               startIcon={<CodeIcon />}
             >
               {translate('pos.dashboard.welcome.demo_button')}
