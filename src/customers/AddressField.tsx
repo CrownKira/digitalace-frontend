@@ -2,10 +2,7 @@ import { FC } from 'react';
 import { FieldProps } from 'react-admin';
 import { Customer } from '../types';
 
-// copied
-/// field: takes in fieldprops eg: {record:..., source:...}
-/// Customer is the record type
-/// passed by the parent component
+// react-admin
 const AddressField: FC<FieldProps<Customer>> = ({ record }) =>
   record ? (
     <span>

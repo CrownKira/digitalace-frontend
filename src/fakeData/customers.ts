@@ -44,7 +44,7 @@ export default (
       first_seen: serializeDate ? first_seen.toISOString() : first_seen,
       last_seen: serializeDate ? last_seen.toISOString() : last_seen,
       has_ordered: has_ordered,
-      latest_purchase: null, // finalize /// hardcode later
+      latest_purchase: null, // finalize
       has_newsletter: has_ordered ? weightedBoolean(30) : true,
       groups: [], // finalize
       nb_commands: 0,

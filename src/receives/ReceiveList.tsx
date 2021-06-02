@@ -18,7 +18,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import FullNameField from '../suppliers/FullNameField';
 import AddressField from '../suppliers/AddressField';
 
-/// Omit: Construct a type with the properties of T except for those in type K.
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
     <DateInput source="date_gte" alwaysOn />
@@ -44,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/// when see reference field will go fetch the references
 const InvoiceList: FC<ListProps> = (props) => {
   const classes = useStyles();
   return (

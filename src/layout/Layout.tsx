@@ -13,7 +13,6 @@ const CustomLayout = (props: LayoutProps) => {
     state.theme === 'dark' ? darkTheme : lightTheme
   );
 
-  // hello
   return (
     <Layout
       {...props}

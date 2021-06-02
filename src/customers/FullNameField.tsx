@@ -5,7 +5,7 @@ import { FieldProps } from 'react-admin';
 import AvatarField from './AvatarField';
 import { Customer } from '../types';
 
-// copied
+// react-admin
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
