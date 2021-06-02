@@ -1,3 +1,3 @@
 export default () => {
-  return () => console.log('restored');
+  return () => void 0;
 };

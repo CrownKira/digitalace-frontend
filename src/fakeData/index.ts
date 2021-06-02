@@ -27,10 +27,10 @@ export default (options = { serializeDate: true }): Db => {
   // order matters
   db.categories = generateCategories();
   db.customers = generateCustomers(db, options);
+  db.suppliers = generateCustomers(db, options);
   db.products = generateProducts(db);
   db.commands = generateCommands(db, options);
   db.reviews = generateReviews(db, options);
-  db.suppliers = generateCustomers(db, options);
   db.invoices = generateInvoices(db);
   db.sales_orders = generateInvoices(db);
   db.receives = generateInvoices(db);
