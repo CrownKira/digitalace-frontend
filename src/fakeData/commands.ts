@@ -1,6 +1,6 @@
 import { random } from 'faker/locale/en';
-import isAfter from 'date-fns/isAfter';
-import subDays from 'date-fns/subDays';
+import is_after from 'date-fns/is_after';
+import sub_days from 'date-fns/sub_days';
 
 import {
   randomDate,
@@ -18,7 +18,7 @@ export default (
   }
 ) => {
   const today = new Date();
-  const aMonthAgo = subDays(today, 30);
+  const aMonthAgo = sub_days(today, 30);
   const realCustomers = db.customers.filter(
     (customer: any) => customer.has_ordered
   );
@@ -51,7 +51,7 @@ export default (
     const date = randomDate(customer.first_seen, customer.last_seen);
 
     const status =
-      isAfter(date, aMonthAgo) && random.boolean()
+      is_after(date, aMonthAgo) && random.boolean()
         ? 'ordered'
         : weightedArrayElement(['delivered', 'cancelled'], [10, 1]);
     return {

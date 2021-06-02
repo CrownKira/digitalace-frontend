@@ -1,6 +1,6 @@
 import { random, lorem } from 'faker/locale/en';
-import subDays from 'date-fns/subDays';
-import isAfter from 'date-fns/isAfter';
+import sub_days from 'date-fns/sub_days';
+import is_after from 'date-fns/is_after';
 
 import { randomDate, weightedArrayElement, weightedBoolean } from './utils';
 
@@ -13,7 +13,7 @@ export default (
   }
 ) => {
   const today = new Date();
-  const aMonthAgo = subDays(today, 30);
+  const aMonthAgo = sub_days(today, 30);
 
   let id = 0;
   const reviewers = db.customers
@@ -30,7 +30,7 @@ export default (
           .filter(() => weightedBoolean(40)) // reviewers review 40% of their products
           .map((product: any) => {
             const date = randomDate(command.date);
-            const status = isAfter(aMonthAgo, date)
+            const status = is_after(aMonthAgo, date)
               ? weightedArrayElement(['accepted', 'rejected'], [3, 1])
               : weightedArrayElement(
                   ['pending', 'accepted', 'rejected'],
