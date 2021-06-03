@@ -1552,5 +1552,311 @@
       "stock": 66,
       "sales": 29
     }
+  ],
+  "categories": [
+    {
+      "id": 0,
+      "name": "animals"
+    },
+    {
+      "id": 1,
+      "name": "beard"
+    },
+    {
+      "id": 2,
+      "name": "business"
+    },
+    {
+      "id": 3,
+      "name": "cars"
+    },
+    {
+      "id": 4,
+      "name": "city"
+    },
+    {
+      "id": 5,
+      "name": "flowers"
+    },
+    {
+      "id": 6,
+      "name": "food"
+    },
+    {
+      "id": 7,
+      "name": "nature"
+    },
+    {
+      "id": 8,
+      "name": "people"
+    },
+    {
+      "id": 9,
+      "name": "sports"
+    },
+    {
+      "id": 10,
+      "name": "tech"
+    },
+    {
+      "id": 11,
+      "name": "travel"
+    },
+    {
+      "id": 12,
+      "name": "water"
+    }
+  ],
+  "reviews": [
+    {
+      "id": 26,
+      "date": "2021-06-02T23:55:39.251Z",
+      "status": "accepted",
+      "command_id": 43,
+      "product_id": 38,
+      "customer_id": 533,
+      "rating": 2,
+      "comment": "Atque ut qui consequatur eveniet minima. Quos quaerat dolor non deleniti et."
+    },
+    {
+      "id": 15,
+      "date": "2021-06-01T18:21:19.510Z",
+      "status": "rejected",
+      "command_id": 23,
+      "product_id": 28,
+      "customer_id": 703,
+      "rating": 1,
+      "comment": "Ad at dolorem laudantium qui. Autem omnis eos aliquam.\n \rPerspiciatis molestiae ut hic est. Sit nulla illo corporis officia voluptatem sed qui qui. Vel blanditiis et. At eos eveniet unde mollitia. At voluptas a qui."
+    },
+    {
+      "id": 197,
+      "date": "2021-05-29T19:25:53.091Z",
+      "status": "pending",
+      "command_id": 356,
+      "product_id": 23,
+      "customer_id": 727,
+      "rating": 3,
+      "comment": "Est sunt officia voluptatem voluptas. Nemo quis facilis culpa. Animi omnis ipsam rem omnis.\n \rVel eos velit ut in quisquam quia facilis. Voluptas minima dolor rerum deserunt deleniti id. Quos sint sunt et et officia delectus facere est. Quaerat eius vel aut. Velit et velit at ipsa voluptatem.\n \rDolores autem laboriosam consequatur ad aut suscipit. Unde impedit sint commodi optio alias provident itaque cum tempora.\n \rNon tenetur exercitationem rerum aspernatur eveniet. Molestiae explicabo corrupti quibusdam qui. Alias facere consectetur dolorem nobis minima itaque qui. Fugit modi vero odio. Sapiente ipsa rerum corporis voluptas. Assumenda nulla ea doloribus rerum."
+    },
+    {
+      "id": 71,
+      "date": "2021-05-27T16:39:40.407Z",
+      "status": "accepted",
+      "command_id": 110,
+      "product_id": 90,
+      "customer_id": 206,
+      "rating": 3,
+      "comment": "Harum quia maiores quia omnis fuga tempora et ut. Minima et autem tenetur dolorum quam ea voluptatem.\n \rDucimus odit aut consequuntur velit odit nesciunt ut placeat. Qui officia recusandae id quo doloribus alias veritatis quisquam. Et commodi inventore qui beatae voluptas. Non non sed libero voluptas est consequatur in a incidunt. Similique modi temporibus sunt rerum. Rerum ratione aliquam.\n \rConsequuntur suscipit corporis. Nihil laborum dignissimos. Fugiat sit suscipit ut et. Voluptas quidem vel. Dolor natus commodi molestias veniam vitae architecto.\n \rRepellat facilis ipsum inventore. Qui alias ducimus rerum voluptas. Laboriosam alias recusandae vitae nostrum natus explicabo."
+    },
+    {
+      "id": 184,
+      "date": "2021-05-21T03:59:19.848Z",
+      "status": "pending",
+      "command_id": 335,
+      "product_id": 59,
+      "customer_id": 554,
+      "rating": 1,
+      "comment": "Odio soluta qui. Et quia magni quod autem dolore dolores officia est rerum. Aut iusto nihil quasi. Fuga atque commodi et quisquam. Ut a excepturi praesentium neque quo deserunt reiciendis ut.\n \rQuis nesciunt quisquam. Autem natus iste voluptas dolor accusantium. Aut repellat sequi eos qui perspiciatis et vel. Numquam quisquam consequatur aut ex eos ex quidem. Sunt in fugiat quasi vero. Distinctio ut totam tempore.\n \rQuisquam ex sed aut repudiandae officiis beatae. Impedit porro libero. Quia ut optio ex maiores. Quo unde corrupti ullam facilis saepe eos.\n \rSapiente ea laudantium officia quo nesciunt. Corrupti consequatur quae pariatur dolorem. Ipsam optio et enim eos. Velit nam dolores sit. Et ea qui ut libero id odio eligendi. Aspernatur necessitatibus neque laboriosam magnam."
+    },
+    {
+      "id": 154,
+      "date": "2021-05-15T22:43:27.062Z",
+      "status": "accepted",
+      "command_id": 260,
+      "product_id": 115,
+      "customer_id": 622,
+      "rating": 2,
+      "comment": "Eveniet distinctio voluptatem repudiandae dolorem quia maxime. Maiores ut ipsa aut. Dicta quaerat ad omnis quam sequi accusamus nihil beatae. Est enim voluptatum iusto architecto.\n \rEligendi autem adipisci. Quis excepturi occaecati doloribus iure non rem ea eum perferendis. Rerum non expedita hic excepturi esse.\n \rQuia architecto velit deserunt saepe quam aut eos. Natus excepturi repellat. Ut quasi rerum pariatur suscipit expedita perspiciatis. Vero distinctio corrupti. Mollitia porro nulla aspernatur.\n \rSint cum voluptatem rerum ratione sapiente. Repellat in quis doloribus ipsum et. Deleniti inventore neque pariatur doloremque blanditiis sapiente modi."
+    },
+    {
+      "id": 317,
+      "date": "2021-05-08T22:38:42.796Z",
+      "status": "accepted",
+      "command_id": 529,
+      "product_id": 21,
+      "customer_id": 416,
+      "rating": 1,
+      "comment": "Quidem temporibus repellendus consequatur molestiae excepturi cumque voluptate. Reprehenderit maxime aliquid. Quis eaque culpa excepturi perspiciatis voluptates. Occaecati eum ab fugit. Rerum dolore fugiat eius praesentium vel aut et soluta. Officiis consequatur repellendus saepe est quod.\n \rQuia tenetur earum eligendi. Maiores in amet ea quam voluptatem quis perspiciatis magnam. Quas ut doloribus eos doloremque neque dolor ut voluptas similique. Sapiente voluptatem voluptas voluptatem.\n \rDolores at necessitatibus autem minus. Rerum aspernatur saepe temporibus ipsum doloremque quis. Tempora iste voluptas eos in fuga ut. Omnis illo doloribus est distinctio voluptatibus illo atque.\n \rConsectetur animi qui unde ipsa. Consequatur est quia at ea nobis quibusdam. Harum cum alias. Similique eum id aut provident aliquam sed assumenda saepe. Voluptas quaerat est enim alias sit est."
+    },
+    {
+      "id": 308,
+      "date": "2021-05-05T19:05:31.142Z",
+      "status": "accepted",
+      "command_id": 517,
+      "product_id": 103,
+      "customer_id": 271,
+      "rating": 3,
+      "comment": "Placeat quis et autem earum sit minus. Facilis nobis beatae. Error suscipit voluptatum. Et rem reiciendis expedita dolores accusamus.\n \rIllum tenetur neque minus nisi sunt. Repellat quia culpa enim. Sit quasi beatae vero amet molestias quibusdam nisi sequi rerum. Voluptatem molestias quam est. Error libero vero veniam. Aut sapiente quis dolores illum doloremque.\n \rVoluptatem quo consequatur eligendi. Eius incidunt repellat consequatur rerum odio accusantium. Et aut iusto omnis ea asperiores."
+    },
+    {
+      "id": 164,
+      "date": "2021-05-03T14:35:29.798Z",
+      "status": "accepted",
+      "command_id": 289,
+      "product_id": 56,
+      "customer_id": 164,
+      "rating": 1,
+      "comment": "Qui qui molestiae adipisci. Hic sapiente similique aliquid provident vero ut aperiam. Excepturi deserunt numquam porro aut. Quas est ut nulla est illum."
+    },
+    {
+      "id": 136,
+      "date": "2021-05-02T03:25:18.593Z",
+      "status": "accepted",
+      "command_id": 230,
+      "product_id": 86,
+      "customer_id": 621,
+      "rating": 3,
+      "comment": "Fuga aut sunt qui quidem quas. Saepe amet iste non aut. Sed dolorem qui velit cum officiis. Quis tempora est et est eveniet ab. Maiores necessitatibus incidunt aspernatur ducimus a a dignissimos alias.\n \rEt aspernatur vel. Voluptas officia est nobis dignissimos asperiores cumque. Doloremque molestiae accusamus. Illo voluptate dolore praesentium deleniti iure. Iusto et atque labore quas molestiae culpa qui. Unde aliquam impedit.\n \rIpsam nulla cumque qui fugiat. Molestias iure autem dolor sint ea vel a sint vero. Deleniti nesciunt nisi necessitatibus laborum. Quia tempora dolorum et consequatur ad fugiat a quia non. Animi qui debitis molestiae architecto in quam. Et sit voluptatem quisquam.\n \rMaxime et enim officia aut. Architecto qui quis unde beatae quod quo dolorem. Eius ad optio veritatis. Non et facere velit. Et illo odio et ea aut. Officia aut ut aliquam ut illo eos quia fuga voluptas."
+    },
+    {
+      "id": 170,
+      "date": "2021-05-01T13:44:26.964Z",
+      "status": "accepted",
+      "command_id": 297,
+      "product_id": 117,
+      "customer_id": 863,
+      "rating": 3,
+      "comment": "Error vero et amet nobis beatae at. Delectus harum expedita cum voluptatem cupiditate vel quia quam.\n \rSit aperiam repudiandae deserunt numquam ipsa veniam omnis occaecati. Unde consectetur suscipit corrupti. Libero magni voluptatem."
+    },
+    {
+      "id": 66,
+      "date": "2021-05-01T09:08:55.221Z",
+      "status": "accepted",
+      "command_id": 96,
+      "product_id": 51,
+      "customer_id": 276,
+      "rating": 2,
+      "comment": "Sed cumque dolores molestiae aspernatur qui quia ipsa aut eum. Ut cupiditate laboriosam autem unde molestiae ut. Corrupti eos praesentium. Quia qui excepturi minus qui et sunt. Nobis laborum tempora aliquam qui quo adipisci et molestias.\n \rSed fugit nemo et. Voluptas odit ut ipsam modi vero sit assumenda consequatur explicabo. Facere et veritatis nihil ducimus quia suscipit. Necessitatibus facilis error id quam culpa consectetur. Neque accusantium ab eum.\n \rDolorem eius dolore voluptas dolor optio facere. In vel ipsa id dolorum. Sunt quia doloribus incidunt cum. Nam sapiente minima qui odit sapiente consequatur. Totam eligendi doloribus animi eius at facere. Voluptatem saepe unde fuga ipsa quo porro.\n \rPraesentium veniam voluptas totam quisquam maxime doloremque voluptatem. Quidem dignissimos nihil eius excepturi. Dolores quas debitis omnis esse ipsa. Est voluptatem sed. Laudantium sed eaque ipsum necessitatibus."
+    },
+    {
+      "id": 14,
+      "date": "2021-04-30T19:29:29.365Z",
+      "status": "rejected",
+      "command_id": 22,
+      "product_id": 74,
+      "customer_id": 542,
+      "rating": 5,
+      "comment": "Cupiditate blanditiis doloremque eos quod aut. Neque et animi maxime et sint minus voluptatem. Voluptas ea fugiat tempora. Animi quod sed corrupti minima consequatur accusamus sunt.\n \rFacilis omnis molestiae praesentium ipsa fugit temporibus. Dicta reiciendis aspernatur. Veritatis ea quia numquam qui quasi placeat maxime non et. Repellendus dolores excepturi et praesentium. Eaque fugiat aliquid aut dolores sunt similique perspiciatis autem repudiandae. Sequi vero molestiae odit minus."
+    },
+    {
+      "id": 205,
+      "date": "2021-04-27T23:00:25.922Z",
+      "status": "rejected",
+      "command_id": 360,
+      "product_id": 57,
+      "customer_id": 893,
+      "rating": 3,
+      "comment": "Deleniti voluptatem veritatis. Quos maiores qui officiis eos itaque odit provident. Magnam qui accusamus deserunt eaque placeat laudantium assumenda temporibus. In non dolores iusto et veritatis non illum.\n \rSed in quia occaecati fuga dolores quia deleniti ut unde. Adipisci modi odio quos. Alias rem nulla saepe earum autem aut sit maiores. Omnis molestias quasi voluptatum et. Nostrum accusamus aut dolorem.\n \rSit earum quis est dolorem at et quo similique. Neque quam dolor sed accusantium et. Cupiditate saepe nemo sed est velit placeat voluptas. Aut recusandae dolore sed suscipit. Quisquam placeat et enim laboriosam. Quia a vel laborum quaerat aut voluptatem blanditiis.\n \rQui est reprehenderit vero quo aut natus quam. Eos culpa consectetur consequatur eum rerum architecto tenetur. Optio alias provident non. Impedit enim corporis repellat."
+    },
+    {
+      "id": 201,
+      "date": "2021-04-26T22:14:40.036Z",
+      "status": "accepted",
+      "command_id": 356,
+      "product_id": 64,
+      "customer_id": 727,
+      "rating": 5,
+      "comment": "Eius quis non. Aut exercitationem fugit quae adipisci est harum. Et a ratione reiciendis sed recusandae. Nihil omnis nam reiciendis earum facere et molestiae voluptas expedita.\n \rEligendi doloribus eius odio doloremque reiciendis. Eos omnis possimus. Inventore et laboriosam eos soluta sed optio. Corporis modi nesciunt odio.\n \rOmnis voluptas repellat. Facilis magnam necessitatibus molestiae. Alias debitis alias asperiores vitae placeat ut accusamus ut debitis. Aut dolorem sint quia perferendis. Earum sit distinctio aut. Laudantium assumenda consequatur facere rerum eos repellat quo numquam esse."
+    },
+    {
+      "id": 92,
+      "date": "2021-04-26T07:54:35.783Z",
+      "status": "accepted",
+      "command_id": 143,
+      "product_id": 71,
+      "customer_id": 522,
+      "rating": 3,
+      "comment": "Dolor ipsam rerum minus natus ut amet dolore. Hic perferendis est. Molestiae facilis sed. Beatae tempore et ipsa. Ullam harum ducimus. Similique et ad sed dolores voluptatem sequi suscipit asperiores ut.\n \rQui earum culpa est suscipit accusamus labore voluptate aut. Qui quia a tempore et molestiae asperiores. Explicabo vel nihil esse. Fuga qui eius nemo cum officia sapiente recusandae.\n \rExcepturi dignissimos voluptatibus maxime dolorem fugiat molestiae similique quod eligendi. Et inventore vero."
+    },
+    {
+      "id": 252,
+      "date": "2021-04-22T23:34:42.263Z",
+      "status": "accepted",
+      "command_id": 437,
+      "product_id": 21,
+      "customer_id": 514,
+      "rating": 1,
+      "comment": "Beatae totam quos dolor facilis autem unde rem incidunt. Consequuntur et nulla. Qui quis qui est provident quo voluptatem molestias odit.\n \rReprehenderit asperiores expedita aliquam nostrum quam provident. Repellat molestiae aut doloribus non nihil. Architecto consequatur deleniti harum consequatur ut. Nulla unde dolores totam. Corporis nemo quo et autem vitae architecto ducimus reprehenderit.\n \rRerum et consequatur iste repudiandae ratione. Cupiditate sit occaecati incidunt doloremque harum dolores. Molestiae ad ut. Sed dignissimos fugit."
+    },
+    {
+      "id": 134,
+      "date": "2021-04-22T16:24:52.097Z",
+      "status": "accepted",
+      "command_id": 230,
+      "product_id": 59,
+      "customer_id": 621,
+      "rating": 5,
+      "comment": "Et quia qui. Omnis asperiores minus culpa id vel. Facere fugit dicta est quis rerum quia in. Enim sit odio earum quas sed in cumque vel neque.\n \rVoluptate voluptatibus culpa laborum optio et est sint voluptatem. Culpa voluptas numquam quod illum ad modi. Nesciunt ut quas maiores quod assumenda tempore et deleniti. Est iure quo minus rerum illum libero. Odit libero id animi qui porro. Similique consectetur nemo sint esse.\n \rIn quaerat aliquid. Sequi voluptatem nihil vero. Molestiae et provident. Error et aut commodi et similique modi modi quod tenetur.\n \rNostrum atque est est molestiae officiis veritatis eligendi inventore animi. Ipsa at amet esse debitis qui. Exercitationem asperiores molestiae facilis. Ipsa illum illo sit nisi placeat aut recusandae minima explicabo. Quia aut doloribus."
+    },
+    {
+      "id": 263,
+      "date": "2021-04-21T11:04:23.530Z",
+      "status": "accepted",
+      "command_id": 446,
+      "product_id": 26,
+      "customer_id": 0,
+      "rating": 5,
+      "comment": "Soluta porro minima animi tempora illo et. Nostrum molestias est. Fugiat aperiam laboriosam aut dolorem voluptas sequi error qui. Aliquam numquam suscipit. Delectus nulla incidunt consequuntur dolorem. Illo nisi quo modi quas ducimus molestias tempore qui.\n \rAlias ratione nisi dolorem distinctio ducimus esse. Iste quo cupiditate autem consequatur tempore sit ut magni.\n \rAut dignissimos quia. Vero quasi aut occaecati voluptatem qui incidunt."
+    },
+    {
+      "id": 318,
+      "date": "2021-04-17T23:23:33.062Z",
+      "status": "accepted",
+      "command_id": 531,
+      "product_id": 77,
+      "customer_id": 610,
+      "rating": 1,
+      "comment": "Excepturi eos alias ea velit. Veniam commodi eveniet aliquid. Ea doloremque dolor nihil non. Occaecati accusantium non veniam cupiditate ea aperiam dolorem.\n \rVeniam veniam inventore necessitatibus alias. Sunt voluptatum dolores voluptatem modi fugit. Voluptate tenetur quia soluta eius harum et ducimus ea non."
+    },
+    {
+      "id": 101,
+      "date": "2021-04-16T19:15:55.828Z",
+      "status": "accepted",
+      "command_id": 159,
+      "product_id": 82,
+      "customer_id": 1,
+      "rating": 2,
+      "comment": "Velit aut omnis. Suscipit praesentium cumque quae voluptas neque cumque maxime rerum.\n \rTempore ut modi rem iure sed fugit eos eligendi. Cumque libero et eligendi ipsam nihil.\n \rDucimus repudiandae id. Consectetur libero delectus ut itaque sunt. Et laudantium aspernatur laborum.\n \rVoluptatem vitae sit ullam eius quas molestias est. Quia quae perspiciatis voluptatem sit aliquid autem natus laboriosam."
+    },
+    {
+      "id": 191,
+      "date": "2021-04-15T21:42:05.920Z",
+      "status": "accepted",
+      "command_id": 344,
+      "product_id": 52,
+      "customer_id": 470,
+      "rating": 4,
+      "comment": "Hic maiores praesentium harum voluptatum labore. Similique quo ut quia labore incidunt odio et nostrum."
+    },
+    {
+      "id": 24,
+      "date": "2021-04-14T17:50:20.888Z",
+      "status": "rejected",
+      "command_id": 36,
+      "product_id": 13,
+      "customer_id": 164,
+      "rating": 2,
+      "comment": "Totam quia ut nihil et accusamus nisi et accusantium. Perspiciatis autem debitis eum.\n \rAut sed voluptatem facere dolorem. Odit modi asperiores aliquam iure nisi porro nobis perspiciatis quod. Blanditiis occaecati molestiae est et quam eos illum repellendus debitis. Quasi eaque quo ipsam qui eos totam. Beatae ea et iste libero. Voluptatem consequatur ratione veniam.\n \rLaudantium corrupti officiis dolores expedita ex eos. Magnam earum ut laudantium exercitationem magnam aut. Ipsa et tempora. Magni est laborum.\n \rVoluptatem et et optio eaque cum iusto qui odit repellendus. Perferendis sunt sint officia omnis. Ducimus suscipit quo. Alias mollitia aut consequatur et vero autem rerum. Consectetur libero veniam quisquam velit.\n \rQuae id maiores ipsam et voluptatem qui. Hic tenetur cum. Non quia ea occaecati aperiam amet qui. Perferendis quis perspiciatis dolore ab facere quia aliquid non illum."
+    },
+    {
+      "id": 42,
+      "date": "2021-04-11T21:34:13.722Z",
+      "status": "accepted",
+      "command_id": 64,
+      "product_id": 21,
+      "customer_id": 22,
+      "rating": 2,
+      "comment": "Consequatur minus ab assumenda id quas inventore. Commodi qui aut sed nostrum cum ab quisquam.\n \rReiciendis repellat aperiam et et autem. Voluptas quos ad quas quae. Omnis nostrum dicta exercitationem voluptate eos. Esse quis et. Quas sunt ullam.\n \rEsse rerum quo delectus. Deleniti sint non et odit nostrum iure velit. Quia debitis sed tenetur dolores voluptatem rerum temporibus architecto voluptas. Maiores quod sint minima adipisci voluptatibus sequi voluptate. Eveniet officia totam iusto deleniti.\n \rIste fugit enim et sint. Ut iste quibusdam ut saepe explicabo eaque nisi. Minima voluptates mollitia atque quis atque ipsum. Ducimus sit repellendus qui.\n \rUnde aut nostrum non tempora. Alias blanditiis veniam voluptas ex."
+    },
+    {
+      "id": 141,
+      "date": "2021-04-09T06:14:01.809Z",
+      "status": "rejected",
+      "command_id": 234,
+      "product_id": 72,
+      "customer_id": 825,
+      "rating": 3,
+      "comment": "Mollitia alias totam et ad maxime dolorum nam. Dolores ut consequuntur odit.\n \rIn sint fuga aperiam odit odio dolores distinctio excepturi. Minima assumenda ut a. Maiores quo repellat qui est consequuntur et maiores aut et. Rerum quas ut error dolores ullam nesciunt distinctio alias. Ipsam quibusdam totam eum nesciunt et sed quae aut et.\n \rSunt et inventore omnis nesciunt reiciendis. Adipisci similique numquam reprehenderit. Nam harum aut asperiores vero animi. Commodi cupiditate dolores commodi error. Enim explicabo distinctio velit earum molestias quasi quaerat sed.\n \rAut velit voluptas sunt sint adipisci libero rerum unde officiis. Voluptatum fuga velit exercitationem officia quos necessitatibus aliquid tempore vero. Quaerat dignissimos ea perspiciatis. Odit odit est accusamus perferendis."
+    }
   ]
 }
