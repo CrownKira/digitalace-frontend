@@ -48,6 +48,7 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
       <Resource name="customers" {...customers} />
       <Resource name="categories" />
       <Resource name="reviews" />
+      <Resource name="commands" />
     </Admin>
   );
 };

@@ -17,6 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import FullNameField from '../customers/FullNameField';
 import AddressField from '../customers/AddressField';
+import InvoiceShow from './InvoiceShow';
 
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
@@ -52,7 +53,7 @@ const InvoiceList: FC<ListProps> = (props) => {
       perPage={25}
       sort={{ field: 'date', order: 'desc' }}
     >
-      <Datagrid rowClick="expand">
+      <Datagrid rowClick="expand" expand={<InvoiceShow />}>
         <TextField source="id" />
         <DateField source="date" />
         <ReferenceField source="customer_id" reference="customers">
