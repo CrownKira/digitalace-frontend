@@ -8,7 +8,6 @@ import {
   DateField,
   ReferenceField,
   NumberField,
-  EditButton,
   Filter,
   FilterProps,
   SearchInput,
@@ -46,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// TODO: customisable table columns
+// TODO: customizable table columns
 
 const InvoiceList: FC<ListProps> = (props) => {
   const classes = useStyles();
@@ -58,7 +57,7 @@ const InvoiceList: FC<ListProps> = (props) => {
       sort={{ field: 'date', order: 'desc' }}
       bulkActionButtons={<InvoiceBulkActionButtons />}
     >
-      <Datagrid rowClick="expand" expand={<InvoiceShow />}>
+      <Datagrid rowClick="edit" expand={<InvoiceShow />}>
         <TextField source="id" />
         <DateField source="date" />
         <ReferenceField
@@ -80,15 +79,14 @@ const InvoiceList: FC<ListProps> = (props) => {
           <AddressField />
         </ReferenceField>
         <ReferenceField
-          source="sales_order_id"
+          source="sales_order"
           reference="sales_orders"
           label="resources.invoices.fields.sales_order"
         >
-          <TextField source="sales_order_id" />
+          <TextField source="id" />
         </ReferenceField>
         <NumberField source="status" />
         <NumberField source="grand_total" />
-        <EditButton />
       </Datagrid>
     </List>
   );

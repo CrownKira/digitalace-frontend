@@ -15,12 +15,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
 
 export const styles = {
-  price: { width: '7em' },
-  width: { width: '7em' },
-  height: { width: '7em' },
-  stock: { width: '7em' },
-  widthFormGroup: { display: 'inline-block' },
-  heightFormGroup: { display: 'inline-block', marginLeft: 32 },
+  unit: { width: '7em' },
+  cost: { width: '7em' },
+  unitPrice: { width: '7em' },
+  costFormGroup: { display: 'inline-block' },
+  unitPriceFormGroup: { display: 'inline-block', marginLeft: 32 },
 };
 
 const useStyles = makeStyles(styles);
@@ -36,11 +35,12 @@ const ProductCreate: FC<CreateProps> = (props) => {
           <TextInput source="thumbnail" fullWidth validate={required()} />
         </FormTab>
         <FormTab label="resources.products.tabs.details" path="details">
-          <TextInput source="reference" validate={required()} />
+          <TextInput source="name" validate={required()} />
           <NumberInput
-            source="price"
+            source="cost"
             validate={required()}
-            className={classes.price}
+            className={classes.cost}
+            formClassName={classes.costFormGroup}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">S$</InputAdornment>
@@ -48,39 +48,24 @@ const ProductCreate: FC<CreateProps> = (props) => {
             }}
           />
           <NumberInput
-            source="width"
+            source="unit_price"
             validate={required()}
-            className={classes.width}
-            formClassName={classes.widthFormGroup}
+            className={classes.unitPrice}
+            formClassName={classes.unitPriceFormGroup}
             InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">cm</InputAdornment>
+              startAdornment: (
+                <InputAdornment position="start">S$</InputAdornment>
               ),
             }}
           />
-          <NumberInput
-            source="height"
+          <TextInput
+            className={classes.unit}
+            source="unit"
             validate={required()}
-            className={classes.height}
-            formClassName={classes.heightFormGroup}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">cm</InputAdornment>
-              ),
-            }}
           />
-          <ReferenceInput
-            source="category_id"
-            reference="categories"
-            allowEmpty
-          >
-            <SelectInput source="name" />
+          <ReferenceInput source="supplier" reference="suppliers" allowEmpty>
+            <SelectInput source="name" validate={required()} />
           </ReferenceInput>
-          <NumberInput
-            source="stock"
-            validate={required()}
-            className={classes.stock}
-          />
         </FormTab>
         <FormTab label="resources.products.tabs.description" path="description">
           <RichTextInput source="description" label="" />

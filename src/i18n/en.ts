@@ -1,6 +1,7 @@
 import { TranslationMessages } from 'react-admin';
 import englishMessages from 'ra-language-english';
 
+// TODO: update msg
 const customEnglishMessages: TranslationMessages = {
   ...englishMessages,
   pos: {
@@ -26,7 +27,7 @@ const customEnglishMessages: TranslationMessages = {
           'by %{customer_name}, one item |||| by %{customer_name}, %{nb_items} items',
       },
       welcome: {
-        title: 'Welcome to the DigitaLAce demo',
+        title: 'Welcome to DigitaLAce demo',
         subtitle:
           "Feel free to explore and modify the data - it's local to your computer, and will reset each time you reload.",
         ra_button: 'GitHub repo',
@@ -74,6 +75,7 @@ const customEnglishMessages: TranslationMessages = {
       fieldGroups: {
         identity: 'Identity',
         address: 'Address',
+        other_details: 'Other Details',
         stats: 'Stats',
         history: 'History',
         password: 'Password',
@@ -97,6 +99,7 @@ const customEnglishMessages: TranslationMessages = {
         last_seen_gte: 'Visited Since',
         name: 'Name',
         total_spent: 'Total spent',
+        payables: 'Payables',
         password: 'Password',
         confirm_password: 'Confirm password',
         stateAbbr: 'State',
@@ -117,6 +120,7 @@ const customEnglishMessages: TranslationMessages = {
         identity: 'Identity',
         address: 'Address',
         stats: 'Stats',
+        other_details: 'Other Details',
         history: 'History',
         password: 'Password',
         change_password: 'Change Password',
@@ -152,6 +156,8 @@ const customEnglishMessages: TranslationMessages = {
         details: 'Details',
         description: 'Description',
         reviews: 'Reviews',
+        stock: 'Stock',
+        transactions: 'Transactions',
       },
       filters: {
         categories: 'Categories',
@@ -184,37 +190,43 @@ const customEnglishMessages: TranslationMessages = {
     sales_orders: {
       name: 'Sales Order |||| Sales Orders',
       fields: {
-        date: 'Sales Order date',
+        date: 'Date',
         customer_id: 'Customer',
         command_id: 'Order',
         date_gte: 'Passed Since',
         date_lte: 'Passed Before',
         total_gte: 'Min amount',
         address: 'Address',
+        invoice: 'Invoice',
+        grand_total: 'Total',
       },
     },
     receives: {
       name: 'Receive |||| Receives',
       fields: {
-        date: 'Receive date',
-        supplier_id: 'Supplier',
+        date: 'Date',
+        supplier: 'Supplier',
         command_id: 'Order',
         date_gte: 'Passed Since',
         date_lte: 'Passed Before',
         total_gte: 'Min amount',
         address: 'Address',
+        purchase_order: 'Order',
+        grand_total: 'Total',
       },
     },
     purchase_orders: {
       name: 'Purchase Order |||| Purchase Orders',
       fields: {
-        date: 'Purchase Order date',
-        supplier_id: 'Supplier',
+        date: 'Date',
+        supplier: 'Supplier',
         command_id: 'Order',
         date_gte: 'Passed Since',
         date_lte: 'Passed Before',
         total_gte: 'Min amount',
         address: 'Address',
+        receive: 'Receive',
+        grand_total: 'Total',
       },
     },
 

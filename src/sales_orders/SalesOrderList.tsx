@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { FC } from 'react';
 import {
   List,
@@ -9,29 +10,30 @@ import {
   NumberField,
   Filter,
   FilterProps,
+  SearchInput,
   DateInput,
-  ReferenceInput,
-  SelectInput,
+  BulkDeleteButton,
+  BulkDeleteButtonProps,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
 import FullNameField from '../customers/FullNameField';
 import AddressField from '../customers/AddressField';
+import SalesOrderShow from './SalesOrderShow';
 
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
-    <DateInput source="date_gte" alwaysOn />
-    <DateInput source="date_lte" alwaysOn />
-
-    <ReferenceInput
-      label="Customer"
-      source="customer_id"
-      reference="customers"
-      allowEmpty
-    >
-      <SelectInput optionText="first_name" />
-    </ReferenceInput>
+    <SearchInput source="q" alwaysOn />
+    <DateInput source="date_gte" />
+    <DateInput source="date_lte" />
   </Filter>
+);
+
+// TODO: bulk action buttons props?
+const SalesOrderBulkActionButtons: FC<BulkDeleteButtonProps> = (props) => (
+  <Fragment>
+    <BulkDeleteButton {...props} />
+  </Fragment>
 );
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +45,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const InvoiceList: FC<ListProps> = (props) => {
+// TODO: customizable table columns
+
+const SalesOrderList: FC<ListProps> = (props) => {
   const classes = useStyles();
   return (
     <List
@@ -51,11 +55,17 @@ const InvoiceList: FC<ListProps> = (props) => {
       filters={<ListFilters />}
       perPage={25}
       sort={{ field: 'date', order: 'desc' }}
+      bulkActionButtons={<SalesOrderBulkActionButtons />}
     >
-      <Datagrid rowClick="expand">
+      <Datagrid rowClick="edit" expand={<SalesOrderShow />}>
         <TextField source="id" />
         <DateField source="date" />
-        <ReferenceField source="customer_id" reference="customers">
+        <ReferenceField
+          // TODO: remove _id
+          source="customer_id"
+          reference="customers"
+          label="resources.sales_orders.fields.customer_id"
+        >
           <FullNameField />
         </ReferenceField>
         <ReferenceField
@@ -68,16 +78,18 @@ const InvoiceList: FC<ListProps> = (props) => {
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField source="command_id" reference="commands">
-          <TextField source="reference" />
+        <ReferenceField
+          source="invoice"
+          reference="invoices"
+          label="resources.sales_orders.fields.invoice"
+        >
+          <TextField source="id" />
         </ReferenceField>
-        <NumberField source="total_ex_taxes" />
-        <NumberField source="delivery_fees" />
-        <NumberField source="taxes" />
-        <NumberField source="total" />
+        <NumberField source="status" />
+        <NumberField source="grand_total" />
       </Datagrid>
     </List>
   );
 };
 
-export default InvoiceList;
+export default SalesOrderList;

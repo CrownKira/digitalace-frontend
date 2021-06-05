@@ -7,7 +7,7 @@ import { EditButton, useTranslate, Identifier } from 'react-admin';
 
 import AvatarField from './AvatarField';
 import ColoredNumberField from './ColoredNumberField';
-import { Customer } from '../types';
+import { Supplier } from '../types';
 
 const useStyles = makeStyles((theme) => ({
   root: { margin: '1em' },
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   ids?: Identifier[];
-  data?: { [key: string]: Customer };
+  data?: { [key: string]: Supplier };
   basePath?: string;
 }
 
@@ -53,7 +53,7 @@ const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
               <div className={classes.cardTitleContent}>
                 <h2>{`${data[id].first_name} ${data[id].last_name}`}</h2>
                 <EditButton
-                  resource="customers"
+                  resource="suppliers"
                   basePath={basePath}
                   record={data[id]}
                 />
@@ -63,11 +63,11 @@ const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
           />
           <CardContent className={classes.cardContent}>
             <div>
-              {translate('resources.customers.fields.receivables')}
+              {translate('resources.suppliers.fields.payables')}
               &nbsp;:&nbsp;
               <ColoredNumberField
                 record={data[id]}
-                source="receivables"
+                source="payables"
                 options={{ style: 'currency', currency: 'SGD' }}
               />
             </div>

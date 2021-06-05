@@ -1,6 +1,124 @@
 import { FC } from 'react';
-const SupplierCreate: FC = (props) => {
-  return <div>Hello</div>;
+import {
+  Create,
+  CreateProps,
+  SimpleForm,
+  TextInput,
+  useTranslate,
+  required,
+  email,
+  // DateInput,
+  // PasswordInput,
+} from 'react-admin';
+import { AnyObject } from 'react-final-form';
+import { Typography, Box } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Styles } from '@material-ui/styles/withStyles';
+
+export const styles: Styles<Theme, any> = {
+  name: { display: 'inline-block' },
+  attention: { display: 'inline-block', marginLeft: 32 },
+  email: { width: 544 },
+  address: { maxWidth: 544 },
+  zipcode: { display: 'inline-block' },
+  city: { display: 'inline-block', marginLeft: 32 },
+  comment: {
+    maxWidth: '20em',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  // password: { display: 'inline-block' },
+  // confirm_password: { display: 'inline-block', marginLeft: 32 },
 };
 
+const useStyles = makeStyles(styles);
+export const validatePasswords = ({
+  password,
+  confirm_password,
+}: AnyObject) => {
+  const errors = {} as any;
+
+  if (password && confirm_password && password !== confirm_password) {
+    errors.confirm_password = ['resources.suppliers.errors.password_mismatch'];
+  }
+
+  return errors;
+};
+
+const SupplierCreate: FC<CreateProps> = (props) => {
+  const classes = useStyles(props);
+
+  return (
+    <Create {...props}>
+      <SimpleForm validate={validatePasswords}>
+        <SectionTitle label="resources.suppliers.fieldGroups.identity" />
+        <TextInput
+          autoFocus
+          source="name"
+          formClassName={classes.name}
+          validate={requiredValidate}
+        />
+        <TextInput
+          source="attention"
+          formClassName={classes.attention}
+          validate={requiredValidate}
+        />
+        <TextInput
+          type="email"
+          source="email"
+          validation={{ email: true }}
+          fullWidth
+          formClassName={classes.email}
+          validate={[required(), email()]}
+        />
+        <TextInput source="phone_no" validate={requiredValidate} />
+        <Separator />
+        <SectionTitle label="resources.suppliers.fieldGroups.address" />
+        <TextInput
+          source="address"
+          formClassName={classes.address}
+          multiline
+          fullWidth
+          helperText={false}
+        />
+        <TextInput
+          source="zipcode"
+          formClassName={classes.zipcode}
+          helperText={false}
+        />
+        <TextInput
+          source="city"
+          formClassName={classes.city}
+          helperText={false}
+        />
+      </SimpleForm>
+    </Create>
+  );
+};
+
+const requiredValidate = [required()];
+
+const SectionTitle = ({ label }: { label: string }) => {
+  const translate = useTranslate();
+
+  return (
+    <Typography variant="h6" gutterBottom>
+      {translate(label)}
+    </Typography>
+  );
+};
+
+const Separator = () => <Box pt="1em" />;
+
 export default SupplierCreate;
+
+// TODO: password field
+/*
+<SectionTitle label="resources.suppliers.fieldGroups.password" />
+<PasswordInput source="password" formClassName={classes.password} />
+<PasswordInput
+  source="confirm_password"
+  formClassName={classes.confirm_password}
+/>
+*/

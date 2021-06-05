@@ -1,27 +1,27 @@
 import { FC } from 'react';
 import {
-  Datagrid,
-  DateField,
+  // Datagrid,
+  // DateField,
   Edit,
-  EditButton,
+  // EditButton,
   EditProps,
   FormTab,
   NumberInput,
-  Pagination,
+  // Pagination,
   ReferenceInput,
-  ReferenceManyField,
+  // ReferenceManyField,
   required,
   SelectInput,
   TabbedForm,
-  TextField,
+  // TextField,
   TextInput,
 } from 'react-admin';
 import { InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
 
-import CustomerReferenceField from '../customers/CustomerReferenceField';
-import StarRatingField from '../reviews/StarRatingField';
+// import CustomerReferenceField from '../customers/CustomerReferenceField';
+// import StarRatingField from '../reviews/StarRatingField';
 import Image from './Image';
 import { styles as createStyles } from './ProductCreate';
 import { Product } from '../types';
@@ -66,10 +66,11 @@ const ProductEdit: FC<EditProps> = (props) => {
           path="details"
           contentClassName={classes.tab}
         >
-          <TextInput source="reference" validate={requiredValidate} />
+          <TextInput source="name" validate={requiredValidate} />
           <NumberInput
-            source="price"
-            className={classes.price}
+            source="cost"
+            className={classes.cost}
+            formClassName={classes.costFormGroup}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">S$</InputAdornment>
@@ -78,44 +79,28 @@ const ProductEdit: FC<EditProps> = (props) => {
             validate={requiredValidate}
           />
           <NumberInput
-            source="width"
-            className={classes.width}
-            formClassName={classes.widthFormGroup}
+            source="unit_price"
+            className={classes.unitPrice}
+            formClassName={classes.unitPriceFormGroup}
             InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">cm</InputAdornment>
+              startAdornment: (
+                <InputAdornment position="start">S$</InputAdornment>
               ),
             }}
             validate={requiredValidate}
           />
           <NumberInput
-            source="height"
-            className={classes.height}
-            formClassName={classes.heightFormGroup}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">cm</InputAdornment>
-              ),
-            }}
+            source="unit"
+            className={classes.unit}
             validate={requiredValidate}
           />
           <ReferenceInput
-            source="category_id"
-            reference="categories"
+            source="supplier"
+            reference="suppliers"
             validate={requiredValidate}
           >
             <SelectInput source="name" />
           </ReferenceInput>
-          <NumberInput
-            source="stock"
-            className={classes.stock}
-            validate={requiredValidate}
-          />
-          <NumberInput
-            source="sales"
-            className={classes.stock}
-            validate={requiredValidate}
-          />
         </FormTab>
         <FormTab
           label="resources.products.tabs.description"
@@ -129,22 +114,16 @@ const ProductEdit: FC<EditProps> = (props) => {
           />
         </FormTab>
         <FormTab label="resources.products.tabs.reviews" path="reviews">
-          <ReferenceManyField
-            reference="reviews"
-            target="product_id"
-            addLabel={false}
-            pagination={<Pagination />}
-            fullWidth
-          >
-            <Datagrid>
-              <DateField source="date" />
-              <CustomerReferenceField />
-              <StarRatingField />
-              <TextField source="comment" cellClassName={classes.comment} />
-              <TextField source="status" />
-              <EditButton />
-            </Datagrid>
-          </ReferenceManyField>
+          <div>Coming soon...</div>
+        </FormTab>
+        <FormTab label="resources.products.tabs.stock" path="stock">
+          <div>Coming soon...</div>
+        </FormTab>
+        <FormTab
+          label="resources.products.tabs.transactions"
+          path="transactions"
+        >
+          <div>Coming soon...</div>
         </FormTab>
       </TabbedForm>
     </Edit>
@@ -154,3 +133,25 @@ const ProductEdit: FC<EditProps> = (props) => {
 const requiredValidate = [required()];
 
 export default ProductEdit;
+
+// TODO:reviews tab
+/*
+<FormTab label="resources.products.tabs.reviews" path="reviews">
+  <ReferenceManyField
+    reference="reviews"
+    target="product_id"
+    addLabel={false}
+    pagination={<Pagination />}
+    fullWidth
+  >
+    <Datagrid>
+      <DateField source="date" />
+      <CustomerReferenceField />
+      <StarRatingField />
+      <TextField source="comment" cellClassName={classes.comment} />
+      <TextField source="status" />
+      <EditButton />
+    </Datagrid>
+  </ReferenceManyField>
+</FormTab>
+*/

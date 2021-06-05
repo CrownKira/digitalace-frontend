@@ -4,9 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 // import AccessTimeIcon from '@material-ui/icons/AccessTime';
 // import MonetizationOnIcon from '@material-ui/icons/MonetizationOnOutlined';
 // import MailIcon from '@material-ui/icons/MailOutline';
-import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
+// import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
 import {
-  FilterList,
+  // FilterList,
   FilterLiveSearch,
   // FilterListItem,
 } from 'react-admin';
@@ -37,10 +37,6 @@ const Aside: FC = () => (
   <Card>
     <CardContent>
       <FilterLiveSearch />
-      <FilterList
-        label="resources.customers.filters.agent"
-        icon={<DirectionsWalkIcon />}
-      ></FilterList>
     </CardContent>
   </Card>
 );
@@ -50,7 +46,7 @@ export default Aside;
 // TODO: agent filter
 /*
 <FilterList
-  label="resources.customers.filters.agent"
+  label="resources.suppliers.filters.agent"
   icon={<LocalOfferIcon />}
 >
   {segments.map((segment) => (
@@ -66,46 +62,46 @@ export default Aside;
 // TODO: remove after reference
 /*
 <FilterList
-  label="resources.customers.filters.last_visited"
+  label="resources.suppliers.filters.last_visited"
   icon={<AccessTimeIcon />}
 >
   <FilterListItem
-    label="resources.customers.filters.today"
+    label="resources.suppliers.filters.today"
     value={{
       last_seen_gte: endOfYesterday().toISOString(),
       last_seen_lte: undefined,
     }}
   />
   <FilterListItem
-    label="resources.customers.filters.this_week"
+    label="resources.suppliers.filters.this_week"
     value={{
       last_seen_gte: startOfWeek(new Date()).toISOString(),
       last_seen_lte: undefined,
     }}
   />
   <FilterListItem
-    label="resources.customers.filters.last_week"
+    label="resources.suppliers.filters.last_week"
     value={{
       last_seen_gte: subWeeks(startOfWeek(new Date()), 1).toISOString(),
       last_seen_lte: startOfWeek(new Date()).toISOString(),
     }}
   />
   <FilterListItem
-    label="resources.customers.filters.this_month"
+    label="resources.suppliers.filters.this_month"
     value={{
       last_seen_gte: startOfMonth(new Date()).toISOString(),
       last_seen_lte: undefined,
     }}
   />
   <FilterListItem
-    label="resources.customers.filters.last_month"
+    label="resources.suppliers.filters.last_month"
     value={{
       last_seen_gte: subMonths(startOfMonth(new Date()), 1).toISOString(),
       last_seen_lte: startOfMonth(new Date()).toISOString(),
     }}
   />
   <FilterListItem
-    label="resources.customers.filters.earlier"
+    label="resources.suppliers.filters.earlier"
     value={{
       last_seen_gte: undefined,
       last_seen_lte: subMonths(startOfMonth(new Date()), 1).toISOString(),
@@ -113,7 +109,7 @@ export default Aside;
   />
 </FilterList>
 <FilterList
-  label="resources.customers.filters.has_ordered"
+  label="resources.suppliers.filters.has_ordered"
   icon={<MonetizationOnIcon />}
 >
   <FilterListItem
@@ -132,7 +128,7 @@ export default Aside;
   />
 </FilterList>
 <FilterList
-  label="resources.customers.filters.has_newsletter"
+  label="resources.suppliers.filters.has_newsletter"
   icon={<MailIcon />}
 >
   <FilterListItem

@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { FC } from 'react';
 import {
   List,
@@ -9,29 +10,30 @@ import {
   NumberField,
   Filter,
   FilterProps,
+  SearchInput,
   DateInput,
-  ReferenceInput,
-  SelectInput,
+  BulkDeleteButton,
+  BulkDeleteButtonProps,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
-import FullNameField from '../customers/FullNameField';
-import AddressField from '../customers/AddressField';
+import FullNameField from '../suppliers/FullNameField';
+import AddressField from '../suppliers/AddressField';
+import PurchaseOrderShow from './PurchaseOrderShow';
 
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
-    <DateInput source="date_gte" alwaysOn />
-    <DateInput source="date_lte" alwaysOn />
-
-    <ReferenceInput
-      label="Supplier"
-      source="customer_id"
-      reference="customers"
-      allowEmpty
-    >
-      <SelectInput optionText="first_name" />
-    </ReferenceInput>
+    <SearchInput source="q" alwaysOn />
+    <DateInput source="date_gte" />
+    <DateInput source="date_lte" />
   </Filter>
+);
+
+// TODO: bulk action buttons props?
+const PurchaseOrderBulkActionButtons: FC<BulkDeleteButtonProps> = (props) => (
+  <Fragment>
+    <BulkDeleteButton {...props} />
+  </Fragment>
 );
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const InvoiceList: FC<ListProps> = (props) => {
+// TODO: customizable table columns
+const PurchaseOrderList: FC<ListProps> = (props) => {
   const classes = useStyles();
   return (
     <List
@@ -51,33 +54,41 @@ const InvoiceList: FC<ListProps> = (props) => {
       filters={<ListFilters />}
       perPage={25}
       sort={{ field: 'date', order: 'desc' }}
+      bulkActionButtons={<PurchaseOrderBulkActionButtons />}
     >
-      <Datagrid rowClick="expand">
+      <Datagrid rowClick="edit" expand={<PurchaseOrderShow />}>
         <TextField source="id" />
         <DateField source="date" />
-        <ReferenceField source="customer_id" reference="customers">
+        <ReferenceField
+          // TODO: remove _id
+          source="supplier"
+          reference="suppliers"
+          label="resources.purchase_orders.fields.supplier"
+        >
           <FullNameField />
         </ReferenceField>
         <ReferenceField
-          source="customer_id"
-          reference="customers"
+          source="supplier"
+          reference="suppliers"
           link={false}
-          label="resources.sales_orders.fields.address"
+          label="resources.purchase_orders.fields.address"
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField source="command_id" reference="commands">
-          <TextField source="reference" />
+        <ReferenceField
+          source="receive"
+          reference="receives"
+          label="resources.purchase_orders.fields.receive"
+        >
+          <TextField source="id" />
         </ReferenceField>
-        <NumberField source="total_ex_taxes" />
-        <NumberField source="delivery_fees" />
-        <NumberField source="taxes" />
-        <NumberField source="total" />
+        <NumberField source="status" />
+        <NumberField source="grand_total" />
       </Datagrid>
     </List>
   );
 };
 
-export default InvoiceList;
+export default PurchaseOrderList;

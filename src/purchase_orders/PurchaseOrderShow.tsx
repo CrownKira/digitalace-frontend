@@ -1,6 +1,6 @@
 import { FC } from 'react';
 const InvoiceShow: FC = (props) => {
-  return <div>Hello</div>;
+  return <div>Coming soon...</div>;
 };
 
 export default InvoiceShow;

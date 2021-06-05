@@ -1,11 +1,8 @@
 import { FC } from 'react';
 import {
-  DateInput,
   Edit,
   EditProps,
-  NullableBooleanInput,
   TextInput,
-  PasswordInput,
   Toolbar,
   useTranslate,
   FormWithRedirect,
@@ -17,7 +14,6 @@ import { Box, Card, CardContent, Typography } from '@material-ui/core';
 
 import Aside from './Aside';
 import FullNameField from './FullNameField';
-import SegmentsInput from './SegmentsInput';
 import { validatePasswords } from './CustomerCreate';
 import { Customer } from '../types';
 
@@ -56,7 +52,7 @@ const CustomerForm = (props: any) => {
                   <Box display={{ xs: 'block', sm: 'flex' }}>
                     <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                       <TextInput
-                        source="first_name"
+                        source="name"
                         resource="customers"
                         validate={requiredValidate}
                         fullWidth
@@ -64,7 +60,7 @@ const CustomerForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
                       <TextInput
-                        source="last_name"
+                        source="attention"
                         resource="customers"
                         validate={requiredValidate}
                         fullWidth
@@ -80,8 +76,8 @@ const CustomerForm = (props: any) => {
                   />
                   <Box display={{ xs: 'block', sm: 'flex' }}>
                     <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-                      <DateInput
-                        source="birthday"
+                      <TextInput
+                        source="phone_no"
                         resource="customers"
                         fullWidth
                         helperText={false}
@@ -106,7 +102,7 @@ const CustomerForm = (props: any) => {
                     <Box flex={2} mr={{ xs: 0, sm: '0.5em' }}>
                       <TextInput source="city" resource="customers" fullWidth />
                     </Box>
-                    <Box flex={1} mr={{ xs: 0, fm: '0.5em' }}>
+                    <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                       <TextInput
                         source="stateAbbr"
                         resource="customers"
@@ -125,29 +121,6 @@ const CustomerForm = (props: any) => {
                   </Box>
 
                   <Box mt="1em" />
-
-                  <Typography variant="h6" gutterBottom>
-                    {translate(
-                      'resources.customers.fieldGroups.change_password'
-                    )}
-                  </Typography>
-                  <Box display={{ xs: 'block', sm: 'flex' }}>
-                    <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-                      <PasswordInput
-                        source="password"
-                        resource="customers"
-                        fullWidth
-                      />
-                    </Box>
-
-                    <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
-                      <PasswordInput
-                        source="confirm_password"
-                        resource="customers"
-                        fullWidth
-                      />
-                    </Box>
-                  </Box>
                 </Box>
                 <Box
                   flex={1}
@@ -155,17 +128,11 @@ const CustomerForm = (props: any) => {
                   mt={{ xs: '1em', lg: 0 }}
                 >
                   <Typography variant="h6" gutterBottom>
-                    {translate('resources.customers.fieldGroups.stats')}
+                    {translate('resources.customers.fieldGroups.other_details')}
                   </Typography>
-                  <div>
-                    <SegmentsInput fullWidth />
-                  </div>
-                  <div>
-                    <NullableBooleanInput
-                      source="has_newsletter"
-                      resource="customers"
-                    />
-                  </div>
+
+                  <TextInput source="business" resource="customers" />
+                  <TextInput source="term" resource="customers" />
                 </Box>
               </Box>
             </CardContent>
@@ -188,3 +155,36 @@ const CustomerForm = (props: any) => {
 const requiredValidate = [required()];
 
 export default CustomerEdit;
+
+// TODO: password field
+/*
+<Typography variant="h6" gutterBottom>
+  {translate(
+    'resources.customers.fieldGroups.change_password'
+  )}
+</Typography>
+<Box display={{ xs: 'block', sm: 'flex' }}>
+  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+    <PasswordInput
+      source="password"
+      resource="customers"
+      fullWidth
+    />
+  </Box>
+
+  <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+    <PasswordInput
+      source="confirm_password"
+      resource="customers"
+      fullWidth
+    />
+  </Box>
+</Box>
+*/
+
+// TODO: agent fields
+/*
+<div>
+  <SegmentsInput fullWidth />
+</div>
+*/

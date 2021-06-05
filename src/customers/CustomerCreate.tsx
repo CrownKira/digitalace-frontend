@@ -2,13 +2,13 @@ import { FC } from 'react';
 import {
   Create,
   CreateProps,
-  DateInput,
   SimpleForm,
   TextInput,
   useTranslate,
-  PasswordInput,
   required,
   email,
+  // DateInput,
+  // PasswordInput,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { Typography, Box } from '@material-ui/core';
@@ -16,8 +16,8 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Styles } from '@material-ui/styles/withStyles';
 
 export const styles: Styles<Theme, any> = {
-  first_name: { display: 'inline-block' },
-  last_name: { display: 'inline-block', marginLeft: 32 },
+  name: { display: 'inline-block' },
+  attention: { display: 'inline-block', marginLeft: 32 },
   email: { width: 544 },
   address: { maxWidth: 544 },
   zipcode: { display: 'inline-block' },
@@ -28,8 +28,8 @@ export const styles: Styles<Theme, any> = {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },
-  password: { display: 'inline-block' },
-  confirm_password: { display: 'inline-block', marginLeft: 32 },
+  // password: { display: 'inline-block' },
+  // confirm_password: { display: 'inline-block', marginLeft: 32 },
 };
 
 const useStyles = makeStyles(styles);
@@ -55,13 +55,13 @@ const CustomerCreate: FC<CreateProps> = (props) => {
         <SectionTitle label="resources.customers.fieldGroups.identity" />
         <TextInput
           autoFocus
-          source="first_name"
-          formClassName={classes.first_name}
+          source="name"
+          formClassName={classes.name}
           validate={requiredValidate}
         />
         <TextInput
-          source="last_name"
-          formClassName={classes.last_name}
+          source="attention"
+          formClassName={classes.attention}
           validate={requiredValidate}
         />
         <TextInput
@@ -72,7 +72,7 @@ const CustomerCreate: FC<CreateProps> = (props) => {
           formClassName={classes.email}
           validate={[required(), email()]}
         />
-        <DateInput source="birthday" />
+        <TextInput source="phone_no" validate={requiredValidate} />
         <Separator />
         <SectionTitle label="resources.customers.fieldGroups.address" />
         <TextInput
@@ -93,12 +93,9 @@ const CustomerCreate: FC<CreateProps> = (props) => {
           helperText={false}
         />
         <Separator />
-        <SectionTitle label="resources.customers.fieldGroups.password" />
-        <PasswordInput source="password" formClassName={classes.password} />
-        <PasswordInput
-          source="confirm_password"
-          formClassname={classes.confirm_password}
-        />
+        <SectionTitle label="resources.customers.fieldGroups.other_details" />
+        <TextInput source="business" resource="customers" />
+        <TextInput source="term" resource="customers" />
       </SimpleForm>
     </Create>
   );
@@ -119,3 +116,13 @@ const SectionTitle = ({ label }: { label: string }) => {
 const Separator = () => <Box pt="1em" />;
 
 export default CustomerCreate;
+
+// TODO: password field
+/*
+<SectionTitle label="resources.customers.fieldGroups.password" />
+<PasswordInput source="password" formClassName={classes.password} />
+<PasswordInput
+  source="confirm_password"
+  formClassName={classes.confirm_password}
+/>
+*/

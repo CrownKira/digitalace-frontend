@@ -1,8 +1,12 @@
-import PurchaseIcon from '@material-ui/icons/LibraryBooks';
+import PurchaseOrderIcon from '@material-ui/icons/NoteAdd';
 
-import PurchaseList from './PurchaseOrderList';
+import PurchaseOrderList from './PurchaseOrderList';
+import PurchaseOrderCreate from './PurchaseOrderCreate';
+import PurchaseOrderEdit from './PurchaseOrderEdit';
 
 export default {
-  list: PurchaseList,
-  icon: PurchaseIcon,
+  list: PurchaseOrderList,
+  create: PurchaseOrderCreate,
+  edit: PurchaseOrderEdit,
+  icon: PurchaseOrderIcon,
 };

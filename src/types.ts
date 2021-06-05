@@ -1,5 +1,6 @@
 import { ReduxState, Record, Identifier } from 'react-admin';
 
+// TODO: update types
 export type ThemeName = 'light' | 'dark';
 
 export interface AppState extends ReduxState {
