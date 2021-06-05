@@ -7,6 +7,7 @@ import dataProviderFactory from './dataProvider';
 import fakeServerFactory from './fakeServer';
 import App from './App';
 
+// TODO: remove comment
 const prepareDataProvider = async () => {
   const restoreFetch = await fakeServerFactory(
     // process.env.REACT_APP_DATA_PROVIDER || ''

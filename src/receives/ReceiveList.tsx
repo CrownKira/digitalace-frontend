@@ -10,8 +10,6 @@ import {
   Filter,
   FilterProps,
   DateInput,
-  ReferenceInput,
-  SelectInput,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -22,15 +20,6 @@ const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
     <DateInput source="date_gte" alwaysOn />
     <DateInput source="date_lte" alwaysOn />
-
-    <ReferenceInput
-      label="Customer"
-      source="supplier_id"
-      reference="suppliers"
-      allowEmpty
-    >
-      <SelectInput optionText="first_name" />
-    </ReferenceInput>
   </Filter>
 );
 

@@ -1,4 +1,4 @@
-import ProductIcon from '@material-ui/icons/People';
+import ProductIcon from '@material-ui/icons/ShoppingBasket';
 
 import ProductList from './ProductList';
 import ProductCreate from './ProductCreate';

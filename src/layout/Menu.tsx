@@ -2,6 +2,9 @@ import { FC, useState } from 'react';
 import { useSelector } from 'react-redux';
 import SettingsIcon from '@material-ui/icons/Label';
 import { useMediaQuery, Theme, Box } from '@material-ui/core';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import StorageIcon from '@material-ui/icons/Storage';
 import {
   useTranslate,
   DashboardMenuItem,
@@ -47,7 +50,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         isOpen={state.menuMaintenance}
         sidebarIsOpen={open}
         name="pos.menu.maintenance"
-        icon={<customers.icon />}
+        icon={<StorageIcon />}
         dense={dense}
       >
         <MenuItemLink
@@ -86,7 +89,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         isOpen={state.menuTransaction}
         sidebarIsOpen={open}
         name="pos.menu.transactions"
-        icon={<invoices.icon />}
+        icon={<AccountBalanceWalletIcon />}
         dense={dense}
       >
         <MenuItemLink
@@ -115,7 +118,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         isOpen={state.menuOrder}
         sidebarIsOpen={open}
         name="pos.menu.orders"
-        icon={<invoices.icon />}
+        icon={<ShoppingCartIcon />}
         dense={dense}
       >
         <MenuItemLink

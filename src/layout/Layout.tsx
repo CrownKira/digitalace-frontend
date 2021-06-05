@@ -5,10 +5,9 @@ import Menu from './Menu';
 import { darkTheme, lightTheme } from './themes';
 import { AppState } from '../types';
 
-// qn: why need to name Layout.tsx CustomLayout.tsx
 const CustomSidebar = (props: any) => <Sidebar {...props} size={200} />;
 
-const CustomLayout = (props: LayoutProps) => {
+export default (props: LayoutProps) => {
   const theme = useSelector((state: AppState) =>
     state.theme === 'dark' ? darkTheme : lightTheme
   );
@@ -23,5 +22,3 @@ const CustomLayout = (props: LayoutProps) => {
     />
   );
 };
-
-export default CustomLayout;

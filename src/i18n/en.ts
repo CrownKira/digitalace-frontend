@@ -37,10 +37,7 @@ const customEnglishMessages: TranslationMessages = {
     menu: {
       maintenance: 'Maintenance',
       transactions: 'Transactions',
-      customers: 'Customers',
       orders: 'Orders',
-      sales: 'Sales',
-      catalog: 'Catalog',
     },
   },
 

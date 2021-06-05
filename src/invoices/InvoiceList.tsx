@@ -7,11 +7,10 @@ import {
   DateField,
   ReferenceField,
   NumberField,
+  EditButton,
   Filter,
   FilterProps,
   DateInput,
-  ReferenceInput,
-  SelectInput,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -23,15 +22,6 @@ const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
     <DateInput source="date_gte" alwaysOn />
     <DateInput source="date_lte" alwaysOn />
-
-    <ReferenceInput
-      label="Customer"
-      source="customer_id"
-      reference="customers"
-      allowEmpty
-    >
-      <SelectInput optionText="first_name" />
-    </ReferenceInput>
   </Filter>
 );
 
@@ -76,6 +66,7 @@ const InvoiceList: FC<ListProps> = (props) => {
         <NumberField source="delivery_fees" />
         <NumberField source="taxes" />
         <NumberField source="total" />
+        <EditButton />
       </Datagrid>
     </List>
   );
