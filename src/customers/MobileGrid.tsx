@@ -3,17 +3,10 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  DateField,
-  EditButton,
-  useTranslate,
-  NumberField,
-  Identifier,
-} from 'react-admin';
+import { DateField, EditButton, useTranslate, Identifier } from 'react-admin';
 
 import AvatarField from './AvatarField';
 import ColoredNumberField from './ColoredNumberField';
-import SegmentsField from './SegmentsField';
 import { Customer } from '../types';
 
 const useStyles = makeStyles((theme) => ({
@@ -75,29 +68,15 @@ const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
               <DateField record={data[id]} source="last_seen" />
             </div>
             <div>
-              {translate('resources.commands.name', data[id].nb_commands || 1)}
-              &nbsp;:&nbsp;
-              <NumberField
-                record={data[id]}
-                source="nb_commands"
-                label="resources.customers.fields.commands"
-              />
-            </div>
-            <div>
-              {translate('resources.customers.fields.total_spent')}
+              {translate('resources.customers.fields.receivables')}
               &nbsp;:&nbsp;
               <ColoredNumberField
                 record={data[id]}
-                source="total_spent"
+                source="receivables"
                 options={{ style: 'currency', currency: 'SGD' }}
               />
             </div>
           </CardContent>
-          {data[id].groups && data[id].groups.length > 0 && (
-            <CardContent className={classes.cardContent}>
-              <SegmentsField record={data[id]} />
-            </CardContent>
-          )}
         </Card>
       ))}
     </div>
@@ -110,3 +89,13 @@ MobileGrid.defaultProps = {
 };
 
 export default MobileGrid;
+
+/*
+// TODO: agent field
+// https://marmelab.com/react-admin/Fields.html#referencemanyfield
+{data[id].groups && data[id].groups.length > 0 && (
+  <CardContent className={classes.cardContent}>
+    <SegmentsField record={data[id]} />
+  </CardContent>
+)}
+*/

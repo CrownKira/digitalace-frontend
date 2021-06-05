@@ -93,9 +93,9 @@ const Aside: FC = () => {
           <FilterListItem
             label="resources.products.filters.low_stock"
             value={{
-              sales_lte: 10,
-              sales_gt: 0,
-              sales: undefined,
+              stock_lt: 10,
+              stock_gt: 0,
+              stock: undefined,
             }}
           />
           <FilterListItem

@@ -52,9 +52,11 @@ const customEnglishMessages: TranslationMessages = {
         last_seen_gte: 'Visited Since',
         name: 'Name',
         total_spent: 'Total spent',
+        receivables: 'Receivables',
         password: 'Password',
         confirm_password: 'Confirm password',
         stateAbbr: 'State',
+        phone_no: 'Phone',
       },
       filters: {
         last_visited: 'Last visited',
@@ -67,6 +69,7 @@ const customEnglishMessages: TranslationMessages = {
         has_ordered: 'Has ordered',
         has_newsletter: 'Has newsletter',
         group: 'Segment',
+        agent: 'Agent',
       },
       fieldGroups: {
         identity: 'Identity',
@@ -167,13 +170,15 @@ const customEnglishMessages: TranslationMessages = {
     invoices: {
       name: 'Invoice |||| Invoices',
       fields: {
-        date: 'Invoice date',
+        date: 'Date',
         customer_id: 'Customer',
-        command_id: 'Order',
         date_gte: 'Passed Since',
         date_lte: 'Passed Before',
         total_gte: 'Min amount',
         address: 'Address',
+        sales_order: 'Order',
+        grand_total: 'Total',
+        // command_id: 'Order',
       },
     },
     sales_orders: {

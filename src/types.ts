@@ -37,6 +37,7 @@ export interface Customer extends Record {
   latest_purchase: string;
   has_newsletter: boolean;
   groups: string[];
+  agents: number[];
   nb_commands: number;
   total_spent: number;
 }

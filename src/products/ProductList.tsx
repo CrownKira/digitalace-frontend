@@ -1,12 +1,10 @@
 import { FC } from 'react';
-import { Box, Chip, useMediaQuery, Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Box, useMediaQuery, Theme } from '@material-ui/core';
 import {
   CreateButton,
   ExportButton,
   Filter,
   FilterProps,
-  InputProps,
   ListBase,
   ListProps,
   NumberInput,
@@ -18,24 +16,11 @@ import {
   Title,
   TopToolbar,
   useListContext,
-  useTranslate,
 } from 'react-admin';
 
 import GridList from './GridList';
 import Aside from './Aside';
-
-const useQuickFilterStyles = makeStyles((theme) => ({
-  root: {
-    marginBottom: theme.spacing(3),
-  },
-}));
-
-const QuickFilter: FC<InputProps> = ({ label }) => {
-  const translate = useTranslate();
-  const classes = useQuickFilterStyles();
-
-  return <Chip className={classes.root} label={translate(label)} />;
-};
+import { QuickFilter } from '../utils';
 
 export const ProductFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
   <Filter {...props}>

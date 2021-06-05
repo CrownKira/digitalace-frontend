@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { FC } from 'react';
 import {
   List,
@@ -10,7 +11,10 @@ import {
   EditButton,
   Filter,
   FilterProps,
+  SearchInput,
   DateInput,
+  BulkDeleteButton,
+  BulkDeleteButtonProps,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -20,9 +24,17 @@ import InvoiceShow from './InvoiceShow';
 
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
-    <DateInput source="date_gte" alwaysOn />
-    <DateInput source="date_lte" alwaysOn />
+    <SearchInput source="q" alwaysOn />
+    <DateInput source="date_gte" />
+    <DateInput source="date_lte" />
   </Filter>
+);
+
+// TODO: bulk action buttons props?
+const InvoiceBulkActionButtons: FC<BulkDeleteButtonProps> = (props) => (
+  <Fragment>
+    <BulkDeleteButton {...props} />
+  </Fragment>
 );
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +46,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// TODO: customisable table columns
+
 const InvoiceList: FC<ListProps> = (props) => {
   const classes = useStyles();
   return (
@@ -42,11 +56,17 @@ const InvoiceList: FC<ListProps> = (props) => {
       filters={<ListFilters />}
       perPage={25}
       sort={{ field: 'date', order: 'desc' }}
+      bulkActionButtons={<InvoiceBulkActionButtons />}
     >
       <Datagrid rowClick="expand" expand={<InvoiceShow />}>
         <TextField source="id" />
         <DateField source="date" />
-        <ReferenceField source="customer_id" reference="customers">
+        <ReferenceField
+          // TODO: remove _id
+          source="customer_id"
+          reference="customers"
+          label="resources.invoices.fields.customer_id"
+        >
           <FullNameField />
         </ReferenceField>
         <ReferenceField
@@ -59,13 +79,15 @@ const InvoiceList: FC<ListProps> = (props) => {
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField source="command_id" reference="commands">
-          <TextField source="reference" />
+        <ReferenceField
+          source="sales_order_id"
+          reference="sales_orders"
+          label="resources.invoices.fields.sales_order"
+        >
+          <TextField source="sales_order_id" />
         </ReferenceField>
-        <NumberField source="total_ex_taxes" />
-        <NumberField source="delivery_fees" />
-        <NumberField source="taxes" />
-        <NumberField source="total" />
+        <NumberField source="status" />
+        <NumberField source="grand_total" />
         <EditButton />
       </Datagrid>
     </List>

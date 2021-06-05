@@ -1,21 +1,19 @@
 import {
-  BooleanField,
+  TextField,
+  EmailField,
   Datagrid,
-  DateField,
-  DateInput,
   Filter,
   FilterProps,
   List,
   ListProps,
-  NullableBooleanInput,
-  NumberField,
   SearchInput,
+  // DateInput,
+  // NullableBooleanInput,
 } from 'react-admin';
 import { useMediaQuery, Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 
-import SegmentsField from './SegmentsField';
-import SegmentInput from './SegmentInput';
+// import SegmentInput from './SegmentInput';
 import CustomerLinkField from './CustomerLinkField';
 import ColoredNumberField from './ColoredNumberField';
 import MobileGrid from './MobileGrid';
@@ -24,26 +22,26 @@ import { ReactElement } from 'react';
 
 const CustomerFilter = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
-    <SearchInput source="q" alwasyOn />
-    <DateInput source="last_seen_gte" />
-    <NullableBooleanInput source="has_ordered" />
-    <NullableBooleanInput source="has_newsletter" defaultValue />
-    <SegmentInput />
+    <SearchInput source="q" alwaysOn />
   </Filter>
 );
 
-const useStyles = makeStyles((theme) => ({
-  nb_commands: { color: 'purple' },
-  hiddenOnSmallScreens: {
-    display: 'table-cell',
-    [theme.breakpoints.down('md')]: {
-      display: 'none',
-    },
-  },
-}));
+// TODO: agent input
+/*
+<SegmentInput />
+*/
+
+// const useStyles = makeStyles((theme) => ({
+//   hiddenOnSmallScreens: {
+//     display: 'table-cell',
+//     [theme.breakpoints.down('md')]: {
+//       display: 'none',
+//     },
+//   },
+// }));
 
 const CustomerList = (props: ListProps): ReactElement => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const isXsmall = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.down('xs')
   );
@@ -61,22 +59,15 @@ const CustomerList = (props: ListProps): ReactElement => {
       ) : (
         <Datagrid optimized rowClick="edit">
           <CustomerLinkField />
-          <DateField source="last_seen" />
-          <NumberField
-            source="nb_commands"
-            label="resources.customers.fields.commands"
-            className={classes.nb_commands}
+          <TextField source="attention" />
+          <EmailField source="email" />
+          <TextField
+            source="phone_no"
+            label="resources.customers.fields.phone_no"
           />
           <ColoredNumberField
-            source="total_spent"
+            source="receivables"
             options={{ style: 'currency', currency: 'SGD' }}
-          />
-          <DateField source="latest_purchase" showTime />
-          <BooleanField source="has_newsletter" label="News." />
-          <SegmentsField
-            // TODO: link to agent
-            cellClassName={classes.hiddenOnSmallScreens}
-            headerClassName={classes.hiddenOnSmallScreens}
           />
         </Datagrid>
       )}
@@ -85,3 +76,12 @@ const CustomerList = (props: ListProps): ReactElement => {
 };
 
 export default CustomerList;
+
+/*
+// TODO: agent field
+// https://marmelab.com/react-admin/Fields.html#referencemanyfield
+<SegmentsField
+cellClassName={classes.hiddenOnSmallScreens}
+headerClassName={classes.hiddenOnSmallScreens}
+/>
+*/
