@@ -32,10 +32,6 @@ export const ProductFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
     >
       <SelectInput source="name" />
     </ReferenceInput>
-    <NumberInput source="width_gte" />
-    <NumberInput source="width_lte" />
-    <NumberInput source="height_gte" />
-    <NumberInput source="height_gte" />
     <QuickFilter
       label="resources.products.fields.stock_lte"
       source="stock_lte"
