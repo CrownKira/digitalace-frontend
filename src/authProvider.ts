@@ -1,25 +1,44 @@
 import { AuthProvider } from 'react-admin';
 
 const authProvider: AuthProvider = {
-  login: ({ username }) => {
-    localStorage.setItem('username', username);
-    return Promise.resolve();
+  login: async ({ username, password }) => {
+    const request = new Request('/api/user/create', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+      headers: new Headers({ 'Content-Type': 'application' }),
+    });
+
+    const response = await fetch(request);
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(response.statusText);
+    }
+    return await response.json();
   },
   logout: () => {
-    localStorage.removeItem('username');
+    localStorage.removeItem('auth');
     return Promise.resolve();
   },
-  checkError: () => Promise.resolve(),
+  checkError: (error) => {
+    const status = error.status;
+    if (status === 401 || status === 403) {
+      localStorage.removeItem('auth');
+      return Promise.reject();
+    }
+    return Promise.resolve();
+  },
   checkAuth: () =>
-    localStorage.getItem('username') ? Promise.resolve() : Promise.reject(),
-  getPermissions: () => Promise.reject('Unknown method'),
-  getIdentity: () =>
-    Promise.resolve({
-      id: 'user',
-      fullName: 'Kyle Toh',
-      avatar:
-        'https://secure.gravatar.com/avatar/854a899faca5065ac620006778d81271?size=800',
-    }),
+    localStorage.getItem('auth') ? Promise.resolve() : Promise.reject(),
+  getPermissions: () => {
+    // https://stackoverflow.com/questions/54715260/typescript-json-parse-error-type-null-is-not-assignable-to-type-string
+    const { permissions } = JSON.parse(localStorage.getItem('auth') || '{}');
+    return permissions ? Promise.resolve(permissions) : Promise.reject();
+  },
+  getIdentity: () => {
+    const { id, name, avatar } = JSON.parse(
+      localStorage.getItem('auth') || '{}'
+    );
+    return Promise.resolve({ id, name, avatar });
+  },
 };
 
 export default authProvider;

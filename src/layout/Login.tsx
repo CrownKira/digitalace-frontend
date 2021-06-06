@@ -14,7 +14,13 @@ import {
 import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import LockIcon from '@material-ui/icons/Lock';
-import { Notification, useTranslate, useLogin, useNotify } from 'react-admin';
+import {
+  Notification,
+  useTranslate,
+  useLogin,
+  useNotify,
+  Link,
+} from 'react-admin';
 
 import { lightTheme } from './themes';
 
@@ -49,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     padding: '0 1em 1em 1em',
+  },
+  footer: {
+    padding: '0 1em 1em 1em',
+    color: theme.palette.grey[500],
   },
   input: {
     marginTop: '1em',
@@ -111,6 +121,7 @@ const Login = () => {
       }
     );
   };
+
   const validate = (values: FormValues) => {
     const errors: FormValues = {};
     if (!values.username) {
@@ -172,6 +183,9 @@ const Login = () => {
                   {translate('ra.auth.sign_in')}
                 </Button>
               </CardActions>
+              <div className={classes.footer}>
+                Need an account? <Link to={`/signup/`}>Sign up</Link>
+              </div>
             </Card>
             <Notification />
           </div>
