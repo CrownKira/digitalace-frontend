@@ -3,9 +3,10 @@ import { Admin, Resource, DataProvider } from 'react-admin';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 
 import authProvider from './authProvider';
+import themeReducer from './themeReducer';
 import { Login, Layout } from './layout';
-
 import { Dashboard } from './dashboard';
+import customRoutes from './routes';
 import englishMessages from './i18n/en';
 
 import invoices from './invoices';
@@ -32,8 +33,8 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
     <Admin
       title="DigitaLAce"
       dataProvider={dataProvider}
-      // customReducers={}
-      // customRoutes={}
+      customReducers={{ theme: themeReducer }}
+      customRoutes={customRoutes}
       authProvider={authProvider}
       dashboard={Dashboard}
       loginPage={Login}
