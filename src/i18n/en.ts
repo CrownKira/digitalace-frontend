@@ -27,7 +27,7 @@ const customEnglishMessages: TranslationMessages = {
           'by %{customer_name}, one item |||| by %{customer_name}, %{nb_items} items',
       },
       welcome: {
-        title: 'Welcome to DigitaLAce demo',
+        title: 'Site under construction',
         subtitle:
           "Feel free to explore and modify the data - it's local to your computer, and will reset each time you reload.",
         ra_button: 'GitHub repo',
