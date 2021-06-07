@@ -13,6 +13,9 @@ const customEnglishMessages: TranslationMessages = {
       light: 'Light',
       dark: 'Dark',
     },
+    auth: {
+      email: 'Email',
+    },
     dashboard: {
       monthly_revenue: 'Monthly Revenue',
       month_history: '30 Day Revenue History',

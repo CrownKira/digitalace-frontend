@@ -3,17 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "server": "json-server --watch db.json --port 5000 --middlewares ./range.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "concurrently \"yarn run server\" \"yarn run start\""
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -21,10 +19,7 @@
     ]
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": ["react-app", "react-app/jest"]
   },
   "dependencies": {
     "@material-ui/core": "^4.11.2",

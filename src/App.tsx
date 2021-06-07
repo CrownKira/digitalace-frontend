@@ -4,7 +4,8 @@ import polyglotI18nProvider from 'ra-i18n-polyglot';
 
 import authProvider from './authProvider';
 import themeReducer from './themeReducer';
-import { Login, Layout } from './layout';
+import { Layout } from './layout';
+import { Login } from './auth';
 import { Dashboard } from './dashboard';
 import customRoutes from './routes';
 import englishMessages from './i18n/en';

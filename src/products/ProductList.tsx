@@ -7,7 +7,6 @@ import {
   FilterProps,
   ListBase,
   ListProps,
-  NumberInput,
   Pagination,
   ReferenceInput,
   SearchInput,

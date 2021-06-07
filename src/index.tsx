@@ -11,11 +11,11 @@ import App from './App';
 const prepareDataProvider = async () => {
   const restoreFetch = await fakeServerFactory(
     // process.env.REACT_APP_DATA_PROVIDER || ''
-    'rest'
+    'backend'
   );
   const dataProvider = await dataProviderFactory(
     // process.env.REACT_APP_DATA_PROVIDER || ''
-    'rest'
+    'backend'
   );
 
   return { dataProvider, restoreFetch };

@@ -2,7 +2,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import { useTranslate, useLocale, useSetLocale, Title } from 'react-admin';
+import {
+  useTranslate,
+  useLocale,
+  useSetLocale,
+  Title,
+  useAuthenticated,
+} from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 import { changeTheme } from './actions';
 import { AppState } from '../types';
@@ -13,6 +19,7 @@ const useStyles = makeStyles({
 });
 
 const Configuration = () => {
+  useAuthenticated();
   const translate = useTranslate();
   const locale = useLocale();
   const setLocale = useSetLocale();

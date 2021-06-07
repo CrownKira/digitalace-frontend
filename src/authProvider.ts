@@ -1,22 +1,26 @@
 import { AuthProvider } from 'react-admin';
+import backend from './apis/backend';
 
 const authProvider: AuthProvider = {
-  login: async ({ username, password }) => {
-    const request = new Request('/api/user/create', {
-      method: 'POST',
-      body: JSON.stringify({ username, password }),
-      headers: new Headers({ 'Content-Type': 'application' }),
-    });
-
-    const response = await fetch(request);
-    if (response.status < 200 || response.status >= 300) {
-      throw new Error(response.statusText);
+  login: async ({ email, password }) => {
+    try {
+      const response = await backend.post('/api/user/token/', {
+        email,
+        password,
+      });
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error(response.statusText);
+      }
+      const auth = response.data;
+      localStorage.setItem('auth', JSON.stringify(auth));
+    } catch (e) {
+      // TODO: remove this catch?
+      throw new Error('ra.auth.sign_in_error');
     }
-    return await response.json();
   },
   logout: () => {
     localStorage.removeItem('auth');
-    return Promise.resolve();
+    return Promise.resolve('/login');
   },
   checkError: (error) => {
     const status = error.status;
@@ -26,18 +30,26 @@ const authProvider: AuthProvider = {
     }
     return Promise.resolve();
   },
-  checkAuth: () =>
-    localStorage.getItem('auth') ? Promise.resolve() : Promise.reject(),
+  checkAuth: () => {
+    console.log('check auth', localStorage.getItem('auth'), 'test');
+
+    return localStorage.getItem('auth')
+      ? Promise.resolve()
+      : Promise.reject({
+          redirectTo: '/login',
+          message: 'ra.auth.auth_check_error',
+        });
+  },
   getPermissions: () => {
     // https://stackoverflow.com/questions/54715260/typescript-json-parse-error-type-null-is-not-assignable-to-type-string
     const { permissions } = JSON.parse(localStorage.getItem('auth') || '{}');
     return permissions ? Promise.resolve(permissions) : Promise.reject();
   },
   getIdentity: () => {
-    const { id, name, avatar } = JSON.parse(
+    const { id, fullName, avatar } = JSON.parse(
       localStorage.getItem('auth') || '{}'
     );
-    return Promise.resolve({ id, name, avatar });
+    return Promise.resolve({ id, fullName, avatar });
   },
 };
 

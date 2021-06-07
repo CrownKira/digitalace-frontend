@@ -22,7 +22,7 @@ import {
   Link,
 } from 'react-admin';
 
-import { lightTheme } from './themes';
+import { lightTheme } from '../layout/themes';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -83,7 +83,7 @@ const renderInput = ({
 );
 
 interface FormValues {
-  username?: string;
+  email?: string;
   password?: string;
 }
 
@@ -124,8 +124,8 @@ const Login = () => {
 
   const validate = (values: FormValues) => {
     const errors: FormValues = {};
-    if (!values.username) {
-      errors.username = translate('ra.validation.required');
+    if (!values.email) {
+      errors.email = translate('ra.validation.required');
     }
     if (!values.password) {
       errors.password = translate('ra.validation.required');
@@ -150,12 +150,14 @@ const Login = () => {
               <div className={classes.form}>
                 <div className={classes.input}>
                   <Field
+                    // TODO: email field? (react final form)
                     autoFocus
-                    name="username"
+                    name="email"
+                    type="email"
                     // TODO: fix this
                     // @ts-ignore
                     component={renderInput}
-                    label={translate('ra.auth.username')}
+                    label={translate('pos.auth.email')}
                     disabled={loading}
                   />
                 </div>
