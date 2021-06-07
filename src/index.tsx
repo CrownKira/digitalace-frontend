@@ -6,17 +6,12 @@ import ReactDOM from 'react-dom';
 import dataProviderFactory from './dataProvider';
 import fakeServerFactory from './fakeServer';
 import App from './App';
+import { defaultServer } from './configs';
 
 // TODO: remove comment
 const prepareDataProvider = async () => {
-  const restoreFetch = await fakeServerFactory(
-    // process.env.REACT_APP_DATA_PROVIDER || ''
-    'backend'
-  );
-  const dataProvider = await dataProviderFactory(
-    // process.env.REACT_APP_DATA_PROVIDER || ''
-    'backend'
-  );
+  const restoreFetch = await fakeServerFactory(defaultServer);
+  const dataProvider = await dataProviderFactory(defaultServer);
 
   return { dataProvider, restoreFetch };
 };
