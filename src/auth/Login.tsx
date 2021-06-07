@@ -68,6 +68,7 @@ export const loginStyles = makeStyles((theme) => ({
   },
 }));
 
+// TODO: refactor
 const renderInput = ({
   meta: { touched, error } = { touched: false, error: undefined },
   input: { ...inputProps },
@@ -102,6 +103,7 @@ const Login = () => {
     login(auth, location.state ? location.state.nextPathname : '/').catch(
       (error: Error) => {
         setLoading(false);
+        // TODO: refactor (reuse register error handling logic)
         notify(
           typeof error === 'string'
             ? error

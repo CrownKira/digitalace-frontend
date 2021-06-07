@@ -93,7 +93,6 @@ const Register = () => {
 
   const handleSubmit = (values: FormValues) => {
     setLoading(true);
-
     register(values)
       .then(() => redirect(location.state ? location.state.nextPathname : '/'))
       .catch((error: Error) => {
