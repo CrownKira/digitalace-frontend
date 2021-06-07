@@ -24,8 +24,8 @@ import InvoiceShow from './InvoiceShow';
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
     <SearchInput source="q" alwaysOn />
-    <DateInput source="date_gte" />
-    <DateInput source="date_lte" />
+    <DateInput source="date__gte" />
+    <DateInput source="date__lte" />
   </Filter>
 );
 

@@ -47,37 +47,36 @@ const Aside: FC = () => {
           <FilterListItem
             label="resources.products.filters.best_sellers"
             value={{
-              sales_lte: undefined,
-              sales_gt: 25,
+              sales__lte: undefined,
+              sales__gt: 25,
               sales: undefined,
             }}
           />
           <FilterListItem
             label="resources.products.filters.average_sellers"
             value={{
-              sales_lte: 25,
-              sales_gt: 10,
+              sales__lte: 25,
+              sales__gt: 10,
               sales: undefined,
             }}
           />
           <FilterListItem
             label="resources.products.filters.low_sellers"
             value={{
-              sales_lte: 10,
-              sales_gt: 0,
+              sales__lte: 10,
+              sales__gt: 0,
               sales: undefined,
             }}
           />
           <FilterListItem
             label="resources.products.filters.never_sold"
             value={{
-              sales_lte: undefined,
-              sales_gt: undefined,
+              sales__lte: undefined,
+              sales__gt: undefined,
               sales: 0,
             }}
           />
         </FilterList>
-
         <FilterList
           label="resources.products.filters.stock"
           icon={<BarChartIcon />}
@@ -85,37 +84,36 @@ const Aside: FC = () => {
           <FilterListItem
             label="resources.products.filters.no_stock"
             value={{
-              sales_lte: undefined,
-              sales_gt: undefined,
-              sales: 0,
+              stock__lt: undefined,
+              stock__gt: undefined,
+              stock: 0,
             }}
           />
           <FilterListItem
             label="resources.products.filters.low_stock"
             value={{
-              stock_lt: 10,
-              stock_gt: 0,
+              stock__lt: 10,
+              stock__gt: 0,
               stock: undefined,
             }}
           />
           <FilterListItem
             label="resources.products.filters.average_stock"
             value={{
-              sales_lte: 50,
-              sales_gt: 9,
-              sales: undefined,
+              stock__lt: 50,
+              stock__gt: 9,
+              stock: undefined,
             }}
           />
           <FilterListItem
             label="resources.products.filters.enough_stock"
             value={{
-              sales_lte: undefined,
-              sales_gt: 49,
-              sales: undefined,
+              stock__lt: undefined,
+              stock__gt: 49,
+              stock: undefined,
             }}
           />
         </FilterList>
-
         <FilterList
           label="resources.products.filters.categories"
           icon={<LocalOfferIcon />}

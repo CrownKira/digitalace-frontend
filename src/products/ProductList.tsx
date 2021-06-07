@@ -32,8 +32,8 @@ export const ProductFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
       <SelectInput source="name" />
     </ReferenceInput>
     <QuickFilter
-      label="resources.products.fields.stock_lte"
-      source="stock_lte"
+      label="resources.products.fields.stock__lte"
+      source="stock__lte"
       defaultValue={10}
     />
   </Filter>
@@ -42,7 +42,7 @@ export const ProductFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
 const ListActions: FC<any> = ({ isSmall }) => (
   <TopToolbar>
     {isSmall && <ProductFilter context="button" />}
-    <SortButton fields={['reference', 'sales', 'stock']} />
+    <SortButton fields={['id', 'sales', 'stock']} />
     <CreateButton basePath="/products" />
     <ExportButton />
   </TopToolbar>
@@ -51,11 +51,7 @@ const ListActions: FC<any> = ({ isSmall }) => (
 const ProductList: FC<ListProps> = (props) => {
   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('sm'));
   return (
-    <ListBase
-      perPage={20}
-      sort={{ field: 'reference', order: 'ASC' }}
-      {...props}
-    >
+    <ListBase perPage={20} sort={{ field: 'id', order: 'ASC' }} {...props}>
       <ProductListView isSmall={isSmall} />
     </ListBase>
   );

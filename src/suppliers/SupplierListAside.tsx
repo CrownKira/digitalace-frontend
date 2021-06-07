@@ -68,43 +68,43 @@ export default Aside;
   <FilterListItem
     label="resources.suppliers.filters.today"
     value={{
-      last_seen_gte: endOfYesterday().toISOString(),
-      last_seen_lte: undefined,
+      last_seen__gte: endOfYesterday().toISOString(),
+      last_seen__lte: undefined,
     }}
   />
   <FilterListItem
     label="resources.suppliers.filters.this_week"
     value={{
-      last_seen_gte: startOfWeek(new Date()).toISOString(),
-      last_seen_lte: undefined,
+      last_seen__gte: startOfWeek(new Date()).toISOString(),
+      last_seen__lte: undefined,
     }}
   />
   <FilterListItem
     label="resources.suppliers.filters.last_week"
     value={{
-      last_seen_gte: subWeeks(startOfWeek(new Date()), 1).toISOString(),
-      last_seen_lte: startOfWeek(new Date()).toISOString(),
+      last_seen__gte: subWeeks(startOfWeek(new Date()), 1).toISOString(),
+      last_seen__lte: startOfWeek(new Date()).toISOString(),
     }}
   />
   <FilterListItem
     label="resources.suppliers.filters.this_month"
     value={{
-      last_seen_gte: startOfMonth(new Date()).toISOString(),
-      last_seen_lte: undefined,
+      last_seen__gte: startOfMonth(new Date()).toISOString(),
+      last_seen__lte: undefined,
     }}
   />
   <FilterListItem
     label="resources.suppliers.filters.last_month"
     value={{
-      last_seen_gte: subMonths(startOfMonth(new Date()), 1).toISOString(),
-      last_seen_lte: startOfMonth(new Date()).toISOString(),
+      last_seen__gte: subMonths(startOfMonth(new Date()), 1).toISOString(),
+      last_seen__lte: startOfMonth(new Date()).toISOString(),
     }}
   />
   <FilterListItem
     label="resources.suppliers.filters.earlier"
     value={{
-      last_seen_gte: undefined,
-      last_seen_lte: subMonths(startOfMonth(new Date()), 1).toISOString(),
+      last_seen__gte: undefined,
+      last_seen__lte: subMonths(startOfMonth(new Date()), 1).toISOString(),
     }}
   />
 </FilterList>
@@ -115,15 +115,15 @@ export default Aside;
   <FilterListItem
     label="ra.boolean.true"
     value={{
-      nb_commands_gte: 1,
-      nb_commands_lte: undefined,
+      nb_commands__gte: 1,
+      nb_commands__lte: undefined,
     }}
   />
   <FilterListItem
     label="ra.boolean.false"
     value={{
-      nb_commands_gte: undefined,
-      nb_commands_lte: 0,
+      nb_commands__gte: undefined,
+      nb_commands__lte: 0,
     }}
   />
 </FilterList>
