@@ -18,9 +18,16 @@ import products from './products';
 import customers from './customers';
 import suppliers from './suppliers';
 
-const i18nProvider = polyglotI18nProvider((locale) => {
-  return englishMessages;
-}, 'en');
+const i18nProvider = polyglotI18nProvider(
+  (locale) => {
+    return englishMessages;
+  },
+  'en',
+  {
+    // https://github.com/marmelab/react-admin/issues/3903
+    allowMissing: true,
+  }
+);
 
 interface AppProps {
   onUnmount: () => void;

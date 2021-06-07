@@ -13,7 +13,7 @@ const authProvider: AuthProvider = {
       }
       const auth = response.data;
       localStorage.setItem('auth', JSON.stringify(auth));
-    } catch (e) {
+    } catch (error) {
       // TODO: remove this catch?
       throw new Error('ra.auth.sign_in_error');
     }
@@ -31,8 +31,6 @@ const authProvider: AuthProvider = {
     return Promise.resolve();
   },
   checkAuth: () => {
-    console.log('check auth', localStorage.getItem('auth'), 'test');
-
     return localStorage.getItem('auth')
       ? Promise.resolve()
       : Promise.reject({

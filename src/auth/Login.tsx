@@ -24,7 +24,7 @@ import {
 
 import { lightTheme } from '../layout/themes';
 
-const useStyles = makeStyles((theme) => ({
+export const loginStyles = makeStyles((theme) => ({
   main: {
     display: 'flex',
     flexDirection: 'column',
@@ -92,7 +92,7 @@ const { Form } = withTypes<FormValues>();
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const translate = useTranslate();
-  const classes = useStyles();
+  const classes = loginStyles();
   const notify = useNotify();
   const login = useLogin();
   const location = useLocation<{ nextPathname: string } | null>();
@@ -186,7 +186,7 @@ const Login = () => {
                 </Button>
               </CardActions>
               <div className={classes.footer}>
-                Need an account? <Link to={`/signup/`}>Sign up</Link>
+                Need an account? <Link to={`/register/`}>Sign up</Link>
               </div>
             </Card>
             <Notification />

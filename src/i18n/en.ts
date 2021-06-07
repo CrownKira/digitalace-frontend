@@ -14,7 +14,12 @@ const customEnglishMessages: TranslationMessages = {
       dark: 'Dark',
     },
     auth: {
+      register: 'Create Account',
+      register_message: 'Create your account.',
       email: 'Email',
+      confirm_email: 'Confirm Email',
+      confirm_password: 'Confirm Password',
+      company: 'Company',
     },
     dashboard: {
       monthly_revenue: 'Monthly Revenue',

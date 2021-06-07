@@ -54,7 +54,7 @@ const Configuration = () => {
         <Button
           variant="contained"
           className={classes.button}
-          color={locale == 'en' ? 'primary' : 'default'}
+          color={locale === 'en' ? 'primary' : 'default'}
           onClick={() => setLocale('en')}
         >
           en
