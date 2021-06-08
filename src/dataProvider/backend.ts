@@ -1,5 +1,5 @@
 import { fetchUtils } from 'react-admin';
-import simpleRestProvider from 'ra-data-simple-rest';
+import drfProvider from 'ra-data-django-rest-framework';
 import { baseURL } from '../apis/backend';
 
 // TODO: fix options: any
@@ -12,6 +12,6 @@ const httpClient = (url: string, options: any = {}) => {
   options.headers.set('Authorization', `Token ${token}`);
   return fetchUtils.fetchJson(url, options);
 };
-const restProvider = simpleRestProvider(`${baseURL}/api`, httpClient);
+const restProvider = drfProvider(`${baseURL}/api`, httpClient);
 
 export default restProvider;

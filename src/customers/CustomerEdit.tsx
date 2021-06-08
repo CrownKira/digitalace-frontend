@@ -62,7 +62,6 @@ const CustomerForm = (props: any) => {
                       <TextInput
                         source="attention"
                         resource="customers"
-                        validate={requiredValidate}
                         fullWidth
                       />
                     </Box>
@@ -71,7 +70,7 @@ const CustomerForm = (props: any) => {
                     type="email"
                     source="email"
                     resource="customers"
-                    validate={[email(), required()]}
+                    validate={[email()]}
                     fullWidth
                   />
                   <Box display={{ xs: 'block', sm: 'flex' }}>

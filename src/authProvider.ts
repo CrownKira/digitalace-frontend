@@ -4,10 +4,18 @@ import backend from './apis/backend';
 const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     try {
-      const response = await backend.post('/api/user/token/', {
-        email,
-        password,
-      });
+      const response = await backend
+        .post('/api/user/token/', {
+          email,
+          password,
+        })
+        .catch((error) => {
+          if (error.response) {
+            throw error.response.data;
+          }
+          throw error;
+        });
+
       if (response.status < 200 || response.status >= 300) {
         throw new Error(response.statusText);
       }

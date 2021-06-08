@@ -28,7 +28,7 @@ const FullNameField: FC<Props> = ({ record, size }) => {
   return record ? (
     <div className={classes.root}>
       <AvatarField className={classes.avatar} record={record} size={size} />
-      {record.first_name} {record.last_name}
+      {record.name}
     </div>
   ) : null;
 };

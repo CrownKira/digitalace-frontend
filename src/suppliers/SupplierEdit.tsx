@@ -65,7 +65,6 @@ const SupplierForm = (props: any) => {
                       <TextInput
                         source="attention"
                         resource="suppliers"
-                        validate={requiredValidate}
                         fullWidth
                       />
                     </Box>
@@ -74,7 +73,7 @@ const SupplierForm = (props: any) => {
                     type="email"
                     source="email"
                     resource="suppliers"
-                    validate={[email(), required()]}
+                    validate={[email()]}
                     fullWidth
                   />
                   <Box display={{ xs: 'block', sm: 'flex' }}>

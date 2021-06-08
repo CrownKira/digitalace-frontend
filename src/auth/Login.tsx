@@ -18,8 +18,8 @@ import {
   Notification,
   useTranslate,
   useLogin,
-  useNotify,
   Link,
+  useNotify,
 } from 'react-admin';
 
 import { lightTheme } from '../layout/themes';
@@ -69,7 +69,7 @@ export const loginStyles = makeStyles((theme) => ({
 }));
 
 // TODO: refactor
-const renderInput = ({
+export const renderInput = ({
   meta: { touched, error } = { touched: false, error: undefined },
   input: { ...inputProps },
   ...props
@@ -95,6 +95,7 @@ const Login = () => {
   const translate = useTranslate();
   const classes = loginStyles();
   const notify = useNotify();
+
   const login = useLogin();
   const location = useLocation<{ nextPathname: string } | null>();
 
@@ -103,23 +104,20 @@ const Login = () => {
     login(auth, location.state ? location.state.nextPathname : '/').catch(
       (error: Error) => {
         setLoading(false);
-        // TODO: refactor (reuse register error handling logic)
-        notify(
-          typeof error === 'string'
-            ? error
-            : typeof error === 'undefined' || !error.message
-            ? 'ra.auth.sign_in_error'
-            : error.message,
-          'warning',
-          {
-            _:
-              typeof error === 'string'
-                ? error
-                : error && error.message
-                ? error.message
-                : undefined,
+        // TODO: refactor (used by register too)
+        if (typeof error === 'string') {
+          notify(error, 'warning');
+        } else {
+          for (const [key, value] of Object.entries(error)) {
+            if (typeof value === 'object') {
+              for (const [, item] of Object.entries(value)) {
+                notify(`${key}: ${item}`, 'warning');
+              }
+            } else {
+              notify(`${key}: ${value}`, 'warning');
+            }
           }
-        );
+        }
       }
     );
   };

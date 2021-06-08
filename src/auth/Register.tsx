@@ -9,7 +9,6 @@ import {
   Card,
   CardActions,
   CircularProgress,
-  TextField,
 } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
@@ -23,22 +22,8 @@ import {
 } from 'react-admin';
 
 import { lightTheme } from '../layout/themes';
-import { loginStyles } from './Login';
+import { loginStyles, renderInput } from './Login';
 import backend from '../apis/backend';
-
-const renderInput = ({
-  meta: { touched, error } = { touched: false, error: undefined },
-  input: { ...inputProps },
-  ...props
-}) => (
-  <TextField
-    error={!!(touched && error)}
-    helperText={touched && error}
-    {...inputProps}
-    {...props}
-    fullWidth
-  />
-);
 
 const register = async ({
   company,
