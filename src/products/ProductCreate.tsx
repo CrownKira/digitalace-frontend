@@ -9,6 +9,8 @@ import {
   TextInput,
   required,
   CreateProps,
+  ImageInput,
+  ImageField,
 } from 'react-admin';
 import { InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,8 +33,29 @@ const ProductCreate: FC<CreateProps> = (props) => {
     <Create {...props}>
       <TabbedForm>
         <FormTab label="resources.products.tabs.image">
-          <TextInput autoFocus source="image" fullWidth validate={required()} />
-          <TextInput source="thumbnail" fullWidth validate={required()} />
+          <ImageInput
+            source="image"
+            label="Image"
+            accept="image/*"
+            placeholder={<p>Drop your file here</p>}
+          >
+            <ImageField
+              /**
+               * ImageInput passes record in this format to
+               * ImageInput: {src=<url>, title=<filename>}
+               */
+              source="src"
+              title="title"
+            />
+          </ImageInput>
+          <ImageInput
+            source="thumbnail"
+            label="Thumbnail"
+            accept="image/*"
+            placeholder={<p>Drop your file here</p>}
+          >
+            <ImageField source="src" title="title" />
+          </ImageInput>
         </FormTab>
         <FormTab label="resources.products.tabs.details" path="details">
           <TextInput source="name" validate={required()} />

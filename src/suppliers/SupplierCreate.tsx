@@ -7,8 +7,6 @@ import {
   useTranslate,
   required,
   email,
-  // DateInput,
-  // PasswordInput,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { Typography, Box } from '@material-ui/core';
@@ -28,8 +26,6 @@ export const styles: Styles<Theme, any> = {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },
-  // password: { display: 'inline-block' },
-  // confirm_password: { display: 'inline-block', marginLeft: 32 },
 };
 
 const useStyles = makeStyles(styles);
@@ -59,20 +55,16 @@ const SupplierCreate: FC<CreateProps> = (props) => {
           formClassName={classes.name}
           validate={requiredValidate}
         />
-        <TextInput
-          source="attention"
-          formClassName={classes.attention}
-          validate={requiredValidate}
-        />
+        <TextInput source="attention" formClassName={classes.attention} />
         <TextInput
           type="email"
           source="email"
           validation={{ email: true }}
           fullWidth
           formClassName={classes.email}
-          validate={[required(), email()]}
+          validate={[email()]}
         />
-        <TextInput source="phone_no" validate={requiredValidate} />
+        <TextInput source="phone_no" />
         <Separator />
         <SectionTitle label="resources.suppliers.fieldGroups.address" />
         <TextInput
