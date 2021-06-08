@@ -35,14 +35,13 @@ const ProductCreate: FC<CreateProps> = (props) => {
         <FormTab label="resources.products.tabs.image">
           <ImageInput
             source="image"
-            label="Image"
             accept="image/*"
             placeholder={<p>Drop your file here</p>}
           >
             <ImageField
               /**
                * ImageInput passes record in this format to
-               * ImageInput: {src=<url>, title=<filename>}
+               * ImageField: {src=<url>, title=<filename>}
                */
               source="src"
               title="title"
@@ -50,7 +49,6 @@ const ProductCreate: FC<CreateProps> = (props) => {
           </ImageInput>
           <ImageInput
             source="thumbnail"
-            label="Thumbnail"
             accept="image/*"
             placeholder={<p>Drop your file here</p>}
           >
@@ -58,6 +56,9 @@ const ProductCreate: FC<CreateProps> = (props) => {
           </ImageInput>
         </FormTab>
         <FormTab label="resources.products.tabs.details" path="details">
+          <ReferenceInput source="category" reference="categories" allowEmpty>
+            <SelectInput source="name" validate={required()} />
+          </ReferenceInput>
           <TextInput source="name" validate={required()} />
           <NumberInput
             source="cost"

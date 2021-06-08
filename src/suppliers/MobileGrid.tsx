@@ -51,7 +51,7 @@ const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
           <CardHeader
             title={
               <div className={classes.cardTitleContent}>
-                <h2>{`${data[id].first_name} ${data[id].last_name}`}</h2>
+                <h2>{data[id].name}</h2>
                 <EditButton
                   resource="suppliers"
                   basePath={basePath}

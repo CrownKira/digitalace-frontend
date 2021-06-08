@@ -12,8 +12,8 @@ const CustomerLinkField: FC<FieldProps<Customer>> = (props) =>
   ) : null;
 
 CustomerLinkField.defaultProps = {
-  // TODO: need this?
-  source: 'customer_id',
+  // needed so dataProvider know which column this is for ordering
+  source: 'name',
   addLabel: true,
 };
 

@@ -91,14 +91,15 @@ const LoadedGridList: FC<GridProps> = ({ width }) => {
             title={data[id].reference}
             subtitle={
               <span>
-                {data[id].name}
+                {data[id].name},{' '}
                 <NumberField
                   className={classes.price}
-                  source="price"
+                  source="unit_price"
                   record={data[id]}
                   color="inherit"
                   options={{
                     style: 'currency',
+                    // TODO: fix currency not displaying
                     currency: 'SGD',
                   }}
                 />

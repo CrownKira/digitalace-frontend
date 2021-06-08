@@ -7,6 +7,8 @@ import {
   useTranslate,
   required,
   email,
+  ImageInput,
+  ImageField,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { Typography, Box } from '@material-ui/core';
@@ -48,6 +50,15 @@ const SupplierCreate: FC<CreateProps> = (props) => {
   return (
     <Create {...props}>
       <SimpleForm validate={validatePasswords}>
+        <SectionTitle label="resources.suppliers.fieldGroups.avatar" />
+        <ImageInput
+          source="image"
+          label=""
+          accept="image/*"
+          placeholder={<p>Drop your file here</p>}
+        >
+          <ImageField source="src" title="title" />
+        </ImageInput>
         <SectionTitle label="resources.suppliers.fieldGroups.identity" />
         <TextInput
           autoFocus

@@ -9,14 +9,16 @@ import {
   SelectInput,
   TabbedForm,
   TextInput,
+  ImageInput,
+  ImageField,
 } from 'react-admin';
 import { InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
 
-import Image from './Image';
 import { styles as createStyles } from './ProductCreate';
 import { Product } from '../types';
+import { formatImage } from '../utils';
 
 interface ProductTitleProps {
   record?: Product;
@@ -49,15 +51,35 @@ const ProductEdit: FC<EditProps> = (props) => {
           label="resources.products.tabs.image"
           contentClassName={classes.tab}
         >
-          <Image />
-          <TextInput source="image" fullWidth validate={requiredValidate} />
-          <TextInput source="thumbnail" fullWidth validate={requiredValidate} />
+          <ImageInput
+            format={formatImage}
+            source="image"
+            accept="image/*"
+            placeholder={<p>Drop your file here</p>}
+          >
+            <ImageField source="src" title="title" />
+          </ImageInput>
+          <ImageInput
+            format={formatImage}
+            source="thumbnail"
+            accept="image/*"
+            placeholder={<p>Drop your file here</p>}
+          >
+            <ImageField source="src" title="title" />
+          </ImageInput>
         </FormTab>
         <FormTab
           label="resources.products.tabs.details"
           path="details"
           contentClassName={classes.tab}
         >
+          <ReferenceInput
+            source="category"
+            reference="categories"
+            validate={requiredValidate}
+          >
+            <SelectInput source="name" />
+          </ReferenceInput>
           <TextInput source="name" validate={requiredValidate} />
           <NumberInput
             source="cost"
@@ -81,7 +103,7 @@ const ProductEdit: FC<EditProps> = (props) => {
             }}
             validate={requiredValidate}
           />
-          <NumberInput
+          <TextInput
             source="unit"
             className={classes.unit}
             validate={requiredValidate}
@@ -99,24 +121,17 @@ const ProductEdit: FC<EditProps> = (props) => {
           path="description"
           contentClassName={classes.tab}
         >
-          <RichTextInput
-            source="description"
-            label=""
-            validate={requiredValidate}
-          />
+          <RichTextInput source="description" label="" />
         </FormTab>
-        <FormTab label="resources.products.tabs.reviews" path="reviews">
-          <div>Coming soon...</div>
-        </FormTab>
-        <FormTab label="resources.products.tabs.stock" path="stock">
-          <div>Coming soon...</div>
-        </FormTab>
+        <FormTab
+          label="resources.products.tabs.reviews"
+          path="reviews"
+        ></FormTab>
+        <FormTab label="resources.products.tabs.stock" path="stock"></FormTab>
         <FormTab
           label="resources.products.tabs.transactions"
           path="transactions"
-        >
-          <div>Coming soon...</div>
-        </FormTab>
+        ></FormTab>
       </TabbedForm>
     </Edit>
   );

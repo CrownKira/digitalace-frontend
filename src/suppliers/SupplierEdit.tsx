@@ -9,9 +9,8 @@ import {
   required,
   email,
   FieldProps,
-  // DateInput,
-  // NullableBooleanInput,
-  // PasswordInput,
+  ImageInput,
+  ImageField,
 } from 'react-admin';
 import { Box, Card, CardContent, Typography } from '@material-ui/core';
 
@@ -19,6 +18,7 @@ import Aside from './Aside';
 import FullNameField from './FullNameField';
 import { validatePasswords } from './SupplierCreate';
 import { Supplier } from '../types';
+import { formatImage } from '../utils';
 
 const SupplierEdit: FC<EditProps> = (props) => {
   return (
@@ -49,6 +49,18 @@ const SupplierForm = (props: any) => {
             <CardContent>
               <Box display={{ md: 'block', lg: 'flex' }}>
                 <Box flex={2} mr={{ md: 0, lg: '1em' }}>
+                  <Typography variant="h6" gutterBottom>
+                    {translate('resources.suppliers.fieldGroups.avatar')}
+                  </Typography>
+                  <ImageInput
+                    format={formatImage}
+                    source="image"
+                    label=""
+                    accept="image/*"
+                    placeholder={<p>Drop your file here</p>}
+                  >
+                    <ImageField source="src" title="title" />
+                  </ImageInput>
                   <Typography variant="h6" gutterBottom>
                     {translate('resources.suppliers.fieldGroups.identity')}
                   </Typography>

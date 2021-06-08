@@ -81,6 +81,7 @@ const customEnglishMessages: TranslationMessages = {
         agent: 'Agent',
       },
       fieldGroups: {
+        avatar: 'Avatar',
         identity: 'Identity',
         address: 'Address',
         other_details: 'Other Details',
@@ -125,6 +126,7 @@ const customEnglishMessages: TranslationMessages = {
         group: 'Segment',
       },
       fieldGroups: {
+        avatar: 'Avatar',
         identity: 'Identity',
         address: 'Address',
         stats: 'Stats',

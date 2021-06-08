@@ -12,8 +12,7 @@ const SupplierLinkField: FC<FieldProps<Supplier>> = (props) =>
   ) : null;
 
 SupplierLinkField.defaultProps = {
-  // TODO: need this?
-  source: 'supplier',
+  source: 'name',
   addLabel: true,
 };
 
