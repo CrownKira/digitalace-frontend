@@ -105,6 +105,7 @@ const Login = () => {
       (error: Error) => {
         setLoading(false);
         // TODO: refactor (used by register too)
+        // TODO: rewrite error handling
         if (typeof error === 'string') {
           notify(error, 'warning');
         } else {
