@@ -14,6 +14,7 @@ import {
 
 import customers from '../customers';
 import suppliers from '../suppliers';
+import categories from '../categories';
 import products from '../products';
 import invoices from '../invoices';
 import receives from '../receives';
@@ -69,6 +70,16 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
             smart_count: 2,
           })}
           leftIcon={<suppliers.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+        />
+        <MenuItemLink
+          to={'/categories'}
+          primaryText={translate('resources.categories.name', {
+            smart_count: 2,
+          })}
+          leftIcon={<categories.icon />}
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}

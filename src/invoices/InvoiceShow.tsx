@@ -63,7 +63,7 @@ export default InvoiceShow;
         <ReferenceField
           reference="customers"
           resource="invoices"
-          source="customer_id"
+          source="customer"
           link={false}
           // TODO: redundant?
           basePath="/invoices"

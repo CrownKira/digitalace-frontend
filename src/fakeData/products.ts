@@ -178,7 +178,7 @@ export default (db: any) => {
 
         return {
           id: id++,
-          category_id: category.id,
+          category: category.id,
           reference: productReferences[category.name][index],
           width: width,
           height: height,

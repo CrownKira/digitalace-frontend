@@ -146,7 +146,7 @@ const customEnglishMessages: TranslationMessages = {
     products: {
       name: 'Product |||| Products',
       fields: {
-        category_id: 'Category',
+        category: 'Category',
         height__gte: 'Min height',
         height__lte: 'Max height',
         height: 'Height',
@@ -187,7 +187,7 @@ const customEnglishMessages: TranslationMessages = {
       name: 'Invoice |||| Invoices',
       fields: {
         date: 'Date',
-        customer_id: 'Customer',
+        customer: 'Customer',
         date__gte: 'Passed Since',
         date__lte: 'Passed Before',
         total__gte: 'Min amount',
@@ -201,7 +201,7 @@ const customEnglishMessages: TranslationMessages = {
       name: 'Sales Order |||| Sales Orders',
       fields: {
         date: 'Date',
-        customer_id: 'Customer',
+        customer: 'Customer',
         command_id: 'Order',
         date__gte: 'Passed Since',
         date__lte: 'Passed Before',
@@ -262,7 +262,7 @@ const customEnglishMessages: TranslationMessages = {
           unit_price: 'Unit Price',
         },
         address: 'Address',
-        customer_id: 'Customer',
+        customer: 'Customer',
         date__gte: 'Passed Since',
         date__lte: 'Passed Before',
         nb_items: 'Nb Items',
@@ -284,7 +284,7 @@ const customEnglishMessages: TranslationMessages = {
       relative_to_poster: 'Review on poster',
       detail: 'Review detail',
       fields: {
-        customer_id: 'Customer',
+        customer: 'Customer',
         command_id: 'Order',
         product_id: 'Product',
         date__gte: 'Posted since',

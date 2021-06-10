@@ -25,7 +25,7 @@ export const ProductFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
   <Filter {...props}>
     <SearchInput source="q" alwaysOn />
     <ReferenceInput
-      source="category_id"
+      source="category"
       reference="categories"
       sort={{ field: 'id', order: 'ASC' }}
     >

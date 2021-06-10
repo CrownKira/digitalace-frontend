@@ -12,7 +12,7 @@ export interface Category extends Record {
 }
 
 export interface Product extends Record {
-  category_id: Identifier;
+  category: Identifier;
   description: string;
   height: number;
   image: string;

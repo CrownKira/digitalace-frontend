@@ -124,7 +124,7 @@ const Aside: FC = () => {
               <FilterListItem
                 label={inflection.humanize(data[id].name)}
                 key={data[id].id}
-                value={{ category_id: data[id].id }}
+                value={{ category: data[id].id }}
               />
             ))}
         </FilterList>

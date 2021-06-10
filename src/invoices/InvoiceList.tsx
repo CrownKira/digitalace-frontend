@@ -61,15 +61,14 @@ const InvoiceList: FC<ListProps> = (props) => {
         <TextField source="id" />
         <DateField source="date" />
         <ReferenceField
-          // TODO: remove _id
-          source="customer_id"
+          source="customer"
           reference="customers"
-          label="resources.invoices.fields.customer_id"
+          label="resources.invoices.fields.customer"
         >
           <FullNameField />
         </ReferenceField>
         <ReferenceField
-          source="customer_id"
+          source="customer"
           reference="customers"
           link={false}
           label="resources.invoices.fields.address"

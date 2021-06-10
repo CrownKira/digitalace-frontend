@@ -5,6 +5,7 @@ import { baseURL } from '../apis/backend';
 
 const apiUrl = `${baseURL}/api`;
 // TODO: fix any
+// TODO use axios
 const httpClient = (url: string, options: any = {}) => {
   if (!options.headers) {
     options.headers = new Headers({});
@@ -61,6 +62,7 @@ const customDataProvider: DataProvider = {
       method: 'PATCH',
       body: formData,
     });
+    console.log('data is:', json);
     return {
       data: json,
     };

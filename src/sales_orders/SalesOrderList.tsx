@@ -62,14 +62,14 @@ const SalesOrderList: FC<ListProps> = (props) => {
         <DateField source="date" />
         <ReferenceField
           // TODO: remove _id
-          source="customer_id"
+          source="customer"
           reference="customers"
-          label="resources.sales_orders.fields.customer_id"
+          label="resources.sales_orders.fields.customer"
         >
           <FullNameField />
         </ReferenceField>
         <ReferenceField
-          source="customer_id"
+          source="customer"
           reference="customers"
           link={false}
           label="resources.sales_orders.fields.address"
