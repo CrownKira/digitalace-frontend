@@ -63,7 +63,7 @@ const CategoryList: FC<ListProps> = (props) => (
   <List
     {...props}
     sort={{ field: 'name', order: 'ASC' }}
-    perPage={20}
+    perPage={25}
     component="div"
   >
     <CategoryGrid />
