@@ -104,20 +104,11 @@ const Login = () => {
     login(auth, location.state ? location.state.nextPathname : '/').catch(
       (error: Error) => {
         setLoading(false);
-        // TODO: refactor (used by register too)
-        // TODO: rewrite error handling
+        // TODO: show more specific error message
         if (typeof error === 'string') {
           notify(error, 'warning');
         } else {
-          for (const [key, value] of Object.entries(error)) {
-            if (typeof value === 'object') {
-              for (const [, item] of Object.entries(value)) {
-                notify(`${key}: ${item}`, 'warning');
-              }
-            } else {
-              notify(`${key}: ${value}`, 'warning');
-            }
-          }
+          notify('ra.auth.sign_in_error', 'warning');
         }
       }
     );

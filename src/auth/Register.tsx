@@ -33,28 +33,23 @@ const register = async ({
   password,
   confirm_password,
 }: FormValues) => {
-  // throw error here if any
-  const response = await backend
-    .post('/api/user/create/', {
+  try {
+    const response = await backend.post('/api/user/create/', {
       company,
       name,
       email,
       confirm_email,
       password,
       confirm_password,
-    })
-    .catch((error) => {
-      if (error.response) {
-        throw error.response.data;
-      }
-      throw error;
     });
 
-  if (response.status < 200 || response.status >= 300) {
-    throw new Error(response.statusText);
+    if (response.status < 200 || response.status >= 300) throw new Error();
+
+    const auth = response.data;
+    localStorage.setItem('auth', JSON.stringify(auth));
+  } catch (error) {
+    throw new Error('ra.auth.sign_in_error');
   }
-  const auth = response.data;
-  localStorage.setItem('auth', JSON.stringify(auth));
 };
 
 interface FormValues {
@@ -81,11 +76,12 @@ const Register = () => {
     register(values)
       .then(() => redirect(location.state ? location.state.nextPathname : '/'))
       .catch((error: Error) => {
-        // handle error (string / {'field':['error']})
         setLoading(false);
         if (typeof error === 'string') {
           notify(error, 'warning');
         } else {
+          notify('pos.auth.register_error', 'warning');
+          /*
           for (const [key, value] of Object.entries(error)) {
             if (typeof value === 'object') {
               for (const [, item] of Object.entries(value)) {
@@ -95,6 +91,7 @@ const Register = () => {
               notify(`${key}: ${value}`, 'warning');
             }
           }
+          */
         }
       });
   };

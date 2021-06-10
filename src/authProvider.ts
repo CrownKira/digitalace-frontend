@@ -4,25 +4,16 @@ import backend from './apis/backend';
 const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     try {
-      const response = await backend
-        .post('/api/user/token/', {
-          email,
-          password,
-        })
-        .catch((error) => {
-          if (error.response) {
-            throw error.response.data;
-          }
-          throw error;
-        });
+      const response = await backend.post('/api/user/token/', {
+        email,
+        password,
+      });
 
-      if (response.status < 200 || response.status >= 300) {
-        throw new Error(response.statusText);
-      }
+      if (response.status < 200 || response.status >= 300) throw new Error();
+
       const auth = response.data;
       localStorage.setItem('auth', JSON.stringify(auth));
     } catch (error) {
-      // TODO: remove this catch?
       throw new Error('ra.auth.sign_in_error');
     }
   },
