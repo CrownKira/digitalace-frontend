@@ -70,7 +70,10 @@ const ProductListView: FC<{ isSmall: boolean }> = ({ isSmall }) => {
       )}
       <Box display="flex">
         <Aside />
-        <Box width={isSmall ? 'auto' : 'calc(100% - 16em)'}>
+        <Box
+          // isSmall ? 'auto' : 'calc(100% - 16em)'
+          width={'100%'}
+        >
           <GridList />
           <Pagination rowsPerPageOptions={[10, 20, 40]} />
         </Box>
