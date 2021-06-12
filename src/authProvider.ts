@@ -1,5 +1,6 @@
 import { AuthProvider } from 'react-admin';
 import backend from './apis/backend';
+import { httpClient, apiUrl } from './dataProvider/backend';
 
 const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
@@ -42,9 +43,15 @@ const authProvider: AuthProvider = {
     const { permissions } = JSON.parse(localStorage.getItem('auth') || '{}');
     return permissions ? Promise.resolve(permissions) : Promise.reject();
   },
-  getIdentity: () => {
-    const { id, fullName, avatar } = JSON.parse(
-      localStorage.getItem('auth') || '{}'
+  getIdentity: async () => {
+    const {
+      id,
+      name: fullName,
+      image: avatar,
+    } = await Promise.resolve(
+      httpClient(`${apiUrl}/user/me/`).then((response) => {
+        return response.json;
+      })
     );
     return Promise.resolve({ id, fullName, avatar });
   },

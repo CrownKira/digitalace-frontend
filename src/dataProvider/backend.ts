@@ -1,12 +1,13 @@
-import { DataProvider } from 'ra-core';
+import { DataProvider, UpdateParams } from 'ra-core';
 import { fetchUtils } from 'react-admin';
 import drfProvider from 'ra-data-django-rest-framework';
 import { baseURL } from '../apis/backend';
+import { UserProfile } from '../types';
 
-const apiUrl = `${baseURL}/api`;
-// TODO: fix any
-// TODO use axios
-const httpClient = (url: string, options: any = {}) => {
+export const apiUrl = `${baseURL}/api`;
+// FIXME: fix any
+// TODO: use axios
+export const httpClient = (url: string, options: any = {}) => {
   if (!options.headers) {
     options.headers = new Headers({});
   }
@@ -25,11 +26,11 @@ const customDataProvider: DataProvider = {
     }
 
     const formData = new FormData();
-    for (const [key, value] of Object.entries(params.data)) {
-      formData.append(
+    // FIXME: fix any
+    for (const [key, value] of Object.entries<any>(params.data)) {
+      formData.set(
         key,
-        // TODO: fix any
-        key === 'image' || key === 'thumbnail' ? (value as any).rawFile : value
+        key === 'image' || key === 'thumbnail' ? value.rawFile : value
       );
     }
 
@@ -47,14 +48,13 @@ const customDataProvider: DataProvider = {
     }
 
     const formData = new FormData();
-    for (const [key, value] of Object.entries(params.data)) {
+    // FIXME: fix any
+    for (const [key, value] of Object.entries<any>(params.data)) {
       if (key === 'image' || key === 'thumbnail') {
-        // TODO: fix any
-        const rawFile = (value as any).rawFile;
-        if (rawFile) formData.append(key, rawFile);
+        const rawFile = value.rawFile;
+        if (rawFile) formData.set(key, rawFile);
       } else {
-        // TODO: fix any
-        formData.append(key, value as any);
+        formData.set(key, value ? value : '');
       }
     }
 
@@ -62,7 +62,39 @@ const customDataProvider: DataProvider = {
       method: 'PATCH',
       body: formData,
     });
-    console.log('data is:', json);
+    return {
+      data: json,
+    };
+  },
+
+  getUserProfile: async () => {
+    const data: UserProfile = await Promise.resolve(
+      httpClient(`${apiUrl}/user/me/`).then((response) => {
+        return response.json;
+      })
+    );
+    return {
+      data: data,
+    };
+  },
+
+  updateUserProfile: async (params: UpdateParams) => {
+    const formData = new FormData();
+    // FIXME: fix any
+    for (const [key, value] of Object.entries<any>(params.data)) {
+      if (key === 'image' || key === 'thumbnail') {
+        const rawFile = value.rawFile;
+        if (rawFile) formData.set(key, rawFile);
+      } else {
+        // TODO: fix django rest unable to parse null
+        formData.set(key, value ? value : '');
+      }
+    }
+
+    const { json } = await httpClient(`${apiUrl}/user/me/`, {
+      method: 'PATCH',
+      body: formData,
+    });
     return {
       data: json,
     };

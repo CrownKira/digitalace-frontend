@@ -61,6 +61,8 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
       <Resource name="categories" {...categories} />
       <Resource name="reviews" />
       <Resource name="commands" />
+      <Resource name="roles" />
+      <Resource name="departments" />
     </Admin>
   );
 };

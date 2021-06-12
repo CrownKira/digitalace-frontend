@@ -31,6 +31,7 @@ export const styles: Styles<Theme, any> = {
 };
 
 const useStyles = makeStyles(styles);
+
 export const validatePasswords = ({
   password,
   confirm_password,

@@ -7,6 +7,14 @@ export interface AppState extends ReduxState {
   theme: ThemeName;
 }
 
+export interface UserProfile {
+  // TODO: update props
+  id: Identifier;
+  fullName?: string;
+  avatar?: string;
+  [key: string]: any;
+}
+
 export interface Category extends Record {
   name: string;
 }

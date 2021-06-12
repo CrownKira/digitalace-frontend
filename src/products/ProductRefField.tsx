@@ -1,41 +1,14 @@
 import { FC } from 'react';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { useTranslate, FieldProps } from 'react-admin';
-import { stringify } from 'query-string';
+import { FieldProps } from 'react-admin';
+import { Product } from '../types';
 
-import products from '../products';
-import { Category } from '../types';
+const ProductRefField: FC<FieldProps<Product>> = ({ record }) =>
+  record ? <Link to={`/products/${record.id}`}>{record.name} </Link> : null;
 
-const useStyles = makeStyles({
-  icon: { paddingRight: '0.5em' },
-  link: {
-    display: 'inline-flex',
-    alignItems: 'center',
-  },
-});
-
-const LinkToRelatedProducts: FC<FieldProps<Category>> = ({ record }) => {
-  const translate = useTranslate();
-  const classes = useStyles();
-  return record ? (
-    <Button
-      size="small"
-      color="primary"
-      component={Link}
-      to={{
-        pathname: '/products',
-        search: stringify({
-          filter: JSON.stringify({ category: record.id }),
-        }),
-      }}
-      className={classes.link}
-    >
-      <products.icon className={classes.icon} />
-      {translate('resources.categories.fields.products')}
-    </Button>
-  ) : null;
+ProductRefField.defaultProps = {
+  source: 'name',
+  label: 'Name',
 };
 
-export default LinkToRelatedProducts;
+export default ProductRefField;

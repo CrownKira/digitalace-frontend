@@ -2,21 +2,26 @@ import { forwardRef } from 'react';
 import { AppBar, UserMenu, MenuItemLink, useTranslate } from 'react-admin';
 import Typography from '@material-ui/core/Typography';
 import SettingsIcon from '@material-ui/icons/Settings';
+import FaceIcon from '@material-ui/icons/Face';
 import { makeStyles } from '@material-ui/core/styles';
+import { useProfile } from '../profile/Profile';
 
 import Logo from './Logo';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   title: {
     flex: 1,
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
+    [theme.breakpoints.down('xs')]: {
+      opacity: 0,
+    },
   },
   spacer: {
     flex: 1,
   },
-});
+}));
 
 const ConfigurationMenu = forwardRef<any, any>((props, ref) => {
   const translate = useTranslate();
@@ -32,11 +37,31 @@ const ConfigurationMenu = forwardRef<any, any>((props, ref) => {
   );
 });
 
-const CustomUserMenu = (props: any) => (
-  <UserMenu {...props}>
-    <ConfigurationMenu />
-  </UserMenu>
-);
+const ProfileMenu = forwardRef<any, any>((props, ref) => {
+  const translate = useTranslate();
+
+  return (
+    <MenuItemLink
+      ref={ref}
+      to="/profile"
+      primaryText={translate('pos.profile')}
+      leftIcon={<FaceIcon />}
+      onClick={props.onClick}
+      sidebarIsOpen
+    />
+  );
+});
+
+const CustomUserMenu = (props: any) => {
+  const { profileVersion } = useProfile();
+
+  return (
+    <UserMenu key={profileVersion} {...props}>
+      <ProfileMenu />
+      <ConfigurationMenu />
+    </UserMenu>
+  );
+};
 
 const CustomAppBar = (props: any) => {
   const classes = useStyles();
@@ -46,10 +71,13 @@ const CustomAppBar = (props: any) => {
         variant="h6"
         color="inherit"
         className={classes.title}
-        id="react-admin-title"
+        id="react-admin-title" // title is shown here
       />
       <Logo />
-      <span className={classes.spacer} />
+      <span
+        className={classes.spacer}
+        // the profile pic will be rendered by react admin
+      />
     </AppBar>
   );
 };

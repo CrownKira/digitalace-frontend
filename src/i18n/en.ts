@@ -2,11 +2,48 @@ import { TranslationMessages } from 'react-admin';
 import englishMessages from 'ra-language-english';
 
 // TODO: update msg
+/**
+ * This is from Microsoft
+ * Title Caps:
+ * Capitalize the first letter of the first and last words. Capitalize the first letter of all words in between, with the exception of articles (a, an, and the); coordinating conjunctions (and, but, for, nor, or, so, and yet); and prepositions of four letters or fewer (at, for, with, into, etc.).
+ * Examples: Insert Object. Go To. Always on Top. By Name
+ * Use title caps for:
+ * - Button names
+ * - Column headings
+ * - Command button labels
+ * - Floating toolbars
+ * - Icon labels
+ * - Menu names and menu commands
+ * - Palette titles
+ * - Tab titles
+ * Sentence Caps:
+ * Capitalize only the first letter of the first word, and capitalize only those other words that are normally capitalized in sentences, such as proper nouns.
+ * Examples: Working folder. Print to. Use PostScript driver.
+ * Use sentence caps for:
+ * - Alternate text (ALT text) used to describe images
+ * - Check box labels
+ * - Dialog box introductory or explanatory text
+ * - File names
+ * - Group box labels
+ * - InfoTips
+ * - List box entries
+ * - List box labels
+ * - Messages
+ * - Option (radio) button labels
+ * - Status bar tips
+ * - Text box labels (form labels)
+ *
+ * form label:
+ * (<=3): Title case
+ * (>3): Sentence case
+ */
+
 const customEnglishMessages: TranslationMessages = {
   ...englishMessages,
   pos: {
     search: 'Search',
     configuration: 'Configuration',
+    profile: 'Profile',
     language: 'Language',
     theme: {
       name: 'Theme',
@@ -21,6 +58,13 @@ const customEnglishMessages: TranslationMessages = {
       confirm_email: 'Confirm Email',
       confirm_password: 'Confirm Password',
       company: 'Company',
+    },
+    user_menu: {
+      profile: {
+        success: 'Your profile has been updated',
+        failure:
+          'A technical error occurred while updating your profile. Please try later.',
+      },
     },
     dashboard: {
       monthly_revenue: 'Monthly Revenue',
@@ -52,6 +96,46 @@ const customEnglishMessages: TranslationMessages = {
   },
 
   resources: {
+    users: {
+      fields: {
+        first_name: 'First Name',
+        last_name: 'Last Name',
+        name: 'Username',
+        email_address: 'Email Address',
+        phone_no: 'Phone Number',
+        residential_address: 'Residential Address',
+        postal_code: 'Postal Code',
+        ic_no: 'IC Number',
+        nationality: 'Nationality',
+        gender: 'Gender',
+        date_of_birth: 'Date of Birth',
+        date_of_commencement: 'Date of Commencement',
+        date_of_cessation: 'Date of Cessation',
+        department: 'Department',
+        designation: 'Designation',
+        role: 'Role',
+        password: 'Password',
+        confirm_password: 'Confirm Password',
+      },
+      fieldGroups: {
+        avatar: 'Avatar',
+        account: 'Account',
+        personal_details: 'Personal Details',
+        company_details: 'Company Details',
+        password: 'Password',
+        change_password: 'Change Password',
+      },
+      errors: {
+        password_mismatch:
+          'The password confirmation is not the same as the password.',
+      },
+      data: {
+        genders: {
+          male: 'Male',
+          female: 'Female',
+        },
+      },
+    },
     customers: {
       name: 'Customer |||| Customers',
       fields: {
@@ -64,7 +148,7 @@ const customEnglishMessages: TranslationMessages = {
         total_spent: 'Total spent',
         receivables: 'Receivables',
         password: 'Password',
-        confirm_password: 'Confirm password',
+        confirm_password: 'Confirm Password',
         stateAbbr: 'State',
         phone_no: 'Phone',
       },
@@ -111,7 +195,7 @@ const customEnglishMessages: TranslationMessages = {
         total_spent: 'Total spent',
         payables: 'Payables',
         password: 'Password',
-        confirm_password: 'Confirm password',
+        confirm_password: 'Confirm Password',
         stateAbbr: 'State',
       },
       filters: {

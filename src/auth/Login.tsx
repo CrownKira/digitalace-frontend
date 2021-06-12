@@ -49,6 +49,7 @@ export const loginStyles = makeStyles((theme) => ({
   },
   hint: {
     marginTop: '1em',
+    padding: '0 1em 0 1em',
     display: 'flex',
     justifyContent: 'center',
     color: theme.palette.grey[500],
@@ -105,6 +106,7 @@ const Login = () => {
       (error: Error) => {
         setLoading(false);
         // TODO: show more specific error message
+        // https://marmelab.com/react-admin/CreateEdit.html#server-side-validation
         if (typeof error === 'string') {
           notify(error, 'warning');
         } else {
@@ -138,7 +140,9 @@ const Login = () => {
                   <LockIcon />
                 </Avatar>
               </div>
-              <div className={classes.hint}>Hint: demo / demo</div>
+              <div className={classes.hint}>
+                Demo: demo@digitalace.com / demodigitalace
+              </div>
               <div className={classes.form}>
                 <div className={classes.input}>
                   <Field
