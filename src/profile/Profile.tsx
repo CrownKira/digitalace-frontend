@@ -175,6 +175,7 @@ export const ProfileEdit = () => {
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                     <TextInput
                       source="name"
+                      // TODO: use resource instead of label?
                       label="resources.users.fields.name"
                       validate={requiredValidate}
                       fullWidth
@@ -278,55 +279,76 @@ export const ProfileEdit = () => {
                   </Box>
                   <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
                 </Box>
+
                 <Typography variant="h6" gutterBottom>
                   {translate('resources.users.fieldGroups.company_details')}
                 </Typography>
                 <Box display={{ xs: 'block', sm: 'flex' }}>
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-                    <Labeled
-                      // provide the resource and source props instead of the label?
-                      label="resources.users.fields.department"
-                    >
-                      <TextField
-                        source="department"
-                        // https://marmelab.com/react-admin/Fields.html
-                        // https://stackoverflow.com/questions/64351273/custom-show-form-in-react-admin
-                        record={identity}
-                      />
-                    </Labeled>
-                  </Box>
-                  <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
-                    <Labeled source="designation">
-                      <TextField source="designation" record={identity} />
-                    </Labeled>
-                  </Box>
-                </Box>
-                <Box display={{ xs: 'block', sm: 'flex' }}>
-                  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-                    <Labeled label="resources.users.fields.role">
-                      <TextField source="role" record={identity} />
-                    </Labeled>
+                    <TextInput
+                      source="company_name"
+                      label="resources.users.fields.company_name"
+                      validate={requiredValidate}
+                      fullWidth
+                      disabled={!identity?.is_staff}
+                    />
                   </Box>
                   <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
                 </Box>
-                <Box display={{ xs: 'block', sm: 'flex' }}>
-                  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-                    <Labeled label="resources.users.fields.date_of_commencement">
-                      <DateField
-                        source="date_of_commencement"
-                        record={identity}
-                      />
-                    </Labeled>
-                  </Box>
-                  <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
-                    <Labeled label="resources.users.fields.date_of_cessation">
-                      <DateField source="date_of_cessation" record={identity} />
-                    </Labeled>
-                  </Box>
-                </Box>
+                {!identity?.is_staff && (
+                  <>
+                    <Box display={{ xs: 'block', sm: 'flex' }}>
+                      <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                        <Labeled
+                          // provide the resource and source props instead of the label?
+                          label="resources.users.fields.department"
+                        >
+                          <TextField
+                            source="department"
+                            // https://marmelab.com/react-admin/Fields.html
+                            // https://stackoverflow.com/questions/64351273/custom-show-form-in-react-admin
+                            record={identity}
+                          />
+                        </Labeled>
+                      </Box>
+                      <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                        <Labeled source="designation">
+                          <TextField source="designation" record={identity} />
+                        </Labeled>
+                      </Box>
+                    </Box>
+                    <Box display={{ xs: 'block', sm: 'flex' }}>
+                      <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                        <Labeled label="resources.users.fields.role">
+                          <TextField source="role" record={identity} />
+                        </Labeled>
+                      </Box>
+                      <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
+                    </Box>
+                    <Box display={{ xs: 'block', sm: 'flex' }}>
+                      <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                        <Labeled label="resources.users.fields.date_of_commencement">
+                          <DateField
+                            source="date_of_commencement"
+                            record={identity}
+                          />
+                        </Labeled>
+                      </Box>
+                      <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                        <Labeled label="resources.users.fields.date_of_cessation">
+                          <DateField
+                            source="date_of_cessation"
+                            record={identity}
+                          />
+                        </Labeled>
+                      </Box>
+                    </Box>
+                  </>
+                )}
               </CardContent>
               <Toolbar>
                 <SaveButton
+                  // FIXME: fix save button behavior (disable when saving)
                   // https://marmelab.com/react-admin/CreateEdit.html#toolbar
                   saving={formProps.saving}
                   disabled={formProps.pristine}

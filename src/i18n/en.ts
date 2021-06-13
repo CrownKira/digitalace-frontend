@@ -110,6 +110,7 @@ const customEnglishMessages: TranslationMessages = {
         nationality: 'Nationality',
         gender: 'Gender',
         date_of_birth: 'Date of Birth',
+        company_name: 'Company',
         date_of_commencement: 'Date of Commencement',
         date_of_cessation: 'Date of Cessation',
         department: 'Department',
