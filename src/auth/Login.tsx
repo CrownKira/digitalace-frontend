@@ -141,7 +141,7 @@ const Login = () => {
                 </Avatar>
               </div>
               <div className={classes.hint}>
-                Demo: demo@digitalace.com / demodigitalace
+                demo@digitalace.com / demodigitalace
               </div>
               <div className={classes.form}>
                 <div className={classes.input}>

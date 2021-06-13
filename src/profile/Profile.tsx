@@ -39,7 +39,7 @@ export const validatePasswords = ({
   const errors = {} as any;
 
   if (password && confirm_password && password !== confirm_password) {
-    errors.confirm_password = ['resources.users.errors.password_mismatch'];
+    errors.confirm_password = ['resources.customers.errors.password_mismatch'];
   }
 
   return errors;
