@@ -38,10 +38,14 @@ const authProvider: AuthProvider = {
           message: 'ra.auth.auth_check_error',
         });
   },
-  getPermissions: () => {
+  getPermissions: async () => {
     // https://stackoverflow.com/questions/54715260/typescript-json-parse-error-type-null-is-not-assignable-to-type-string
-    const { permissions } = JSON.parse(localStorage.getItem('auth') || '{}');
-    return permissions ? Promise.resolve(permissions) : Promise.reject();
+    const { permissions } = await Promise.resolve(
+      httpClient(`${apiUrl}/user/me/`).then((response) => {
+        return response.json;
+      })
+    );
+    return Promise.resolve(permissions);
   },
   getIdentity: async () => {
     const {
