@@ -123,10 +123,14 @@ export const ProfileEdit = () => {
   );
 
   const saveContext = useMemo(
+    // useSaveContext is invoked in SaveButton.tsx
     () => ({
       save: handleSave,
       saving,
-      setOnFailure: null,
+      // FIXME: write implementations
+      setOnSuccess: () => void 0,
+      setOnFailure: () => void 0,
+      setTransform: () => void 0,
     }),
     [saving, handleSave]
   );
@@ -135,8 +139,10 @@ export const ProfileEdit = () => {
     return null;
   }
 
-  // FIXME: fix SaveContextProvider
   // TODO: add aside
+  // TODO: use react-final-form <Form> component?
+  // TODO: find better way to construct a custom form
+  // (since there is no redirect)
   // https://github.com/marmelab/react-admin/issues/5563
   // TODO: wrap in MuiCard
   return (
@@ -307,15 +313,13 @@ export const ProfileEdit = () => {
                   </Box>
                 </Box>
               </CardContent>
-              <Toolbar
-                record={formProps.record}
-                basePath={formProps.basePath}
-                undoable={true}
-                invalid={formProps.invalid}
-                handleSubmit={formProps.handleSubmit}
-                saving={formProps.saving}
-              >
-                <SaveButton />
+              <Toolbar>
+                <SaveButton
+                  // https://marmelab.com/react-admin/CreateEdit.html#toolbar
+                  saving={formProps.saving}
+                  disabled={formProps.pristine}
+                  handleSubmitWithRedirect={formProps.handleSubmitWithRedirect}
+                />
               </Toolbar>
             </form>
           </Card>

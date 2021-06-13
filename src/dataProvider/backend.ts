@@ -54,7 +54,7 @@ const customDataProvider: DataProvider = {
         const rawFile = value.rawFile;
         if (rawFile) formData.set(key, rawFile);
       } else {
-        formData.set(key, value ? value : '');
+        formData.set(key, value || '');
       }
     }
 
@@ -87,7 +87,7 @@ const customDataProvider: DataProvider = {
         if (rawFile) formData.set(key, rawFile);
       } else {
         // TODO: fix django rest unable to parse null
-        formData.set(key, value ? value : '');
+        formData.set(key, value || '');
       }
     }
 

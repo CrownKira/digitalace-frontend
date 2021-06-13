@@ -67,6 +67,14 @@ const CustomerForm = (props: any) => {
                 <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                   <TextInput
                     source="name"
+                    /**
+                     * https://marmelab.com/react-admin/CreateEdit.html#toolbar
+                     * When Input components have a resource prop, they use it to
+                     * determine the input label. <SimpleForm> and <TabbedForm>
+                     * inject this resource prop to Input components automatically.
+                     * When you use a custom form layout, pass the resource prop
+                     * manually - unless the Input has a label prop.
+                     */
                     resource="customers"
                     validate={requiredValidate}
                     fullWidth
