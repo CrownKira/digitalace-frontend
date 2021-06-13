@@ -175,8 +175,8 @@ export const ProfileEdit = () => {
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                     <TextInput
                       source="name"
-                      validate={requiredValidate}
                       label="resources.users.fields.name"
+                      validate={requiredValidate}
                       fullWidth
                     />
                   </Box>
@@ -186,15 +186,15 @@ export const ProfileEdit = () => {
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                     <TextInput
                       source="first_name"
-                      fullWidth
                       label="resources.users.fields.first_name"
+                      fullWidth
                     />
                   </Box>
                   <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
                     <TextInput
                       source="last_name"
-                      fullWidth
                       label="resources.users.fields.last_name"
+                      fullWidth
                     />
                   </Box>
                 </Box>
@@ -203,16 +203,21 @@ export const ProfileEdit = () => {
                   source="email"
                   validate={[...requiredValidate, email()]}
                   fullWidth
+                  label="resources.users.fields.email"
                 />
                 <Box display={{ xs: 'block', sm: 'flex' }}>
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-                    <PasswordInput source="password" fullWidth />
+                    <PasswordInput
+                      source="password"
+                      label="resources.users.fields.password"
+                      fullWidth
+                    />
                   </Box>
                   <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
                     <PasswordInput
                       source="confirm_password"
-                      fullWidth
                       label="resources.users.fields.confirm_password"
+                      fullWidth
                     />
                   </Box>
                 </Box>
@@ -221,13 +226,17 @@ export const ProfileEdit = () => {
                 </Typography>
                 <Box display={{ xs: 'block', sm: 'flex' }}>
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-                    <TextInput source="nationality" fullWidth />
+                    <TextInput
+                      source="nationality"
+                      label="resources.users.fields.nationality"
+                      fullWidth
+                    />
                   </Box>
                   <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
                     <TextInput
                       source="ic_no"
-                      fullWidth
                       label="resources.users.fields.ic_no"
+                      fullWidth
                     />
                   </Box>
                 </Box>
@@ -235,8 +244,8 @@ export const ProfileEdit = () => {
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                     <DateInput
                       source="date_of_birth"
-                      fullWidth
                       label="resources.users.fields.date_of_birth"
+                      fullWidth
                     />
                   </Box>
                   <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
@@ -274,7 +283,10 @@ export const ProfileEdit = () => {
                 </Typography>
                 <Box display={{ xs: 'block', sm: 'flex' }}>
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-                    <Labeled source="department">
+                    <Labeled
+                      // provide the resource and source props instead of the label?
+                      label="resources.users.fields.department"
+                    >
                       <TextField
                         source="department"
                         // https://marmelab.com/react-admin/Fields.html
@@ -291,7 +303,7 @@ export const ProfileEdit = () => {
                 </Box>
                 <Box display={{ xs: 'block', sm: 'flex' }}>
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-                    <Labeled source="role">
+                    <Labeled label="resources.users.fields.role">
                       <TextField source="role" record={identity} />
                     </Labeled>
                   </Box>

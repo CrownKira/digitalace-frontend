@@ -5,6 +5,8 @@ import { baseURL } from '../apis/backend';
 import { UserProfile } from '../types';
 
 export const apiUrl = `${baseURL}/api`;
+const fileLabels = ['image', 'thumbnail', 'resume'];
+
 // FIXME: fix any
 // TODO: use axios
 export const httpClient = (url: string, options: any = {}) => {
@@ -30,7 +32,8 @@ const customDataProvider: DataProvider = {
     for (const [key, value] of Object.entries<any>(params.data)) {
       formData.set(
         key,
-        key === 'image' || key === 'thumbnail' ? value.rawFile : value
+        // TODO: handle undefined value.rawFile
+        fileLabels.includes(key) && value ? value.rawFile : value
       );
     }
 
@@ -50,7 +53,7 @@ const customDataProvider: DataProvider = {
     const formData = new FormData();
     // FIXME: fix any
     for (const [key, value] of Object.entries<any>(params.data)) {
-      if (key === 'image' || key === 'thumbnail') {
+      if (fileLabels.includes(key) && value) {
         const rawFile = value.rawFile;
         if (rawFile) formData.set(key, rawFile);
       } else {
@@ -82,7 +85,7 @@ const customDataProvider: DataProvider = {
     const formData = new FormData();
     // FIXME: fix any
     for (const [key, value] of Object.entries<any>(params.data)) {
-      if (key === 'image' || key === 'thumbnail') {
+      if (fileLabels.includes(key) && value) {
         const rawFile = value.rawFile;
         if (rawFile) formData.set(key, rawFile);
       } else {

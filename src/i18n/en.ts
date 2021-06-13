@@ -97,11 +97,12 @@ const customEnglishMessages: TranslationMessages = {
 
   resources: {
     users: {
+      name: 'User |||| Users',
       fields: {
         first_name: 'First Name',
         last_name: 'Last Name',
         name: 'Username',
-        email_address: 'Email Address',
+        email: 'Email',
         phone_no: 'Phone Number',
         residential_address: 'Residential Address',
         postal_code: 'Postal Code',
@@ -124,6 +125,9 @@ const customEnglishMessages: TranslationMessages = {
         company_details: 'Company Details',
         password: 'Password',
         change_password: 'Change Password',
+      },
+      page: {
+        delete: 'Delete User',
       },
       errors: {
         password_mismatch:
