@@ -237,6 +237,7 @@ const customEnglishMessages: TranslationMessages = {
         history: 'History',
         password: 'Password',
         change_password: 'Change Password',
+        manage_access: 'Manage Access',
       },
       page: {
         delete: 'Delete Customer',

@@ -10,6 +10,8 @@ import {
   FieldProps,
   ImageInput,
   ImageField,
+  ReferenceArrayInput,
+  SelectArrayInput,
 } from 'react-admin';
 import { Box, Card, CardContent } from '@material-ui/core';
 
@@ -140,6 +142,22 @@ const CustomerForm = (props: any) => {
                 <Box mr={{ xs: 0, sm: '0.5em' }}>
                   <TextInput source="term" resource="customers" />
                 </Box>
+              </Box>
+              <Separator />
+              <SectionTitle label="resources.customers.fieldGroups.manage_access" />
+              <Box display={{ xs: 'block', sm: 'flex' }}>
+                <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                  <ReferenceArrayInput
+                    source="agents"
+                    resource="agents"
+                    reference="employees"
+                    allowEmpty
+                    fullWidth
+                  >
+                    <SelectArrayInput optionText="name" />
+                  </ReferenceArrayInput>
+                </Box>
+                <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
               </Box>
             </CardContent>
             <Toolbar

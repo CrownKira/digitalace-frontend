@@ -8,6 +8,8 @@ import {
   email,
   ImageInput,
   ImageField,
+  ReferenceArrayInput,
+  SelectArrayInput,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles, Theme } from '@material-ui/core/styles';
@@ -107,6 +109,16 @@ const CustomerCreate: FC<CreateProps> = (props) => {
         <SectionTitle label="resources.customers.fieldGroups.other_details" />
         <TextInput source="business" resource="customers" />
         <TextInput source="term" resource="customers" />
+        <Separator />
+        <SectionTitle label="resources.customers.fieldGroups.manage_access" />
+        <ReferenceArrayInput
+          source="agents"
+          resource="agents"
+          reference="employees"
+          allowEmpty
+        >
+          <SelectArrayInput optionText="name" />
+        </ReferenceArrayInput>
       </SimpleForm>
     </Create>
   );

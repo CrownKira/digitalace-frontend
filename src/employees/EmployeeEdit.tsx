@@ -170,6 +170,7 @@ const EmployeeForm = (props: any) => {
       </FormTab>
       <FormTab label="resources.employees.tabs.manage_access">
         <ReferenceArrayInput
+          //  TODO: change to key in input
           // TODO: read doc on ReferenceArrayInput
           // https://marmelab.com/react-admin/Inputs.html#referencearrayinput
           source="roles"
@@ -182,6 +183,7 @@ const EmployeeForm = (props: any) => {
           source="customer_set"
           reference="customers"
           allowEmpty
+          formClassName={classes.leftFormGroup}
         >
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
@@ -189,6 +191,7 @@ const EmployeeForm = (props: any) => {
           source="product_set"
           reference="products"
           allowEmpty
+          formClassName={classes.rightFormGroup}
         >
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>

@@ -186,6 +186,7 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
         </FormTab>
         <FormTab label="resources.employees.tabs.manage_access">
           <ReferenceArrayInput
+            // TODO: list down role permissions (beside the input)
             // TODO: read doc on ReferenceArrayInput
             // https://marmelab.com/react-admin/Inputs.html#referencearrayinput
             source="roles"
@@ -198,6 +199,7 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
             source="customer_set"
             reference="customers"
             allowEmpty
+            formClassName={classes.leftFormGroup}
           >
             <SelectArrayInput optionText="name" />
           </ReferenceArrayInput>
@@ -205,6 +207,7 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
             source="product_set"
             reference="products"
             allowEmpty
+            formClassName={classes.rightFormGroup}
           >
             <SelectArrayInput optionText="name" />
           </ReferenceArrayInput>
