@@ -52,9 +52,6 @@ const customDataProvider: DataProvider = {
     const { json } = await httpClient(`${apiUrl}/${resource}/`, {
       method: 'POST',
       body: getFormData(params.data),
-      headers: new Headers({
-        'Content-Type': 'multipart/form-data',
-      }),
     });
     return {
       data: { ...params.data, id: json.id },
@@ -73,7 +70,6 @@ const customDataProvider: DataProvider = {
       data: json,
     };
   },
-
   getUserProfile: async () => {
     const data: UserProfile = await Promise.resolve(
       httpClient(`${apiUrl}/user/me/`).then((response) => {
@@ -84,14 +80,10 @@ const customDataProvider: DataProvider = {
       data: data,
     };
   },
-
   updateUserProfile: async (params: UpdateParams) => {
     const { json } = await httpClient(`${apiUrl}/user/me/`, {
       method: 'PATCH',
       body: getFormData(params.data),
-      headers: new Headers({
-        'Content-Type': 'multipart/form-data',
-      }),
     });
     return {
       data: json,
