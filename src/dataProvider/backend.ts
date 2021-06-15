@@ -1,6 +1,8 @@
 import { DataProvider, UpdateParams } from 'ra-core';
 import { fetchUtils } from 'react-admin';
 import drfProvider from 'ra-data-django-rest-framework';
+import HttpMethodsEnum from 'http-methods-enum';
+
 import { baseURL } from '../apis/backend';
 import { UserProfile } from '../types';
 
@@ -21,14 +23,17 @@ export const httpClient = (url: string, options: any = {}) => {
 const restProvider = drfProvider(apiUrl, httpClient);
 
 // FIXME: fix any
-function getFormData(data: any, method = 'PATCH') {
+function getFormData(data: any, method = HttpMethodsEnum.PATCH) {
   const formData = new FormData();
   // FIXME: fix any
   for (const [key, value] of Object.entries<any>(data)) {
     if (fileLabels.includes(key) && value) {
       // TODO: check for null or ""?
       // if undefined, do not include in formData
-      if (method === 'POST' || typeof value.rawFile !== 'undefined')
+      if (
+        method === HttpMethodsEnum.POST ||
+        typeof value.rawFile !== 'undefined'
+      )
         formData.append(key, value.rawFile);
     } else {
       // TODO: better fix for array multipart?
@@ -50,8 +55,8 @@ const customDataProvider: DataProvider = {
     }
 
     const { json } = await httpClient(`${apiUrl}/${resource}/`, {
-      method: 'POST',
-      body: getFormData(params.data, 'POST'),
+      method: HttpMethodsEnum.POST,
+      body: getFormData(params.data, HttpMethodsEnum.POST),
     });
     return {
       data: { ...params.data, id: json.id },
@@ -62,7 +67,7 @@ const customDataProvider: DataProvider = {
       return restProvider.create(resource, params);
     }
     const { json } = await httpClient(`${apiUrl}/${resource}/${params.id}/`, {
-      method: 'PATCH',
+      method: HttpMethodsEnum.PATCH,
       // content-type defaults to multipart/form-data when FormData is passed to body
       body: getFormData(params.data),
     });
@@ -82,7 +87,7 @@ const customDataProvider: DataProvider = {
   },
   updateUserProfile: async (params: UpdateParams) => {
     const { json } = await httpClient(`${apiUrl}/user/me/`, {
-      method: 'PATCH',
+      method: HttpMethodsEnum.PATCH,
       body: getFormData(params.data),
     });
     return {
