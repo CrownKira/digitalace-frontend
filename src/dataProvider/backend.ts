@@ -21,14 +21,14 @@ export const httpClient = (url: string, options: any = {}) => {
 const restProvider = drfProvider(apiUrl, httpClient);
 
 // FIXME: fix any
-function getFormData(data: any) {
+function getFormData(data: any, method = 'PATCH') {
   const formData = new FormData();
   // FIXME: fix any
   for (const [key, value] of Object.entries<any>(data)) {
     if (fileLabels.includes(key) && value) {
       // TODO: check for null or ""?
       // if undefined, do not include in formData
-      if (typeof value.rawFile !== 'undefined')
+      if (method === 'POST' || typeof value.rawFile !== 'undefined')
         formData.append(key, value.rawFile);
     } else {
       // TODO: better fix for array multipart?
@@ -51,7 +51,7 @@ const customDataProvider: DataProvider = {
 
     const { json } = await httpClient(`${apiUrl}/${resource}/`, {
       method: 'POST',
-      body: getFormData(params.data),
+      body: getFormData(params.data, 'POST'),
     });
     return {
       data: { ...params.data, id: json.id },

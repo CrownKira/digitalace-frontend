@@ -44,12 +44,16 @@ export const validatePasswords = ({
   return errors;
 };
 
+const postDefaultValue = () => ({
+  image: null,
+});
+
 const SupplierCreate: FC<CreateProps> = (props) => {
   const classes = useStyles(props);
 
   return (
     <Create {...props}>
-      <SimpleForm validate={validatePasswords}>
+      <SimpleForm validate={validatePasswords} initialValues={postDefaultValue}>
         <SectionTitle label="resources.suppliers.fieldGroups.avatar" />
         <ImageInput
           source="image"

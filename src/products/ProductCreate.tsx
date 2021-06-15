@@ -26,12 +26,17 @@ export const styles = {
 
 const useStyles = makeStyles(styles);
 
+const postDefaultValue = () => ({
+  image: null,
+  thumbnail: null,
+});
+
 const ProductCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
 
   return (
     <Create {...props}>
-      <TabbedForm>
+      <TabbedForm initialValues={postDefaultValue}>
         <FormTab label="resources.products.tabs.image">
           <ImageInput
             source="image"

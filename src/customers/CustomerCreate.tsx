@@ -44,12 +44,20 @@ export const validatePasswords = ({
   return errors;
 };
 
+/**
+ * provide defaults for non-string and non-integer inputs
+ * these fields if left empty, will get rejected by drf serializer
+ */
+const postDefaultValue = () => ({
+  image: null,
+});
+
 const CustomerCreate: FC<CreateProps> = (props) => {
   const classes = useStyles(props);
 
   return (
     <Create {...props}>
-      <SimpleForm validate={validatePasswords}>
+      <SimpleForm validate={validatePasswords} initialValues={postDefaultValue}>
         <SectionTitle label="resources.customers.fieldGroups.avatar" />
         <ImageInput
           source="image"

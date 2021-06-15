@@ -8,9 +8,14 @@ import {
   ImageField,
 } from 'react-admin';
 
+const postDefaultValue = () => ({
+  image: null,
+  resume: null,
+});
+
 const CategoryCreate: FC<CreateProps> = (props) => (
   <Create {...props}>
-    <SimpleForm>
+    <SimpleForm initialValues={postDefaultValue}>
       <ImageInput
         source="image"
         accept="image/*"

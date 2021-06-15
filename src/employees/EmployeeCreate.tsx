@@ -52,6 +52,11 @@ export const validatePasswords = ({
   return errors;
 };
 
+const postDefaultValue = () => ({
+  image: null,
+  resume: null,
+});
+
 const EmployeeCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
 
@@ -60,6 +65,7 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
       <TabbedForm
         // TODO: make tabs scrollable
         validate={validatePasswords}
+        initialValues={postDefaultValue}
       >
         <FormTab
           // qn: FormTab doesn't take input wrapped in box?
