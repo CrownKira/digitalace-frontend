@@ -124,13 +124,14 @@ const SupplierForm = (props: any) => {
               </Box>
             </CardContent>
             <Toolbar
+              resource="suppliers"
               record={formProps.record}
               basePath={formProps.basePath}
               undoable={true}
               invalid={formProps.invalid}
               handleSubmit={formProps.handleSubmit}
               saving={formProps.saving}
-              resource="suppliers"
+              pristine={formProps.pristine}
             />
           </form>
         </Card>

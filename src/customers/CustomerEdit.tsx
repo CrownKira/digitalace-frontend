@@ -143,13 +143,14 @@ const CustomerForm = (props: any) => {
               </Box>
             </CardContent>
             <Toolbar
+              resource="customers"
               record={formProps.record}
               basePath={formProps.basePath}
               undoable={true}
               invalid={formProps.invalid}
               handleSubmit={formProps.handleSubmit}
               saving={formProps.saving}
-              resource="customers"
+              pristine={formProps.pristine}
             />
           </form>
         </Card>
