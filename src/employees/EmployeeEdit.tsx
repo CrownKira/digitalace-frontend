@@ -27,7 +27,7 @@ import { styles as createStyles } from './EmployeeCreate';
 import { validatePasswords } from './EmployeeCreate';
 import { Employee } from '../types';
 import { formatImage } from '../utils';
-import { SectionTitle, Separator, Break } from '../utils/components';
+import { SectionTitle, Separator, Break } from '../utils/components/Divider';
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -134,7 +134,14 @@ const EmployeeForm = (props: any) => {
         >
           <SelectInput source="name" />
         </ReferenceInput>
-
+        <ReferenceInput
+          source="designation"
+          reference="designations"
+          allowEmpty
+          formClassName={classes.leftFormGroup}
+        >
+          <SelectInput source="name" />
+        </ReferenceInput>
         <ReferenceArrayInput
           source="roles"
           reference="roles"

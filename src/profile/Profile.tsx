@@ -30,7 +30,7 @@ import {
 import { AnyObject } from 'react-final-form';
 import { formatImage } from '../utils';
 import { genders } from '../utils/data';
-import { SectionTitle, Separator } from '../utils/components';
+import { SectionTitle, Separator } from '../utils/components/Divider';
 import useGetUserProfile from './useGetUserProfile';
 
 export const validatePasswords = ({

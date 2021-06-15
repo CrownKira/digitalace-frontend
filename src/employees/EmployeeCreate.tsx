@@ -21,7 +21,7 @@ import {
 import { AnyObject } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
 import { genders } from '../utils/data';
-import { SectionTitle, Separator, Break } from '../utils/components';
+import { SectionTitle, Separator, Break } from '../utils/components/Divider';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: 32 },
@@ -150,7 +150,14 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
           >
             <SelectInput source="name" />
           </ReferenceInput>
-
+          <ReferenceInput
+            source="designation"
+            reference="designations"
+            allowEmpty
+            formClassName={classes.leftFormGroup}
+          >
+            <SelectInput source="name" />
+          </ReferenceInput>
           <ReferenceArrayInput
             // TODO: read doc on ReferenceArrayInput
             // https://marmelab.com/react-admin/Inputs.html#referencearrayinput
@@ -204,16 +211,4 @@ export default EmployeeCreate;
   source="confirm_password"
   formClassName={classes.confirm_password}
 />
-*/
-
-/*
-TODO: add this back after done with api
-<ReferenceInput
-  source="designation"
-  reference="designations"
-  allowEmpty
-  formClassName={classes.leftFormGroup}
->
-  <SelectInput source="name" />
-</ReferenceInput>
 */

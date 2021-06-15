@@ -13,7 +13,7 @@ import { AnyObject } from 'react-final-form';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Styles } from '@material-ui/styles/withStyles';
 
-import { SectionTitle, Separator } from '../utils/components';
+import { SectionTitle, Separator } from '../utils/components/Divider';
 
 export const styles: Styles<Theme, any> = {
   name: { display: 'inline-block' },

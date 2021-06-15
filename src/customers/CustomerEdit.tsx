@@ -18,7 +18,7 @@ import FullNameField from './FullNameField';
 import { validatePasswords } from './CustomerCreate';
 import { Customer } from '../types';
 import { formatImage } from '../utils';
-import { SectionTitle, Separator } from '../utils/components';
+import { SectionTitle, Separator } from '../utils/components/Divider';
 
 const CustomerEdit: FC<EditProps> = (props) => {
   return (

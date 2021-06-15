@@ -18,7 +18,7 @@ import FullNameField from './FullNameField';
 import { validatePasswords } from './SupplierCreate';
 import { Supplier } from '../types';
 import { formatImage } from '../utils';
-import { SectionTitle, Separator } from '../utils/components';
+import { SectionTitle, Separator } from '../utils/components/Divider';
 
 const SupplierEdit: FC<EditProps> = (props) => {
   return (
