@@ -138,18 +138,10 @@ const EmployeeForm = (props: any) => {
           source="designation"
           reference="designations"
           allowEmpty
-          formClassName={classes.leftFormGroup}
+          formClassName={classes.rightFormGroup}
         >
           <SelectInput source="name" />
         </ReferenceInput>
-        <ReferenceArrayInput
-          source="roles"
-          reference="roles"
-          allowEmpty
-          formClassName={classes.leftFormGroup}
-        >
-          <SelectArrayInput optionText="name" />
-        </ReferenceArrayInput>
         <Break />
         <DateInput
           source="date_of_commencement"
@@ -175,6 +167,31 @@ const EmployeeForm = (props: any) => {
         >
           <FileField source="src" title="title" />
         </FileInput>
+      </FormTab>
+      <FormTab label="resources.employees.tabs.manage_access">
+        <ReferenceArrayInput
+          // TODO: read doc on ReferenceArrayInput
+          // https://marmelab.com/react-admin/Inputs.html#referencearrayinput
+          source="roles"
+          reference="roles"
+          allowEmpty
+        >
+          <SelectArrayInput optionText="name" />
+        </ReferenceArrayInput>
+        <ReferenceArrayInput
+          source="customer_set"
+          reference="customers"
+          allowEmpty
+        >
+          <SelectArrayInput optionText="name" />
+        </ReferenceArrayInput>
+        <ReferenceArrayInput
+          source="product_set"
+          reference="products"
+          allowEmpty
+        >
+          <SelectArrayInput optionText="name" />
+        </ReferenceArrayInput>
       </FormTab>
     </TabbedForm>
   );

@@ -1,4 +1,4 @@
-import CustomerIcon from '@material-ui/icons/AccountCircle';
+import CustomerIcon from '@material-ui/icons/People';
 
 import CustomerList from './CustomerList';
 import CustomerCreate from './CustomerCreate';

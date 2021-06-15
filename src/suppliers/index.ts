@@ -1,4 +1,4 @@
-import SupplierIcon from '@material-ui/icons/AccountBox';
+import SupplierIcon from '@material-ui/icons/People';
 
 import SupplierList from './SupplierList';
 import SupplierCreate from './SupplierCreate';

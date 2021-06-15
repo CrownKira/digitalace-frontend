@@ -165,11 +165,14 @@ const customEnglishMessages: TranslationMessages = {
         roles: 'Roles',
         password: 'Password',
         confirm_password: 'Confirm Password',
+        customer_set: 'Manage Customers',
+        product_set: 'Manage Products',
       },
       tabs: {
         details: 'Details',
         documents: 'Documents',
         account_login: 'Account Login',
+        manage_access: 'Manage Access',
       },
       fieldGroups: {
         avatar: 'Avatar',
