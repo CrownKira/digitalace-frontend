@@ -7,6 +7,22 @@ import { baseURL } from '../apis/backend';
 import { UserProfile } from '../types';
 
 export const apiUrl = `${baseURL}/api`;
+
+/*
+ * includes() slightly faster than has()
+ * console.time("iterationTime");
+ * a = new Set([1,2,3])
+ * a.has(2)
+ * console.timeEnd("iterationTime");
+ * VM251:4 iterationTime: 0.013671875 ms
+ * undefined
+ * console.time("iterationTime");
+ * a = [1,2,3]
+ * a.includes(2)
+ * console.timeEnd("iterationTime");
+ * VM255:4 iterationTime: 0.012939453125 ms
+ */
+
 const fileLabels = ['image', 'thumbnail', 'resume'];
 
 // FIXME: fix any
@@ -26,24 +42,20 @@ const restProvider = drfProvider(apiUrl, httpClient);
 function getFormData(data: any, method = HttpMethodsEnum.PATCH) {
   const formData = new FormData();
   // FIXME: fix any
+  const jsonData = {} as any;
+  // FIXME: fix any
   for (const [key, value] of Object.entries<any>(data)) {
     if (fileLabels.includes(key) && value) {
-      // TODO: check for null or ""?
-      // if undefined, do not include in formData
       if (
         method === HttpMethodsEnum.POST ||
-        typeof value.rawFile !== 'undefined'
+        typeof value.rawFile !== 'undefined' // no new image upload if undefined
       )
         formData.append(key, value.rawFile);
     } else {
-      // TODO: better fix for array multipart?
-      // fix for django rest can't parse empty array properly
-      // eg. [] is parsed into [''], causing validator to think
-      // it's array of empty string
-      // file can go here if it is null
-      if (!Array.isArray(value) || value.length) formData.append(key, value);
+      jsonData[key] = value;
     }
   }
+  formData.append('data', JSON.stringify(jsonData));
   return formData;
 }
 
@@ -68,7 +80,7 @@ const customDataProvider: DataProvider = {
     }
     const { json } = await httpClient(`${apiUrl}/${resource}/${params.id}/`, {
       method: HttpMethodsEnum.PATCH,
-      // content-type defaults to multipart/form-data when FormData is passed to body
+      // content-type defaults to multipart/form-data for FormData
       body: getFormData(params.data),
     });
     return {
