@@ -83,14 +83,13 @@ const LoadedGridList: FC<GridProps> = ({ width }) => {
       {ids.map((id: Identifier) => (
         <GridListTile
           key={id}
-          cols={1}
           component={Link}
           to={linkToRecord(basePath, data[id].id)}
         >
-          <img src={data[id].thumbnail} alt="" />
+          <img src={data[id].thumbnail.src} alt={data[id].thumbnail.title} />
           <GridListTileBar
             className={classes.tileBar}
-            title={data[id].reference}
+            title={data[id].name}
             subtitle={
               <span>
                 {data[id].name},{' '}

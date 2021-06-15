@@ -7,13 +7,9 @@ import {
   List,
   ListProps,
   SearchInput,
-  // DateInput,
-  // NullableBooleanInput,
 } from 'react-admin';
 import { useMediaQuery, Theme } from '@material-ui/core';
-// import { makeStyles } from '@material-ui/core/styles';
 
-// import SegmentInput from './SegmentInput';
 import SupplierLinkField from './SupplierLinkField';
 import ColoredNumberField from './ColoredNumberField';
 import MobileGrid from './MobileGrid';
@@ -25,20 +21,6 @@ const SupplierFilter = (props: Omit<FilterProps, 'children'>) => (
     <SearchInput source="q" alwaysOn />
   </Filter>
 );
-
-// TODO: agent input
-/*
-<SegmentInput />
-*/
-
-// const useStyles = makeStyles((theme) => ({
-//   hiddenOnSmallScreens: {
-//     display: 'table-cell',
-//     [theme.breakpoints.down('md')]: {
-//       display: 'none',
-//     },
-//   },
-// }));
 
 const SupplierList = (props: ListProps): ReactElement => {
   // const classes = useStyles();
@@ -76,12 +58,3 @@ const SupplierList = (props: ListProps): ReactElement => {
 };
 
 export default SupplierList;
-
-/*
-// TODO: agent field
-// https://marmelab.com/react-admin/Fields.html#referencemanyfield
-<SegmentsField
-cellClassName={classes.hiddenOnSmallScreens}
-headerClassName={classes.hiddenOnSmallScreens}
-/>
-*/
