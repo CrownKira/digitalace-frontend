@@ -81,13 +81,11 @@ const customEnglishMessages: TranslationMessages = {
       },
       welcome: {
         title: 'Site under construction',
-        subtitle:
-          "Feel free to explore and modify the data - it's local to your computer, and will reset each time you reload.",
+        subtitle: 'Feel free to explore and modify the data.',
         ra_button: 'GitHub repo',
         demo_button: 'Source for this demo',
       },
     },
-
     menu: {
       organization: 'Organization',
       maintenance: 'Maintenance',
