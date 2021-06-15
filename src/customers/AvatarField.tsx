@@ -12,7 +12,7 @@ interface Props extends FieldProps<Customer> {
 const AvatarField: FC<Props> = ({ record, size = '25', className }) =>
   record ? (
     <Avatar
-      src={`${record.image}?size=${size}x${size}`}
+      src={`${record.image?.src}?size=${size}x${size}`}
       style={{ width: parseInt(size, 10), height: parseInt(size, 10) }}
       className={className}
     />

@@ -4,7 +4,6 @@ import {
   EditProps,
   TextInput,
   Toolbar,
-  useTranslate,
   FormWithRedirect,
   required,
   email,
@@ -12,13 +11,14 @@ import {
   ImageInput,
   ImageField,
 } from 'react-admin';
-import { Box, Card, CardContent, Typography } from '@material-ui/core';
+import { Box, Card, CardContent } from '@material-ui/core';
 
 import Aside from './Aside';
 import FullNameField from './FullNameField';
 import { validatePasswords } from './SupplierCreate';
 import { Supplier } from '../types';
 import { formatImage } from '../utils';
+import { SectionTitle, Separator } from '../utils/components';
 
 const SupplierEdit: FC<EditProps> = (props) => {
   return (
@@ -37,8 +37,6 @@ const SupplierTitle: FC<FieldProps<Supplier>> = ({ record }) =>
   record ? <FullNameField record={record} size="32" /> : null;
 
 const SupplierForm = (props: any) => {
-  const translate = useTranslate();
-
   return (
     <FormWithRedirect
       {...props}
@@ -47,9 +45,7 @@ const SupplierForm = (props: any) => {
         <Card>
           <form>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
-                {translate('resources.suppliers.fieldGroups.avatar')}
-              </Typography>
+              <SectionTitle label="resources.suppliers.fieldGroups.avatar" />
               <ImageInput
                 format={formatImage}
                 source="image"
@@ -59,9 +55,8 @@ const SupplierForm = (props: any) => {
               >
                 <ImageField source="src" title="title" />
               </ImageInput>
-              <Typography variant="h6" gutterBottom>
-                {translate('resources.suppliers.fieldGroups.identity')}
-              </Typography>
+              <Separator />
+              <SectionTitle label="resources.suppliers.fieldGroups.identity" />
               <Box display={{ xs: 'block', sm: 'flex' }}>
                 <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                   <TextInput
@@ -97,12 +92,8 @@ const SupplierForm = (props: any) => {
                 </Box>
                 <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
               </Box>
-
-              <Box mt="1em" />
-
-              <Typography variant="h6" gutterBottom>
-                {translate('resources.suppliers.fieldGroups.address')}
-              </Typography>
+              <Separator />
+              <SectionTitle label="resources.suppliers.fieldGroups.address" />
               <TextInput
                 source="address"
                 resource="suppliers"
@@ -116,7 +107,7 @@ const SupplierForm = (props: any) => {
                 </Box>
                 <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                   <TextInput
-                    source="stateAbbr"
+                    source="state"
                     resource="suppliers"
                     fullWidth
                     helperText={false}
@@ -131,8 +122,6 @@ const SupplierForm = (props: any) => {
                   />
                 </Box>
               </Box>
-
-              <Box mt="1em" />
             </CardContent>
             <Toolbar
               record={formProps.record}

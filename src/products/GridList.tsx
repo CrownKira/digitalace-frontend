@@ -73,6 +73,7 @@ const LoadedGridList: FC<GridProps> = ({ width }) => {
 
   if (!ids || !data) return null;
 
+  // FIXME: fix blink on load
   return (
     <MuiGridList
       cellHeight={180}
@@ -81,8 +82,9 @@ const LoadedGridList: FC<GridProps> = ({ width }) => {
     >
       {ids.map((id: Identifier) => (
         <GridListTile
-          component={Link}
           key={id}
+          cols={1}
+          component={Link}
           to={linkToRecord(basePath, data[id].id)}
         >
           <img src={data[id].thumbnail} alt="" />

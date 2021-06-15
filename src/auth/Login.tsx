@@ -24,7 +24,7 @@ import {
 
 import { lightTheme } from '../layout/themes';
 
-export const loginStyles = makeStyles((theme) => ({
+export const styles = makeStyles((theme) => ({
   main: {
     display: 'flex',
     flexDirection: 'column',
@@ -94,7 +94,7 @@ const { Form } = withTypes<FormValues>();
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const translate = useTranslate();
-  const classes = loginStyles();
+  const classes = styles();
   const notify = useNotify();
 
   const login = useLogin();
@@ -146,10 +146,11 @@ const Login = () => {
               <div className={classes.form}>
                 <div className={classes.input}>
                   <Field
-                    // TODO: email field? (react final form)
+                    // TODO: validate email (react final form)
                     autoFocus
                     name="email"
                     type="email"
+                    // TODO: render using EmailField and PasswordField?
                     // TODO: fix this
                     // @ts-ignore
                     component={renderInput}

@@ -22,10 +22,10 @@ const Image: FC<FieldProps<Product>> = ({ record }) => {
 
   if (!record) return null;
 
-  return record.image ? (
+  return record.image?.src ? (
     <Card className={classes.root}>
       <CardContent className={classes.content}>
-        <img src={record.image} alt="" className={classes.img} />
+        <img src={record.image?.src} alt="" className={classes.img} />
       </CardContent>
     </Card>
   ) : (

@@ -51,13 +51,14 @@ const authProvider: AuthProvider = {
     const {
       id,
       name: fullName,
-      image: avatar,
+      image,
       is_staff,
     } = await Promise.resolve(
       httpClient(`${apiUrl}/user/me/`).then((response) => {
         return response.json;
       })
     );
+    const avatar = image.src;
     return Promise.resolve({ id, fullName, avatar, is_staff });
   },
 };

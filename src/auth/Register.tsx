@@ -22,7 +22,7 @@ import {
 } from 'react-admin';
 
 import { lightTheme } from '../layout/themes';
-import { loginStyles, renderInput } from './Login';
+import { styles as loginStyles, renderInput } from './Login';
 import backend from '../apis/backend';
 
 const register = async ({
@@ -121,6 +121,7 @@ const Register = () => {
 
   return (
     <Form
+      // TODO: validate confirm_email and confirm_password (refer to Profile)
       onSubmit={handleSubmit}
       validate={validate}
       render={({ handleSubmit }) => (

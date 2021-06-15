@@ -20,50 +20,54 @@ export const httpClient = (url: string, options: any = {}) => {
 };
 const restProvider = drfProvider(apiUrl, httpClient);
 
+// FIXME: fix any
+function getFormData(data: any) {
+  const formData = new FormData();
+  // FIXME: fix any
+  for (const [key, value] of Object.entries<any>(data)) {
+    if (fileLabels.includes(key) && value) {
+      // TODO: check for null or ""?
+      // if undefined, do not include in formData
+      if (typeof value.rawFile !== 'undefined')
+        formData.append(key, value.rawFile);
+    } else {
+      // TODO: better fix for array multipart?
+      // fix for django rest can't parse empty array properly
+      // eg. [] is parsed into [''], causing validator to think
+      // it's array of empty string
+      // file can go here if it is null
+      if (!Array.isArray(value) || value.length) formData.append(key, value);
+    }
+  }
+  return formData;
+}
+
 const customDataProvider: DataProvider = {
   ...restProvider,
   create: async (resource, params) => {
-    if (!params.data.image && !params.data.thumbnail) {
+    if (fileLabels.every((x) => !params.data.hasOwnProperty(x))) {
       return restProvider.create(resource, params);
-    }
-
-    const formData = new FormData();
-    // FIXME: fix any
-    for (const [key, value] of Object.entries<any>(params.data)) {
-      formData.set(
-        key,
-        // TODO: handle undefined value.rawFile
-        fileLabels.includes(key) && value ? value.rawFile : value
-      );
     }
 
     const { json } = await httpClient(`${apiUrl}/${resource}/`, {
       method: 'POST',
-      body: formData,
+      body: getFormData(params.data),
+      headers: new Headers({
+        'Content-Type': 'multipart/form-data',
+      }),
     });
     return {
       data: { ...params.data, id: json.id },
     };
   },
   update: async (resource, params) => {
-    if (!params.data.image && !params.data.thumbnail) {
+    if (fileLabels.every((x) => !params.data.hasOwnProperty(x))) {
       return restProvider.create(resource, params);
     }
-
-    const formData = new FormData();
-    // FIXME: fix any
-    for (const [key, value] of Object.entries<any>(params.data)) {
-      if (fileLabels.includes(key) && value) {
-        const rawFile = value.rawFile;
-        if (rawFile) formData.set(key, rawFile);
-      } else {
-        formData.set(key, value || '');
-      }
-    }
-
     const { json } = await httpClient(`${apiUrl}/${resource}/${params.id}/`, {
       method: 'PATCH',
-      body: formData,
+      // content-type defaults to multipart/form-data when FormData is passed to body
+      body: getFormData(params.data),
     });
     return {
       data: json,
@@ -82,21 +86,12 @@ const customDataProvider: DataProvider = {
   },
 
   updateUserProfile: async (params: UpdateParams) => {
-    const formData = new FormData();
-    // FIXME: fix any
-    for (const [key, value] of Object.entries<any>(params.data)) {
-      if (fileLabels.includes(key) && value) {
-        const rawFile = value.rawFile;
-        if (rawFile) formData.set(key, rawFile);
-      } else {
-        // TODO: fix django rest unable to parse null
-        formData.set(key, value || '');
-      }
-    }
-
     const { json } = await httpClient(`${apiUrl}/user/me/`, {
       method: 'PATCH',
-      body: formData,
+      body: getFormData(params.data),
+      headers: new Headers({
+        'Content-Type': 'multipart/form-data',
+      }),
     });
     return {
       data: json,

@@ -4,16 +4,15 @@ import {
   CreateProps,
   SimpleForm,
   TextInput,
-  useTranslate,
   required,
   email,
   ImageInput,
   ImageField,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
-import { Typography, Box } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Styles } from '@material-ui/styles/withStyles';
+import { SectionTitle, Separator } from '../utils/components';
 
 export const styles: Styles<Theme, any> = {
   name: { display: 'inline-block' },
@@ -107,21 +106,9 @@ const CustomerCreate: FC<CreateProps> = (props) => {
 
 const requiredValidate = [required()];
 
-const SectionTitle = ({ label }: { label: string }) => {
-  const translate = useTranslate();
-
-  return (
-    <Typography variant="h6" gutterBottom>
-      {translate(label)}
-    </Typography>
-  );
-};
-
-const Separator = () => <Box pt="1em" />;
-
 export default CustomerCreate;
 
-// TODO: password field
+// TODO: implement password inputs after customer account is set up
 /*
 <SectionTitle label="resources.customers.fieldGroups.password" />
 <PasswordInput source="password" formClassName={classes.password} />

@@ -3,11 +3,17 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import { makeStyles } from '@material-ui/core/styles';
-import { EditButton, useTranslate, Identifier } from 'react-admin';
+import {
+  EditButton,
+  useTranslate,
+  Identifier,
+  EmailField,
+  TextField,
+} from 'react-admin';
 
 import AvatarField from './AvatarField';
-import ColoredNumberField from './ColoredNumberField';
-import { Customer } from '../types';
+// import ColoredNumberField from './ColoredNumberField';
+import { Employee } from '../types';
 
 const useStyles = makeStyles((theme) => ({
   root: { margin: '1em' },
@@ -32,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   ids?: Identifier[];
-  data?: { [key: string]: Customer };
+  data?: { [key: string]: Employee };
   basePath?: string;
 }
 
@@ -55,7 +61,7 @@ const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
               <div className={classes.cardTitleContent}>
                 <h2>{data[id].name}</h2>
                 <EditButton
-                  resource="customers"
+                  resource="employees"
                   basePath={basePath}
                   record={data[id]}
                 />
@@ -65,12 +71,20 @@ const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
           />
           <CardContent className={classes.cardContent}>
             <div>
-              {translate('resources.customers.fields.receivables')}
+              {translate('resources.employees.fields.email')}
               &nbsp;:&nbsp;
-              <ColoredNumberField
-                record={data[id]}
-                source="receivables"
-                options={{ style: 'currency', currency: 'SGD' }}
+              <EmailField source="email" />
+              {translate('resources.employees.fields.department')}
+              &nbsp;:&nbsp;
+              <TextField
+                // TODO: custom field (link to edit)
+                source="department"
+              />
+              {translate('resources.employees.fields.role')}
+              &nbsp;:&nbsp;
+              <TextField
+                // TODO: custom field (link to edit)
+                source="role"
               />
             </div>
           </CardContent>

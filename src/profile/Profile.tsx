@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useContext,
 } from 'react';
-import { Box, Card, CardContent, Typography } from '@material-ui/core';
+import { Box, Card, CardContent } from '@material-ui/core';
 import {
   TextField,
   DateField,
@@ -15,6 +15,7 @@ import {
   ImageInput,
   PasswordInput,
   SelectInput,
+  ReferenceInput,
   Labeled,
   required,
   email,
@@ -23,13 +24,13 @@ import {
   SaveContextProvider,
   useAuthenticated,
   FormWithRedirect,
-  useTranslate,
   Toolbar,
   SaveButton,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { formatImage } from '../utils';
 import { genders } from '../utils/data';
+import { SectionTitle, Separator } from '../utils/components';
 import useGetUserProfile from './useGetUserProfile';
 
 export const validatePasswords = ({
@@ -88,7 +89,6 @@ export const ProfileEdit = () => {
   const [saving, setSaving] = useState(false);
   const { refreshProfile } = useProfile();
   const { loaded, identity } = useGetUserProfile();
-  const translate = useTranslate();
 
   const handleSave = useCallback(
     (values) => {
@@ -155,9 +155,7 @@ export const ProfileEdit = () => {
           <Card>
             <form>
               <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  {translate('resources.users.fieldGroups.avatar')}
-                </Typography>
+                <SectionTitle label="resources.users.fieldGroups.avatar" />
                 <ImageInput
                   format={formatImage}
                   source="image"
@@ -167,16 +165,14 @@ export const ProfileEdit = () => {
                 >
                   <ImageField source="src" title="title" />
                 </ImageInput>
-                <Typography variant="h6" gutterBottom>
-                  {translate('resources.users.fieldGroups.account')}
-                </Typography>
-
+                <Separator />
+                <SectionTitle label="resources.users.fieldGroups.account" />
                 <Box display={{ xs: 'block', sm: 'flex' }}>
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                     <TextInput
                       source="name"
                       // TODO: use resource instead of label?
-                      label="resources.users.fields.name"
+                      resource="users"
                       validate={requiredValidate}
                       fullWidth
                     />
@@ -185,18 +181,10 @@ export const ProfileEdit = () => {
                 </Box>
                 <Box display={{ xs: 'block', sm: 'flex' }}>
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-                    <TextInput
-                      source="first_name"
-                      label="resources.users.fields.first_name"
-                      fullWidth
-                    />
+                    <TextInput source="first_name" resource="users" fullWidth />
                   </Box>
                   <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
-                    <TextInput
-                      source="last_name"
-                      label="resources.users.fields.last_name"
-                      fullWidth
-                    />
+                    <TextInput source="last_name" resource="users" fullWidth />
                   </Box>
                 </Box>
                 <TextInput
@@ -204,48 +192,43 @@ export const ProfileEdit = () => {
                   source="email"
                   validate={[...requiredValidate, email()]}
                   fullWidth
-                  label="resources.users.fields.email"
+                  resource="users"
                 />
                 <Box display={{ xs: 'block', sm: 'flex' }}>
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                     <PasswordInput
                       source="password"
-                      label="resources.users.fields.password"
+                      resource="users"
                       fullWidth
                     />
                   </Box>
                   <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
                     <PasswordInput
                       source="confirm_password"
-                      label="resources.users.fields.confirm_password"
+                      resource="users"
                       fullWidth
                     />
                   </Box>
                 </Box>
-                <Typography variant="h6" gutterBottom>
-                  {translate('resources.users.fieldGroups.personal_details')}
-                </Typography>
+                <Separator />
+                <SectionTitle label="resources.users.fieldGroups.personal_details" />
                 <Box display={{ xs: 'block', sm: 'flex' }}>
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                     <TextInput
                       source="nationality"
-                      label="resources.users.fields.nationality"
+                      resource="users"
                       fullWidth
                     />
                   </Box>
                   <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
-                    <TextInput
-                      source="ic_no"
-                      label="resources.users.fields.ic_no"
-                      fullWidth
-                    />
+                    <TextInput source="ic_no" resource="users" fullWidth />
                   </Box>
                 </Box>
                 <Box display={{ xs: 'block', sm: 'flex' }}>
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                     <DateInput
                       source="date_of_birth"
-                      label="resources.users.fields.date_of_birth"
+                      resource="users"
                       fullWidth
                     />
                   </Box>
@@ -255,17 +238,13 @@ export const ProfileEdit = () => {
                 </Box>
                 <Box display={{ xs: 'block', sm: 'flex' }}>
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-                    <TextInput
-                      source="phone_no"
-                      label="resources.users.fields.phone_no"
-                      fullWidth
-                    />
+                    <TextInput source="phone_no" resource="users" fullWidth />
                   </Box>
                   <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
                 </Box>
                 <TextInput
                   source="residential_address"
-                  label="resources.users.fields.residential_address"
+                  resource="users"
                   multiline
                   fullWidth
                 />
@@ -273,21 +252,19 @@ export const ProfileEdit = () => {
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                     <TextInput
                       source="postal_code"
-                      label="resources.users.fields.postal_code"
+                      resource="users"
                       fullWidth
                     />
                   </Box>
                   <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
                 </Box>
-
-                <Typography variant="h6" gutterBottom>
-                  {translate('resources.users.fieldGroups.company_details')}
-                </Typography>
+                <Separator />
+                <SectionTitle label="resources.users.fieldGroups.company_details" />
                 <Box display={{ xs: 'block', sm: 'flex' }}>
                   <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                     <TextInput
                       source="company_name"
-                      label="resources.users.fields.company_name"
+                      resource="users"
                       validate={requiredValidate}
                       fullWidth
                       disabled={!identity?.is_staff}
@@ -300,15 +277,17 @@ export const ProfileEdit = () => {
                     <Box display={{ xs: 'block', sm: 'flex' }}>
                       <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                         <Labeled
-                          // provide the resource and source props instead of the label?
+                          // TODO: provide the resource and source props instead of the label?
                           label="resources.users.fields.department"
                         >
-                          <TextField
-                            source="department"
-                            // https://marmelab.com/react-admin/Fields.html
-                            // https://stackoverflow.com/questions/64351273/custom-show-form-in-react-admin
+                          <ReferenceInput
                             record={identity}
-                          />
+                            source="department"
+                            reference="departments"
+                            validate={requiredValidate}
+                          >
+                            <SelectInput source="name" />
+                          </ReferenceInput>
                         </Labeled>
                       </Box>
                       <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
@@ -329,6 +308,8 @@ export const ProfileEdit = () => {
                       <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                         <Labeled label="resources.users.fields.date_of_commencement">
                           <DateField
+                            // https://marmelab.com/react-admin/Fields.html
+                            // https://stackoverflow.com/questions/64351273/custom-show-form-in-react-admin
                             source="date_of_commencement"
                             record={identity}
                           />

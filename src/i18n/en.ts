@@ -89,6 +89,7 @@ const customEnglishMessages: TranslationMessages = {
     },
 
     menu: {
+      organization: 'Organization',
       maintenance: 'Maintenance',
       transactions: 'Transactions',
       orders: 'Orders',
@@ -115,7 +116,7 @@ const customEnglishMessages: TranslationMessages = {
         date_of_cessation: 'Date of Cessation',
         department: 'Department',
         designation: 'Designation',
-        role: 'Role',
+        roles: 'Roles',
         password: 'Password',
         confirm_password: 'Confirm Password',
       },
@@ -133,6 +134,60 @@ const customEnglishMessages: TranslationMessages = {
       errors: {
         password_mismatch:
           'The password confirmation is not the same as the password.',
+      },
+      data: {
+        genders: {
+          male: 'Male',
+          female: 'Female',
+        },
+      },
+    },
+
+    employees: {
+      name: 'Employee |||| Employees',
+      fields: {
+        first_name: 'First Name',
+        last_name: 'Last Name',
+        name: 'Username',
+        email: 'Email',
+        phone_no: 'Phone Number',
+        residential_address: 'Residential Address',
+        postal_code: 'Postal Code',
+        ic_no: 'IC Number',
+        nationality: 'Nationality',
+        gender: 'Gender',
+        date_of_birth: 'Date of Birth',
+        company_name: 'Company',
+        date_of_commencement: 'Date of Commencement',
+        date_of_cessation: 'Date of Cessation',
+        department: 'Department',
+        designation: 'Designation',
+        roles: 'Roles',
+        password: 'Password',
+        confirm_password: 'Confirm Password',
+      },
+      tabs: {
+        details: 'Details',
+        documents: 'Documents',
+        account_login: 'Account Login',
+      },
+      fieldGroups: {
+        avatar: 'Avatar',
+        account: 'Account',
+        personal_details: 'Personal Details',
+        company_details: 'Company Details',
+        password: 'Password',
+        change_password: 'Change Password',
+        financial_details: 'Financial Details',
+        bank_account_details: 'Bank Account Details',
+      },
+      page: {
+        delete: 'Delete Employee',
+      },
+      errors: {
+        password_mismatch:
+          'The password confirmation is not the same as the password.',
+        email_mismatch: 'The email confirmation is not the same as the email.',
       },
       data: {
         genders: {
