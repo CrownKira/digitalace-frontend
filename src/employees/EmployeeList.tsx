@@ -10,6 +10,8 @@ import {
 } from 'react-admin';
 import { useMediaQuery, Theme } from '@material-ui/core';
 
+import DepartmentInput from './DepartmentInput';
+import DesignationInput from './DesignationInput';
 import EmployeeLinkField from './EmployeeLinkField';
 import MobileGrid from './MobileGrid';
 import EmployeeListAside from './EmployeeListAside';
@@ -18,6 +20,8 @@ import { ReactElement } from 'react';
 const EmployeeFilter = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
     <SearchInput source="q" alwaysOn />
+    <DepartmentInput />
+    <DesignationInput />
   </Filter>
 );
 
