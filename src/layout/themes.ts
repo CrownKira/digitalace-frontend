@@ -64,6 +64,11 @@ export const lightTheme = {
     borderRadius: 10,
   },
   overrides: {
+    RaLabeled: {
+      label: {
+        fontSize: '1.25rem',
+      },
+    },
     RaMenuItemLink: {
       root: {
         borderLeft: '3px solid #fff',

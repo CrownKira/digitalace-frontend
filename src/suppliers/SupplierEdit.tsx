@@ -10,6 +10,13 @@ import {
   FieldProps,
   ImageInput,
   ImageField,
+  Datagrid,
+  TextField,
+  NumberField,
+  ReferenceField,
+  EditButton,
+  ReferenceManyField,
+  Labeled,
 } from 'react-admin';
 import { Box, Card, CardContent } from '@material-ui/core';
 
@@ -19,6 +26,9 @@ import { validatePasswords } from './SupplierCreate';
 import { Supplier } from '../types';
 import { formatImage } from '../utils';
 import { SectionTitle, Separator } from '../utils/components/Divider';
+import NameField from '../categories/NameField';
+import ProductRefField from '../products/ProductRefField';
+import ThumbnailField from '../products/ThumbnailField';
 
 const SupplierEdit: FC<EditProps> = (props) => {
   return (
@@ -122,6 +132,38 @@ const SupplierForm = (props: any) => {
                   />
                 </Box>
               </Box>
+              <Separator />
+              <SectionTitle label="resources.suppliers.fieldGroups.other_details" />
+              <Labeled label="resources.suppliers.fields.product_set">
+                <ReferenceManyField
+                  reference="products"
+                  target="supplier"
+                  resource="suppliers"
+                  perPage={20}
+                  fullWidth
+                >
+                  <Datagrid>
+                    <ThumbnailField />
+                    <ProductRefField source="name" />
+                    <TextField source="description" />
+                    <TextField source="unit" />
+                    <NumberField
+                      source="cost"
+                      options={{ style: 'currency', currency: 'SGD' }}
+                    />
+                    <NumberField
+                      source="unit_price"
+                      options={{ style: 'currency', currency: 'SGD' }}
+                    />
+                    <NumberField source="stock" />
+                    <NumberField source="sales" />
+                    <ReferenceField source="category" reference="categories">
+                      <NameField {...props} />
+                    </ReferenceField>
+                    <EditButton />
+                  </Datagrid>
+                </ReferenceManyField>
+              </Labeled>
             </CardContent>
             <Toolbar
               resource="suppliers"

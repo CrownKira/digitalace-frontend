@@ -19,7 +19,7 @@ import {
 import ThumbnailField from '../products/ThumbnailField';
 import ProductRefField from '../products/ProductRefField';
 import { Category } from '../types';
-import SupplierLinkField from '../suppliers/SupplierLinkField';
+import FullNameField from '../suppliers/FullNameField';
 import { formatImage } from '../utils';
 
 const CategoryTitle: FC<FieldProps<Category>> = ({ record }) => {
@@ -67,7 +67,7 @@ const CategoryEdit: FC<EditProps> = (props) => (
           <NumberField source="stock" />
           <NumberField source="sales" />
           <ReferenceField source="supplier" reference="suppliers">
-            <SupplierLinkField />
+            <FullNameField />
           </ReferenceField>
           <EditButton />
         </Datagrid>

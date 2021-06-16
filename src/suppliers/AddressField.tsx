@@ -6,7 +6,7 @@ import { Supplier } from '../types';
 const AddressField: FC<FieldProps<Supplier>> = ({ record }) =>
   record ? (
     <span>
-      {record.address}, {record.city}, {record.stateAbbr} {record.zipcode}
+      {record.address}, {record.city}, {record.state} {record.zipcode}
     </span>
   ) : null;
 

@@ -38,7 +38,7 @@ export default (
       address: has_ordered ? address.streetAddress() : null,
       zipcode: has_ordered ? address.zipCode() : null,
       city: has_ordered ? address.city() : null,
-      stateAbbr: has_ordered ? address.stateAbbr() : null,
+      stateAbbr: has_ordered ? address.state() : null,
       avatar,
       birthday: serializeDate && birthday ? birthday.toISOString() : birthday,
       first_seen: serializeDate ? first_seen.toISOString() : first_seen,

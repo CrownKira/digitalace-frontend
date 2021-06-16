@@ -210,7 +210,7 @@ const customEnglishMessages: TranslationMessages = {
         receivables: 'Receivables',
         password: 'Password',
         confirm_password: 'Confirm Password',
-        stateAbbr: 'State',
+        state: 'State',
         phone_no: 'Phone',
       },
       filters: {
@@ -258,7 +258,8 @@ const customEnglishMessages: TranslationMessages = {
         payables: 'Payables',
         password: 'Password',
         confirm_password: 'Confirm Password',
-        stateAbbr: 'State',
+        state: 'State',
+        product_set: 'Products',
       },
       filters: {
         last_visited: 'Last visited',
