@@ -3,8 +3,12 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import { makeStyles } from '@material-ui/core/styles';
-import { EditButton, useTranslate, Identifier } from 'react-admin';
+import { EditButton, Identifier, EmailField, TextField } from 'react-admin';
+import EmailIcon from '@material-ui/icons/Email';
+import PhoneIcon from '@material-ui/icons/Phone';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
+import { IconText } from '../utils/components/IconText';
 import AvatarField from './AvatarField';
 import ColoredNumberField from './ColoredNumberField';
 import { Supplier } from '../types';
@@ -37,7 +41,6 @@ interface Props {
 }
 
 const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
-  const translate = useTranslate();
   const classes = useStyles();
 
   if (!ids || !data) {
@@ -62,15 +65,23 @@ const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
             avatar={<AvatarField record={data[id]} size="45" />}
           />
           <CardContent className={classes.cardContent}>
-            <div>
-              {translate('resources.suppliers.fields.payables')}
-              &nbsp;:&nbsp;
-              <ColoredNumberField
-                record={data[id]}
-                source="payables"
-                options={{ style: 'currency', currency: 'SGD' }}
-              />
-            </div>
+            <IconText text={<EmailField record={data[id]} source="email" />}>
+              <EmailIcon color="secondary" />
+            </IconText>
+            <IconText text={<TextField record={data[id]} source="phone_no" />}>
+              <PhoneIcon color="secondary" />
+            </IconText>
+            <IconText
+              text={
+                <ColoredNumberField
+                  record={data[id]}
+                  source="payables"
+                  options={{ style: 'currency', currency: 'SGD' }}
+                />
+              }
+            >
+              <AttachMoneyIcon color="secondary" />
+            </IconText>
           </CardContent>
         </Card>
       ))}

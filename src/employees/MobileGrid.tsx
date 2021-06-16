@@ -3,14 +3,12 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  EditButton,
-  useTranslate,
-  Identifier,
-  EmailField,
-  TextField,
-} from 'react-admin';
+import EmailIcon from '@material-ui/icons/Email';
+import DomainIcon from '@material-ui/icons/Domain';
+import GroupIcon from '@material-ui/icons/Group';
+import { EditButton, Identifier, EmailField, TextField } from 'react-admin';
 
+import { IconText } from '../utils/components/IconText';
 import AvatarField from './AvatarField';
 // import ColoredNumberField from './ColoredNumberField';
 import { Employee } from '../types';
@@ -43,7 +41,6 @@ interface Props {
 }
 
 const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
-  const translate = useTranslate();
   const classes = useStyles();
 
   if (!ids || !data) {
@@ -70,23 +67,30 @@ const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
             avatar={<AvatarField record={data[id]} size="45" />}
           />
           <CardContent className={classes.cardContent}>
-            <div>
-              {translate('resources.employees.fields.email')}
-              &nbsp;:&nbsp;
-              <EmailField source="email" />
-              {translate('resources.employees.fields.department')}
-              &nbsp;:&nbsp;
-              <TextField
-                // TODO: custom field (link to edit)
-                source="department"
-              />
-              {translate('resources.employees.fields.role')}
-              &nbsp;:&nbsp;
-              <TextField
-                // TODO: custom field (link to edit)
-                source="role"
-              />
-            </div>
+            <IconText text={<EmailField record={data[id]} source="email" />}>
+              <EmailIcon color="secondary" />
+            </IconText>
+            <IconText
+              text={
+                <TextField
+                  // TODO: custom field (link to edit)
+                  record={data[id]}
+                  source="department"
+                />
+              }
+            >
+              <DomainIcon color="secondary" />
+            </IconText>
+            <IconText
+              text={
+                <TextField
+                  // TODO: custom field (link to edit)
+                  source="roles"
+                />
+              }
+            >
+              <GroupIcon color="secondary" />
+            </IconText>
           </CardContent>
         </Card>
       ))}

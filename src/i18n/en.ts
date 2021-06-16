@@ -166,6 +166,10 @@ const customEnglishMessages: TranslationMessages = {
         customer_set: 'Manage Customers',
         product_set: 'Manage Products',
       },
+      filters: {
+        department: 'Department',
+        designation: 'Designation',
+      },
       tabs: {
         details: 'Details',
         documents: 'Documents',
@@ -308,6 +312,7 @@ const customEnglishMessages: TranslationMessages = {
         width__gte: 'Min width',
         width__lte: 'Max width',
         width: 'Width',
+        unit_price: 'Unit Price',
       },
       tabs: {
         image: 'Image',

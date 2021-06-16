@@ -12,6 +12,7 @@ import { useMediaQuery, Theme } from '@material-ui/core';
 
 import EmployeeLinkField from './EmployeeLinkField';
 import MobileGrid from './MobileGrid';
+import EmployeeListAside from './EmployeeListAside';
 import { ReactElement } from 'react';
 
 const EmployeeFilter = (props: Omit<FilterProps, 'children'>) => (
@@ -31,6 +32,7 @@ const EmployeeList = (props: ListProps): ReactElement => {
       filters={isSmall ? <EmployeeFilter /> : undefined}
       sort={{ field: '-id', order: 'DESC' }}
       perPage={25}
+      aside={<EmployeeListAside />}
     >
       {isXsmall ? (
         <MobileGrid />

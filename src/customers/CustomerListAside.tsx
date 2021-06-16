@@ -12,6 +12,7 @@ import {
 
 import { Category } from '../types';
 
+// TODO: refactor aside (customers list, employees list)
 const Card = withStyles((theme) => ({
   root: {
     [theme.breakpoints.up('sm')]: {

@@ -23,7 +23,6 @@ const SupplierFilter = (props: Omit<FilterProps, 'children'>) => (
 );
 
 const SupplierList = (props: ListProps): ReactElement => {
-  // const classes = useStyles();
   const isXsmall = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.down('xs')
   );

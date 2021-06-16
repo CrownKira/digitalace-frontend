@@ -25,7 +25,6 @@ const CustomerFilter = (props: Omit<FilterProps, 'children'>) => (
 );
 
 const CustomerList = (props: ListProps): ReactElement => {
-  // const classes = useStyles();
   const isXsmall = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.down('xs')
   );
