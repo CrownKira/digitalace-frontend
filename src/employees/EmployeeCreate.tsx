@@ -5,7 +5,7 @@ import {
   DateInput,
   SelectInput,
   ReferenceArrayInput,
-  SelectArrayInput,
+  AutocompleteArrayInput,
   FileInput,
   ReferenceInput,
   ImageInput,
@@ -186,30 +186,35 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
         </FormTab>
         <FormTab label="resources.employees.tabs.manage_access">
           <ReferenceArrayInput
-            // TODO: list down role permissions (beside the input)
-            // TODO: read doc on ReferenceArrayInput
-            // https://marmelab.com/react-admin/Inputs.html#referencearrayinput
-            source="roles"
+            /**
+             * https://marmelab.com/react-admin/Inputs.html#writing-your-own-input-component
+             * <ReferenceArrayInput> is a stateless component,
+             * so it only allows to filter the list of choices,
+             * not to extend it. If you need to populate the
+             * list of choices based on the result from a
+             * fetch call (and if <ReferenceArrayInput> doesn’t
+             * cover your need), you’ll have to write your own
+             * Input component based on material-ui-chip-input.
+             */
             reference="roles"
-            allowEmpty
+            source="roles"
+            suggestionLimit={5}
           >
-            <SelectArrayInput optionText="name" />
+            <AutocompleteArrayInput optionText="name" />
           </ReferenceArrayInput>
           <ReferenceArrayInput
-            source="customer_set"
             reference="customers"
-            allowEmpty
-            formClassName={classes.leftFormGroup}
+            source="customer_set"
+            suggestionLimit={5}
           >
-            <SelectArrayInput optionText="name" />
+            <AutocompleteArrayInput optionText="name" />
           </ReferenceArrayInput>
           <ReferenceArrayInput
-            source="product_set"
             reference="products"
-            allowEmpty
-            formClassName={classes.rightFormGroup}
+            source="product_set"
+            suggestionLimit={5}
           >
-            <SelectArrayInput optionText="name" />
+            <AutocompleteArrayInput optionText="name" />
           </ReferenceArrayInput>
         </FormTab>
       </TabbedForm>

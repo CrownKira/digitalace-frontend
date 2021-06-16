@@ -9,11 +9,12 @@ import {
   ImageInput,
   ImageField,
   ReferenceArrayInput,
-  SelectArrayInput,
+  AutocompleteArrayInput,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Styles } from '@material-ui/styles/withStyles';
+
 import { SectionTitle, Separator } from '../utils/components/Divider';
 
 export const styles: Styles<Theme, any> = {
@@ -107,17 +108,16 @@ const CustomerCreate: FC<CreateProps> = (props) => {
         />
         <Separator />
         <SectionTitle label="resources.customers.fieldGroups.other_details" />
-        <TextInput source="business" resource="customers" />
-        <TextInput source="term" resource="customers" />
+        <TextInput source="business" />
+        <TextInput source="term" />
         <Separator />
         <SectionTitle label="resources.customers.fieldGroups.manage_access" />
         <ReferenceArrayInput
-          source="agents"
-          resource="agents"
           reference="employees"
-          allowEmpty
+          source="agents"
+          suggestionLimit={5}
         >
-          <SelectArrayInput optionText="name" />
+          <AutocompleteArrayInput optionText="name" />
         </ReferenceArrayInput>
       </SimpleForm>
     </Create>

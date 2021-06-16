@@ -113,7 +113,7 @@ const customEnglishMessages: TranslationMessages = {
         date_of_commencement: 'Date of Commencement',
         date_of_cessation: 'Date of Cessation',
         department: 'Department',
-        designation: 'Designation',
+        designation: 'Hello',
         roles: 'Roles',
         password: 'Password',
         confirm_password: 'Confirm Password',

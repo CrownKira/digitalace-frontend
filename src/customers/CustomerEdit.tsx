@@ -11,7 +11,7 @@ import {
   ImageInput,
   ImageField,
   ReferenceArrayInput,
-  SelectArrayInput,
+  AutocompleteArrayInput,
 } from 'react-admin';
 import { Box, Card, CardContent } from '@material-ui/core';
 
@@ -145,20 +145,14 @@ const CustomerForm = (props: any) => {
               </Box>
               <Separator />
               <SectionTitle label="resources.customers.fieldGroups.manage_access" />
-              <Box display={{ xs: 'block', sm: 'flex' }}>
-                <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-                  <ReferenceArrayInput
-                    source="agents"
-                    resource="agents"
-                    reference="employees"
-                    allowEmpty
-                    fullWidth
-                  >
-                    <SelectArrayInput optionText="name" />
-                  </ReferenceArrayInput>
-                </Box>
-                <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
-              </Box>
+              <ReferenceArrayInput
+                resource="agents"
+                reference="employees"
+                source="agents"
+                suggestionLimit={5}
+              >
+                <AutocompleteArrayInput optionText="name" />
+              </ReferenceArrayInput>
             </CardContent>
             <Toolbar
               resource="customers"

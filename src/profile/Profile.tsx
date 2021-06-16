@@ -291,7 +291,7 @@ export const ProfileEdit = () => {
                         </Labeled>
                       </Box>
                       <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
-                        <Labeled source="designation">
+                        <Labeled label="resources.users.fields.designation">
                           <TextField source="designation" record={identity} />
                         </Labeled>
                       </Box>
