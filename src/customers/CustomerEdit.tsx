@@ -39,6 +39,7 @@ const CustomerTitle: FC<FieldProps<Customer>> = ({ record }) =>
   record ? <FullNameField record={record} size="32" /> : null;
 
 // TODO: redesign layout
+// TODO: split into 2 columns
 const CustomerForm = (props: any) => {
   return (
     <FormWithRedirect

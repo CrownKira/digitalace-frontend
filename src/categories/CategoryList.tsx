@@ -38,7 +38,7 @@ const CategoryGrid: FC = (props) => {
       {ids.map((id) => (
         <Grid key={id} xs={12} sm={6} md={4} lg={3} xl={2} item>
           <Card>
-            <CardMedia image={data[id].image.src} className={classes.media} />
+            <CardMedia image={data[id].image?.src} className={classes.media} />
             <CardContent className={classes.title}>
               <Typography variant="h5" component="h2" align="center">
                 {inflection.humanize(data[id].name)}

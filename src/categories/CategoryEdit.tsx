@@ -54,7 +54,6 @@ const CategoryEdit: FC<EditProps> = (props) => (
         <Datagrid>
           <ThumbnailField />
           <ProductRefField source="name" />
-          <TextField source="description" />
           <TextField source="unit" />
           <NumberField
             source="cost"

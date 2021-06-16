@@ -145,7 +145,6 @@ const SupplierForm = (props: any) => {
                   <Datagrid>
                     <ThumbnailField />
                     <ProductRefField source="name" />
-                    <TextField source="description" />
                     <TextField source="unit" />
                     <NumberField
                       source="cost"

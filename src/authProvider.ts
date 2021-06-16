@@ -58,7 +58,7 @@ const authProvider: AuthProvider = {
         return response.json;
       })
     );
-    const avatar = image.src;
+    const avatar = image?.src;
     return Promise.resolve({ id, fullName, avatar, is_staff });
   },
 };
