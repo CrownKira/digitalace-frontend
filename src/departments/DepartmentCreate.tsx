@@ -12,7 +12,7 @@ const postDefaultValue = () => ({
   image: null,
 });
 
-const CategoryCreate: FC<CreateProps> = (props) => (
+const DepartmentCreate: FC<CreateProps> = (props) => (
   <Create {...props}>
     <SimpleForm initialValues={postDefaultValue}>
       <ImageInput
@@ -27,4 +27,4 @@ const CategoryCreate: FC<CreateProps> = (props) => (
   </Create>
 );
 
-export default CategoryCreate;
+export default DepartmentCreate;

@@ -20,6 +20,18 @@ export interface Category extends Record {
   name: string;
 }
 
+export interface Department extends Record {
+  name: string;
+}
+
+export interface Designation extends Record {
+  name: string;
+}
+
+export interface Role extends Record {
+  name: string;
+}
+
 export interface Product extends Record {
   category: Identifier;
   description: string;

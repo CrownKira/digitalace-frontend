@@ -38,6 +38,12 @@ const Aside: FC = () => {
     { field: 'name', order: 'ASC' },
     {}
   );
+  const { data: roles, ids: roleIDs } = useGetList<Category>(
+    'roles',
+    { page: 1, perPage: 100 },
+    { field: 'name', order: 'ASC' },
+    {}
+  );
   return (
     <Card>
       <CardContent>
@@ -67,6 +73,20 @@ const Aside: FC = () => {
                 label={inflection.humanize(designations[id].name)}
                 key={designations[id].id}
                 value={{ designation: designations[id].id }}
+              />
+            ))}
+        </FilterList>
+        <FilterList
+          label="resources.employees.filters.role"
+          icon={<DirectionsWalkIcon />}
+        >
+          {roleIDs &&
+            roles &&
+            roleIDs.map((id: any) => (
+              <FilterListItem
+                label={inflection.humanize(roles[id].name)}
+                key={roles[id].id}
+                value={{ roles: roles[id].id }}
               />
             ))}
         </FilterList>

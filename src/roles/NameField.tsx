@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { FieldProps } from 'react-admin';
 import AvatarField from './AvatarField';
-import { Category } from '../types';
+import { Role } from '../types';
 
 // react-admin
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface Props extends FieldProps<Category> {
+interface Props extends FieldProps<Role> {
   size?: string;
 }
 
@@ -35,7 +35,7 @@ const FullNameField: FC<Props> = ({ record, size }) => {
 
 FullNameField.defaultProps = {
   source: 'name',
-  label: 'resources.categories.fields.name',
+  label: 'resources.roles.fields.name',
 };
 
 export default memo<Props>(FullNameField);

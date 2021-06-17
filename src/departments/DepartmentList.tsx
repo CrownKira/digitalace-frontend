@@ -11,8 +11,8 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import LinkToRelatedProducts from './LinkToRelatedProducts';
-import { Category } from '../types';
+import LinkToRelatedEmployees from './LinkToRelatedEmployees';
+import { Department } from '../types';
 
 const useStyles = makeStyles({
   root: {
@@ -30,9 +30,9 @@ const useStyles = makeStyles({
   },
 });
 
-const CategoryGrid: FC = (props) => {
+const DepartmentGrid: FC = (props) => {
   const classes = useStyles(props);
-  const { data, ids } = useListContext<Category>();
+  const { data, ids } = useListContext<Department>();
   return ids ? (
     <Grid container spacing={2} className={classes.root}>
       {ids.map((id) => (
@@ -54,8 +54,8 @@ const CategoryGrid: FC = (props) => {
                 spacing: classes.actionSpacer,
               }}
             >
-              <LinkToRelatedProducts record={data[id]} />
-              <EditButton basePath="/categories" record={data[id]} />
+              <LinkToRelatedEmployees record={data[id]} />
+              <EditButton basePath="/departments" record={data[id]} />
             </CardActions>
           </Card>
         </Grid>
@@ -64,15 +64,15 @@ const CategoryGrid: FC = (props) => {
   ) : null;
 };
 
-const CategoryList: FC<ListProps> = (props) => (
+const DepartmentList: FC<ListProps> = (props) => (
   <List
     {...props}
     sort={{ field: 'name', order: 'ASC' }}
     perPage={25}
     component="div"
   >
-    <CategoryGrid />
+    <DepartmentGrid />
   </List>
 );
 
-export default CategoryList;
+export default DepartmentList;

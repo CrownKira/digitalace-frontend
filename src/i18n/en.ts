@@ -169,6 +169,7 @@ const customEnglishMessages: TranslationMessages = {
       filters: {
         department: 'Department',
         designation: 'Designation',
+        role: 'Role',
       },
       tabs: {
         details: 'Details',
@@ -392,11 +393,22 @@ const customEnglishMessages: TranslationMessages = {
         grand_total: 'Total',
       },
     },
-
     categories: {
       name: 'Category |||| Categories',
       fields: {
         products: 'Products',
+      },
+    },
+    departments: {
+      name: 'Department |||| Departments',
+      fields: {
+        user_set: 'Employees',
+      },
+    },
+    roles: {
+      name: 'Role |||| Roles',
+      fields: {
+        user_set: 'Employees',
       },
     },
     commands: {

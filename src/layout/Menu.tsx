@@ -13,6 +13,8 @@ import {
   MenuProps,
 } from 'react-admin';
 
+import departments from '../departments';
+import roles from '../roles';
 import employees from '../employees';
 import customers from '../customers';
 import suppliers from '../suppliers';
@@ -61,6 +63,27 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         icon={<BusinessIcon />}
         dense={dense}
       >
+        <MenuItemLink
+          to={'/departments'}
+          primaryText={translate('resources.departments.name', {
+            smart_count: 2,
+          })}
+          leftIcon={<departments.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+        />
+
+        <MenuItemLink
+          to={'/roles'}
+          primaryText={translate('resources.roles.name', {
+            smart_count: 2,
+          })}
+          leftIcon={<roles.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+        />
         <MenuItemLink
           to={'/employees'}
           primaryText={translate('resources.employees.name', {
