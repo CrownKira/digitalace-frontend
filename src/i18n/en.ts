@@ -57,7 +57,7 @@ const customEnglishMessages: TranslationMessages = {
       email: 'Email',
       confirm_email: 'Confirm Email',
       confirm_password: 'Confirm Password',
-      company: 'Company',
+      company_name: 'Company Name',
     },
     user_menu: {
       profile: {
@@ -81,14 +81,13 @@ const customEnglishMessages: TranslationMessages = {
       },
       welcome: {
         title: 'Site under construction',
-        subtitle:
-          "Feel free to explore and modify the data - it's local to your computer, and will reset each time you reload.",
+        subtitle: 'Feel free to explore and modify the data.',
         ra_button: 'GitHub repo',
         demo_button: 'Source for this demo',
       },
     },
-
     menu: {
+      organization: 'Organization',
       maintenance: 'Maintenance',
       transactions: 'Transactions',
       orders: 'Orders',
@@ -97,11 +96,12 @@ const customEnglishMessages: TranslationMessages = {
 
   resources: {
     users: {
+      name: 'User |||| Users',
       fields: {
         first_name: 'First Name',
         last_name: 'Last Name',
         name: 'Username',
-        email_address: 'Email Address',
+        email: 'Email',
         phone_no: 'Phone Number',
         residential_address: 'Residential Address',
         postal_code: 'Postal Code',
@@ -109,11 +109,12 @@ const customEnglishMessages: TranslationMessages = {
         nationality: 'Nationality',
         gender: 'Gender',
         date_of_birth: 'Date of Birth',
+        company_name: 'Company',
         date_of_commencement: 'Date of Commencement',
         date_of_cessation: 'Date of Cessation',
         department: 'Department',
-        designation: 'Designation',
-        role: 'Role',
+        designation: 'Hello',
+        roles: 'Roles',
         password: 'Password',
         confirm_password: 'Confirm Password',
       },
@@ -125,9 +126,74 @@ const customEnglishMessages: TranslationMessages = {
         password: 'Password',
         change_password: 'Change Password',
       },
+      page: {
+        delete: 'Delete User',
+      },
       errors: {
         password_mismatch:
           'The password confirmation is not the same as the password.',
+      },
+      data: {
+        genders: {
+          male: 'Male',
+          female: 'Female',
+        },
+      },
+    },
+
+    employees: {
+      name: 'Employee |||| Employees',
+      fields: {
+        first_name: 'First Name',
+        last_name: 'Last Name',
+        name: 'Username',
+        email: 'Email',
+        phone_no: 'Phone Number',
+        residential_address: 'Residential Address',
+        postal_code: 'Postal Code',
+        ic_no: 'IC Number',
+        nationality: 'Nationality',
+        gender: 'Gender',
+        date_of_birth: 'Date of Birth',
+        company_name: 'Company',
+        date_of_commencement: 'Date of Commencement',
+        date_of_cessation: 'Date of Cessation',
+        department: 'Department',
+        designation: 'Designation',
+        roles: 'Roles',
+        password: 'Password',
+        confirm_password: 'Confirm Password',
+        customer_set: 'Manage Customers',
+        product_set: 'Manage Products',
+      },
+      filters: {
+        department: 'Department',
+        designation: 'Designation',
+        role: 'Role',
+      },
+      tabs: {
+        details: 'Details',
+        documents: 'Documents',
+        account_login: 'Account Login',
+        manage_access: 'Manage Access',
+      },
+      fieldGroups: {
+        avatar: 'Avatar',
+        account: 'Account',
+        personal_details: 'Personal Details',
+        company_details: 'Company Details',
+        password: 'Password',
+        change_password: 'Change Password',
+        financial_details: 'Financial Details',
+        bank_account_details: 'Bank Account Details',
+      },
+      page: {
+        delete: 'Delete Employee',
+      },
+      errors: {
+        password_mismatch:
+          'The password confirmation is not the same as the password.',
+        email_mismatch: 'The email confirmation is not the same as the email.',
       },
       data: {
         genders: {
@@ -149,7 +215,7 @@ const customEnglishMessages: TranslationMessages = {
         receivables: 'Receivables',
         password: 'Password',
         confirm_password: 'Confirm Password',
-        stateAbbr: 'State',
+        state: 'State',
         phone_no: 'Phone',
       },
       filters: {
@@ -174,6 +240,7 @@ const customEnglishMessages: TranslationMessages = {
         history: 'History',
         password: 'Password',
         change_password: 'Change Password',
+        manage_access: 'Manage Access',
       },
       page: {
         delete: 'Delete Customer',
@@ -196,7 +263,8 @@ const customEnglishMessages: TranslationMessages = {
         payables: 'Payables',
         password: 'Password',
         confirm_password: 'Confirm Password',
-        stateAbbr: 'State',
+        state: 'State',
+        product_set: 'Products',
       },
       filters: {
         last_visited: 'Last visited',
@@ -245,6 +313,7 @@ const customEnglishMessages: TranslationMessages = {
         width__gte: 'Min width',
         width__lte: 'Max width',
         width: 'Width',
+        unit_price: 'Unit Price',
       },
       tabs: {
         image: 'Image',
@@ -324,11 +393,31 @@ const customEnglishMessages: TranslationMessages = {
         grand_total: 'Total',
       },
     },
-
     categories: {
       name: 'Category |||| Categories',
       fields: {
         products: 'Products',
+      },
+    },
+    departments: {
+      name: 'Department |||| Departments',
+      fields: {
+        user_set: 'Employees',
+        designation_set: 'Designations',
+      },
+    },
+    designations: {
+      name: 'Designation |||| Designations',
+      fields: {
+        name: 'Name',
+        user_set: 'Employees',
+      },
+    },
+    roles: {
+      name: 'Role |||| Roles',
+      fields: {
+        permissions: 'Manage Permissions',
+        user_set: 'Employees',
       },
     },
     commands: {

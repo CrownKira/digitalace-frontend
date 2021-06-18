@@ -34,7 +34,7 @@ const FullNameField: FC<Props> = ({ record, size }) => {
 };
 
 FullNameField.defaultProps = {
-  source: 'last_name',
+  source: 'name',
   label: 'resources.suppliers.fields.name',
 };
 

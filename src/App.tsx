@@ -1,3 +1,4 @@
+// TODO: order dependencies
 import { useEffect } from 'react';
 import { Admin, Resource, DataProvider } from 'react-admin';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
@@ -10,6 +11,9 @@ import { Dashboard } from './dashboard';
 import customRoutes from './routes';
 import englishMessages from './i18n/en';
 
+import departments from './departments';
+import roles from './roles';
+import employees from './employees';
 import invoices from './invoices';
 import receives from './receives';
 import sales_orders from './sales_orders';
@@ -61,8 +65,10 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
       <Resource name="categories" {...categories} />
       <Resource name="reviews" />
       <Resource name="commands" />
-      <Resource name="roles" />
-      <Resource name="departments" />
+      <Resource name="departments" {...departments} />
+      <Resource name="roles" {...roles} />
+      <Resource name="designations" />
+      <Resource name="employees" {...employees} />
     </Admin>
   );
 };

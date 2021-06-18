@@ -7,13 +7,10 @@ import {
   List,
   ListProps,
   SearchInput,
-  // DateInput,
-  // NullableBooleanInput,
 } from 'react-admin';
 import { useMediaQuery, Theme } from '@material-ui/core';
-// import { makeStyles } from '@material-ui/core/styles';
 
-// import SegmentInput from './SegmentInput';
+import AgentInput from './AgentInput';
 import CustomerLinkField from './CustomerLinkField';
 import ColoredNumberField from './ColoredNumberField';
 import MobileGrid from './MobileGrid';
@@ -23,25 +20,11 @@ import { ReactElement } from 'react';
 const CustomerFilter = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
     <SearchInput source="q" alwaysOn />
+    <AgentInput />
   </Filter>
 );
 
-// TODO: agent input
-/*
-<SegmentInput />
-*/
-
-// const useStyles = makeStyles((theme) => ({
-//   hiddenOnSmallScreens: {
-//     display: 'table-cell',
-//     [theme.breakpoints.down('md')]: {
-//       display: 'none',
-//     },
-//   },
-// }));
-
 const CustomerList = (props: ListProps): ReactElement => {
-  // const classes = useStyles();
   const isXsmall = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.down('xs')
   );

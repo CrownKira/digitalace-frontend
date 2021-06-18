@@ -1,6 +1,7 @@
 import { ReduxState, Record, Identifier } from 'react-admin';
 
-// TODO: update types
+// TODO: update types (copy from serializer fields)
+
 export type ThemeName = 'light' | 'dark';
 
 export interface AppState extends ReduxState {
@@ -19,16 +20,51 @@ export interface Category extends Record {
   name: string;
 }
 
+export interface Department extends Record {
+  name: string;
+}
+
+export interface Designation extends Record {
+  name: string;
+}
+
+export interface Role extends Record {
+  name: string;
+}
+
 export interface Product extends Record {
   category: Identifier;
   description: string;
   height: number;
-  image: string;
+  image: { src?: string; title?: string };
   price: number;
   reference: string;
   stock: number;
-  thumbnail: string;
+  thumbnail: { src?: string; title?: string };
   width: number;
+}
+
+export interface Employee extends Record {
+  id: number;
+  password: string;
+  company: string;
+  email: string;
+  name: string;
+  department: string;
+  role: string;
+  image: { src?: string; title?: string };
+  resume: string;
+  first_name: string;
+  last_name: string;
+  residential_address: string;
+  postal_code: string;
+  ic_no: string;
+  nationality: string;
+  gender: string;
+  date_of_birth: Date;
+  date_of_commencement: Date;
+  date_of_cessation: Date;
+  phone_no: string;
 }
 
 export interface Customer extends Record {

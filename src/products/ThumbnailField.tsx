@@ -10,7 +10,7 @@ const useStyles = makeStyles({
 const ThumbnailField: FC<FieldProps<Product>> = ({ record }) => {
   const classes = useStyles();
   return record ? (
-    <img src={record.thumbnail} className={classes.root} alt="" />
+    <img src={record.thumbnail?.src} className={classes.root} alt="" />
   ) : null;
 };
 

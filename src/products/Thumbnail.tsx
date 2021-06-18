@@ -11,10 +11,10 @@ const Thumbnail: FC<FieldProps<Product>> = ({ record }) => {
 
   if (!record) return null;
 
-  return record.thumbnail ? (
+  return record.thumbnail?.src ? (
     <Card className={classes.root}>
       <CardContent className={classes.content}>
-        <img src={record.thumbnail} alt="" className={classes.img} />
+        <img src={record.thumbnail?.src} alt="" className={classes.img} />
       </CardContent>
     </Card>
   ) : (

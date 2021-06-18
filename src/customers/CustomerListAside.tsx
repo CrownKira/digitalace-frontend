@@ -1,25 +1,18 @@
 import { FC } from 'react';
+import inflection from 'inflection';
 import { Card as MuiCard, CardContent } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-// import AccessTimeIcon from '@material-ui/icons/AccessTime';
-// import MonetizationOnIcon from '@material-ui/icons/MonetizationOnOutlined';
-// import MailIcon from '@material-ui/icons/MailOutline';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
 import {
   FilterList,
   FilterLiveSearch,
-  // FilterListItem,
+  FilterListItem,
+  useGetList,
 } from 'react-admin';
-// import {
-//   endOfYesterday,
-//   startOfWeek,
-//   subWeeks,
-//   startOfMonth,
-//   subMonths,
-// } from 'date-fns';
 
-// import segments from '../segments/data';
+import { Category } from '../types';
 
+// TODO: refactor aside (customers list, employees list)
 const Card = withStyles((theme) => ({
   root: {
     [theme.breakpoints.up('sm')]: {
@@ -33,17 +26,36 @@ const Card = withStyles((theme) => ({
   },
 }))(MuiCard);
 
-const Aside: FC = () => (
-  <Card>
-    <CardContent>
-      <FilterLiveSearch />
-      <FilterList
-        label="resources.customers.filters.agent"
-        icon={<DirectionsWalkIcon />}
-      ></FilterList>
-    </CardContent>
-  </Card>
-);
+const Aside: FC = () => {
+  const { data, ids } = useGetList<Category>(
+    'employees',
+    { page: 1, perPage: 100 },
+    { field: 'name', order: 'ASC' },
+    {}
+  );
+  return (
+    <Card>
+      <CardContent>
+        <FilterLiveSearch />
+        <FilterList
+          // TODO: filter multiple
+          label="resources.customers.filters.agent"
+          icon={<DirectionsWalkIcon />}
+        >
+          {ids &&
+            data &&
+            ids.map((id: any) => (
+              <FilterListItem
+                label={inflection.humanize(data[id].name)}
+                key={data[id].id}
+                value={{ agents: data[id].id }}
+              />
+            ))}
+        </FilterList>
+      </CardContent>
+    </Card>
+  );
+};
 
 export default Aside;
 

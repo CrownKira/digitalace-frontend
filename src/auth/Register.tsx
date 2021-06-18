@@ -22,11 +22,11 @@ import {
 } from 'react-admin';
 
 import { lightTheme } from '../layout/themes';
-import { loginStyles, renderInput } from './Login';
+import { styles as loginStyles, renderInput } from './Login';
 import backend from '../apis/backend';
 
 const register = async ({
-  company,
+  company_name,
   name,
   email,
   confirm_email,
@@ -35,7 +35,7 @@ const register = async ({
 }: FormValues) => {
   try {
     const response = await backend.post('/api/user/create/', {
-      company,
+      company_name,
       name,
       email,
       confirm_email,
@@ -53,7 +53,7 @@ const register = async ({
 };
 
 interface FormValues {
-  company?: string;
+  company_name?: string;
   name?: string;
   email?: string;
   confirm_email?: string;
@@ -98,8 +98,8 @@ const Register = () => {
 
   const validate = (values: FormValues) => {
     const errors: FormValues = {};
-    if (!values.company) {
-      errors.company = translate('ra.validation.required');
+    if (!values.company_name) {
+      errors.company_name = translate('ra.validation.required');
     }
     if (!values.name) {
       errors.name = translate('ra.validation.required');
@@ -121,6 +121,7 @@ const Register = () => {
 
   return (
     <Form
+      // TODO: validate confirm_email and confirm_password (refer to Profile)
       onSubmit={handleSubmit}
       validate={validate}
       render={({ handleSubmit }) => (
@@ -139,10 +140,10 @@ const Register = () => {
                 <div className={classes.input}>
                   <Field
                     autoFocus
-                    name="company"
+                    name="company_name"
                     // @ts-ignore
                     component={renderInput}
-                    label={translate('pos.auth.company')}
+                    label={translate('pos.auth.company_name')}
                     disabled={loading}
                   />
                 </div>

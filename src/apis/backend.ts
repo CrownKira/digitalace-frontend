@@ -4,9 +4,7 @@ export const baseURL = '';
 
 const instance = axios.create({
   baseURL,
-  headers: {
-    // 'Content-Type': 'application',
-  },
+  headers: {},
 });
 
 // https://github.com/axios/axios#custom-instance-defaults

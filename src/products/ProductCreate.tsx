@@ -26,12 +26,17 @@ export const styles = {
 
 const useStyles = makeStyles(styles);
 
+const postDefaultValue = () => ({
+  image: '',
+  thumbnail: '',
+});
+
 const ProductCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
 
   return (
     <Create {...props}>
-      <TabbedForm>
+      <TabbedForm initialValues={postDefaultValue}>
         <FormTab label="resources.products.tabs.image">
           <ImageInput
             source="image"
@@ -56,13 +61,13 @@ const ProductCreate: FC<CreateProps> = (props) => {
           </ImageInput>
         </FormTab>
         <FormTab label="resources.products.tabs.details" path="details">
-          <ReferenceInput source="category" reference="categories" allowEmpty>
-            <SelectInput source="name" validate={required()} />
+          <ReferenceInput source="category" reference="categories">
+            <SelectInput source="name" validate={requiredValidate} />
           </ReferenceInput>
-          <TextInput source="name" validate={required()} />
+          <TextInput source="name" validate={requiredValidate} />
           <NumberInput
             source="cost"
-            validate={required()}
+            validate={requiredValidate}
             className={classes.cost}
             formClassName={classes.costFormGroup}
             InputProps={{
@@ -73,7 +78,7 @@ const ProductCreate: FC<CreateProps> = (props) => {
           />
           <NumberInput
             source="unit_price"
-            validate={required()}
+            validate={requiredValidate}
             className={classes.unitPrice}
             formClassName={classes.unitPriceFormGroup}
             InputProps={{
@@ -83,12 +88,12 @@ const ProductCreate: FC<CreateProps> = (props) => {
             }}
           />
           <TextInput
-            className={classes.unit}
             source="unit"
-            validate={required()}
+            className={classes.unit}
+            validate={requiredValidate}
           />
-          <ReferenceInput source="supplier" reference="suppliers" allowEmpty>
-            <SelectInput source="name" validate={required()} />
+          <ReferenceInput source="supplier" reference="suppliers">
+            <SelectInput source="name" validate={requiredValidate} />
           </ReferenceInput>
         </FormTab>
         <FormTab label="resources.products.tabs.description" path="description">
@@ -98,5 +103,7 @@ const ProductCreate: FC<CreateProps> = (props) => {
     </Create>
   );
 };
+
+const requiredValidate = [required()];
 
 export default ProductCreate;

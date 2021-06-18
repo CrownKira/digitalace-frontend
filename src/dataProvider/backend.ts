@@ -1,10 +1,30 @@
 import { DataProvider, UpdateParams } from 'ra-core';
 import { fetchUtils } from 'react-admin';
 import drfProvider from 'ra-data-django-rest-framework';
+import HttpMethodsEnum from 'http-methods-enum';
+
 import { baseURL } from '../apis/backend';
 import { UserProfile } from '../types';
 
 export const apiUrl = `${baseURL}/api`;
+
+/*
+ * includes() slightly faster than has()
+ * console.time("iterationTime");
+ * a = new Set([1,2,3])
+ * a.has(2)
+ * console.timeEnd("iterationTime");
+ * VM251:4 iterationTime: 0.013671875 ms
+ * undefined
+ * console.time("iterationTime");
+ * a = [1,2,3]
+ * a.includes(2)
+ * console.timeEnd("iterationTime");
+ * VM255:4 iterationTime: 0.012939453125 ms
+ */
+
+const fileLabels = ['image', 'thumbnail', 'resume'];
+
 // FIXME: fix any
 // TODO: use axios
 export const httpClient = (url: string, options: any = {}) => {
@@ -18,55 +38,55 @@ export const httpClient = (url: string, options: any = {}) => {
 };
 const restProvider = drfProvider(apiUrl, httpClient);
 
+// FIXME: fix any
+function getFormData(data: any, method = HttpMethodsEnum.PATCH) {
+  const formData = new FormData();
+  // FIXME: fix any
+  const jsonData = {} as any;
+  // FIXME: fix any
+  for (const [key, value] of Object.entries<any>(data)) {
+    if (fileLabels.includes(key) && value) {
+      if (
+        method === HttpMethodsEnum.POST ||
+        typeof value.rawFile !== 'undefined' // no new image upload if undefined
+      )
+        formData.append(key, value.rawFile);
+    } else {
+      jsonData[key] = value;
+    }
+  }
+  formData.append('data', JSON.stringify(jsonData));
+  return formData;
+}
+
 const customDataProvider: DataProvider = {
   ...restProvider,
   create: async (resource, params) => {
-    if (!params.data.image && !params.data.thumbnail) {
+    if (fileLabels.every((x) => !params.data.hasOwnProperty(x))) {
       return restProvider.create(resource, params);
     }
 
-    const formData = new FormData();
-    // FIXME: fix any
-    for (const [key, value] of Object.entries<any>(params.data)) {
-      formData.set(
-        key,
-        key === 'image' || key === 'thumbnail' ? value.rawFile : value
-      );
-    }
-
     const { json } = await httpClient(`${apiUrl}/${resource}/`, {
-      method: 'POST',
-      body: formData,
+      method: HttpMethodsEnum.POST,
+      body: getFormData(params.data, HttpMethodsEnum.POST),
     });
     return {
       data: { ...params.data, id: json.id },
     };
   },
   update: async (resource, params) => {
-    if (!params.data.image && !params.data.thumbnail) {
+    if (fileLabels.every((x) => !params.data.hasOwnProperty(x))) {
       return restProvider.create(resource, params);
     }
-
-    const formData = new FormData();
-    // FIXME: fix any
-    for (const [key, value] of Object.entries<any>(params.data)) {
-      if (key === 'image' || key === 'thumbnail') {
-        const rawFile = value.rawFile;
-        if (rawFile) formData.set(key, rawFile);
-      } else {
-        formData.set(key, value || '');
-      }
-    }
-
     const { json } = await httpClient(`${apiUrl}/${resource}/${params.id}/`, {
-      method: 'PATCH',
-      body: formData,
+      method: HttpMethodsEnum.PATCH,
+      // content-type defaults to multipart/form-data for FormData
+      body: getFormData(params.data),
     });
     return {
       data: json,
     };
   },
-
   getUserProfile: async () => {
     const data: UserProfile = await Promise.resolve(
       httpClient(`${apiUrl}/user/me/`).then((response) => {
@@ -77,23 +97,10 @@ const customDataProvider: DataProvider = {
       data: data,
     };
   },
-
   updateUserProfile: async (params: UpdateParams) => {
-    const formData = new FormData();
-    // FIXME: fix any
-    for (const [key, value] of Object.entries<any>(params.data)) {
-      if (key === 'image' || key === 'thumbnail') {
-        const rawFile = value.rawFile;
-        if (rawFile) formData.set(key, rawFile);
-      } else {
-        // TODO: fix django rest unable to parse null
-        formData.set(key, value || '');
-      }
-    }
-
     const { json } = await httpClient(`${apiUrl}/user/me/`, {
-      method: 'PATCH',
-      body: formData,
+      method: HttpMethodsEnum.PATCH,
+      body: getFormData(params.data),
     });
     return {
       data: json,

@@ -4,21 +4,23 @@ import {
   EditProps,
   TextInput,
   Toolbar,
-  useTranslate,
   FormWithRedirect,
   required,
   email,
   FieldProps,
   ImageInput,
   ImageField,
+  ReferenceArrayInput,
+  AutocompleteArrayInput,
 } from 'react-admin';
-import { Box, Card, CardContent, Typography } from '@material-ui/core';
+import { Box, Card, CardContent } from '@material-ui/core';
 
 import Aside from './Aside';
 import FullNameField from './FullNameField';
 import { validatePasswords } from './CustomerCreate';
 import { Customer } from '../types';
 import { formatImage } from '../utils';
+import { SectionTitle, Separator } from '../utils/components/Divider';
 
 const CustomerEdit: FC<EditProps> = (props) => {
   return (
@@ -37,9 +39,8 @@ const CustomerTitle: FC<FieldProps<Customer>> = ({ record }) =>
   record ? <FullNameField record={record} size="32" /> : null;
 
 // TODO: redesign layout
+// TODO: split into 2 columns
 const CustomerForm = (props: any) => {
-  const translate = useTranslate();
-
   return (
     <FormWithRedirect
       {...props}
@@ -48,9 +49,7 @@ const CustomerForm = (props: any) => {
         <Card>
           <form>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
-                {translate('resources.customers.fieldGroups.avatar')}
-              </Typography>
+              <SectionTitle label="resources.customers.fieldGroups.avatar" />
               <ImageInput
                 format={formatImage}
                 source="image"
@@ -60,9 +59,8 @@ const CustomerForm = (props: any) => {
               >
                 <ImageField source="src" title="title" />
               </ImageInput>
-              <Typography variant="h6" gutterBottom>
-                {translate('resources.customers.fieldGroups.identity')}
-              </Typography>
+              <Separator />
+              <SectionTitle label="resources.customers.fieldGroups.identity" />
               <Box display={{ xs: 'block', sm: 'flex' }}>
                 <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                   <TextInput
@@ -106,12 +104,8 @@ const CustomerForm = (props: any) => {
                 </Box>
                 <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
               </Box>
-
-              <Box mt="1em" />
-
-              <Typography variant="h6" gutterBottom>
-                {translate('resources.customers.fieldGroups.address')}
-              </Typography>
+              <Separator />
+              <SectionTitle label="resources.customers.fieldGroups.address" />
               <TextInput
                 source="address"
                 resource="customers"
@@ -125,7 +119,7 @@ const CustomerForm = (props: any) => {
                 </Box>
                 <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                   <TextInput
-                    source="stateAbbr"
+                    source="state"
                     resource="customers"
                     fullWidth
                     helperText={false}
@@ -140,12 +134,8 @@ const CustomerForm = (props: any) => {
                   />
                 </Box>
               </Box>
-
-              <Box mt="1em" />
-
-              <Typography variant="h6" gutterBottom>
-                {translate('resources.customers.fieldGroups.other_details')}
-              </Typography>
+              <Separator />
+              <SectionTitle label="resources.customers.fieldGroups.other_details" />
               <Box display={{ xs: 'block', sm: 'flex' }}>
                 <Box mr={{ xs: 0, sm: '0.5em' }}>
                   <TextInput source="business" resource="customers" />
@@ -154,15 +144,26 @@ const CustomerForm = (props: any) => {
                   <TextInput source="term" resource="customers" />
                 </Box>
               </Box>
+              <Separator />
+              <SectionTitle label="resources.customers.fieldGroups.manage_access" />
+              <ReferenceArrayInput
+                resource="agents"
+                reference="employees"
+                source="agents"
+                suggestionLimit={5}
+              >
+                <AutocompleteArrayInput optionText="name" />
+              </ReferenceArrayInput>
             </CardContent>
             <Toolbar
+              resource="customers"
               record={formProps.record}
               basePath={formProps.basePath}
               undoable={true}
               invalid={formProps.invalid}
               handleSubmit={formProps.handleSubmit}
               saving={formProps.saving}
-              resource="customers"
+              pristine={formProps.pristine}
             />
           </form>
         </Card>

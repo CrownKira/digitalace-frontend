@@ -4,16 +4,18 @@ import {
   CreateProps,
   SimpleForm,
   TextInput,
-  useTranslate,
   required,
   email,
   ImageInput,
   ImageField,
+  ReferenceArrayInput,
+  AutocompleteArrayInput,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
-import { Typography, Box } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Styles } from '@material-ui/styles/withStyles';
+
+import { SectionTitle, Separator } from '../utils/components/Divider';
 
 export const styles: Styles<Theme, any> = {
   name: { display: 'inline-block' },
@@ -45,12 +47,21 @@ export const validatePasswords = ({
   return errors;
 };
 
+/**
+ * provide defaults for non-string and non-integer inputs
+ * these fields if left empty, will get rejected by drf serializer
+ */
+const postDefaultValue = () => ({
+  image: '',
+});
+
 const CustomerCreate: FC<CreateProps> = (props) => {
+  // qn: why need props?
   const classes = useStyles(props);
 
   return (
     <Create {...props}>
-      <SimpleForm validate={validatePasswords}>
+      <SimpleForm validate={validatePasswords} initialValues={postDefaultValue}>
         <SectionTitle label="resources.customers.fieldGroups.avatar" />
         <ImageInput
           source="image"
@@ -98,8 +109,17 @@ const CustomerCreate: FC<CreateProps> = (props) => {
         />
         <Separator />
         <SectionTitle label="resources.customers.fieldGroups.other_details" />
-        <TextInput source="business" resource="customers" />
-        <TextInput source="term" resource="customers" />
+        <TextInput source="business" />
+        <TextInput source="term" />
+        <Separator />
+        <SectionTitle label="resources.customers.fieldGroups.manage_access" />
+        <ReferenceArrayInput
+          reference="employees"
+          source="agents"
+          suggestionLimit={5}
+        >
+          <AutocompleteArrayInput optionText="name" />
+        </ReferenceArrayInput>
       </SimpleForm>
     </Create>
   );
@@ -107,21 +127,9 @@ const CustomerCreate: FC<CreateProps> = (props) => {
 
 const requiredValidate = [required()];
 
-const SectionTitle = ({ label }: { label: string }) => {
-  const translate = useTranslate();
-
-  return (
-    <Typography variant="h6" gutterBottom>
-      {translate(label)}
-    </Typography>
-  );
-};
-
-const Separator = () => <Box pt="1em" />;
-
 export default CustomerCreate;
 
-// TODO: password field
+// TODO: implement password inputs after customer account is set up
 /*
 <SectionTitle label="resources.customers.fieldGroups.password" />
 <PasswordInput source="password" formClassName={classes.password} />

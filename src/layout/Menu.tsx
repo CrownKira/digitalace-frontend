@@ -5,6 +5,7 @@ import { useMediaQuery, Theme, Box } from '@material-ui/core';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import StorageIcon from '@material-ui/icons/Storage';
+import BusinessIcon from '@material-ui/icons/Business';
 import {
   useTranslate,
   DashboardMenuItem,
@@ -12,6 +13,9 @@ import {
   MenuProps,
 } from 'react-admin';
 
+import departments from '../departments';
+import roles from '../roles';
+import employees from '../employees';
 import customers from '../customers';
 import suppliers from '../suppliers';
 import categories from '../categories';
@@ -23,10 +27,15 @@ import sales_orders from '../sales_orders';
 import SubMenu from './SubMenu';
 import { AppState } from '../types';
 
-type MenuName = 'menuMaintenance' | 'menuTransaction' | 'menuOrder';
+type MenuName =
+  | 'menuOrganization'
+  | 'menuMaintenance'
+  | 'menuTransaction'
+  | 'menuOrder';
 
 const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
   const [state, setState] = useState({
+    menuOrganization: true,
     menuMaintenance: true,
     menuTransaction: true,
     menuOrder: true,
@@ -46,6 +55,46 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
     <Box mt={1}>
       {' '}
       <DashboardMenuItem onClick={onMenuClick} sidebarIsOpen={open} />
+      <SubMenu
+        handleToggle={() => handleToggle('menuOrganization')}
+        isOpen={state.menuOrganization}
+        sidebarIsOpen={open}
+        name="pos.menu.organization"
+        icon={<BusinessIcon />}
+        dense={dense}
+      >
+        <MenuItemLink
+          to={'/departments'}
+          primaryText={translate('resources.departments.name', {
+            smart_count: 2,
+          })}
+          leftIcon={<departments.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+        />
+
+        <MenuItemLink
+          to={'/roles'}
+          primaryText={translate('resources.roles.name', {
+            smart_count: 2,
+          })}
+          leftIcon={<roles.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+        />
+        <MenuItemLink
+          to={'/employees'}
+          primaryText={translate('resources.employees.name', {
+            smart_count: 2,
+          })}
+          leftIcon={<employees.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+        />
+      </SubMenu>
       <SubMenu
         handleToggle={() => handleToggle('menuMaintenance')}
         isOpen={state.menuMaintenance}

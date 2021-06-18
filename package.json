@@ -42,6 +42,7 @@
     "final-form-arrays": "^3.0.2",
     "graphql": "^15.0.0",
     "history": "^4.7.2",
+    "http-methods-enum": "^0.1.1",
     "json-graphql-server": "~2.2.3",
     "prop-types": "^15.6.0",
     "proxy-polyfill": "^0.3.0",
