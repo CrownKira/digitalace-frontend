@@ -9,7 +9,7 @@ import {
 } from 'react-admin';
 
 const postDefaultValue = () => ({
-  image: null,
+  image: '',
 });
 
 const CategoryCreate: FC<CreateProps> = (props) => (

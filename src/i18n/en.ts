@@ -57,7 +57,7 @@ const customEnglishMessages: TranslationMessages = {
       email: 'Email',
       confirm_email: 'Confirm Email',
       confirm_password: 'Confirm Password',
-      company: 'Company',
+      company_name: 'Company Name',
     },
     user_menu: {
       profile: {
@@ -402,6 +402,14 @@ const customEnglishMessages: TranslationMessages = {
     departments: {
       name: 'Department |||| Departments',
       fields: {
+        user_set: 'Employees',
+        designation_set: 'Designations',
+      },
+    },
+    designations: {
+      name: 'Designation |||| Designations',
+      fields: {
+        name: 'Name',
         user_set: 'Employees',
       },
     },

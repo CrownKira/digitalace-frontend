@@ -20,6 +20,7 @@ import {
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
+
 import { genders } from '../utils/data';
 import { SectionTitle, Separator, Break } from '../utils/components/Divider';
 
@@ -53,8 +54,8 @@ export const validatePasswords = ({
 };
 
 const postDefaultValue = () => ({
-  image: null,
-  resume: null,
+  image: '',
+  resume: '',
 });
 
 const EmployeeCreate: FC<CreateProps> = (props) => {

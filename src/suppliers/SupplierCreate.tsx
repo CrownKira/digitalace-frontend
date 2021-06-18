@@ -45,7 +45,7 @@ export const validatePasswords = ({
 };
 
 const postDefaultValue = () => ({
-  image: null,
+  image: '',
 });
 
 const SupplierCreate: FC<CreateProps> = (props) => {

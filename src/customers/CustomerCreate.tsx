@@ -52,10 +52,11 @@ export const validatePasswords = ({
  * these fields if left empty, will get rejected by drf serializer
  */
 const postDefaultValue = () => ({
-  image: null,
+  image: '',
 });
 
 const CustomerCreate: FC<CreateProps> = (props) => {
+  // qn: why need props?
   const classes = useStyles(props);
 
   return (

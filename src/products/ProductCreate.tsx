@@ -27,8 +27,8 @@ export const styles = {
 const useStyles = makeStyles(styles);
 
 const postDefaultValue = () => ({
-  image: null,
-  thumbnail: null,
+  image: '',
+  thumbnail: '',
 });
 
 const ProductCreate: FC<CreateProps> = (props) => {

@@ -31,16 +31,6 @@ import { SectionTitle, Separator, Break } from '../utils/components/Divider';
 
 const useStyles = makeStyles({
   ...createStyles,
-  // comment: {
-  //   maxWidth: '20em',
-  //   overflow: 'hidden',
-  //   textOverflow: 'ellipsis',
-  //   whiteSpace: 'nowrap',
-  // },
-  // tab: {
-  //   maxWidth: '40em',
-  //   display: 'block',
-  // },
 });
 
 const EmployeeTitle: FC<FieldProps<Employee>> = ({ record }) =>

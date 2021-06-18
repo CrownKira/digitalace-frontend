@@ -90,6 +90,7 @@ export const ProfileEdit = () => {
   const { refreshProfile } = useProfile();
   const { loaded, identity } = useGetUserProfile();
 
+  // TODO: remove permission on submit
   const handleSave = useCallback(
     (values) => {
       setSaving(true);

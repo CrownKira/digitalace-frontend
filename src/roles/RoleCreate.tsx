@@ -9,7 +9,7 @@ import {
 } from 'react-admin';
 
 const postDefaultValue = () => ({
-  image: null,
+  image: '',
 });
 
 const RoleCreate: FC<CreateProps> = (props) => (

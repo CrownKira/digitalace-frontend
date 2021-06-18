@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 });
 
 const CategoryGrid: FC = (props) => {
-  const classes = useStyles(props);
+  const classes = useStyles();
   const { data, ids } = useListContext<Category>();
   return ids ? (
     <Grid container spacing={2} className={classes.root}>
