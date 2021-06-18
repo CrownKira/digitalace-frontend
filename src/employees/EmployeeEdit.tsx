@@ -116,24 +116,6 @@ const EmployeeForm = (props: any) => {
         <TextInput source="postal_code" />
         <Separator />
         <SectionTitle label="resources.employees.fieldGroups.company_details" />
-        <ReferenceInput
-          source="department"
-          reference="departments"
-          allowEmpty
-          formClassName={classes.leftFormGroup}
-        >
-          <SelectInput source="name" />
-        </ReferenceInput>
-
-        <ReferenceInput
-          source="designation"
-          reference="designations"
-          allowEmpty
-          formClassName={classes.rightFormGroup}
-        >
-          <SelectInput source="name" />
-        </ReferenceInput>
-        <Break />
         <DateInput
           source="date_of_commencement"
           formClassName={classes.leftFormGroup}
@@ -199,6 +181,28 @@ const EmployeeForm = (props: any) => {
 const requiredValidate = [required()];
 
 export default EmployeeEdit;
+
+// TODO: make designation choices depend on department input
+/*
+<ReferenceInput
+  source="department"
+  reference="departments"
+  allowEmpty
+  formClassName={classes.leftFormGroup}
+>
+  <SelectInput source="name" />
+</ReferenceInput>
+
+<ReferenceInput
+  source="designation"
+  reference="designations"
+  allowEmpty
+  formClassName={classes.rightFormGroup}
+>
+  <SelectInput source="name" />
+</ReferenceInput>
+<Break />
+*/
 
 // TODO: password field
 /*
