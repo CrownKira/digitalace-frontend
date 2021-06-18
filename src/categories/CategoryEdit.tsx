@@ -47,7 +47,7 @@ const CategoryEdit: FC<EditProps> = (props) => (
       <ReferenceManyField
         reference="products"
         target="category"
-        label="resources.categories.fields.products"
+        label="resources.categories.fields.product_set"
         perPage={20}
         fullWidth
       >

@@ -33,7 +33,7 @@ const LinkToRelatedProducts: FC<FieldProps<Category>> = ({ record }) => {
       className={classes.link}
     >
       <products.icon className={classes.icon} />
-      {translate('resources.categories.fields.products')}
+      {translate('resources.categories.fields.product_set')}
     </Button>
   ) : null;
 };

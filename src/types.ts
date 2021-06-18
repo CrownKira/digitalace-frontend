@@ -90,6 +90,7 @@ export interface Employee extends Record {
 }
 
 export interface Customer extends Record {
+  attention: string;
   name: string;
   address: string;
   city: string;
@@ -154,6 +155,7 @@ export interface SalesOrder extends Record {
   status: string;
   customer: Identifier;
   salesperson: Identifier;
+  invoice: Identifier;
 }
 export interface Receive extends Record {
   company: Identifier;
@@ -190,6 +192,7 @@ export interface PurchaseOrder extends Record {
   grand_total: number;
   status: string;
   supplier: Identifier;
+  receive: Identifier;
 }
 
 export type OrderStatus = 'ordered' | 'delivered' | 'cancelled';
