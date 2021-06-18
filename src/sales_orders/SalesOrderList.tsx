@@ -60,29 +60,19 @@ const SalesOrderList: FC<ListProps> = (props) => {
       <Datagrid rowClick="edit" expand={<SalesOrderShow />}>
         <TextField source="id" />
         <DateField source="date" />
-        <ReferenceField
-          // TODO: remove _id
-          source="customer"
-          reference="customers"
-          label="resources.sales_orders.fields.customer"
-        >
+        <ReferenceField source="customer" reference="customers">
           <FullNameField />
         </ReferenceField>
         <ReferenceField
           source="customer"
           reference="customers"
           link={false}
-          label="resources.sales_orders.fields.address"
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField
-          source="invoice"
-          reference="invoices"
-          label="resources.sales_orders.fields.invoice"
-        >
+        <ReferenceField source="invoice" reference="invoices">
           <TextField source="id" />
         </ReferenceField>
         <NumberField source="status" />

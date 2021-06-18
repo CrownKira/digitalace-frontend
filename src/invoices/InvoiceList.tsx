@@ -60,28 +60,19 @@ const InvoiceList: FC<ListProps> = (props) => {
       <Datagrid rowClick="edit" expand={<InvoiceShow />}>
         <TextField source="id" />
         <DateField source="date" />
-        <ReferenceField
-          source="customer"
-          reference="customers"
-          label="resources.invoices.fields.customer"
-        >
+        <ReferenceField source="customer" reference="customers">
           <FullNameField />
         </ReferenceField>
         <ReferenceField
           source="customer"
           reference="customers"
           link={false}
-          label="resources.invoices.fields.address"
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField
-          source="sales_order"
-          reference="sales_orders"
-          label="resources.invoices.fields.sales_order"
-        >
+        <ReferenceField source="sales_order" reference="sales_orders">
           <TextField source="id" />
         </ReferenceField>
         <NumberField source="status" />

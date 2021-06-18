@@ -59,29 +59,19 @@ const PurchaseOrderList: FC<ListProps> = (props) => {
       <Datagrid rowClick="edit" expand={<PurchaseOrderShow />}>
         <TextField source="id" />
         <DateField source="date" />
-        <ReferenceField
-          // TODO: remove _id
-          source="supplier"
-          reference="suppliers"
-          label="resources.purchase_orders.fields.supplier"
-        >
+        <ReferenceField source="supplier" reference="suppliers">
           <FullNameField />
         </ReferenceField>
         <ReferenceField
           source="supplier"
           reference="suppliers"
           link={false}
-          label="resources.purchase_orders.fields.address"
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField
-          source="receive"
-          reference="receives"
-          label="resources.purchase_orders.fields.receive"
-        >
+        <ReferenceField source="receive" reference="receives">
           <TextField source="id" />
         </ReferenceField>
         <NumberField source="status" />

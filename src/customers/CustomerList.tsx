@@ -48,10 +48,7 @@ const CustomerList = (props: ListProps): ReactElement => {
           <CustomerLinkField />
           <TextField source="attention" />
           <EmailField source="email" />
-          <TextField
-            source="phone_no"
-            label="resources.customers.fields.phone_no"
-          />
+          <TextField source="phone_no" />
           <ColoredNumberField
             source="receivables"
             options={{ style: 'currency', currency: 'SGD' }}

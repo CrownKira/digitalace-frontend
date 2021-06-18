@@ -59,29 +59,19 @@ const ReceiveList: FC<ListProps> = (props) => {
       <Datagrid rowClick="edit" expand={<ReceiveShow />}>
         <TextField source="id" />
         <DateField source="date" />
-        <ReferenceField
-          // TODO: remove _id
-          source="supplier"
-          reference="suppliers"
-          label="resources.receives.fields.supplier"
-        >
+        <ReferenceField source="supplier" reference="suppliers">
           <FullNameField />
         </ReferenceField>
         <ReferenceField
           source="supplier"
           reference="suppliers"
           link={false}
-          label="resources.receives.fields.address"
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField
-          source="purchase_order"
-          reference="purchase_orders"
-          label="resources.receives.fields.purchase_order"
-        >
+        <ReferenceField source="purchase_order" reference="purchase_orders">
           <TextField source="id" />
         </ReferenceField>
         <NumberField source="status" />

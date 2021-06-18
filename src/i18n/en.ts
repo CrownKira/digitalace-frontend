@@ -1,7 +1,6 @@
 import { TranslationMessages } from 'react-admin';
 import englishMessages from 'ra-language-english';
 
-// TODO: update msg
 /**
  * This is from Microsoft
  * Title Caps:
@@ -50,7 +49,6 @@ const customEnglishMessages: TranslationMessages = {
       light: 'Light',
       dark: 'Dark',
     },
-
     auth: {
       company_name: 'Company Name',
       email: 'Email',
@@ -60,7 +58,6 @@ const customEnglishMessages: TranslationMessages = {
       register_message: 'Create your account.',
       register_error: 'Registration failed, please retry',
     },
-
     user_menu: {
       profile: {
         success: 'Your profile has been updated',
@@ -68,7 +65,6 @@ const customEnglishMessages: TranslationMessages = {
           'A technical error occurred while updating your profile. Please try later.',
       },
     },
-
     dashboard: {
       welcome: {
         title: 'Site under construction',
@@ -97,7 +93,6 @@ const customEnglishMessages: TranslationMessages = {
       orders: 'Orders',
     },
   },
-
   resources: {
     users: {
       name: 'User |||| Users',
@@ -106,7 +101,7 @@ const customEnglishMessages: TranslationMessages = {
         last_name: 'Last Name',
         name: 'Username',
         email: 'Email',
-        phone_no: 'Phone Number',
+        phone_no: 'Phone',
         residential_address: 'Residential Address',
         postal_code: 'Postal Code',
         ic_no: 'IC Number',
@@ -146,7 +141,6 @@ const customEnglishMessages: TranslationMessages = {
         },
       },
     },
-
     employees: {
       name: 'Employee |||| Employees',
       fields: {
@@ -154,7 +148,7 @@ const customEnglishMessages: TranslationMessages = {
         last_name: 'Last Name',
         name: 'Username',
         email: 'Email',
-        phone_no: 'Phone Number',
+        phone_no: 'Phone',
         residential_address: 'Residential Address',
         postal_code: 'Postal Code',
         ic_no: 'IC Number',
@@ -278,7 +272,7 @@ const customEnglishMessages: TranslationMessages = {
         zipcode: 'Zip Code',
         contact: 'Contact',
         term: 'Term',
-        phone_no: 'Phone Number',
+        phone_no: 'Phone',
         email: 'Email',
         image: 'Image',
         payables: 'Payables',

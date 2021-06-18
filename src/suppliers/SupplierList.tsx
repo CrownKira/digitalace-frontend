@@ -42,10 +42,7 @@ const SupplierList = (props: ListProps): ReactElement => {
           <SupplierLinkField />
           <TextField source="attention" />
           <EmailField source="email" />
-          <TextField
-            source="phone_no"
-            label="resources.customers.fields.phone_no"
-          />
+          <TextField source="phone_no" />
           <ColoredNumberField
             source="payables"
             options={{ style: 'currency', currency: 'SGD' }}
