@@ -7,7 +7,6 @@ import {
   ReferenceArrayInput,
   AutocompleteArrayInput,
   FileInput,
-  ReferenceInput,
   ImageInput,
   FileField,
   ImageField,

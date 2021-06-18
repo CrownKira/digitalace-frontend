@@ -19,7 +19,6 @@ const useGetUserProfile = () => {
   useEffect(() => {
     dataProvider
       .getUserProfile()
-      // TODO: where to declare type?
       .then(({ data }: { data: UserProfile }) => {
         setState({
           loading: false,
