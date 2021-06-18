@@ -27,7 +27,7 @@ const LinkToRelatedEmployees: FC<FieldProps<Department>> = ({ record }) => {
       to={{
         pathname: '/employees',
         search: stringify({
-          filter: JSON.stringify({ department: record.id }),
+          filter: JSON.stringify({ designation__department: record.id }),
         }),
       }}
       className={classes.link}

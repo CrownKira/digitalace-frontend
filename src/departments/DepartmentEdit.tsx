@@ -61,7 +61,7 @@ const DepartmentEdit: FC<EditProps> = (props) => {
         >
           <ImageField source="src" title="title" />
         </ImageInput>
-        <TextInput source="name" />
+        <TextInput source="name" validate={requiredValidate} />
         <ArrayInput
           // TODO: set label font-size to 1.25em
           source="designation_set"
