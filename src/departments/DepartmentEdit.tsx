@@ -66,8 +66,9 @@ const DepartmentEdit: FC<EditProps> = (props) => {
           // TODO: set label font-size to 1.25em
           source="designation_set"
           resource="designations"
+          label="resources.departments.fields.designation_set"
         >
-          <SimpleFormIterator>
+          <SimpleFormIterator resource="designations">
             <TextInput
               source="name"
               formClassName={classes.leftFormGroup}
