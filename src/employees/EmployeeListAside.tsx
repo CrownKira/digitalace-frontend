@@ -3,6 +3,8 @@ import inflection from 'inflection';
 import { Card as MuiCard, CardContent } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
+import Domain from '@material-ui/icons/Domain';
+import WorkOutline from '@material-ui/icons/WorkOutline';
 import {
   FilterList,
   FilterLiveSearch,
@@ -44,13 +46,14 @@ const Aside: FC = () => {
     { field: 'name', order: 'ASC' },
     {}
   );
+
   return (
     <Card>
       <CardContent>
         <FilterLiveSearch />
         <FilterList
           label="resources.employees.filters.department"
-          icon={<DirectionsWalkIcon />}
+          icon={<Domain />}
         >
           {departmentIDs &&
             departments &&
@@ -64,7 +67,7 @@ const Aside: FC = () => {
         </FilterList>
         <FilterList
           label="resources.employees.filters.designation"
-          icon={<DirectionsWalkIcon />}
+          icon={<WorkOutline />}
         >
           {designationIDs &&
             designations &&

@@ -1,3 +1,5 @@
+import { useMediaQuery, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   TextField,
   EmailField,
@@ -7,25 +9,43 @@ import {
   List,
   ListProps,
   SearchInput,
+  ReferenceField,
+  ReferenceArrayField,
+  SingleFieldList,
+  ChipField,
 } from 'react-admin';
-import { useMediaQuery, Theme } from '@material-ui/core';
 
 import DepartmentInput from './DepartmentInput';
 import DesignationInput from './DesignationInput';
+import RoleInput from './RoleInput';
 import EmployeeLinkField from './EmployeeLinkField';
+import DepartmentLinkField from '../departments/DepartmentLinkField';
 import MobileGrid from './MobileGrid';
 import EmployeeListAside from './EmployeeListAside';
 import { ReactElement } from 'react';
 
+const useStyles = makeStyles((theme) => ({
+  nb_commands: { color: 'purple' },
+  hiddenOnSmallScreens: {
+    display: 'table-cell',
+
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
+  },
+}));
+
 const EmployeeFilter = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
     <SearchInput source="q" alwaysOn />
-    <DepartmentInput />
-    <DesignationInput />
+    <DepartmentInput source="department" />
+    <DesignationInput source="designation" />
+    <RoleInput source="roles" />
   </Filter>
 );
 
 const EmployeeList = (props: ListProps): ReactElement => {
+  const classes = useStyles();
   const isXsmall = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.down('xs')
   );
@@ -46,10 +66,19 @@ const EmployeeList = (props: ListProps): ReactElement => {
           <TextField source="first_name" />
           <TextField source="last_name" />
           <EmailField source="email" />
-          <TextField
-            // TODO: custom field
-            source="department"
-          />
+          <ReferenceField source="department" reference="departments">
+            <DepartmentLinkField />
+          </ReferenceField>
+          <ReferenceArrayField
+            cellClassName={classes.hiddenOnSmallScreens}
+            headerClassName={classes.hiddenOnSmallScreens}
+            reference="roles"
+            source="roles"
+          >
+            <SingleFieldList>
+              <ChipField source="name" />
+            </SingleFieldList>
+          </ReferenceArrayField>
         </Datagrid>
       )}
     </List>
@@ -57,11 +86,3 @@ const EmployeeList = (props: ListProps): ReactElement => {
 };
 
 export default EmployeeList;
-
-/*
-TODO: roles field
-<TextField
-  // TODO: custom field
-  source="roles"
-/>
-*/

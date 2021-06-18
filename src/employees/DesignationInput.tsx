@@ -7,7 +7,7 @@ const useStyles = makeStyles({
 });
 
 interface Props extends Omit<InputProps, 'source'> {
-  source?: string;
+  source: string;
 }
 
 const DesignationInput: FC<Props> = (props) => {
@@ -17,7 +17,6 @@ const DesignationInput: FC<Props> = (props) => {
       {...props}
       className={classes.input}
       reference="designations"
-      source="designation"
     >
       <SelectInput source="name" />
     </ReferenceInput>

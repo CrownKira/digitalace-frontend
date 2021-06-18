@@ -10,21 +10,17 @@ interface Props extends Omit<InputProps, 'source'> {
   source: string;
 }
 
-const DepartmentInput: FC<Props> = (props) => {
+const RoleInput: FC<Props> = (props) => {
   const classes = useStyles();
   return (
-    <ReferenceInput
-      {...props}
-      className={classes.input}
-      reference="departments"
-    >
+    <ReferenceInput {...props} className={classes.input} reference="roles">
       <SelectInput source="name" />
     </ReferenceInput>
   );
 };
 
-DepartmentInput.defaultProps = {
-  source: 'department',
+RoleInput.defaultProps = {
+  source: 'roles',
 };
 
-export default DepartmentInput;
+export default RoleInput;
