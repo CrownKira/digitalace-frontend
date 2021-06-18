@@ -19,7 +19,7 @@ import DepartmentInput from './DepartmentInput';
 import DesignationInput from './DesignationInput';
 import RoleInput from './RoleInput';
 import EmployeeLinkField from './EmployeeLinkField';
-import DepartmentLinkField from '../departments/DepartmentLinkField';
+import DepartmentNameField from '../departments/NameField';
 import MobileGrid from './MobileGrid';
 import EmployeeListAside from './EmployeeListAside';
 import { ReactElement } from 'react';
@@ -67,7 +67,7 @@ const EmployeeList = (props: ListProps): ReactElement => {
           <TextField source="last_name" />
           <EmailField source="email" />
           <ReferenceField source="department" reference="departments">
-            <DepartmentLinkField />
+            <DepartmentNameField />
           </ReferenceField>
           <ReferenceArrayField
             cellClassName={classes.hiddenOnSmallScreens}
