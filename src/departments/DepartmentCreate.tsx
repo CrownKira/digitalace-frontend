@@ -46,7 +46,11 @@ const DepartmentCreate: FC<CreateProps> = (props) => {
           <ImageField source="src" title="title" />
         </ImageInput>
         <TextInput source="name" validate={requiredValidate} />
-        <ArrayInput source="designation_set" resource="designations">
+        <ArrayInput
+          source="designation_set"
+          resource="designations"
+          label="resources.departments.fields.designation_set"
+        >
           <SimpleFormIterator>
             <TextInput
               source="name"
