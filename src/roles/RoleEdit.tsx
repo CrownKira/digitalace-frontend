@@ -8,10 +8,14 @@ import {
   useTranslate,
   ImageInput,
   ImageField,
+  ReferenceArrayInput,
+  AutocompleteArrayInput,
+  required,
 } from 'react-admin';
 
 import { Role } from '../types';
 import { formatImage } from '../utils';
+import permissions from '../permissions/data';
 
 const RoleTitle: FC<FieldProps<Role>> = ({ record }) => {
   const translate = useTranslate();
@@ -34,9 +38,24 @@ const RoleEdit: FC<EditProps> = (props) => (
       >
         <ImageField source="src" title="title" />
       </ImageInput>
-      <TextInput source="name" />
+      <TextInput source="name" validate={requiredValidate} />
+      <AutocompleteArrayInput
+        source="permissions"
+        choices={permissions}
+        optionText="codename"
+        optionValue="id"
+      />
+      <ReferenceArrayInput
+        reference="employees"
+        source="user_set"
+        suggestionLimit={5}
+      >
+        <AutocompleteArrayInput optionText="name" />
+      </ReferenceArrayInput>
     </SimpleForm>
   </Edit>
 );
+
+const requiredValidate = [required()];
 
 export default RoleEdit;

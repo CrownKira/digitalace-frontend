@@ -34,6 +34,7 @@ const DepartmentTitle: FC<FieldProps<Department>> = ({ record }) => {
   ) : null;
 };
 
+// TODO: add section title?
 // TODO: transform to include id=-1 for new designation rows
 const DepartmentEdit: FC<EditProps> = (props) => {
   const classes = useStyles();

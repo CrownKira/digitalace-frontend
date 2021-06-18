@@ -416,6 +416,7 @@ const customEnglishMessages: TranslationMessages = {
     roles: {
       name: 'Role |||| Roles',
       fields: {
+        permissions: 'Manage Permissions',
         user_set: 'Employees',
       },
     },
