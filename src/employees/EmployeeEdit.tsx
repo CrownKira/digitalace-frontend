@@ -50,9 +50,10 @@ const EmployeeEdit: FC<EditProps> = (props) => {
 const EmployeeForm = (props: any) => {
   const classes = useStyles();
 
+  // TODO: possible to reuse departments ReferenceInput?
   const { data } = useGetList(
     'departments',
-    { page: 1, perPage: Infinity },
+    { page: 1, perPage: perPage },
     { field: 'id', order: 'DESC' }
   );
 
@@ -122,6 +123,7 @@ const EmployeeForm = (props: any) => {
         <ReferenceInput
           source="department"
           reference="departments"
+          perPage={perPage}
           allowEmpty
           formClassName={classes.leftFormGroup}
         >
@@ -207,5 +209,6 @@ const EmployeeForm = (props: any) => {
 };
 
 const requiredValidate = [required()];
+const perPage = 100;
 
 export default EmployeeEdit;
