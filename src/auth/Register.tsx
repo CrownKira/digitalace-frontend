@@ -160,7 +160,7 @@ const Register = () => {
                   <Field
                     // TODO: email field? (react final form)
                     name="email"
-                    // TODO: fix this
+                    // TODO: fix warning
                     // @ts-ignore
                     component={renderInput}
                     label={translate('pos.auth.email')}

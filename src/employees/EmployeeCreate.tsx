@@ -16,6 +16,9 @@ import {
   email,
   TabbedForm,
   FormTab,
+  ReferenceInput,
+  FormDataConsumer,
+  useGetList,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -59,6 +62,12 @@ const postDefaultValue = () => ({
 
 const EmployeeCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
+
+  const { data } = useGetList(
+    'departments',
+    { page: 1, perPage: Infinity },
+    { field: 'id', order: 'DESC' }
+  );
 
   return (
     <Create {...props}>
@@ -142,6 +151,31 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
           <TextInput source="postal_code" />
           <Separator />
           <SectionTitle label="resources.employees.fieldGroups.company_details" />
+          <ReferenceInput
+            source="department"
+            reference="departments"
+            allowEmpty
+            formClassName={classes.leftFormGroup}
+          >
+            <SelectInput source="name" />
+          </ReferenceInput>
+          <FormDataConsumer formClassName={classes.rightFormGroup}>
+            {({ formData, ...rest }) => {
+              return (
+                <SelectInput
+                  {...rest}
+                  source="designation"
+                  choices={
+                    data[formData.department]
+                      ? data[formData.department].designation_set
+                      : []
+                  }
+                  validate={formData.department ? requiredValidate : []}
+                />
+              );
+            }}
+          </FormDataConsumer>
+          <Break />
           <DateInput
             source="date_of_commencement"
             formClassName={classes.leftFormGroup}

@@ -18,6 +18,8 @@ import {
   Edit,
   EditProps,
   FieldProps,
+  FormDataConsumer,
+  useGetList,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -38,12 +40,7 @@ const EmployeeTitle: FC<FieldProps<Employee>> = ({ record }) =>
 
 const EmployeeEdit: FC<EditProps> = (props) => {
   return (
-    <Edit
-      title={<EmployeeTitle />}
-      // aside={<Aside />}
-      component="div"
-      {...props}
-    >
+    <Edit title={<EmployeeTitle />} component="div" {...props}>
       <EmployeeForm />
     </Edit>
   );
@@ -52,6 +49,12 @@ const EmployeeEdit: FC<EditProps> = (props) => {
 // TODO: redesign layout
 const EmployeeForm = (props: any) => {
   const classes = useStyles();
+
+  const { data } = useGetList(
+    'departments',
+    { page: 1, perPage: Infinity },
+    { field: 'id', order: 'DESC' }
+  );
 
   return (
     <TabbedForm
@@ -116,6 +119,31 @@ const EmployeeForm = (props: any) => {
         <TextInput source="postal_code" />
         <Separator />
         <SectionTitle label="resources.employees.fieldGroups.company_details" />
+        <ReferenceInput
+          source="department"
+          reference="departments"
+          allowEmpty
+          formClassName={classes.leftFormGroup}
+        >
+          <SelectInput source="name" />
+        </ReferenceInput>
+        <FormDataConsumer formClassName={classes.rightFormGroup}>
+          {({ formData, ...rest }) => {
+            return (
+              <SelectInput
+                {...rest}
+                source="designation"
+                choices={
+                  data[formData.department]
+                    ? data[formData.department].designation_set
+                    : []
+                }
+                validate={formData.department ? requiredValidate : []}
+              />
+            );
+          }}
+        </FormDataConsumer>
+        <Break />
         <DateInput
           source="date_of_commencement"
           formClassName={classes.leftFormGroup}

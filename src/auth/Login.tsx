@@ -151,7 +151,7 @@ const Login = () => {
                     name="email"
                     type="email"
                     // TODO: render using EmailField and PasswordField?
-                    // TODO: fix this
+                    // TODO: fix warning
                     // @ts-ignore
                     component={renderInput}
                     label={translate('pos.auth.email')}
