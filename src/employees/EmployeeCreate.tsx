@@ -242,34 +242,3 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
 const requiredValidate = [required()];
 
 export default EmployeeCreate;
-
-// TODO: make designation choices depend on department input
-/*
-<ReferenceInput
-  source="department"
-  reference="departments"
-  allowEmpty
-  formClassName={classes.leftFormGroup}
->
-  <SelectInput source="name" />
-</ReferenceInput>
-<ReferenceInput
-  source="designation"
-  reference="designations"
-  allowEmpty
-  formClassName={classes.rightFormGroup}
->
-  <SelectInput source="name" />
-</ReferenceInput>
-<Break />
-*/
-
-// TODO: password field
-/*
-<Separator /><SectionTitle label="resources.employees.fieldGroups.password" />
-<PasswordInput source="password" formClassName={classes.password} />
-<PasswordInput
-  source="confirm_password"
-  formClassName={classes.confirm_password}
-/>
-*/
