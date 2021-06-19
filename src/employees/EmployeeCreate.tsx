@@ -63,7 +63,7 @@ const postDefaultValue = () => ({
 const EmployeeCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
 
-  const { data } = useGetList(
+  const { data: departmentsData } = useGetList(
     'departments',
     { page: 1, perPage: perPage },
     { field: 'id', order: 'DESC' }
@@ -167,8 +167,8 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
                   {...rest}
                   source="designation"
                   choices={
-                    data[formData.department]
-                      ? data[formData.department].designation_set
+                    departmentsData[formData.department]
+                      ? departmentsData[formData.department].designation_set
                       : []
                   }
                   validate={formData.department ? requiredValidate : []}

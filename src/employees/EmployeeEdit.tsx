@@ -50,8 +50,9 @@ const EmployeeEdit: FC<EditProps> = (props) => {
 const EmployeeForm = (props: any) => {
   const classes = useStyles();
 
-  // TODO: possible to reuse departments ReferenceInput?
-  const { data } = useGetList(
+  // only result in one api call if this fetch
+  // the same resource as the ReferenceInput below
+  const { data: departmentsData } = useGetList(
     'departments',
     { page: 1, perPage: perPage },
     { field: 'id', order: 'DESC' }
@@ -136,8 +137,8 @@ const EmployeeForm = (props: any) => {
                 {...rest}
                 source="designation"
                 choices={
-                  data[formData.department]
-                    ? data[formData.department].designation_set
+                  departmentsData[formData.department]
+                    ? departmentsData[formData.department].designation_set
                     : []
                 }
                 validate={formData.department ? requiredValidate : []}
