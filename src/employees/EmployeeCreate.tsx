@@ -161,20 +161,18 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
             <SelectInput source="name" />
           </ReferenceInput>
           <FormDataConsumer formClassName={classes.rightFormGroup}>
-            {({ formData, ...rest }) => {
-              return (
-                <SelectInput
-                  {...rest}
-                  source="designation"
-                  choices={
-                    departmentsData[formData.department]
-                      ? departmentsData[formData.department].designation_set
-                      : []
-                  }
-                  validate={formData.department ? requiredValidate : []}
-                />
-              );
-            }}
+            {({ formData, ...rest }) => (
+              <SelectInput
+                {...rest}
+                source="designation"
+                choices={
+                  departmentsData[formData.department]
+                    ? departmentsData[formData.department].designation_set
+                    : []
+                }
+                validate={formData.department ? requiredValidate : []}
+              />
+            )}
           </FormDataConsumer>
           <Break />
           <DateInput

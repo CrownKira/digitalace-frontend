@@ -50,7 +50,7 @@ const EmployeeEdit: FC<EditProps> = (props) => {
 const EmployeeForm = (props: any) => {
   const classes = useStyles();
 
-  // only result in one api call if this fetch
+  // only result in one api call if this fetches
   // the same resource as the ReferenceInput below
   const { data: departmentsData } = useGetList(
     'departments',
@@ -131,20 +131,18 @@ const EmployeeForm = (props: any) => {
           <SelectInput source="name" />
         </ReferenceInput>
         <FormDataConsumer formClassName={classes.rightFormGroup}>
-          {({ formData, ...rest }) => {
-            return (
-              <SelectInput
-                {...rest}
-                source="designation"
-                choices={
-                  departmentsData[formData.department]
-                    ? departmentsData[formData.department].designation_set
-                    : []
-                }
-                validate={formData.department ? requiredValidate : []}
-              />
-            );
-          }}
+          {({ formData, ...rest }) => (
+            <SelectInput
+              {...rest}
+              source="designation"
+              choices={
+                departmentsData[formData.department]
+                  ? departmentsData[formData.department].designation_set
+                  : []
+              }
+              validate={formData.department ? requiredValidate : []}
+            />
+          )}
         </FormDataConsumer>
         <Break />
         <DateInput
@@ -210,6 +208,7 @@ const EmployeeForm = (props: any) => {
 };
 
 const requiredValidate = [required()];
+// TODO: add perPage to all ReferenceInput
 const perPage = 100;
 
 export default EmployeeEdit;
