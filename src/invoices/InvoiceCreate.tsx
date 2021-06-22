@@ -46,6 +46,7 @@ const InvoiceForm = (props: any) => {
   return (
     <FormWithRedirect
       {...props}
+      // validate={validatePasswords}
       render={(formProps: any) => (
         <Card>
           <form>

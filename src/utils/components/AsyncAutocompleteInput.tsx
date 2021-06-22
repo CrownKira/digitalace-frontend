@@ -34,7 +34,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   perPage = 25,
   sort = { field: 'id', order: 'DESC' },
   getOptionLabel = (option) => String(option.id),
+  // pass fields below to Autocomplete
   className,
+  fullWidth,
   ...props
 }) => {
   const {
@@ -111,8 +113,8 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
 
   return (
     <Autocomplete
-      // fullWidth
       className={className}
+      fullWidth={fullWidth}
       getOptionLabel={getOptionLabel}
       options={options}
       autoComplete
