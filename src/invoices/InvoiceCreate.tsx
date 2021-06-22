@@ -22,6 +22,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
 
 import { statuses } from './data';
+import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
@@ -56,16 +57,13 @@ const InvoiceForm = (props: any) => {
                 <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                      <ReferenceInput
+                      <AsyncAutocompleteInput
                         source="customer"
+                        // label="resources.invoices.fields.customer"
+                        resource="customers"
                         reference="customers"
-                        resource="invoices"
-                        // helperText={false}
-                        fullWidth
                         validate={requiredValidate}
-                      >
-                        <AutocompleteInput source="name" />
-                      </ReferenceInput>
+                      />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <Labeled label="resources.invoices.fields.customer_id">

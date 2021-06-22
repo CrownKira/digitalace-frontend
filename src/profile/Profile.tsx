@@ -95,21 +95,7 @@ export const ProfileEdit = () => {
     (values) => {
       setSaving(true);
       dataProvider
-        .updateUserProfile(
-          { data: values }
-          // TODO: why onFailure doesn't catch error
-          // {
-          //   onSuccess: () => {
-          //     setSaving(false);
-          //     notify('pos.user_menu.profile.success', 'info');
-          //     refreshProfile();
-          //   },
-          //   onFailure: () => {
-          //     setSaving(false);
-          //     notify('pos.user_menu.profile.failure', 'warning');
-          //   },
-          // }
-        )
+        .updateUserProfile({ data: values })
         .then(() => {
           setSaving(false);
           notify('pos.user_menu.profile.success', 'info');
