@@ -11,7 +11,7 @@ interface Props extends Omit<InputProps, 'source'> {
 }
 
 const RolesInput: FC<Props> = ({ addField, ...rest }) => (
-  <ReferenceArrayInput {...rest} reference="roles">
+  <ReferenceArrayInput reference="roles" {...rest}>
     <SelectArrayInput>
       <ChipField source="name" />
     </SelectArrayInput>

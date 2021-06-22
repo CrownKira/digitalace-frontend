@@ -61,8 +61,8 @@ const EmployeeForm = (props: any) => {
   return (
     <TabbedForm
       // TODO: make tabs scrollable
-      {...props}
       validate={validatePasswords}
+      {...props}
     >
       <FormTab
         // qn: FormTab doesn't take input wrapped in box?

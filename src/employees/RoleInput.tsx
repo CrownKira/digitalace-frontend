@@ -7,13 +7,18 @@ const useStyles = makeStyles({
 });
 
 interface Props extends Omit<InputProps, 'source'> {
-  source: string;
+  source?: string;
 }
 
 const RoleInput: FC<Props> = (props) => {
   const classes = useStyles();
   return (
-    <ReferenceInput {...props} className={classes.input} reference="roles">
+    <ReferenceInput
+      className={classes.input}
+      reference="roles"
+      source="roles"
+      {...props}
+    >
       <SelectInput source="name" />
     </ReferenceInput>
   );

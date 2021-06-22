@@ -51,11 +51,11 @@ const SalesOrderList: FC<ListProps> = (props) => {
   const classes = useStyles();
   return (
     <List
-      {...props}
       filters={<ListFilters />}
       perPage={25}
       sort={{ field: 'date', order: 'desc' }}
       bulkActionButtons={<SalesOrderBulkActionButtons />}
+      {...props}
     >
       <Datagrid rowClick="edit" expand={<SalesOrderShow />}>
         <TextField source="id" />

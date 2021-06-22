@@ -138,6 +138,16 @@ export interface Invoice extends Record {
   salesperson: Identifier;
   sales_order: Identifier;
 }
+
+export interface InvoiceItem extends Record {
+  product: Identifier;
+  unit: number;
+  cost: number;
+  quantity: number;
+  unit_price: number;
+  invoice: Identifier;
+}
+
 export interface SalesOrder extends Record {
   company: Identifier;
   date: Date;
@@ -157,6 +167,16 @@ export interface SalesOrder extends Record {
   salesperson: Identifier;
   invoice: Identifier;
 }
+
+export interface SalesOrderItem extends Record {
+  product: Identifier;
+  unit: number;
+  cost: number;
+  quantity: number;
+  unit_price: number;
+  sales_order: Identifier;
+}
+
 export interface Receive extends Record {
   company: Identifier;
   date: Date;
@@ -176,6 +196,15 @@ export interface Receive extends Record {
   purchase_order: Identifier;
 }
 
+export interface ReceiveItem extends Record {
+  product: Identifier;
+  unit: number;
+  cost: number;
+  quantity: number;
+  unit_price: number;
+  receive: Identifier;
+}
+
 export interface PurchaseOrder extends Record {
   company: Identifier;
   date: Date;
@@ -193,6 +222,15 @@ export interface PurchaseOrder extends Record {
   status: string;
   supplier: Identifier;
   receive: Identifier;
+}
+
+export interface PurchaseOrderItem extends Record {
+  product: Identifier;
+  unit: number;
+  cost: number;
+  quantity: number;
+  unit_price: number;
+  purchase_order: Identifier;
 }
 
 export type OrderStatus = 'ordered' | 'delivered' | 'cancelled';

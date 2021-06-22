@@ -52,11 +52,11 @@ const EmployeeList = (props: ListProps): ReactElement => {
   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('sm'));
   return (
     <List
-      {...props}
       filters={isSmall ? <EmployeeFilter /> : undefined}
       sort={{ field: '-id', order: 'DESC' }}
       perPage={25}
       aside={<EmployeeListAside />}
+      {...props}
     >
       {isXsmall ? (
         <MobileGrid />

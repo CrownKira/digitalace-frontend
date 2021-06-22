@@ -35,11 +35,11 @@ const CustomerList = (props: ListProps): ReactElement => {
        * after update, ra (for a brief moment) render the list using
        * the json returned by update (while waiting for getList result)
        * */
-      {...props}
       filters={isSmall ? <CustomerFilter /> : undefined}
       sort={{ field: 'last_seen', order: 'DESC' }}
       perPage={25}
       aside={<CustomerListAside />}
+      {...props}
     >
       {isXsmall ? (
         <MobileGrid />

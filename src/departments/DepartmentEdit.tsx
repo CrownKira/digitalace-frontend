@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   Edit,
   EditProps,
@@ -15,6 +14,7 @@ import {
   AutocompleteArrayInput,
   required,
 } from 'react-admin';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { Department } from '../types';
 import { formatImage } from '../utils';

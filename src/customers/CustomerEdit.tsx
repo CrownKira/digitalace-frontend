@@ -43,8 +43,8 @@ const CustomerTitle: FC<FieldProps<Customer>> = ({ record }) =>
 const CustomerForm = (props: any) => {
   return (
     <FormWithRedirect
-      {...props}
       validate={validatePasswords}
+      {...props}
       render={(formProps: any) => (
         <Card>
           <form>

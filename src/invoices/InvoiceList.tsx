@@ -46,16 +46,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // TODO: customizable table columns
-
 const InvoiceList: FC<ListProps> = (props) => {
   const classes = useStyles();
   return (
     <List
-      {...props}
       filters={<ListFilters />}
       perPage={25}
       sort={{ field: 'date', order: 'desc' }}
       bulkActionButtons={<InvoiceBulkActionButtons />}
+      {...props}
     >
       <Datagrid rowClick="edit" expand={<InvoiceShow />}>
         <TextField source="id" />

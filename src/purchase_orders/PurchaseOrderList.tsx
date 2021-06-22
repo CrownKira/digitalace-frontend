@@ -50,11 +50,11 @@ const PurchaseOrderList: FC<ListProps> = (props) => {
   const classes = useStyles();
   return (
     <List
-      {...props}
       filters={<ListFilters />}
       perPage={25}
       sort={{ field: 'date', order: 'desc' }}
       bulkActionButtons={<PurchaseOrderBulkActionButtons />}
+      {...props}
     >
       <Datagrid rowClick="edit" expand={<PurchaseOrderShow />}>
         <TextField source="id" />

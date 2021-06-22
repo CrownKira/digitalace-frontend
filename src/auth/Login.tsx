@@ -74,15 +74,17 @@ export const renderInput = ({
   meta: { touched, error } = { touched: false, error: undefined },
   input: { ...inputProps },
   ...props
-}) => (
-  <TextField
-    error={!!(touched && error)}
-    helperText={touched && error}
-    {...inputProps}
-    {...props}
-    fullWidth
-  />
-);
+}) => {
+  return (
+    <TextField
+      error={!!(touched && error)}
+      helperText={touched && error}
+      {...inputProps}
+      {...props}
+      fullWidth
+    />
+  );
+};
 
 interface FormValues {
   email?: string;

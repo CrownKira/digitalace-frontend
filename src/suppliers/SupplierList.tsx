@@ -29,11 +29,11 @@ const SupplierList = (props: ListProps): ReactElement => {
   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('sm'));
   return (
     <List
-      {...props}
       filters={isSmall ? <SupplierFilter /> : undefined}
       sort={{ field: 'last_seen', order: 'DESC' }}
       perPage={25}
       aside={<SupplierListAside />}
+      {...props}
     >
       {isXsmall ? (
         <MobileGrid />
