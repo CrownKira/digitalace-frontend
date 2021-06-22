@@ -10,8 +10,6 @@ import {
   NumberInput,
   ArrayInput,
   SimpleFormIterator,
-  ReferenceInput,
-  AutocompleteInput,
   TextField,
   Labeled,
   ReferenceField,
@@ -31,6 +29,7 @@ export const styles = {
   },
   lineItemInput: { width: 150 },
 };
+
 const useStyles = makeStyles(styles);
 
 const InvoiceCreate: FC<CreateProps> = (props) => {
@@ -47,8 +46,6 @@ const InvoiceForm = (props: any) => {
   return (
     <FormWithRedirect
       {...props}
-      // validate={validatePasswords}
-
       render={(formProps: any) => (
         <Card>
           <form>
@@ -58,11 +55,12 @@ const InvoiceForm = (props: any) => {
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <AsyncAutocompleteInput
+                        getOptionLabel={(option) => option.name}
                         source="customer"
-                        // label="resources.invoices.fields.customer"
                         resource="customers"
                         reference="customers"
                         validate={requiredValidate}
+                        fullWidth
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -92,17 +90,14 @@ const InvoiceForm = (props: any) => {
                     </Box>
 
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <ReferenceInput
-                        // filter out those that have the permission to create invoice
+                      <AsyncAutocompleteInput
+                        getOptionLabel={(option) => option.name}
                         source="salesperson"
-                        reference="employees"
                         resource="invoices"
-                        // helperText={false}
-                        fullWidth
+                        reference="employees"
                         validate={requiredValidate}
-                      >
-                        <AutocompleteInput source="name" />
-                      </ReferenceInput>
+                        fullWidth
+                      />
                     </Box>
                   </Box>
 
@@ -128,15 +123,14 @@ const InvoiceForm = (props: any) => {
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <ReferenceInput
-                        reference="sales_orders"
+                      <AsyncAutocompleteInput
+                        getOptionLabel={(option) => option.name}
                         source="sales_order"
-                        // helperText={false}
-                        fullWidth
+                        resource="sales_orders"
+                        reference="sales_orders"
                         validate={requiredValidate}
-                      >
-                        <AutocompleteInput source="id" />
-                      </ReferenceInput>
+                        fullWidth
+                      />
                     </Box>
                   </Box>
 
@@ -170,15 +164,15 @@ const InvoiceForm = (props: any) => {
                   label="resources.invoices.fields.invoiceitem_set"
                 >
                   <SimpleFormIterator resource="invoice_items">
-                    <ReferenceInput
-                      reference="products"
+                    <AsyncAutocompleteInput
+                      getOptionLabel={(option) => option.name}
                       source="product"
+                      resource="products"
+                      reference="products"
                       formClassName={classes.leftFormGroup}
                       className={classes.lineItemInput}
                       validate={requiredValidate}
-                    >
-                      <AutocompleteInput source="name" />
-                    </ReferenceInput>
+                    />
 
                     <NumberInput
                       source="quantity"

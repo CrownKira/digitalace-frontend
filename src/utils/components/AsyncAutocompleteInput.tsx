@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { FC, useState, useMemo, useEffect } from 'react';
 import throttle from 'lodash/throttle';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
   useInput,
   TextInputProps,
@@ -13,7 +13,9 @@ import {
   sanitizeInputRestProps,
 } from 'react-admin';
 
-// TODO: reference ReferenceInput and AutocompleteInput
+// TODO: reference ReferenceInput, AutocompleteInput, TextInput
+// TODO: add loading icon
+// https://material-ui.com/components/autocomplete/#google-maps-place
 export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   label,
   format,
@@ -31,6 +33,8 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   filterToQuery = (searchText) => (searchText ? { search: searchText } : {}),
   perPage = 25,
   sort = { field: 'id', order: 'DESC' },
+  getOptionLabel = (option) => String(option.id),
+  className,
   ...props
 }) => {
   const {
@@ -50,37 +54,35 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     ...props,
   });
 
-  const [customValue, setCustomValue] = React.useState<Record | null>(null);
-  const [inputValue, setInputValue] = React.useState('');
-  const [options, setOptions] = React.useState<Record[]>([]);
+  const [customValue, setCustomValue] = useState<Record | null>(null);
+  const [inputValue, setInputValue] = useState('');
+  const [options, setOptions] = useState<Record[]>([]);
   const notify = useNotify();
-
   const dataProvider = useDataProvider();
 
-  const fetch = React.useMemo(
+  const fetch = useMemo(
     () =>
       throttle(
         async (request: string, callback: (results?: Record[]) => void) => {
           dataProvider
             .getList(reference, {
               pagination: { page: 1, perPage },
-              sort: { field: 'id', order: 'DESC' },
-
-              filter: { ...filterToQuery(request), filter },
+              sort,
+              filter: { ...filterToQuery(request), ...filter },
             })
             .then(({ data }: { data: Record[] }) => {
               callback(data);
             })
             .catch((error: Error) => {
-              notify('pos.user_menu.profile.failure', 'warning');
+              notify('ra.notification.data_provider_error', 'warning');
             });
         },
-        500
+        200
       ),
-    [dataProvider, filter, filterToQuery, notify, perPage, reference]
+    [dataProvider, filter, filterToQuery, notify, perPage, reference, sort]
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     let active = true;
     if (inputValue === '') {
       setOptions(customValue ? [customValue] : []);
@@ -109,7 +111,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
 
   return (
     <Autocomplete
-      getOptionLabel={(option) => option.name}
+      // fullWidth
+      className={className}
+      getOptionLabel={getOptionLabel}
       options={options}
       autoComplete
       includeInputInList
@@ -160,10 +164,11 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
 };
 
 export interface AsyncAutocompleteInputProps extends TextInputProps {
-  filter?: { [key: string]: string };
+  filter?: any;
   filterToQuery?: (filter: string) => any;
   perPage?: number;
   reference: string;
+  getOptionLabel?: (option: Record) => string;
   [key: string]: any;
 }
 
@@ -172,17 +177,45 @@ AsyncAutocompleteInput.defaultProps = {
   filterToQuery: (searchText) => (searchText ? { q: searchText } : {}),
   perPage: 25,
   sort: { field: 'id', order: 'DESC' },
+  getOptionLabel: (option) => String(option.id),
 };
 
 /*
 params:
-InputLabelProps: {id: "mui-20000-label", htmlFor: "mui-20000"}
+InputLabelProps: {id: "mui-49604-label", htmlFor: "mui-49604"}
 InputProps: {className: "MuiAutocomplete-inputRoot", startAdornment: undefined, endAdornment: {…}, ref: ƒ}
 disabled: false
 fullWidth: true
-id: "mui-20000"
-inputProps: {className: "MuiAutocomplete-input MuiAutocomplete-inputFocused", disabled: false, id: "mui-20000", customValue: "", onBlur: ƒ, …}
+id: "mui-49604"
+inputProps: {className: "MuiAutocomplete-input MuiAutocomplete-inputFocused", disabled: false, id: "mui-49604", value: "", onBlur: ƒ, …}
 size: undefined
+*/
+
+/*
+InputProps:
+className: "MuiAutocomplete-inputRoot"
+endAdornment: {$$typeof: Symbol(react.element), type: "div", key: null, ref: null, props: {…}, …}
+ref: ƒ ()
+startAdornment: undefined
+*/
+
+/*
+inputProps:
+aria-activedescendant: null
+aria-autocomplete: "both"
+aria-controls: null
+autoCapitalize: "none"
+autoComplete: "off"
+className: "MuiAutocomplete-input MuiAutocomplete-inputFocused"
+disabled: false
+id: "mui-22643"
+onBlur: ƒ handleBlur(event)
+onChange: ƒ handleInputChange(event)
+onFocus: ƒ handleFocus(event)
+onMouseDown: ƒ handleInputMouseDown(event)
+ref: {current: input#mui-22643.MuiInputBase-input.MuiFilledInput-input.MuiAutocomplete-input.MuiAutocomplete-input…}
+spellCheck: "false"
+value: ""
 */
 
 /*
