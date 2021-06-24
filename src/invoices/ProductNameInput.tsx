@@ -1,49 +1,44 @@
 import { FC } from 'react';
-import { InputProps, required } from 'react-admin';
+import { TextInputProps, FormDataConsumerRenderParams } from 'react-admin';
 import { useForm } from 'react-final-form';
-import { makeStyles } from '@material-ui/core/styles';
 
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 
-const useStyles = makeStyles({
-  lineItemInput: { width: 150 },
-});
-
-interface Props extends InputProps {
-  getSource: (source: string) => string;
+interface Props extends TextInputProps, FormDataConsumerRenderParams {
+  inputClassName?: string | undefined;
 }
 
-const ProductNameInput: FC<Props> = ({ getSource }) => {
-  const classes = useStyles();
+const ProductNameInput: FC<Props> = ({
+  formData,
+  scopedFormData,
+  getSource,
+  inputClassName,
+  ...rest
+}) => {
   const form = useForm();
+
   return (
     <AsyncAutocompleteInput
+      {...rest} // pass injected props
       getOptionLabel={(option) => option.name}
-      // TODO: let async know the source
-      label="resources.invoice_items.fields.product"
-      source={getSource('product')}
-      resource="invoice_items"
       reference="products"
-      validate={requiredValidate}
-      fullWidth
-      className={classes.lineItemInput}
       onChange={(event, newValue) => {
-        form.batch(() => {
-          form.change(getSource('unit'), newValue ? newValue.unit : '');
-          form.change(
-            getSource('unit_price'),
-            newValue ? newValue.unit_price : ''
-          );
-          form.change(getSource('quantity'), newValue ? newValue.quantity : '');
-          form.change(getSource('amount'), newValue ? newValue.amount : '');
-        });
+        getSource &&
+          form.batch(() => {
+            form.change(getSource('unit'), newValue ? newValue.unit : '');
+            form.change(
+              getSource('unit_price'),
+              newValue ? newValue.unit_price : '0.00'
+            );
+            form.change(getSource('quantity'), '0.00');
+          });
       }}
+      label="resources.invoice_items.fields.product"
+      className={inputClassName}
     />
   );
 };
 
 ProductNameInput.defaultProps = {};
-
-const requiredValidate = [required()];
 
 export default ProductNameInput;

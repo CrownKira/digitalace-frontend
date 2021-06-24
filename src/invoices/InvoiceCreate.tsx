@@ -29,6 +29,8 @@ import RichTextInput from 'ra-input-rich-text';
 import { statuses } from './data';
 import CustomerNameInput from './CustomerNameInput';
 import ProductNameInput from './ProductNameInput';
+import AmountInput from './AmountInput';
+import TotalInput from './TotalInput';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 
 export const styles = {
@@ -158,11 +160,15 @@ const InvoiceForm = (props: any) => {
                 >
                   <SimpleFormIterator resource="invoice_items">
                     <FormDataConsumer formClassName={classes.leftFormGroup}>
-                      {({ getSource }) =>
+                      {({ getSource, ...rest }) =>
                         getSource ? (
                           <ProductNameInput
                             source={getSource('product')}
                             getSource={getSource}
+                            fullWidth
+                            inputClassName={classes.lineItemInput}
+                            validate={requiredValidate}
+                            {...rest}
                           />
                         ) : null
                       }
@@ -182,31 +188,51 @@ const InvoiceForm = (props: any) => {
                       validate={requiredValidate}
                       disabled
                     />
+
                     <NumberInput
                       source="unit_price"
                       formClassName={classes.leftFormGroup}
                       className={classes.lineItemInput}
                       validate={requiredValidate}
                     />
-                    <NumberInput
-                      source="amount"
-                      formClassName={classes.rightFormGroup}
-                      className={classes.lineItemInput}
-                      validate={requiredValidate}
+
+                    <FormDataConsumer
+                      formClassName={classes.leftFormGroup}
                       disabled
-                    />
+                    >
+                      {({ getSource, ...rest }) =>
+                        getSource ? (
+                          <AmountInput
+                            source={getSource('amount')}
+                            getSource={getSource}
+                            inputClassName={classes.lineItemInput}
+                            validate={requiredValidate}
+                            // FIXME: error thrown if do no pass save and saving as strings
+                            save={formProps.save.toString()}
+                            saving={formProps.saving.toString()}
+                            {...rest}
+                          />
+                        ) : null
+                      }
+                    </FormDataConsumer>
                   </SimpleFormIterator>
                 </ArrayInput>
               </Box>
               <Box display={{ sm: 'block', md: 'flex' }}>
                 <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                  <NumberInput
-                    source="total"
-                    resource="invoices"
-                    fullWidth
-                    validate={requiredValidate}
-                    disabled
-                  />
+                  <FormDataConsumer>
+                    {(props) => (
+                      <TotalInput
+                        source="total"
+                        resource="invoices"
+                        fullWidth
+                        validate={requiredValidate}
+                        disabled
+                        {...props}
+                      />
+                    )}
+                  </FormDataConsumer>
+
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <NumberInput

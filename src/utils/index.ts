@@ -13,3 +13,9 @@ export function formatImage(value: any) {
     return value;
   }
 }
+
+export function toFixedNumber(num: any, digits = 2, base = 10) {
+  const pow = Math.pow(base, digits);
+  // Math.round() function returns the value of a number rounded to the nearest integer
+  return Math.round(Number(num) * pow) / pow;
+}
