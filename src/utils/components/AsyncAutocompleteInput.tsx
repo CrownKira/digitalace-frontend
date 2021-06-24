@@ -40,9 +40,12 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   perPage = 25,
   sort = { field: 'id', order: 'DESC' },
   reference,
+  // AutocompleteInput props
+  optionText = 'name',
+  optionValue = 'id',
   // props passed to MUIAutocomplete
   // override props produced by useInput()
-  getOptionLabel = (option) => String(option.id),
+  // getOptionLabel = (option) => String(option.id),
   className,
   fullWidth,
   onChange: onChangeOverride = (event, newValue) => {},
@@ -125,7 +128,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
 
   return (
     <Autocomplete
-      getOptionLabel={getOptionLabel}
+      getOptionLabel={(option) => option[optionText]}
       options={autocompleteOptions}
       autoComplete
       includeInputInList
@@ -137,6 +140,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
           newValue ? [newValue, ...autocompleteOptions] : autocompleteOptions
         );
         onChangeOverride(event, newValue, reason, details);
+        newValue && input.onChange(newValue[optionValue]);
         setValueOverride(newValue);
       }}
       onInputChange={(event, newInputValue) => {
@@ -197,7 +201,9 @@ export interface AsyncAutocompleteInputProps
   filterToQuery?: (filter: string) => any;
   perPage?: number;
   reference: string;
-  getOptionLabel?: (option: Record) => string;
+  // getOptionLabel?: (option: Record) => string;
+  optionText: any;
+  optionValue: any;
   onChange?:
     | ((
         event: React.ChangeEvent<{}>,
@@ -215,7 +221,9 @@ AsyncAutocompleteInput.defaultProps = {
   filterToQuery: (searchText) => (searchText ? { q: searchText } : {}),
   perPage: 25,
   sort: { field: 'id', order: 'DESC' },
-  getOptionLabel: (option) => String(option.id),
+  optionText: 'name',
+  optionValue: 'id',
+  // getOptionLabel: (option) => String(option.id),
   onChange: (event, newValue) => {},
 };
 

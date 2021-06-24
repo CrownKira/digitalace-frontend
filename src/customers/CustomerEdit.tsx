@@ -11,6 +11,7 @@ import {
   ImageInput,
   ImageField,
   ReferenceArrayInput,
+  AutocompleteInput,
   AutocompleteArrayInput,
 } from 'react-admin';
 import { Box, Card, CardContent } from '@material-ui/core';
@@ -50,6 +51,7 @@ const CustomerForm = (props: any) => {
           <form>
             <CardContent>
               <SectionTitle label="resources.customers.fieldGroups.avatar" />
+
               <ImageInput
                 format={formatImage}
                 source="image"

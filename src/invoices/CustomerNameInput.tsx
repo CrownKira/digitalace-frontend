@@ -11,7 +11,8 @@ const CustomerNameInput: FC<Props> = (props) => {
   const form = useForm();
   return (
     <AsyncAutocompleteInput
-      getOptionLabel={(option) => option.name}
+      optionText="name"
+      optionValue="id"
       source="customer"
       resource="invoices"
       reference="customers"

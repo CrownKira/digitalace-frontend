@@ -91,7 +91,8 @@ const InvoiceForm = (props: any) => {
 
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <AsyncAutocompleteInput
-                        getOptionLabel={(option) => option.name}
+                        optionText="name"
+                        optionValue="id"
                         source="salesperson"
                         resource="invoices"
                         reference="employees"
@@ -122,7 +123,8 @@ const InvoiceForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <AsyncAutocompleteInput
-                        getOptionLabel={(option) => option.name}
+                        optionText="name"
+                        optionValue="id"
                         source="sales_order"
                         resource="invoices"
                         reference="sales_orders"
