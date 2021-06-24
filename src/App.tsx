@@ -10,7 +10,6 @@ import { Login } from './auth';
 import { Dashboard } from './dashboard';
 import customRoutes from './routes';
 import englishMessages from './i18n/en';
-
 import departments from './departments';
 import roles from './roles';
 import employees from './employees';
@@ -22,6 +21,7 @@ import customers from './customers';
 import suppliers from './suppliers';
 import categories from './categories';
 import products from './products';
+import permissions from './permissions/data';
 
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
@@ -55,20 +55,50 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
       i18nProvider={i18nProvider}
       disableTelemetry
     >
-      <Resource name="invoices" {...invoices} />
-      <Resource name="receives" {...receives} />
-      <Resource name="sales_orders" {...sales_orders} />
-      <Resource name="purchase_orders" {...purchase_orders} />
-      <Resource name="products" {...products} />
-      <Resource name="customers" {...customers} />
-      <Resource name="suppliers" {...suppliers} />
-      <Resource name="categories" {...categories} />
-      <Resource name="reviews" />
-      <Resource name="commands" />
-      <Resource name="departments" {...departments} />
-      <Resource name="roles" {...roles} />
-      <Resource name="designations" />
-      <Resource name="employees" {...employees} />
+      {(userPermissions) => {
+        userPermissions = userPermissions
+          .map((x: number) => permissions.find((y) => y.id === x)?.codename)
+          .filter((x: number | undefined) => x);
+
+        return [
+          userPermissions.includes('view_invoice') ? (
+            <Resource name="invoices" {...invoices} />
+          ) : null,
+          userPermissions.includes('view_receive') ? (
+            <Resource name="receives" {...receives} />
+          ) : null,
+          userPermissions.includes('view_sales_order') ? (
+            <Resource name="sales_orders" {...sales_orders} />
+          ) : null,
+          userPermissions.includes('view_purchase_order') ? (
+            <Resource name="purchase_orders" {...purchase_orders} />
+          ) : null,
+          userPermissions.includes('view_product') ? (
+            <Resource name="products" {...products} />
+          ) : null,
+          userPermissions.includes('view_customer') ? (
+            <Resource name="customers" {...customers} />
+          ) : null,
+          userPermissions.includes('view_supplier') ? (
+            <Resource name="suppliers" {...suppliers} />
+          ) : null,
+          userPermissions.includes('view_category') ? (
+            <Resource name="categories" {...categories} />
+          ) : null,
+          userPermissions.includes('view_department') ? (
+            <Resource name="departments" {...departments} />
+          ) : null,
+          userPermissions.includes('view_role') ? (
+            <Resource name="roles" {...roles} />
+          ) : null,
+          userPermissions.includes('view_designation') ? (
+            <Resource name="designations" />
+          ) : null,
+          userPermissions.includes('view_employee') ? (
+            <Resource name="employees" {...employees} />
+          ) : null,
+        ];
+      }}
     </Admin>
   );
 };

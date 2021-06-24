@@ -4,7 +4,7 @@ import drfProvider from 'ra-data-django-rest-framework';
 import HttpMethodsEnum from 'http-methods-enum';
 
 import { baseURL } from '../apis/backend';
-import { UserProfile } from '../types';
+import { UserProfile, UserConfig } from '../types';
 
 export const apiUrl = `${baseURL}/api`;
 
@@ -99,6 +99,25 @@ const customDataProvider: DataProvider = {
   },
   updateUserProfile: async (params: UpdateParams) => {
     const { json } = await httpClient(`${apiUrl}/user/me/`, {
+      method: HttpMethodsEnum.PATCH,
+      body: getFormData(params.data),
+    });
+    return {
+      data: json,
+    };
+  },
+  getUserConfig: async () => {
+    const data: UserConfig = await Promise.resolve(
+      httpClient(`${apiUrl}/user/config/`).then((response) => {
+        return response.json;
+      })
+    );
+    return {
+      data: data,
+    };
+  },
+  updateUserConfig: async (params: UpdateParams) => {
+    const { json } = await httpClient(`${apiUrl}/user/config/`, {
       method: HttpMethodsEnum.PATCH,
       body: getFormData(params.data),
     });

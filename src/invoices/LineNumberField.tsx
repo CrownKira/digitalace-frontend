@@ -27,7 +27,7 @@ const LineNumberField: FC<Props> = ({
         source="total_lines"
         record={{
           ...formData,
-          total_lines: formData?.invoiceitem_set?.length,
+          total_lines: formData?.invoiceitem_set?.length || 0,
         }}
       />
     </Labeled>

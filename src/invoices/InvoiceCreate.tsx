@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import {
   Create,
   CreateProps,
@@ -10,21 +10,15 @@ import {
   NumberInput,
   ArrayInput,
   SimpleFormIterator,
-  TextField,
-  Labeled,
-  ReferenceField,
-  ReferenceInput,
-
-  // AutocompleteInput,
   SelectInput,
-  Identifier,
-  Record,
   FormDataConsumer,
+  Loading,
+  useGetList,
 } from 'react-admin';
-// import { useForm } from 'react-final-form';
 import { Box, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
+import useGetUserConfig from '../configuration/useGetUserConfig';
 
 import { statuses } from './data';
 import CustomerNameInput from './CustomerNameInput';
@@ -33,6 +27,8 @@ import AmountInput from './AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
+import { Invoice } from '../types';
+import { incrementReference } from '../utils';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
@@ -54,11 +50,41 @@ const InvoiceCreate: FC<CreateProps> = (props) => {
 
 const InvoiceForm = (props: any) => {
   const classes = useStyles();
+  const {
+    data: invoices,
+    ids: invoiceIds,
+    loading: loadingInvoices,
+  } = useGetList<Invoice>(
+    'invoices',
+    { page: 1, perPage: 1 },
+    { field: 'id', order: 'DESC' },
+    {}
+  );
+  const { loading: loadingUserConfig, data: userConfig } = useGetUserConfig();
 
-  return (
+  const postDefaultValue = () => ({
+    reference:
+      invoices && invoiceIds.length > 0
+        ? incrementReference(invoices[invoiceIds[0]].reference, 'INV', 4)
+        : 'INV-0000',
+    total: '0.00',
+    discount_rate: userConfig?.discount_rate,
+    discount_amount: '0.00',
+    net: '0.00',
+    gst_rate: userConfig?.gst_rate,
+    gst_amount: '0.00',
+    grand_total: '0.00',
+    date: Date.now(),
+    status: 'UPD',
+  });
+
+  return loadingInvoices && loadingUserConfig ? (
+    <Loading />
+  ) : (
     <FormWithRedirect
       {...props}
       // validate={validatePasswords}
+      initialValues={postDefaultValue}
       render={(formProps: any) => (
         <Card>
           <form>
@@ -84,7 +110,6 @@ const InvoiceForm = (props: any) => {
                       <TextInput
                         source="attention"
                         resource="invoices"
-                        validate={requiredValidate}
                         fullWidth
                       />
                     </Box>
@@ -96,7 +121,6 @@ const InvoiceForm = (props: any) => {
                         source="salesperson"
                         resource="invoices"
                         reference="employees"
-                        validate={requiredValidate}
                         fullWidth
                       />
                     </Box>
@@ -115,7 +139,7 @@ const InvoiceForm = (props: any) => {
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <TextInput
-                        source="id"
+                        source="reference"
                         resource="invoices"
                         fullWidth
                         validate={requiredValidate}
@@ -128,7 +152,6 @@ const InvoiceForm = (props: any) => {
                         source="sales_order"
                         resource="invoices"
                         reference="sales_orders"
-                        validate={requiredValidate}
                         fullWidth
                       />
                     </Box>
@@ -149,7 +172,6 @@ const InvoiceForm = (props: any) => {
                         source="payment_date"
                         resource="invoices"
                         fullWidth
-                        validate={requiredValidate}
                       />
                     </Box>
                   </Box>

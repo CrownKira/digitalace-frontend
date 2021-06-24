@@ -141,6 +141,19 @@ const customEnglishMessages: TranslationMessages = {
         },
       },
     },
+    user_configs: {
+      name: 'User Config |||| User Configs',
+      fields: {
+        gst_rate: 'GST Rate',
+        discount_rate: 'Discount Rate',
+        theme: 'Theme',
+        language: 'Language',
+      },
+      fieldGroups: {
+        general: 'General',
+        transactions: 'Transactions',
+      },
+    },
     employees: {
       name: 'Employee |||| Employees',
       fields: {

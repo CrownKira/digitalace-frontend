@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import SettingsIcon from '@material-ui/icons/Label';
 import { useMediaQuery, Theme, Box } from '@material-ui/core';
@@ -12,7 +12,11 @@ import {
   MenuItemLink,
   MenuProps,
 } from 'react-admin';
+import { useSetLocale, useNotify, useDataProvider } from 'react-admin';
+import { useDispatch } from 'react-redux';
 
+import { changeTheme } from '../configuration/actions';
+import { UserConfig } from '../types';
 import departments from '../departments';
 import roles from '../roles';
 import employees from '../employees';
@@ -46,10 +50,25 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
   );
   const open = useSelector((state: AppState) => state.admin.ui.sidebarOpen);
   useSelector((state: AppState) => state.theme);
-
   const handleToggle = (menu: MenuName) => {
     setState((state) => ({ ...state, [menu]: !state[menu] }));
   };
+  const dispatch = useDispatch();
+  const setLocale = useSetLocale();
+  const notify = useNotify();
+  const dataProvider = useDataProvider();
+
+  useEffect(() => {
+    dataProvider
+      .getUserConfig()
+      .then(({ data }: { data: UserConfig }) => {
+        dispatch(changeTheme(data.theme));
+        setLocale(data.language);
+      })
+      .catch(() => {
+        notify('ra.notification.data_provider_error', 'warning');
+      });
+  }, [dataProvider, dispatch, notify, setLocale]);
 
   return (
     <Box mt={1}>

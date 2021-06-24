@@ -11,6 +11,13 @@ export interface FileValue {
   title: string;
 }
 
+export interface UserConfig extends Record {
+  gst_rate: number;
+  discount_rate: number;
+  theme: ThemeName;
+  language: string;
+}
+
 export interface UserProfile extends Record {
   fullName: string;
   avatar: string;

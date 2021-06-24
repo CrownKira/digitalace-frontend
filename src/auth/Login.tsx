@@ -2,7 +2,6 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Field, withTypes } from 'react-final-form';
 import { useLocation } from 'react-router-dom';
-
 import {
   Avatar,
   Button,
@@ -21,7 +20,6 @@ import {
   Link,
   useNotify,
 } from 'react-admin';
-
 import { lightTheme } from '../layout/themes';
 
 export const styles = makeStyles((theme) => ({
@@ -98,7 +96,6 @@ const Login = () => {
   const translate = useTranslate();
   const classes = styles();
   const notify = useNotify();
-
   const login = useLogin();
   const location = useLocation<{ nextPathname: string } | null>();
 

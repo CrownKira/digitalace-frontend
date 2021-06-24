@@ -19,3 +19,27 @@ export function toFixedNumber(num: any, digits = 2, base = 10) {
   // Math.round() function returns the value of a number rounded to the nearest integer
   return Math.round(Number(num) * pow) / pow;
 }
+
+export const incrementReference = (
+  reference: string,
+  prefix: string,
+  digits = 4
+) => {
+  const parts = reference.split('-');
+  const reference_no = parts[1];
+  if (reference_no && !isNaN(Number(reference_no))) {
+    const reference_no_digits = reference_no.split('');
+    let pointer = reference_no.length - 1;
+    while (pointer >= 0 && Number(reference_no_digits[pointer]) >= 9) {
+      reference_no_digits[pointer] = '0';
+      pointer--;
+    }
+    if (pointer < 0) return '1' + reference_no;
+
+    reference_no_digits[pointer] = String(
+      Number(reference_no_digits[pointer]) + 1
+    );
+    return reference_no_digits.join('');
+  }
+  return prefix + '-' + '0'.repeat(digits);
+};
