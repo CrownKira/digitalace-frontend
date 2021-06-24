@@ -1,6 +1,9 @@
 import { FC, useState, useMemo, useEffect } from 'react';
 import throttle from 'lodash/throttle';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete, {
+  AutocompleteChangeReason,
+  AutocompleteChangeDetails,
+} from '@material-ui/lab/Autocomplete';
 import {
   useInput,
   TextInputProps,
@@ -13,40 +16,45 @@ import {
   sanitizeInputRestProps,
 } from 'react-admin';
 
-// TODO: reference ReferenceInput, AutocompleteInput, TextInput
+// TODO: rewrite
 // TODO: add loading icon
+// TODO: add allowEmpty
 // https://material-ui.com/components/autocomplete/#google-maps-place
 export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
+  // TextInputProps
+  // use this instead of AutocompleteInputProps since most of them are not needed here
   label,
   format,
   helperText,
   onBlur,
   onFocus,
-  onChange,
-  customOptions,
+  options,
   parse,
+  // source and resource: only used for title
   resource,
   source,
   validate,
-  reference,
+  // ReferenceInputProps
   filter = {},
   filterToQuery = (searchText) => (searchText ? { search: searchText } : {}),
   perPage = 25,
   sort = { field: 'id', order: 'DESC' },
+  reference,
+  // props passed to MUIAutocomplete
+  // override props produced by useInput()
   getOptionLabel = (option) => String(option.id),
-  // pass fields below to Autocomplete
   className,
   fullWidth,
+  onChange: onChangeOverride = (event, newValue) => {},
   ...props
 }) => {
   const {
-    input: { onChange: customOnChange, ...rest },
+    input,
     isRequired,
     meta: { error, submitError, touched },
   } = useInput({
     format,
     onBlur,
-    onChange,
     onFocus,
     parse,
     resource,
@@ -56,13 +64,17 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     ...props,
   });
 
-  const [customValue, setCustomValue] = useState<Record | null>(null);
+  // manage the value here instead of letting useInput do it
+  // the selected value
+  const [valueOverride, setValueOverride] = useState<Record | null>(null);
+  // the input value
   const [inputValue, setInputValue] = useState('');
-  const [options, setOptions] = useState<Record[]>([]);
-  const notify = useNotify();
+  const [autocompleteOptions, setAutocompleteOptions] = useState<Record[]>([]);
   const dataProvider = useDataProvider();
+  const notify = useNotify();
 
   const fetch = useMemo(
+    // TODO: use debounce instead?
     () =>
       throttle(
         async (request: string, callback: (results?: Record[]) => void) => {
@@ -87,100 +99,136 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   useEffect(() => {
     let active = true;
     if (inputValue === '') {
-      setOptions(customValue ? [customValue] : []);
+      setAutocompleteOptions(valueOverride ? [valueOverride] : []);
       return undefined;
     }
 
     fetch(inputValue, (results?: Record[]) => {
       if (active) {
         let newOptions = [] as Record[];
-        if (customValue) {
-          newOptions = [customValue];
+        if (valueOverride) {
+          newOptions = [valueOverride];
         }
 
         if (results) {
           newOptions = [...newOptions, ...results];
         }
 
-        setOptions(newOptions);
+        setAutocompleteOptions(newOptions);
       }
     });
 
     return () => {
       active = false;
     };
-  }, [customValue, inputValue, fetch]);
+  }, [valueOverride, inputValue, fetch]);
 
   return (
     <Autocomplete
-      className={className}
-      fullWidth={fullWidth}
       getOptionLabel={getOptionLabel}
-      options={options}
+      options={autocompleteOptions}
       autoComplete
       includeInputInList
       filterSelectedOptions
-      value={customValue}
+      value={valueOverride}
       inputValue={inputValue}
-      onChange={(event, newValue: Record | null) => {
-        setOptions(newValue ? [newValue, ...options] : options);
-        customOnChange(event);
-        setCustomValue(newValue);
+      onChange={(event, newValue: Record | null, reason, details) => {
+        setAutocompleteOptions(
+          newValue ? [newValue, ...autocompleteOptions] : autocompleteOptions
+        );
+        onChangeOverride(event, newValue, reason, details);
+        setValueOverride(newValue);
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
       }}
-      renderInput={(params) => (
-        <ResettableTextField
-          // qn: is onChange and value safe here
-          // will it be overridden by autocomplete wrapper?
-          onChange={customOnChange}
-          {...rest}
-          label={
-            label !== '' &&
-            label !== false && (
-              <FieldTitle
-                label={label}
-                source={source}
-                resource={resource}
-                isRequired={isRequired}
+      className={className}
+      fullWidth={fullWidth}
+      renderInput={(params) => {
+        // console.log('--params--');
+        // console.log(params);
+        // console.log('--rest--');
+        // console.log(rest);
+        // console.log('--custom options--');
+        // console.log(options);
+        // console.log('label:');
+        // console.log(label);
+
+        return (
+          <ResettableTextField
+            // qn: is onChange and value safe here
+            // will it be overridden by autocomplete wrapper?
+            // onChange={onChangeOverride}
+            {...input}
+            label={
+              label !== '' &&
+              label !== false && (
+                <FieldTitle
+                  // TODO: translate array input source label
+                  label={label}
+                  source={source}
+                  resource={resource}
+                  isRequired={isRequired}
+                />
+              )
+            }
+            error={!!(touched && (error || submitError))}
+            helperText={
+              <InputHelperText
+                // qn: why need !! here but not in TextInput source code
+                touched={!!touched}
+                error={error || submitError}
+                helperText={helperText}
               />
-            )
-          }
-          error={!!(touched && (error || submitError))}
-          helperText={
-            <InputHelperText
-              // qn: why need !! here but not in TextInput source code
-              touched={!!touched}
-              error={error || submitError}
-              helperText={helperText}
-            />
-          }
-          {...customOptions}
-          {...sanitizeInputRestProps(rest)}
-          {...params}
-        />
-      )}
+            }
+            {...options}
+            {...sanitizeInputRestProps(input)}
+            {...params}
+          />
+        );
+      }}
     />
   );
 };
 
-export interface AsyncAutocompleteInputProps extends TextInputProps {
+export interface AsyncAutocompleteInputProps
+  extends Omit<TextInputProps, 'onChange'> {
   filter?: any;
   filterToQuery?: (filter: string) => any;
   perPage?: number;
   reference: string;
   getOptionLabel?: (option: Record) => string;
+  onChange?:
+    | ((
+        event: React.ChangeEvent<{}>,
+        value: Record | null,
+        reason: AutocompleteChangeReason,
+        details?: AutocompleteChangeDetails<Record> | undefined
+      ) => void)
+    | undefined;
   [key: string]: any;
 }
 
 AsyncAutocompleteInput.defaultProps = {
+  options: {},
   filter: {},
   filterToQuery: (searchText) => (searchText ? { q: searchText } : {}),
   perPage: 25,
   sort: { field: 'id', order: 'DESC' },
   getOptionLabel: (option) => String(option.id),
+  onChange: (event, newValue) => {},
 };
+
+/*
+input:
+onChange:
+checked: undefined
+name: "salesperson"
+onBlur: ƒ (event)
+onFocus: ƒ (event)
+type: "text"
+value: ""
+*/
 
 /*
 params:
@@ -218,11 +266,4 @@ onMouseDown: ƒ handleInputMouseDown(event)
 ref: {current: input#mui-22643.MuiInputBase-input.MuiFilledInput-input.MuiAutocomplete-input.MuiAutocomplete-input…}
 spellCheck: "false"
 value: ""
-*/
-
-/*
-rest:
-checked: undefined
-onBlur: ƒ (event)
-onFocus: ƒ (event)
 */

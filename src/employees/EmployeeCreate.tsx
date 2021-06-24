@@ -65,7 +65,7 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
 
   const { data: departmentsData } = useGetList(
     'departments',
-    { page: 1, perPage: perPage },
+    { page: 1, perPage },
     { field: 'id', order: 'DESC' }
   );
 
@@ -158,7 +158,10 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
             allowEmpty
             formClassName={classes.leftFormGroup}
           >
-            <SelectInput source="name" />
+            <SelectInput
+              // TODO: replace with async version
+              source="name"
+            />
           </ReferenceInput>
           <FormDataConsumer formClassName={classes.rightFormGroup}>
             {({ formData, ...rest }) => (
@@ -239,6 +242,6 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
 };
 
 const requiredValidate = [required()];
-const perPage = 100;
+const perPage = 25;
 
 export default EmployeeCreate;

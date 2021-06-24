@@ -10,6 +10,7 @@ interface Props extends Omit<InputProps, 'source'> {
   source?: string;
 }
 
+// TODO: replace with custom AsyncSelectInput
 const AgentInput: FC<Props> = (props) => {
   const classes = useStyles();
   return (

@@ -54,7 +54,7 @@ const EmployeeForm = (props: any) => {
   // the same resource as the ReferenceInput below
   const { data: departmentsData } = useGetList(
     'departments',
-    { page: 1, perPage: perPage },
+    { page: 1, perPage },
     { field: 'id', order: 'DESC' }
   );
 
@@ -209,6 +209,6 @@ const EmployeeForm = (props: any) => {
 
 const requiredValidate = [required()];
 // TODO: add perPage to all ReferenceInput
-const perPage = 100;
+const perPage = 25;
 
 export default EmployeeEdit;

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import {
   Create,
   CreateProps,
@@ -13,13 +13,22 @@ import {
   TextField,
   Labeled,
   ReferenceField,
+  ReferenceInput,
+
+  // AutocompleteInput,
   SelectInput,
+  Identifier,
+  Record,
+  FormDataConsumer,
 } from 'react-admin';
+// import { useForm } from 'react-final-form';
 import { Box, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
 
 import { statuses } from './data';
+import CustomerNameInput from './CustomerNameInput';
+import ProductNameInput from './ProductNameInput';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 
 export const styles = {
@@ -55,27 +64,15 @@ const InvoiceForm = (props: any) => {
                 <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                      <AsyncAutocompleteInput
-                        getOptionLabel={(option) => option.name}
-                        source="customer"
-                        resource="customers"
-                        reference="customers"
-                        validate={requiredValidate}
-                        fullWidth
-                      />
+                      <CustomerNameInput />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <Labeled label="resources.invoices.fields.customer_id">
-                        <ReferenceField
-                          source="customer"
-                          reference="employees"
-                          // validate={requiredValidate}
-
-                          fullWidth
-                        >
-                          <TextField source="id" />
-                        </ReferenceField>
-                      </Labeled>
+                      <TextInput
+                        source="customer_id"
+                        resource="invoices"
+                        fullWidth
+                        disabled
+                      />
                     </Box>
                   </Box>
 
@@ -85,7 +82,6 @@ const InvoiceForm = (props: any) => {
                         source="attention"
                         resource="invoices"
                         validate={requiredValidate}
-                        // helperText={false}
                         fullWidth
                       />
                     </Box>
@@ -108,7 +104,6 @@ const InvoiceForm = (props: any) => {
                   <DateInput
                     source="date"
                     resource="invoices"
-                    // helperText={false}
                     fullWidth
                     validate={requiredValidate}
                   />
@@ -118,7 +113,6 @@ const InvoiceForm = (props: any) => {
                       <TextInput
                         source="id"
                         resource="invoices"
-                        // helperText={false}
                         fullWidth
                         validate={requiredValidate}
                       />
@@ -127,7 +121,7 @@ const InvoiceForm = (props: any) => {
                       <AsyncAutocompleteInput
                         getOptionLabel={(option) => option.name}
                         source="sales_order"
-                        resource="sales_orders"
+                        resource="invoices"
                         reference="sales_orders"
                         validate={requiredValidate}
                         fullWidth
@@ -140,7 +134,6 @@ const InvoiceForm = (props: any) => {
                       <SelectInput
                         source="status"
                         choices={statuses}
-                        // helperText={false}
                         fullWidth
                         formClassName={classes.rightFormGroup}
                         validate={requiredValidate}
@@ -150,7 +143,6 @@ const InvoiceForm = (props: any) => {
                       <DateInput
                         source="payment_date"
                         resource="invoices"
-                        // helperText={false}
                         fullWidth
                         validate={requiredValidate}
                       />
@@ -165,15 +157,16 @@ const InvoiceForm = (props: any) => {
                   label="resources.invoices.fields.invoiceitem_set"
                 >
                   <SimpleFormIterator resource="invoice_items">
-                    <AsyncAutocompleteInput
-                      getOptionLabel={(option) => option.name}
-                      source="product"
-                      resource="products"
-                      reference="products"
-                      formClassName={classes.leftFormGroup}
-                      className={classes.lineItemInput}
-                      validate={requiredValidate}
-                    />
+                    <FormDataConsumer formClassName={classes.leftFormGroup}>
+                      {({ getSource }) =>
+                        getSource ? (
+                          <ProductNameInput
+                            source={getSource('product')}
+                            getSource={getSource}
+                          />
+                        ) : null
+                      }
+                    </FormDataConsumer>
 
                     <NumberInput
                       source="quantity"
@@ -210,7 +203,6 @@ const InvoiceForm = (props: any) => {
                   <NumberInput
                     source="total"
                     resource="invoices"
-                    // helperText={false}
                     fullWidth
                     validate={requiredValidate}
                     disabled
@@ -221,7 +213,6 @@ const InvoiceForm = (props: any) => {
                         source="discount_rate"
                         resource="invoices"
                         // formClassName={classes.leftFormGroup}
-                        // helperText={false}
                         fullWidth
                         validate={requiredValidate}
                       />
@@ -231,7 +222,6 @@ const InvoiceForm = (props: any) => {
                         source="discount_amount"
                         resource="invoices"
                         // formClassName={classes.rightFormGroup}
-                        // helperText={false}
                         fullWidth
                         validate={requiredValidate}
                         disabled
@@ -241,7 +231,6 @@ const InvoiceForm = (props: any) => {
                   <NumberInput
                     source="net"
                     resource="invoices"
-                    // helperText={false}
                     fullWidth
                     validate={requiredValidate}
                     disabled
@@ -254,7 +243,6 @@ const InvoiceForm = (props: any) => {
                         source="gst_rate"
                         resource="invoices"
                         // formClassName={classes.leftFormGroup}
-                        // helperText={false}
                         fullWidth
                         validate={requiredValidate}
                       />
@@ -264,7 +252,6 @@ const InvoiceForm = (props: any) => {
                         source="gst_amount"
                         resource="invoices"
                         // formClassName={classes.rightFormGroup}
-                        // helperText={false}
                         fullWidth
                         validate={requiredValidate}
                         disabled
@@ -274,7 +261,6 @@ const InvoiceForm = (props: any) => {
                   <NumberInput
                     source="grand_total"
                     resource="invoices"
-                    // helperText={false}
                     fullWidth
                     validate={requiredValidate}
                     disabled
