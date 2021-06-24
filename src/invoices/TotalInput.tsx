@@ -18,9 +18,6 @@ const AmountInput: FC<Props> = ({
   scopedFormData,
   getSource,
   inputClassName,
-  // FIXME: for some reason, NumberInput gives error when passed saving and saved
-  saving,
-  save,
   ...rest
 }) => {
   const form = useForm();
@@ -32,6 +29,8 @@ const AmountInput: FC<Props> = ({
       .toFixed(2);
 
     total &&
+      // total might be 'NaN' which will pass the first test
+      !isNaN(total) &&
       form.batch(() => {
         form.change('total', total);
       });

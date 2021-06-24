@@ -31,6 +31,7 @@ import CustomerNameInput from './CustomerNameInput';
 import ProductNameInput from './ProductNameInput';
 import AmountInput from './AmountInput';
 import TotalInput from './TotalInput';
+import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 
 export const styles = {
@@ -232,7 +233,6 @@ const InvoiceForm = (props: any) => {
                       />
                     )}
                   </FormDataConsumer>
-
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
@@ -291,13 +291,18 @@ const InvoiceForm = (props: any) => {
                     validate={requiredValidate}
                     disabled
                   />
-                  <Labeled label="resources.invoices.fields.total_lines">
-                    <TextField
-                      source="total_lines"
-                      resource="invoices"
-                      fullWidth
-                    />
-                  </Labeled>
+
+                  <FormDataConsumer>
+                    {(props) => (
+                      <LineNumberField
+                        source="total_lines"
+                        resource="invoices"
+                        fullWidth
+                        label="resources.invoices.fields.total_lines"
+                        {...props}
+                      />
+                    )}
+                  </FormDataConsumer>
                 </Box>
               </Box>
             </CardContent>
