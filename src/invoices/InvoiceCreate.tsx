@@ -15,6 +15,8 @@ import {
   Loading,
   useGetList,
   ReferenceInput,
+  SaveButton,
+  DeleteButton,
 } from 'react-admin';
 import { Box, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -29,7 +31,7 @@ import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { Invoice } from '../types';
-import { incrementReference } from '../utils';
+import { incrementReference, dateParser } from '../utils';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
@@ -37,6 +39,10 @@ export const styles = {
     display: 'inline-block',
   },
   lineItemInput: { width: 150 },
+  productInput: { width: 200 },
+  hiddenInput: {
+    display: 'none',
+  },
 };
 
 const useStyles = makeStyles(styles);
@@ -68,9 +74,9 @@ const InvoiceForm = (props: any) => {
       invoices && invoiceIds.length > 0
         ? incrementReference(invoices[invoiceIds[0]].reference, 'INV', 4)
         : 'INV-0000',
-    date: Date.now(),
+    date: new Date(),
     // FIXME: default to null date instead
-    payment_date: Date.now(),
+    payment_date: new Date(),
     status: 'UPD',
     total: '0.00',
     discount_rate: userConfig?.discount_rate,
@@ -81,12 +87,20 @@ const InvoiceForm = (props: any) => {
     grand_total: '0.00',
   });
 
+  // a fix for DateField parse not working
+  const transform = (data: any) => ({
+    ...data,
+    date: dateParser(data.date),
+    payment_date: dateParser(data.payment_date),
+  });
+
   return loadingInvoices || loadingUserConfig ? (
     <Loading />
   ) : (
     <FormWithRedirect
       {...props}
       initialValues={postDefaultValue}
+      transform={transform}
       render={(formProps: any) => (
         <Card>
           <form>
@@ -131,6 +145,7 @@ const InvoiceForm = (props: any) => {
                 </Box>
                 <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                   <DateInput
+                    // parse={dateParser}
                     source="date"
                     resource="invoices"
                     fullWidth
@@ -167,24 +182,41 @@ const InvoiceForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <FormDataConsumer>
-                        {({ formData }) =>
-                          formData &&
-                          formData.status === 'PD' && (
+                        {
+                          ({ formData }) => (
+                            // formData &&
+                            // formData.status === 'PD' && (
                             <DateInput
+                              parse={dateParser}
                               source="payment_date"
                               resource="invoices"
                               fullWidth
+                              // hide instead of null so that date is formatted properly
+                              className={
+                                formData && formData.status === 'UPD'
+                                  ? classes.hiddenInput
+                                  : ''
+                              }
                             />
                           )
+                          // )
                         }
                       </FormDataConsumer>
                     </Box>
                   </Box>
                   <FormDataConsumer>
-                    {({ formData }) =>
-                      formData &&
-                      formData.status === 'PD' && (
-                        <Box display={{ sm: 'block', md: 'flex' }}>
+                    {
+                      ({ formData }) => (
+                        // formData &&
+                        // formData.status === 'UPD' && (
+                        <Box
+                          display={{ sm: 'block', md: 'flex' }}
+                          className={
+                            formData && formData.status === 'UPD'
+                              ? classes.hiddenInput
+                              : ''
+                          }
+                        >
                           <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                             <ReferenceInput
                               source="payment_method"
@@ -203,73 +235,76 @@ const InvoiceForm = (props: any) => {
                           </Box>
                         </Box>
                       )
+                      // )
                     }
                   </FormDataConsumer>
                 </Box>
               </Box>
-              <Box display={{ sm: 'block', md: 'flex' }}>
-                <ArrayInput
-                  source="invoiceitem_set"
-                  resource="invoice_items"
-                  label="resources.invoices.fields.invoiceitem_set"
-                >
-                  <SimpleFormIterator resource="invoice_items">
-                    <FormDataConsumer formClassName={classes.leftFormGroup}>
-                      {({ getSource, ...rest }) =>
-                        getSource ? (
-                          <ProductNameInput
-                            source={getSource('product')}
-                            getSource={getSource}
-                            fullWidth
-                            inputClassName={classes.lineItemInput}
-                            validate={requiredValidate}
-                            {...rest}
-                          />
-                        ) : null
-                      }
-                    </FormDataConsumer>
+              <Card>
+                <CardContent>
+                  <ArrayInput
+                    source="invoiceitem_set"
+                    resource="invoice_items"
+                    label="resources.invoices.fields.invoiceitem_set"
+                  >
+                    <SimpleFormIterator resource="invoice_items">
+                      <FormDataConsumer formClassName={classes.leftFormGroup}>
+                        {({ getSource, ...rest }) =>
+                          getSource ? (
+                            <ProductNameInput
+                              source={getSource('product')}
+                              getSource={getSource}
+                              fullWidth
+                              inputClassName={classes.productInput}
+                              validate={requiredValidate}
+                              {...rest}
+                            />
+                          ) : null
+                        }
+                      </FormDataConsumer>
 
-                    <NumberInput
-                      source="quantity"
-                      formClassName={classes.leftFormGroup}
-                      className={classes.lineItemInput}
-                      validate={requiredValidate}
-                    />
-                    <TextInput
-                      source="unit"
-                      formClassName={classes.leftFormGroup}
-                      className={classes.lineItemInput}
-                      validate={requiredValidate}
-                      disabled
-                    />
-                    <NumberInput
-                      source="unit_price"
-                      formClassName={classes.leftFormGroup}
-                      className={classes.lineItemInput}
-                      validate={requiredValidate}
-                    />
-                    <FormDataConsumer
-                      formClassName={classes.leftFormGroup}
-                      disabled
-                    >
-                      {({ getSource, ...rest }) =>
-                        getSource ? (
-                          <AmountInput
-                            source={getSource('amount')}
-                            getSource={getSource}
-                            inputClassName={classes.lineItemInput}
-                            validate={requiredValidate}
-                            // FIXME: error thrown if do no pass save and saving as strings
-                            save={formProps.save.toString()}
-                            saving={formProps.saving.toString()}
-                            {...rest}
-                          />
-                        ) : null
-                      }
-                    </FormDataConsumer>
-                  </SimpleFormIterator>
-                </ArrayInput>
-              </Box>
+                      <NumberInput
+                        source="quantity"
+                        formClassName={classes.leftFormGroup}
+                        className={classes.lineItemInput}
+                        validate={requiredValidate}
+                      />
+                      <TextInput
+                        source="unit"
+                        formClassName={classes.leftFormGroup}
+                        className={classes.lineItemInput}
+                        validate={requiredValidate}
+                        disabled
+                      />
+                      <NumberInput
+                        source="unit_price"
+                        formClassName={classes.leftFormGroup}
+                        className={classes.lineItemInput}
+                        validate={requiredValidate}
+                      />
+                      <FormDataConsumer
+                        formClassName={classes.leftFormGroup}
+                        disabled
+                      >
+                        {({ getSource, ...rest }) =>
+                          getSource ? (
+                            <AmountInput
+                              source={getSource('amount')}
+                              getSource={getSource}
+                              inputClassName={classes.lineItemInput}
+                              validate={requiredValidate}
+                              // FIXME: error thrown if do no pass save and saving as strings
+                              save={formProps.save.toString()}
+                              saving={formProps.saving.toString()}
+                              {...rest}
+                            />
+                          ) : null
+                        }
+                      </FormDataConsumer>
+                    </SimpleFormIterator>
+                  </ArrayInput>
+                </CardContent>
+              </Card>
               <Box display={{ sm: 'block', md: 'flex' }}>
                 <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                   <FormDataConsumer>
@@ -353,7 +388,9 @@ const InvoiceForm = (props: any) => {
                 </Box>
               </Box>
             </CardContent>
+
             <Toolbar
+              // props from react-admin demo VisitorEdit
               resource="invoices"
               record={formProps.record}
               basePath={formProps.basePath}
@@ -362,7 +399,20 @@ const InvoiceForm = (props: any) => {
               handleSubmit={formProps.handleSubmit}
               saving={formProps.saving}
               pristine={formProps.pristine}
-            />
+            >
+              <SaveButton
+                // props from Toolbar.tsx
+                handleSubmitWithRedirect={
+                  formProps.handleSubmitWithRedirect || formProps.handleSubmit
+                }
+                disabled={formProps.disabled}
+                invalid={formProps.invalid}
+                redirect={formProps.redirect}
+                saving={formProps.saving}
+                submitOnEnter={formProps.submitOnEnter}
+                transform={transform}
+              />
+            </Toolbar>
           </form>
         </Card>
       )}

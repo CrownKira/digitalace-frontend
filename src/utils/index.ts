@@ -46,3 +46,9 @@ export const incrementReference = (
 
   return `${defaultPrefix}-${'0'.repeat(defaultDigits)}`;
 };
+
+export const dateParser = (date: string) => {
+  // FIXME: fix parse not converting this to null
+  // fix parse doesn't parse on render default input
+  return date || null;
+};

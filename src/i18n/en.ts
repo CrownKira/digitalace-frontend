@@ -64,6 +64,11 @@ const customEnglishMessages: TranslationMessages = {
         failure:
           'A technical error occurred while updating your profile. Please try later.',
       },
+      user_config: {
+        success: 'Your configurations have been updated',
+        failure:
+          'A technical error occurred while updating your configurations. Please try later.',
+      },
     },
     dashboard: {
       welcome: {

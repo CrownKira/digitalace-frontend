@@ -138,7 +138,7 @@ export const ProfileEdit = () => {
         save={handleSave}
         validate={validatePasswords}
         record={identity}
-        render={(handleSubmitWithRedirect, pristine, saving) => (
+        render={(formProps: any) => (
           <Card>
             <form>
               <CardContent>
@@ -314,13 +314,28 @@ export const ProfileEdit = () => {
                   </>
                 )}
               </CardContent>
-              <Toolbar>
+
+              <Toolbar
+                // props from react-admin demo VisitorEdit
+                resource="user_configs"
+                record={formProps.record}
+                basePath={formProps.basePath}
+                undoable={true}
+                invalid={formProps.invalid}
+                handleSubmit={formProps.handleSubmit}
+                saving={formProps.saving}
+                pristine={formProps.pristine}
+              >
                 <SaveButton
-                  // FIXME: fix save button behavior (disable when saving)
-                  // https://marmelab.com/react-admin/CreateEdit.html#toolbar
-                  handleSubmitWithRedirect={handleSubmitWithRedirect}
-                  saving={saving}
-                  disabled={pristine}
+                  // props from Toolbar.tsx
+                  handleSubmitWithRedirect={
+                    formProps.handleSubmitWithRedirect || formProps.handleSubmit
+                  }
+                  disabled={formProps.disabled}
+                  invalid={formProps.invalid}
+                  redirect={formProps.redirect}
+                  saving={formProps.saving}
+                  submitOnEnter={formProps.submitOnEnter}
                 />
               </Toolbar>
             </form>

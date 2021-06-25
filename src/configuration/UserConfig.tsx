@@ -27,7 +27,6 @@ export const UserConfig = () => {
   const [saving, setSaving] = useState(false);
   const { loaded, data } = useGetUserConfig();
 
-  // TODO: remove permission on submit
   const handleSave = useCallback(
     (values) => {
       setSaving(true);
@@ -35,11 +34,11 @@ export const UserConfig = () => {
         .updateUserConfig({ data: values })
         .then(() => {
           setSaving(false);
-          notify('pos.user_menu.profile.success', 'info');
+          notify('pos.user_menu.user_config.success', 'info');
         })
         .catch(() => {
           setSaving(false);
-          notify('pos.user_menu.profile.failure', 'warning');
+          notify('pos.user_menu.user_config.failure', 'warning');
         });
     },
     [dataProvider, notify]
@@ -67,7 +66,7 @@ export const UserConfig = () => {
       <FormWithRedirect
         save={handleSave}
         record={data}
-        render={({ handleSubmitWithRedirect, pristine, saving }) => (
+        render={(formProps: any) => (
           <Card>
             <form>
               <CardContent>
@@ -117,11 +116,27 @@ export const UserConfig = () => {
                   </CardContent>
                 </Card>
               </CardContent>
-              <Toolbar>
+              <Toolbar
+                // props from react-admin demo VisitorEdit
+                resource="user_configs"
+                record={formProps.record}
+                basePath={formProps.basePath}
+                undoable={true}
+                invalid={formProps.invalid}
+                handleSubmit={formProps.handleSubmit}
+                saving={formProps.saving}
+                pristine={formProps.pristine}
+              >
                 <SaveButton
-                  handleSubmitWithRedirect={handleSubmitWithRedirect}
-                  saving={saving}
-                  disabled={pristine}
+                  // props from Toolbar.tsx
+                  handleSubmitWithRedirect={
+                    formProps.handleSubmitWithRedirect || formProps.handleSubmit
+                  }
+                  disabled={formProps.disabled}
+                  invalid={formProps.invalid}
+                  redirect={formProps.redirect}
+                  saving={formProps.saving}
+                  submitOnEnter={formProps.submitOnEnter}
                 />
               </Toolbar>
             </form>
