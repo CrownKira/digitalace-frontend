@@ -22,24 +22,27 @@ export function toFixedNumber(num: any, digits = 2, base = 10) {
 
 export const incrementReference = (
   reference: string,
-  prefix: string,
-  digits = 4
-) => {
+  defaultPrefix: string,
+  defaultDigits = 4
+): string => {
   const parts = reference.split('-');
+  const prefix = parts[0];
   const reference_no = parts[1];
-  if (reference_no && !isNaN(Number(reference_no))) {
-    const reference_no_digits = reference_no.split('');
+
+  if (parts.length > 1 && !isNaN(+reference_no)) {
+    const digits = reference_no.split('');
     let pointer = reference_no.length - 1;
-    while (pointer >= 0 && Number(reference_no_digits[pointer]) >= 9) {
-      reference_no_digits[pointer] = '0';
+
+    while (pointer >= 0 && +digits[pointer] >= 9) {
+      digits[pointer] = '0';
       pointer--;
     }
-    if (pointer < 0) return '1' + reference_no;
 
-    reference_no_digits[pointer] = String(
-      Number(reference_no_digits[pointer]) + 1
-    );
-    return reference_no_digits.join('');
+    if (pointer < 0) return `${prefix}-1${digits.join('')}`;
+
+    digits[pointer] = String(+digits[pointer] + 1);
+    return `${prefix}-${digits.join('')}`;
   }
-  return prefix + '-' + '0'.repeat(digits);
+
+  return `${defaultPrefix}-${'0'.repeat(defaultDigits)}`;
 };

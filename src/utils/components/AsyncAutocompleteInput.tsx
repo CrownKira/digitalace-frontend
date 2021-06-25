@@ -1,5 +1,5 @@
 import { FC, useState, useMemo, useEffect } from 'react';
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import Autocomplete, {
   AutocompleteChangeReason,
   AutocompleteChangeDetails,
@@ -45,7 +45,6 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   optionValue = 'id',
   // props passed to MUIAutocomplete
   // override props produced by useInput()
-  // getOptionLabel = (option) => String(option.id),
   className,
   fullWidth,
   onChange: onChangeOverride = (event, newValue) => {},
@@ -79,7 +78,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   const fetch = useMemo(
     // TODO: use debounce instead?
     () =>
-      throttle(
+      debounce(
         async (request: string, callback: (results?: Record[]) => void) => {
           dataProvider
             .getList(reference, {
@@ -94,7 +93,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
               notify('ra.notification.data_provider_error', 'warning');
             });
         },
-        200
+        150
       ),
     [dataProvider, filter, filterToQuery, notify, perPage, reference, sort]
   );
@@ -128,8 +127,8 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
 
   return (
     <Autocomplete
-      getOptionLabel={(option) => option[optionText]}
       options={autocompleteOptions}
+      getOptionLabel={(option) => option[optionText]}
       autoComplete
       includeInputInList
       filterSelectedOptions
@@ -148,49 +147,38 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       }}
       className={className}
       fullWidth={fullWidth}
-      renderInput={(params) => {
-        // console.log('--params--');
-        // console.log(params);
-        // console.log('--rest--');
-        // console.log(rest);
-        // console.log('--custom options--');
-        // console.log(options);
-        // console.log('label:');
-        // console.log(label);
-
-        return (
-          <ResettableTextField
-            // qn: is onChange and value safe here
-            // will it be overridden by autocomplete wrapper?
-            // onChange={onChangeOverride}
-            {...input}
-            label={
-              label !== '' &&
-              label !== false && (
-                <FieldTitle
-                  // TODO: translate array input source label
-                  label={label}
-                  source={source}
-                  resource={resource}
-                  isRequired={isRequired}
-                />
-              )
-            }
-            error={!!(touched && (error || submitError))}
-            helperText={
-              <InputHelperText
-                // qn: why need !! here but not in TextInput source code
-                touched={!!touched}
-                error={error || submitError}
-                helperText={helperText}
+      renderInput={(params) => (
+        <ResettableTextField
+          // qn: is onChange and value safe here
+          // will it be overridden by autocomplete wrapper?
+          // onChange={onChangeOverride}
+          {...input}
+          label={
+            label !== '' &&
+            label !== false && (
+              <FieldTitle
+                // TODO: translate array input source label
+                label={label}
+                source={source}
+                resource={resource}
+                isRequired={isRequired}
               />
-            }
-            {...options}
-            {...sanitizeInputRestProps(input)}
-            {...params}
-          />
-        );
-      }}
+            )
+          }
+          error={!!(touched && (error || submitError))}
+          helperText={
+            <InputHelperText
+              // qn: why need !! here but not in TextInput source code
+              touched={!!touched}
+              error={error || submitError}
+              helperText={helperText}
+            />
+          }
+          {...options}
+          {...sanitizeInputRestProps(input)}
+          {...params}
+        />
+      )}
     />
   );
 };
@@ -201,7 +189,6 @@ export interface AsyncAutocompleteInputProps
   filterToQuery?: (filter: string) => any;
   perPage?: number;
   reference: string;
-  // getOptionLabel?: (option: Record) => string;
   optionText: any;
   optionValue: any;
   onChange?:
@@ -223,7 +210,6 @@ AsyncAutocompleteInput.defaultProps = {
   sort: { field: 'id', order: 'DESC' },
   optionText: 'name',
   optionValue: 'id',
-  // getOptionLabel: (option) => String(option.id),
   onChange: (event, newValue) => {},
 };
 

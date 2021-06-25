@@ -29,11 +29,7 @@ const AmountInput: FC<Props> = ({
       !isNaN(quantity) &&
       !isNaN(unit_price) &&
       form.batch(() => {
-        form.change(
-          getSource('amount'),
-
-          (quantity * unit_price).toFixed(2)
-        );
+        form.change(getSource('amount'), (quantity * unit_price).toFixed(2));
         form.change(getSource('quantity'), quantity);
         form.change(getSource('unit_price'), unit_price);
       });

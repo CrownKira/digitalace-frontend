@@ -14,6 +14,7 @@ import {
   FormDataConsumer,
   Loading,
   useGetList,
+  ReferenceInput,
 } from 'react-admin';
 import { Box, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -67,6 +68,10 @@ const InvoiceForm = (props: any) => {
       invoices && invoiceIds.length > 0
         ? incrementReference(invoices[invoiceIds[0]].reference, 'INV', 4)
         : 'INV-0000',
+    date: Date.now(),
+    // FIXME: default to null date instead
+    payment_date: Date.now(),
+    status: 'UPD',
     total: '0.00',
     discount_rate: userConfig?.discount_rate,
     discount_amount: '0.00',
@@ -74,16 +79,13 @@ const InvoiceForm = (props: any) => {
     gst_rate: userConfig?.gst_rate,
     gst_amount: '0.00',
     grand_total: '0.00',
-    date: Date.now(),
-    status: 'UPD',
   });
 
-  return loadingInvoices && loadingUserConfig ? (
+  return loadingInvoices || loadingUserConfig ? (
     <Loading />
   ) : (
     <FormWithRedirect
       {...props}
-      // validate={validatePasswords}
       initialValues={postDefaultValue}
       render={(formProps: any) => (
         <Card>
@@ -125,8 +127,7 @@ const InvoiceForm = (props: any) => {
                       />
                     </Box>
                   </Box>
-
-                  <RichTextInput source="description" label="" rows={2} />
+                  <RichTextInput source="description" label="" />
                 </Box>
                 <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                   <DateInput
@@ -135,7 +136,6 @@ const InvoiceForm = (props: any) => {
                     fullWidth
                     validate={requiredValidate}
                   />
-
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <TextInput
@@ -156,25 +156,55 @@ const InvoiceForm = (props: any) => {
                       />
                     </Box>
                   </Box>
-
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <SelectInput
                         source="status"
                         choices={statuses}
                         fullWidth
-                        formClassName={classes.rightFormGroup}
                         validate={requiredValidate}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <DateInput
-                        source="payment_date"
-                        resource="invoices"
-                        fullWidth
-                      />
+                      <FormDataConsumer>
+                        {({ formData }) =>
+                          formData &&
+                          formData.status === 'PD' && (
+                            <DateInput
+                              source="payment_date"
+                              resource="invoices"
+                              fullWidth
+                            />
+                          )
+                        }
+                      </FormDataConsumer>
                     </Box>
                   </Box>
+                  <FormDataConsumer>
+                    {({ formData }) =>
+                      formData &&
+                      formData.status === 'PD' && (
+                        <Box display={{ sm: 'block', md: 'flex' }}>
+                          <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                            <ReferenceInput
+                              source="payment_method"
+                              reference="payment_methods"
+                              fullWidth
+                            >
+                              <SelectInput source="name" />
+                            </ReferenceInput>
+                          </Box>
+                          <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                            <TextInput
+                              source="payment_note"
+                              multiline
+                              fullWidth
+                            />
+                          </Box>
+                        </Box>
+                      )
+                    }
+                  </FormDataConsumer>
                 </Box>
               </Box>
               <Box display={{ sm: 'block', md: 'flex' }}>
@@ -205,7 +235,6 @@ const InvoiceForm = (props: any) => {
                       className={classes.lineItemInput}
                       validate={requiredValidate}
                     />
-
                     <TextInput
                       source="unit"
                       formClassName={classes.leftFormGroup}
@@ -213,14 +242,12 @@ const InvoiceForm = (props: any) => {
                       validate={requiredValidate}
                       disabled
                     />
-
                     <NumberInput
                       source="unit_price"
                       formClassName={classes.leftFormGroup}
                       className={classes.lineItemInput}
                       validate={requiredValidate}
                     />
-
                     <FormDataConsumer
                       formClassName={classes.leftFormGroup}
                       disabled
@@ -262,7 +289,6 @@ const InvoiceForm = (props: any) => {
                       <NumberInput
                         source="discount_rate"
                         resource="invoices"
-                        // formClassName={classes.leftFormGroup}
                         fullWidth
                         validate={requiredValidate}
                       />
@@ -271,7 +297,6 @@ const InvoiceForm = (props: any) => {
                       <NumberInput
                         source="discount_amount"
                         resource="invoices"
-                        // formClassName={classes.rightFormGroup}
                         fullWidth
                         validate={requiredValidate}
                         disabled
@@ -292,7 +317,6 @@ const InvoiceForm = (props: any) => {
                       <NumberInput
                         source="gst_rate"
                         resource="invoices"
-                        // formClassName={classes.leftFormGroup}
                         fullWidth
                         validate={requiredValidate}
                       />
@@ -301,7 +325,6 @@ const InvoiceForm = (props: any) => {
                       <NumberInput
                         source="gst_amount"
                         resource="invoices"
-                        // formClassName={classes.rightFormGroup}
                         fullWidth
                         validate={requiredValidate}
                         disabled

@@ -67,7 +67,7 @@ export const UserConfig = () => {
       <FormWithRedirect
         save={handleSave}
         record={data}
-        render={(formProps: any) => (
+        render={({ handleSubmitWithRedirect, pristine, saving }) => (
           <Card>
             <form>
               <CardContent>
@@ -119,9 +119,9 @@ export const UserConfig = () => {
               </CardContent>
               <Toolbar>
                 <SaveButton
-                  saving={formProps.saving}
-                  disabled={formProps.pristine}
-                  handleSubmitWithRedirect={formProps.handleSubmitWithRedirect}
+                  handleSubmitWithRedirect={handleSubmitWithRedirect}
+                  saving={saving}
+                  disabled={pristine}
                 />
               </Toolbar>
             </form>

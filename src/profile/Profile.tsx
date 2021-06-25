@@ -138,7 +138,7 @@ export const ProfileEdit = () => {
         save={handleSave}
         validate={validatePasswords}
         record={identity}
-        render={(formProps: any) => (
+        render={(handleSubmitWithRedirect, pristine, saving) => (
           <Card>
             <form>
               <CardContent>
@@ -318,9 +318,9 @@ export const ProfileEdit = () => {
                 <SaveButton
                   // FIXME: fix save button behavior (disable when saving)
                   // https://marmelab.com/react-admin/CreateEdit.html#toolbar
-                  saving={formProps.saving}
-                  disabled={formProps.pristine}
-                  handleSubmitWithRedirect={formProps.handleSubmitWithRedirect}
+                  handleSubmitWithRedirect={handleSubmitWithRedirect}
+                  saving={saving}
+                  disabled={pristine}
                 />
               </Toolbar>
             </form>
