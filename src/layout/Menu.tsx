@@ -59,28 +59,33 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
   const dataProvider = useDataProvider();
 
   useEffect(() => {
-    const theme = localStorage.getItem('theme');
-    const language = localStorage.getItem('language');
-    theme && dispatch(changeTheme(theme as ThemeName));
-    language && setLocale(language);
+    // TODO: rewrite
+    let theme = localStorage.getItem('theme');
+    let language = localStorage.getItem('language');
 
-    dataProvider
-      .getUserConfig()
-      .then(({ data }: { data: UserConfig }) => {
-        dispatch(changeTheme(data.theme));
-        setLocale(data.language);
-        localStorage.setItem('theme', data.theme);
-        localStorage.setItem('language', data.language);
-      })
-      .catch((e: Error) => {
-        if (e instanceof TypeError) {
-          // silently ignore this error
-          // FIXME: for some reason data might be
-          // undefined even when it is fetched
-          return;
-        }
-        notify('ra.notification.data_provider_error', 'warning');
-      });
+    if (!(theme && language)) {
+      dataProvider
+        .getUserConfig()
+        .then(({ data }: { data: UserConfig }) => {
+          // set config in first login and config update
+          localStorage.setItem('theme', data.theme);
+          localStorage.setItem('language', data.language);
+          theme = data.theme;
+          language = data.language;
+        })
+        .catch((e: Error) => {
+          if (e instanceof TypeError) {
+            // silently ignore this error
+            // FIXME: for some reason data might be
+            // undefined even when it is fetched
+            return;
+          }
+          notify('ra.notification.data_provider_error', 'warning');
+        });
+    } else {
+      dispatch(changeTheme(theme as ThemeName));
+      setLocale(language);
+    }
   }, [dataProvider, dispatch, notify, setLocale]);
 
   return (
