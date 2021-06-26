@@ -29,7 +29,7 @@ import receives from '../receives';
 import purchase_orders from '../purchase_orders';
 import sales_orders from '../sales_orders';
 import SubMenu from './SubMenu';
-import { AppState } from '../types';
+import { AppState, ThemeName } from '../types';
 
 type MenuName =
   | 'menuOrganization'
@@ -59,11 +59,18 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
   const dataProvider = useDataProvider();
 
   useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    const language = localStorage.getItem('language');
+    theme && dispatch(changeTheme(theme as ThemeName));
+    language && setLocale(language);
+
     dataProvider
       .getUserConfig()
       .then(({ data }: { data: UserConfig }) => {
         dispatch(changeTheme(data.theme));
         setLocale(data.language);
+        localStorage.setItem('theme', data.theme);
+        localStorage.setItem('language', data.language);
       })
       .catch(() => {
         notify('ra.notification.data_provider_error', 'warning');

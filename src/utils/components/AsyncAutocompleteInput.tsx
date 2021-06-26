@@ -47,11 +47,13 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   // override props produced by useInput()
   className,
   fullWidth,
-  onChange: onChangeOverride = (event, newValue) => {},
+  // custom props
+  onChange: onChangeOverride = () => {},
+  onInputChange: onInputChangeOverride = () => {},
   ...props
 }) => {
   const {
-    input,
+    input: { onChange, ...input },
     isRequired,
     meta: { error, submitError, touched },
   } = useInput({
@@ -76,7 +78,6 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   const notify = useNotify();
 
   const fetch = useMemo(
-    // TODO: use debounce instead?
     () =>
       debounce(
         async (request: string, callback: (results?: Record[]) => void) => {
@@ -86,10 +87,11 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
               sort,
               filter: { ...filterToQuery(request), ...filter },
             })
-            .then(({ data }: { data: Record[] }) => {
+            .then(({ data }) => {
               callback(data);
             })
             .catch((error: Error) => {
+              // TODO: notify more specific error
               notify('ra.notification.data_provider_error', 'warning');
             });
         },
@@ -97,6 +99,20 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       ),
     [dataProvider, filter, filterToQuery, notify, perPage, reference, sort]
   );
+
+  useEffect(() => {
+    if (inputValue || valueOverride || !input.value || isNaN(input.value))
+      return;
+
+    dataProvider
+      .getOne(reference, { id: input.value })
+      .then(({ data }) => {
+        setValueOverride(data);
+      })
+      .catch((error: Error) => {
+        notify('ra.notification.data_provider_error', 'warning');
+      });
+  }, [dataProvider, input.value, inputValue, notify, reference, valueOverride]);
 
   useEffect(() => {
     let active = true;
@@ -133,26 +149,29 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       includeInputInList
       filterSelectedOptions
       value={valueOverride}
-      inputValue={inputValue}
+      inputValue={
+        // this inputValue overrides TextField value
+        inputValue
+      }
       onChange={(event, newValue: Record | null, reason, details) => {
         setAutocompleteOptions(
           newValue ? [newValue, ...autocompleteOptions] : autocompleteOptions
         );
         onChangeOverride(event, newValue, reason, details);
-        newValue && input.onChange(newValue[optionValue]);
+        onChange(newValue ? newValue[optionValue] : '');
         setValueOverride(newValue);
       }}
       onInputChange={(event, newInputValue) => {
+        // merged with TextField onChange
+        // this is invoked before TextField onChange
         setInputValue(newInputValue);
       }}
       className={className}
       fullWidth={fullWidth}
       renderInput={(params) => (
         <ResettableTextField
-          // qn: is onChange and value safe here
-          // will it be overridden by autocomplete wrapper?
-          // onChange={onChangeOverride}
           {...input}
+          onChange={onInputChangeOverride}
           label={
             label !== '' &&
             label !== false && (
@@ -200,6 +219,7 @@ export interface AsyncAutocompleteInputProps
       ) => void)
     | undefined;
   [key: string]: any;
+  onInputChange?: (event: any) => void;
 }
 
 AsyncAutocompleteInput.defaultProps = {
@@ -210,7 +230,8 @@ AsyncAutocompleteInput.defaultProps = {
   sort: { field: 'id', order: 'DESC' },
   optionText: 'name',
   optionValue: 'id',
-  onChange: (event, newValue) => {},
+  onChange: () => {},
+  onInputChange: () => {},
 };
 
 /*

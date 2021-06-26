@@ -115,9 +115,9 @@ export const ProfileEdit = () => {
       save: handleSave,
       saving,
       // FIXME: write implementations
-      setOnSuccess: () => void 0,
-      setOnFailure: () => void 0,
-      setTransform: () => void 0,
+      setOnSuccess: () => {},
+      setOnFailure: () => {},
+      setTransform: () => {},
     }),
     [saving, handleSave]
   );

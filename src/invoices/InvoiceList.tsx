@@ -57,7 +57,7 @@ const InvoiceList: FC<ListProps> = (props) => {
       {...props}
     >
       <Datagrid rowClick="edit" expand={<InvoiceShow />}>
-        <TextField source="id" />
+        <TextField source="reference" />
         <DateField source="date" />
         <ReferenceField source="customer" reference="customers">
           <FullNameField />

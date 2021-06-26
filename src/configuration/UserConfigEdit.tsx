@@ -18,8 +18,9 @@ import { SectionTitle, Separator } from '../utils/components/Divider';
 import useGetUserConfig from './useGetUserConfig';
 import { ThemeSelectInput } from './ThemeSelectInput';
 import { LanguageSelectInput } from './LanguageSelectInput';
+import { UserConfig } from '../types';
 
-export const UserConfig = () => {
+export const UserConfigEdit = () => {
   useAuthenticated();
   const notify = useNotify();
   const translate = useTranslate();
@@ -32,8 +33,10 @@ export const UserConfig = () => {
       setSaving(true);
       dataProvider
         .updateUserConfig({ data: values })
-        .then(() => {
+        .then(({ data }: { data: UserConfig }) => {
           setSaving(false);
+          localStorage.setItem('theme', data.theme);
+          localStorage.setItem('language', data.language);
           notify('pos.user_menu.user_config.success', 'info');
         })
         .catch(() => {
@@ -49,10 +52,10 @@ export const UserConfig = () => {
     () => ({
       save: handleSave,
       saving,
-
-      setOnSuccess: () => void 0,
-      setOnFailure: () => void 0,
-      setTransform: () => void 0,
+      // qn: what are these methods used for?
+      setOnSuccess: () => {},
+      setOnFailure: () => {},
+      setTransform: () => {},
     }),
     [saving, handleSave]
   );

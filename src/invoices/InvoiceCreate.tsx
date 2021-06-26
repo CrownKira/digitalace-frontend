@@ -16,7 +16,8 @@ import {
   useGetList,
   ReferenceInput,
   SaveButton,
-  DeleteButton,
+  Labeled,
+  TextField,
 } from 'react-admin';
 import { Box, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -110,18 +111,31 @@ const InvoiceForm = (props: any) => {
                 <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                      <CustomerNameInput />
-                    </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <TextInput
-                        source="customer_id"
+                      <AsyncAutocompleteInput
+                        optionText="name"
+                        optionValue="id"
+                        source="customer"
                         resource="invoices"
+                        reference="customers"
+                        validate={requiredValidate}
                         fullWidth
-                        disabled
                       />
                     </Box>
+                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                      <FormDataConsumer>
+                        {({ formData }) => (
+                          <Labeled label="resources.invoices.fields.customer_id">
+                            <TextField
+                              source="customer"
+                              resource="invoices"
+                              record={formData}
+                              fullWidth
+                            />
+                          </Labeled>
+                        )}
+                      </FormDataConsumer>
+                    </Box>
                   </Box>
-
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <TextInput
@@ -130,7 +144,6 @@ const InvoiceForm = (props: any) => {
                         fullWidth
                       />
                     </Box>
-
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <AsyncAutocompleteInput
                         optionText="name"
@@ -146,7 +159,6 @@ const InvoiceForm = (props: any) => {
                 </Box>
                 <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                   <DateInput
-                    // parse={dateParser}
                     source="date"
                     resource="invoices"
                     fullWidth
@@ -183,33 +195,26 @@ const InvoiceForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <FormDataConsumer>
-                        {
-                          ({ formData }) => (
-                            // formData &&
-                            // formData.status === 'PD' && (
-                            <DateInput
-                              parse={dateParser}
-                              source="payment_date"
-                              resource="invoices"
-                              fullWidth
-                              // hide instead of null so that date is formatted properly
-                              className={
-                                formData && formData.status === 'UPD'
-                                  ? classes.hiddenInput
-                                  : ''
-                              }
-                            />
-                          )
-                          // )
-                        }
+                        {({ formData }) => (
+                          <DateInput
+                            parse={dateParser}
+                            source="payment_date"
+                            resource="invoices"
+                            fullWidth
+                            // hide instead of null so that date is formatted properly
+                            className={
+                              formData && formData.status === 'UPD'
+                                ? classes.hiddenInput
+                                : ''
+                            }
+                          />
+                        )}
                       </FormDataConsumer>
                     </Box>
                   </Box>
                   <FormDataConsumer>
                     {
                       ({ formData }) => (
-                        // formData &&
-                        // formData.status === 'UPD' && (
                         <Box
                           display={{ sm: 'block', md: 'flex' }}
                           className={
@@ -247,6 +252,7 @@ const InvoiceForm = (props: any) => {
                     source="invoiceitem_set"
                     resource="invoice_items"
                     label="resources.invoices.fields.invoiceitem_set"
+                    validate={requiredValidate}
                   >
                     <SimpleFormIterator resource="invoice_items">
                       <FormDataConsumer formClassName={classes.leftFormGroup}>
@@ -263,7 +269,6 @@ const InvoiceForm = (props: any) => {
                           ) : null
                         }
                       </FormDataConsumer>
-
                       <NumberInput
                         source="quantity"
                         formClassName={classes.leftFormGroup}
@@ -374,7 +379,6 @@ const InvoiceForm = (props: any) => {
                     validate={requiredValidate}
                     disabled
                   />
-
                   <FormDataConsumer>
                     {(props) => (
                       <LineNumberField
@@ -389,7 +393,6 @@ const InvoiceForm = (props: any) => {
                 </Box>
               </Box>
             </CardContent>
-
             <Toolbar
               // props from react-admin demo VisitorEdit
               resource="invoices"
