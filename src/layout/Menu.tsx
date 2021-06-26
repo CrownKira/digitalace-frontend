@@ -72,7 +72,13 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         localStorage.setItem('theme', data.theme);
         localStorage.setItem('language', data.language);
       })
-      .catch(() => {
+      .catch((e: Error) => {
+        if (e instanceof TypeError) {
+          // silently ignore this error
+          // FIXME: for some reason data might be
+          // undefined even when it is fetched
+          return;
+        }
         notify('ra.notification.data_provider_error', 'warning');
       });
   }, [dataProvider, dispatch, notify, setLocale]);

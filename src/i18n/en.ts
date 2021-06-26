@@ -55,7 +55,7 @@ const customEnglishMessages: TranslationMessages = {
       confirm_email: 'Confirm Email',
       confirm_password: 'Confirm Password',
       register: 'Create Account',
-      register_message: 'Create your account.',
+      register_title: 'Create your account.',
       register_error: 'Registration failed, please retry',
     },
     user_menu: {

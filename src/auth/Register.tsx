@@ -134,7 +134,7 @@ const Register = () => {
                 </Avatar>
               </div>
               <div className={classes.hint}>
-                {translate('pos.auth.register_message')}
+                {translate('pos.auth.register_title')}
               </div>
               <div className={classes.form}>
                 <div className={classes.input}>
