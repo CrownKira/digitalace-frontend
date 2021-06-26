@@ -20,17 +20,16 @@ const ProductNameInput: FC<Props> = ({
   return (
     <AsyncAutocompleteInput
       {...rest} // pass injected props
-      getOptionLabel={(option) => option.name}
+      optionText="name"
+      optionValue="id"
       reference="products"
       onChange={(event, newValue) => {
         getSource &&
+          newValue &&
           form.batch(() => {
-            form.change(getSource('unit'), newValue ? newValue.unit : '');
-            form.change(
-              getSource('unit_price'),
-              newValue ? newValue.unit_price : '0.00'
-            );
-            form.change(getSource('quantity'), '0.00');
+            form.change(getSource('unit'), newValue.unit);
+            form.change(getSource('unit_price'), newValue.unit_price);
+            form.change(getSource('quantity'), '0');
           });
       }}
       label="resources.invoice_items.fields.product"

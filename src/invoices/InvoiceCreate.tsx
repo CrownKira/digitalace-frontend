@@ -78,7 +78,7 @@ const InvoiceForm = (props: any) => {
     // FIXME: default to null date instead
     payment_date: new Date(),
     status: 'UPD',
-    total: '0.00',
+    total_amount: '0.00',
     discount_rate: userConfig?.discount_rate,
     discount_amount: '0.00',
     net: '0.00',
@@ -88,6 +88,7 @@ const InvoiceForm = (props: any) => {
   });
 
   // a fix for DateField parse not working
+  // FIXME: fix any
   const transform = (data: any) => ({
     ...data,
     date: dateParser(data.date),
@@ -310,7 +311,7 @@ const InvoiceForm = (props: any) => {
                   <FormDataConsumer>
                     {(props) => (
                       <TotalInput
-                        source="total"
+                        source="total_amount"
                         resource="invoices"
                         fullWidth
                         validate={requiredValidate}

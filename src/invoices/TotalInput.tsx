@@ -23,22 +23,33 @@ const AmountInput: FC<Props> = ({
   const form = useForm();
 
   useEffect(() => {
-    const total = formData?.invoiceitem_set
+    // round quantity, unit_price, gst_rate and discount rate first
+    const total_amount = formData?.invoiceitem_set
+      // no need to recalculate amount since the
+      // rounded value is the exact sum of the rounded quantity and unit_price
       ?.map((x: Record) => (x ? toFixedNumber(x.amount, 2) : 0))
       .reduce((x: number, y: number) => x + y, 0);
+    // toFixedNumber: returns rounded number that can be used for numeric operations
     const discount_rate = toFixedNumber(formData?.discount_rate, 2);
     const gst_rate = toFixedNumber(formData?.gst_rate, 2);
-    const discount_amount = total * (discount_rate / 100);
-    const net = total * (1 - discount_rate / 100);
+    // round the rest only at the end of calculation for display
+    const discount_amount = total_amount * (discount_rate / 100);
+    const net = total_amount * (1 - discount_rate / 100);
     const gst_amount = net * (gst_rate / 100);
     const grand_total = net * (1 - gst_rate / 100);
 
+    // toFixed(2): converts '0' to '0.00'
     form.batch(() => {
-      !isNaN(total) && form.change('total', total.toFixed(2));
-      !isNaN(discount_rate) && form.change('discount_rate', discount_rate);
+      !isNaN(total_amount) &&
+        form.change('total_amount', total_amount.toFixed(2));
+      !isNaN(discount_rate) &&
+        form.getFieldState('discount_rate')?.active === false &&
+        form.change('discount_rate', discount_rate.toFixed(2));
       !isNaN(discount_amount) &&
         form.change('discount_amount', discount_amount.toFixed(2));
-      !isNaN(gst_rate) && form.change('gst_rate', gst_rate);
+      !isNaN(discount_rate) &&
+        form.getFieldState('gst_rate')?.active === false &&
+        form.change('gst_rate', gst_rate.toFixed(2));
       !isNaN(gst_amount) && form.change('gst_amount', gst_amount.toFixed(2));
       !isNaN(net) && form.change('net', net.toFixed(2));
       !isNaN(grand_total) && form.change('grand_total', grand_total.toFixed(2));
