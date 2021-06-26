@@ -5,7 +5,7 @@ import {
   FormDataConsumerRenderParams,
   Record,
 } from 'react-admin';
-import { useForm } from 'react-final-form';
+import { useForm, useFormState } from 'react-final-form';
 
 import { toFixedNumber } from '../utils';
 
@@ -21,6 +21,7 @@ const AmountInput: FC<Props> = ({
   ...rest
 }) => {
   const form = useForm();
+  const formState = useFormState();
 
   useEffect(() => {
     // round quantity, unit_price, gst_rate and discount rate first
@@ -54,7 +55,11 @@ const AmountInput: FC<Props> = ({
       !isNaN(net) && form.change('net', net.toFixed(2));
       !isNaN(grand_total) && form.change('grand_total', grand_total.toFixed(2));
     });
-  }, [form, formData]);
+  }, [
+    form,
+    formData,
+    formState, // so that discount_rate and gst_rate input round up on blur
+  ]);
 
   return <NumberInput {...rest} className={inputClassName} />;
 };

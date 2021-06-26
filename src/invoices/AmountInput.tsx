@@ -39,7 +39,13 @@ const AmountInput: FC<Props> = ({
         form.getFieldState(getSource('unit_price'))?.active === false &&
           form.change(getSource('unit_price'), unit_price.toFixed(2));
       });
-  }, [form, getSource, scopedFormData?.quantity, scopedFormData?.unit_price]);
+  }, [
+    // qn: for some reason, on blur quantity or unit_price, one of the dependencies change
+    form,
+    getSource,
+    scopedFormData?.quantity,
+    scopedFormData?.unit_price,
+  ]);
 
   return (
     <NumberInput
