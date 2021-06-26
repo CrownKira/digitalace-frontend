@@ -26,9 +26,9 @@ const AmountInput: FC<Props> = ({
   useEffect(() => {
     // round quantity, unit_price, gst_rate and discount rate first
     const total_amount = formData?.invoiceitem_set
-      // no need to recalculate amount since the
-      // rounded value is the exact sum of the rounded quantity and unit_price
-      ?.map((x: Record) => (x ? toFixedNumber(x.amount, 2) : 0))
+      ?.map((x: Record) =>
+        x ? toFixedNumber(x.quantity, 2) * toFixedNumber(x.unit_price, 2) : 0
+      )
       .reduce((x: number, y: number) => x + y, 0);
     // toFixedNumber: returns rounded number that can be used for numeric operations
     const discount_rate = toFixedNumber(formData?.discount_rate, 2);

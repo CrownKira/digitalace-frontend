@@ -25,7 +25,6 @@ import RichTextInput from 'ra-input-rich-text';
 import useGetUserConfig from '../configuration/useGetUserConfig';
 
 import { statuses } from './data';
-import CustomerNameInput from './CustomerNameInput';
 import ProductNameInput from './ProductNameInput';
 import AmountInput from './AmountInput';
 import TotalInput from './TotalInput';
@@ -213,36 +212,33 @@ const InvoiceForm = (props: any) => {
                     </Box>
                   </Box>
                   <FormDataConsumer>
-                    {
-                      ({ formData }) => (
-                        <Box
-                          display={{ sm: 'block', md: 'flex' }}
-                          className={
-                            formData && formData.status === 'UPD'
-                              ? classes.hiddenInput
-                              : ''
-                          }
-                        >
-                          <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                            <ReferenceInput
-                              source="payment_method"
-                              reference="payment_methods"
-                              fullWidth
-                            >
-                              <SelectInput source="name" />
-                            </ReferenceInput>
-                          </Box>
-                          <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                            <TextInput
-                              source="payment_note"
-                              multiline
-                              fullWidth
-                            />
-                          </Box>
+                    {({ formData }) => (
+                      <Box
+                        display={{ sm: 'block', md: 'flex' }}
+                        className={
+                          formData && formData.status === 'UPD'
+                            ? classes.hiddenInput
+                            : ''
+                        }
+                      >
+                        <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                          <ReferenceInput
+                            source="payment_method"
+                            reference="payment_methods"
+                            fullWidth
+                          >
+                            <SelectInput source="name" />
+                          </ReferenceInput>
                         </Box>
-                      )
-                      // )
-                    }
+                        <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                          <TextInput
+                            source="payment_note"
+                            multiline
+                            fullWidth
+                          />
+                        </Box>
+                      </Box>
+                    )}
                   </FormDataConsumer>
                 </Box>
               </Box>

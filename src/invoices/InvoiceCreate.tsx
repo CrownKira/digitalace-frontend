@@ -25,7 +25,6 @@ import RichTextInput from 'ra-input-rich-text';
 import useGetUserConfig from '../configuration/useGetUserConfig';
 
 import { statuses } from './data';
-import CustomerNameInput from './CustomerNameInput';
 import ProductNameInput from './ProductNameInput';
 import AmountInput from './AmountInput';
 import TotalInput from './TotalInput';
