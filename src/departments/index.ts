@@ -5,6 +5,7 @@ import DepartmentEdit from './DepartmentEdit';
 import DepartmentCreate from './DepartmentCreate';
 
 export default {
+  codename: 'department',
   list: DepartmentList,
   create: DepartmentCreate,
   edit: DepartmentEdit,

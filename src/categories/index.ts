@@ -5,6 +5,7 @@ import CategoryEdit from './CategoryEdit';
 import CategoryCreate from './CategoryCreate';
 
 export default {
+  codename: 'productcategory',
   list: CategoryList,
   create: CategoryCreate,
   edit: CategoryEdit,

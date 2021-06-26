@@ -5,6 +5,7 @@ import SalesOrderCreate from './SalesOrderCreate';
 import SalesOrderEdit from './SalesOrderEdit';
 
 export default {
+  codename: 'salesorder',
   list: SalesOrderList,
   create: SalesOrderCreate,
   edit: SalesOrderEdit,

@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { Admin, Resource, DataProvider } from 'react-admin';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
+import pickBy from 'lodash/pickBy';
 
 import authProvider from './authProvider';
 import themeReducer from './themeReducer';
@@ -60,19 +61,94 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
           .map((x: number) => permissions.find((y) => y.id === x)?.codename)
           .filter((x: number | undefined) => x);
 
+        const hasPermission = (
+          codename: string,
+          component: any,
+          action: string
+        ) => {
+          switch (action) {
+            case 'list':
+              return userPermissions.includes(`view_${codename}`);
+            case 'create':
+              return userPermissions.includes(`add_${codename}`);
+            case 'edit':
+              return userPermissions.includes(`change_${codename}`);
+            case 'codename':
+              // TODO: remove codename field
+              return false;
+            default:
+              return true;
+          }
+        };
+
         return [
-          <Resource name="invoices" {...invoices} />,
-          <Resource name="receives" {...receives} />,
-          <Resource name="sales_orders" {...sales_orders} />,
-          <Resource name="purchase_orders" {...purchase_orders} />,
-          <Resource name="products" {...products} />,
-          <Resource name="customers" {...customers} />,
-          <Resource name="suppliers" {...suppliers} />,
-          <Resource name="categories" {...categories} />,
-          <Resource name="departments" {...departments} />,
-          <Resource name="roles" {...roles} />,
+          <Resource
+            name="invoices"
+            {...pickBy(invoices, (value, key) =>
+              hasPermission('invoice', value, key)
+            )}
+          />,
+          <Resource
+            name="receives"
+            {...pickBy(receives, (value, key) =>
+              hasPermission('receive', value, key)
+            )}
+          />,
+          <Resource
+            name="sales_orders"
+            {...pickBy(sales_orders, (value, key) =>
+              hasPermission('salesorder', value, key)
+            )}
+          />,
+          <Resource
+            name="purchase_orders"
+            {...pickBy(purchase_orders, (value, key) =>
+              hasPermission('purchaseorder', value, key)
+            )}
+          />,
+          <Resource
+            name="products"
+            {...pickBy(products, (value, key) =>
+              hasPermission('product', value, key)
+            )}
+          />,
+          <Resource
+            name="customers"
+            {...pickBy(customers, (value, key) =>
+              hasPermission('customer', value, key)
+            )}
+          />,
+          <Resource
+            name="suppliers"
+            {...pickBy(suppliers, (value, key) =>
+              hasPermission('supplier', value, key)
+            )}
+          />,
+          <Resource
+            name="categories"
+            {...pickBy(categories, (value, key) =>
+              hasPermission('category', value, key)
+            )}
+          />,
+          <Resource
+            name="departments"
+            {...pickBy(departments, (value, key) =>
+              hasPermission('department', value, key)
+            )}
+          />,
+          <Resource
+            name="roles"
+            {...pickBy(roles, (value, key) =>
+              hasPermission('role', value, key)
+            )}
+          />,
           <Resource name="designations" />,
-          <Resource name="employees" {...employees} />,
+          <Resource
+            name="employees"
+            {...pickBy(employees, (value, key) =>
+              hasPermission('user', value, key)
+            )}
+          />,
         ];
       }}
     </Admin>

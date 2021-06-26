@@ -5,6 +5,7 @@ import EmployeeCreate from './EmployeeCreate';
 import EmployeeEdit from './EmployeeEdit';
 
 const resource = {
+  codename: 'user',
   list: EmployeeList,
   create: EmployeeCreate,
   edit: EmployeeEdit,

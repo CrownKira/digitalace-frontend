@@ -5,6 +5,7 @@ import RoleEdit from './RoleEdit';
 import RoleCreate from './RoleCreate';
 
 export default {
+  codename: 'role',
   list: RoleList,
   create: RoleCreate,
   edit: RoleEdit,

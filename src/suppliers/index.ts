@@ -5,6 +5,7 @@ import SupplierCreate from './SupplierCreate';
 import SupplierEdit from './SupplierEdit';
 
 const resource = {
+  codename: 'supplier',
   list: SupplierList,
   create: SupplierCreate,
   edit: SupplierEdit,
