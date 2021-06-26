@@ -87,8 +87,8 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
               sort,
               filter: { ...filterToQuery(request), ...filter },
             })
-            .then(({ data }) => {
-              callback(data);
+            .then((response) => {
+              response && callback(response.data);
             })
             .catch((error: Error) => {
               // TODO: notify more specific error
@@ -106,8 +106,8 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
 
     dataProvider
       .getOne(reference, { id: input.value })
-      .then(({ data }) => {
-        setValueOverride(data);
+      .then((response) => {
+        response && setValueOverride(response.data);
       })
       .catch((error: Error) => {
         notify('ra.notification.data_provider_error', 'warning');
@@ -115,6 +115,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   }, [dataProvider, input.value, inputValue, notify, reference, valueOverride]);
 
   useEffect(() => {
+    // FIXME: eliminate additional api calls after invoice update
     let active = true;
     if (inputValue === '') {
       setAutocompleteOptions(valueOverride ? [valueOverride] : []);

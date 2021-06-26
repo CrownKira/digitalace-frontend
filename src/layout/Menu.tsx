@@ -66,20 +66,18 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
     if (!(theme && language)) {
       dataProvider
         .getUserConfig()
-        .then(({ data }: { data: UserConfig }) => {
-          // set config in first login and config update
-          localStorage.setItem('theme', data.theme);
-          localStorage.setItem('language', data.language);
-          theme = data.theme;
-          language = data.language;
-        })
-        .catch((e: Error) => {
-          if (e instanceof TypeError) {
-            // silently ignore this error
-            // FIXME: for some reason data might be
-            // undefined even when it is fetched
-            return;
+        // FIXME: fix any
+        .then((response: any) => {
+          if (response) {
+            const { data }: { data: UserConfig } = response;
+            // set config in first login and config update
+            localStorage.setItem('theme', data.theme);
+            localStorage.setItem('language', data.language);
+            theme = data.theme;
+            language = data.language;
           }
+        })
+        .catch((error: Error) => {
           notify('ra.notification.data_provider_error', 'warning');
         });
     } else {

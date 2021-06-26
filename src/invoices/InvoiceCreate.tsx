@@ -101,7 +101,7 @@ const InvoiceForm = (props: any) => {
     <FormWithRedirect
       {...props}
       initialValues={postDefaultValue}
-      transform={transform}
+      // transform={transform}
       render={(formProps: any) => (
         <Card>
           <form>
@@ -299,8 +299,8 @@ const InvoiceForm = (props: any) => {
                               inputClassName={classes.lineItemInput}
                               validate={requiredValidate}
                               // FIXME: error thrown if do no pass save and saving as strings
-                              save={formProps.save.toString()}
-                              saving={formProps.saving.toString()}
+                              // save={formProps.save.toString()}
+                              // saving={formProps.saving.toString()}
                               {...rest}
                             />
                           ) : null

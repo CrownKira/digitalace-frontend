@@ -76,7 +76,7 @@ const customDataProvider: DataProvider = {
   },
   update: async (resource, params) => {
     if (fileLabels.every((x) => !params.data.hasOwnProperty(x))) {
-      return restProvider.create(resource, params);
+      return restProvider.update(resource, params);
     }
     const { json } = await httpClient(`${apiUrl}/${resource}/${params.id}/`, {
       method: HttpMethodsEnum.PATCH,

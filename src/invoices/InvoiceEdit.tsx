@@ -16,6 +16,7 @@ import {
   useGetList,
   ReferenceInput,
   SaveButton,
+  DeleteButton,
   Labeled,
   TextField,
 } from 'react-admin';
@@ -43,8 +44,13 @@ export const styles = {
   hiddenInput: {
     display: 'none',
   },
+  toolbar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
 };
 
+// TODO: refactor create and edit
 const useStyles = makeStyles(styles);
 
 const InvoiceEdit: FC<EditProps> = (props) => {
@@ -98,7 +104,7 @@ const InvoiceForm = (props: any) => {
   return (
     <FormWithRedirect
       {...props}
-      transform={transform}
+      // transform={transform}
       render={(formProps: any) => (
         <Card>
           <form>
@@ -191,23 +197,20 @@ const InvoiceForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <FormDataConsumer>
-                        {
-                          ({ formData }) => (
-                            <DateInput
-                              parse={dateParser}
-                              source="payment_date"
-                              resource="invoices"
-                              fullWidth
-                              // hide instead of null so that date is formatted properly
-                              className={
-                                formData && formData.status === 'UPD'
-                                  ? classes.hiddenInput
-                                  : ''
-                              }
-                            />
-                          )
-                          // )
-                        }
+                        {({ formData }) => (
+                          <DateInput
+                            parse={dateParser}
+                            source="payment_date"
+                            resource="invoices"
+                            fullWidth
+                            // hide instead of null so that date is formatted properly
+                            className={
+                              formData && formData.status === 'UPD'
+                                ? classes.hiddenInput
+                                : ''
+                            }
+                          />
+                        )}
                       </FormDataConsumer>
                     </Box>
                   </Box>
@@ -296,8 +299,10 @@ const InvoiceForm = (props: any) => {
                               inputClassName={classes.lineItemInput}
                               validate={requiredValidate}
                               // FIXME: error thrown if do no pass save and saving as strings
-                              save={formProps.save.toString()}
-                              saving={formProps.saving.toString()}
+                              // hint: this happened because props are injected into react element
+                              // instead of NumberInput
+                              // save={formProps.save.toString()}
+                              // saving={formProps.saving.toString()}
                               {...rest}
                             />
                           ) : null
@@ -399,6 +404,7 @@ const InvoiceForm = (props: any) => {
               handleSubmit={formProps.handleSubmit}
               saving={formProps.saving}
               pristine={formProps.pristine}
+              classes={{ toolbar: classes.toolbar }}
             >
               <SaveButton
                 // props from Toolbar.tsx
@@ -412,6 +418,15 @@ const InvoiceForm = (props: any) => {
                 submitOnEnter={formProps.submitOnEnter}
                 transform={transform}
               />
+              {formProps.record && typeof formProps.record.id !== 'undefined' && (
+                <DeleteButton
+                  // props from Toolbar.tsx
+                  basePath={formProps.basePath}
+                  record={formProps.record}
+                  resource={formProps.resource}
+                  mutationMode={formProps.mutationMode}
+                />
+              )}
             </Toolbar>
           </form>
         </Card>

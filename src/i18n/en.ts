@@ -58,18 +58,6 @@ const customEnglishMessages: TranslationMessages = {
       register_title: 'Create your account.',
       register_error: 'Registration failed, please retry',
     },
-    user_menu: {
-      profile: {
-        success: 'Your profile has been updated',
-        failure:
-          'A technical error occurred while updating your profile. Please try later.',
-      },
-      user_config: {
-        success: 'Your configurations have been updated',
-        failure:
-          'A technical error occurred while updating your configurations. Please try later.',
-      },
-    },
     dashboard: {
       welcome: {
         title: 'Site under construction',
@@ -96,6 +84,18 @@ const customEnglishMessages: TranslationMessages = {
       maintenance: 'Maintenance',
       transactions: 'Transactions',
       orders: 'Orders',
+    },
+    user_menu: {
+      profile: {
+        success: 'Your profile has been updated',
+        failure:
+          'A technical error occurred while updating your profile. Please try later.',
+      },
+      user_config: {
+        success: 'Your configurations have been updated',
+        failure:
+          'A technical error occurred while updating your configurations. Please try later.',
+      },
     },
   },
   resources: {
