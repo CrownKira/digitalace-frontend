@@ -11,7 +11,6 @@ import {
   ImageInput,
   ImageField,
   ReferenceArrayInput,
-  AutocompleteInput,
   AutocompleteArrayInput,
 } from 'react-admin';
 import { Box, Card, CardContent } from '@material-ui/core';

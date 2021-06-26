@@ -19,7 +19,7 @@ import {
   Labeled,
   TextField,
 } from 'react-admin';
-import { Box, Card, CardContent } from '@material-ui/core';
+import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
 import useGetUserConfig from '../configuration/useGetUserConfig';
@@ -101,13 +101,32 @@ const InvoiceForm = (props: any) => {
     <FormWithRedirect
       {...props}
       initialValues={postDefaultValue}
-      // transform={transform}
       render={(formProps: any) => (
         <Card>
           <form>
             <CardContent>
               <Box display={{ sm: 'block', md: 'flex' }}>
                 <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                  <Box display={{ sm: 'block', md: 'flex' }}>
+                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                      <TextInput
+                        source="reference"
+                        resource="invoices"
+                        fullWidth
+                        validate={requiredValidate}
+                      />
+                    </Box>
+                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                      <AsyncAutocompleteInput
+                        optionText="name"
+                        optionValue="id"
+                        source="sales_order"
+                        resource="invoices"
+                        reference="sales_orders"
+                        fullWidth
+                      />
+                    </Box>
+                  </Box>
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <AsyncAutocompleteInput
@@ -135,25 +154,6 @@ const InvoiceForm = (props: any) => {
                       </FormDataConsumer>
                     </Box>
                   </Box>
-                  <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                      <TextInput
-                        source="attention"
-                        resource="invoices"
-                        fullWidth
-                      />
-                    </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <AsyncAutocompleteInput
-                        optionText="name"
-                        optionValue="id"
-                        source="salesperson"
-                        resource="invoices"
-                        reference="employees"
-                        fullWidth
-                      />
-                    </Box>
-                  </Box>
                   <RichTextInput source="description" label="" />
                 </Box>
                 <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -165,26 +165,16 @@ const InvoiceForm = (props: any) => {
                   />
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                      <TextInput
-                        source="reference"
-                        resource="invoices"
-                        fullWidth
-                        validate={requiredValidate}
-                      />
-                    </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <AsyncAutocompleteInput
                         optionText="name"
                         optionValue="id"
-                        source="sales_order"
+                        source="salesperson"
                         resource="invoices"
-                        reference="sales_orders"
+                        reference="employees"
                         fullWidth
                       />
                     </Box>
-                  </Box>
-                  <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <SelectInput
                         source="status"
                         choices={statuses}
@@ -192,56 +182,51 @@ const InvoiceForm = (props: any) => {
                         validate={requiredValidate}
                       />
                     </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <FormDataConsumer>
-                        {({ formData }) => (
+                  </Box>
+                  <FormDataConsumer>
+                    {({ formData }) => (
+                      <Box
+                        display={{ sm: 'block', md: 'flex' }}
+                        // hide instead of null so that date is formatted properly
+                        className={
+                          formData && formData.status === 'UPD'
+                            ? classes.hiddenInput
+                            : ''
+                        }
+                      >
+                        <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                           <DateInput
                             parse={dateParser}
                             source="payment_date"
                             resource="invoices"
                             fullWidth
-                            // hide instead of null so that date is formatted properly
-                            className={
-                              formData && formData.status === 'UPD'
-                                ? classes.hiddenInput
-                                : ''
-                            }
                           />
-                        )}
-                      </FormDataConsumer>
-                    </Box>
-                  </Box>
-                  <FormDataConsumer>
-                    {
-                      ({ formData }) => (
-                        <Box
-                          display={{ sm: 'block', md: 'flex' }}
-                          className={
-                            formData && formData.status === 'UPD'
-                              ? classes.hiddenInput
-                              : ''
-                          }
-                        >
-                          <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                            <ReferenceInput
-                              source="payment_method"
-                              reference="payment_methods"
-                              fullWidth
-                            >
-                              <SelectInput source="name" />
-                            </ReferenceInput>
-                          </Box>
-                          <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                            <TextInput
-                              source="payment_note"
-                              multiline
-                              fullWidth
-                            />
-                          </Box>
                         </Box>
-                      )
-                      // )
-                    }
+                        <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                          <ReferenceInput
+                            source="payment_method"
+                            reference="payment_methods"
+                            fullWidth
+                          >
+                            <SelectInput source="name" />
+                          </ReferenceInput>
+                        </Box>
+                      </Box>
+                    )}
+                  </FormDataConsumer>
+                  <FormDataConsumer>
+                    {({ formData }) => (
+                      <TextInput
+                        source="payment_note"
+                        multiline
+                        fullWidth
+                        className={
+                          formData && formData.status === 'UPD'
+                            ? classes.hiddenInput
+                            : ''
+                        }
+                      />
+                    )}
                   </FormDataConsumer>
                 </Box>
               </Box>
@@ -299,6 +284,8 @@ const InvoiceForm = (props: any) => {
                               inputClassName={classes.lineItemInput}
                               validate={requiredValidate}
                               // FIXME: error thrown if do no pass save and saving as strings
+                              // hint: this happened because props are injected into react element
+                              // instead of NumberInput
                               // save={formProps.save.toString()}
                               // saving={formProps.saving.toString()}
                               {...rest}
@@ -331,6 +318,11 @@ const InvoiceForm = (props: any) => {
                         resource="invoices"
                         fullWidth
                         validate={requiredValidate}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">%</InputAdornment>
+                          ),
+                        }}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -359,6 +351,11 @@ const InvoiceForm = (props: any) => {
                         resource="invoices"
                         fullWidth
                         validate={requiredValidate}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">%</InputAdornment>
+                          ),
+                        }}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>

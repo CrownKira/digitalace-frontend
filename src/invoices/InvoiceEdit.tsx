@@ -12,18 +12,15 @@ import {
   SimpleFormIterator,
   SelectInput,
   FormDataConsumer,
-  Loading,
-  useGetList,
   ReferenceInput,
   SaveButton,
   DeleteButton,
   Labeled,
   TextField,
 } from 'react-admin';
-import { Box, Card, CardContent } from '@material-ui/core';
+import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
-import useGetUserConfig from '../configuration/useGetUserConfig';
 
 import { statuses } from './data';
 import ProductNameInput from './ProductNameInput';
@@ -31,8 +28,7 @@ import AmountInput from './AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
-import { Invoice } from '../types';
-import { incrementReference, dateParser } from '../utils';
+import { dateParser } from '../utils';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
@@ -63,35 +59,6 @@ const InvoiceEdit: FC<EditProps> = (props) => {
 
 const InvoiceForm = (props: any) => {
   const classes = useStyles();
-  // const {
-  //   data: invoices,
-  //   ids: invoiceIds,
-  //   loading: loadingInvoices,
-  // } = useGetList<Invoice>(
-  //   'invoices',
-  //   { page: 1, perPage: 1 },
-  //   { field: 'id', order: 'DESC' },
-  //   {}
-  // );
-  // const { loading: loadingUserConfig, data: userConfig } = useGetUserConfig();
-
-  // const postDefaultValue = () => ({
-  //   reference:
-  //     invoices && invoiceIds.length > 0
-  //       ? incrementReference(invoices[invoiceIds[0]].reference, 'INV', 4)
-  //       : 'INV-0000',
-  //   date: new Date(),
-  //   // FIXME: default to null date instead
-  //   payment_date: new Date(),
-  //   status: 'UPD',
-  //   total_amount: '0.00',
-  //   discount_rate: userConfig?.discount_rate,
-  //   discount_amount: '0.00',
-  //   net: '0.00',
-  //   gst_rate: userConfig?.gst_rate,
-  //   gst_amount: '0.00',
-  //   grand_total: '0.00',
-  // });
 
   // a fix for DateField parse not working
   // FIXME: fix any
@@ -104,13 +71,32 @@ const InvoiceForm = (props: any) => {
   return (
     <FormWithRedirect
       {...props}
-      // transform={transform}
       render={(formProps: any) => (
         <Card>
           <form>
             <CardContent>
               <Box display={{ sm: 'block', md: 'flex' }}>
                 <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                  <Box display={{ sm: 'block', md: 'flex' }}>
+                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                      <TextInput
+                        source="reference"
+                        resource="invoices"
+                        fullWidth
+                        validate={requiredValidate}
+                      />
+                    </Box>
+                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                      <AsyncAutocompleteInput
+                        optionText="name"
+                        optionValue="id"
+                        source="sales_order"
+                        resource="invoices"
+                        reference="sales_orders"
+                        fullWidth
+                      />
+                    </Box>
+                  </Box>
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <AsyncAutocompleteInput
@@ -138,25 +124,6 @@ const InvoiceForm = (props: any) => {
                       </FormDataConsumer>
                     </Box>
                   </Box>
-                  <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                      <TextInput
-                        source="attention"
-                        resource="invoices"
-                        fullWidth
-                      />
-                    </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <AsyncAutocompleteInput
-                        optionText="name"
-                        optionValue="id"
-                        source="salesperson"
-                        resource="invoices"
-                        reference="employees"
-                        fullWidth
-                      />
-                    </Box>
-                  </Box>
                   <RichTextInput source="description" label="" />
                 </Box>
                 <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -168,26 +135,16 @@ const InvoiceForm = (props: any) => {
                   />
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                      <TextInput
-                        source="reference"
-                        resource="invoices"
-                        fullWidth
-                        validate={requiredValidate}
-                      />
-                    </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <AsyncAutocompleteInput
                         optionText="name"
                         optionValue="id"
-                        source="sales_order"
+                        source="salesperson"
                         resource="invoices"
-                        reference="sales_orders"
+                        reference="employees"
                         fullWidth
                       />
                     </Box>
-                  </Box>
-                  <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <SelectInput
                         source="status"
                         choices={statuses}
@@ -195,29 +152,12 @@ const InvoiceForm = (props: any) => {
                         validate={requiredValidate}
                       />
                     </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <FormDataConsumer>
-                        {({ formData }) => (
-                          <DateInput
-                            parse={dateParser}
-                            source="payment_date"
-                            resource="invoices"
-                            fullWidth
-                            // hide instead of null so that date is formatted properly
-                            className={
-                              formData && formData.status === 'UPD'
-                                ? classes.hiddenInput
-                                : ''
-                            }
-                          />
-                        )}
-                      </FormDataConsumer>
-                    </Box>
                   </Box>
                   <FormDataConsumer>
                     {({ formData }) => (
                       <Box
                         display={{ sm: 'block', md: 'flex' }}
+                        // hide instead of null so that date is formatted properly
                         className={
                           formData && formData.status === 'UPD'
                             ? classes.hiddenInput
@@ -225,6 +165,14 @@ const InvoiceForm = (props: any) => {
                         }
                       >
                         <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                          <DateInput
+                            parse={dateParser}
+                            source="payment_date"
+                            resource="invoices"
+                            fullWidth
+                          />
+                        </Box>
+                        <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                           <ReferenceInput
                             source="payment_method"
                             reference="payment_methods"
@@ -233,14 +181,21 @@ const InvoiceForm = (props: any) => {
                             <SelectInput source="name" />
                           </ReferenceInput>
                         </Box>
-                        <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                          <TextInput
-                            source="payment_note"
-                            multiline
-                            fullWidth
-                          />
-                        </Box>
                       </Box>
+                    )}
+                  </FormDataConsumer>
+                  <FormDataConsumer>
+                    {({ formData }) => (
+                      <TextInput
+                        source="payment_note"
+                        multiline
+                        fullWidth
+                        className={
+                          formData && formData.status === 'UPD'
+                            ? classes.hiddenInput
+                            : ''
+                        }
+                      />
                     )}
                   </FormDataConsumer>
                 </Box>
@@ -333,6 +288,11 @@ const InvoiceForm = (props: any) => {
                         resource="invoices"
                         fullWidth
                         validate={requiredValidate}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">%</InputAdornment>
+                          ),
+                        }}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -361,6 +321,11 @@ const InvoiceForm = (props: any) => {
                         resource="invoices"
                         fullWidth
                         validate={requiredValidate}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">%</InputAdornment>
+                          ),
+                        }}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
