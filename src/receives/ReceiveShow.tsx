@@ -51,10 +51,10 @@ const ReceiveShow = (props: any) => {
           <Grid item xs={12} container alignContent="flex-end">
             <ReferenceField
               reference="suppliers"
-              resource="invoices"
+              resource="receives"
               source="supplier"
               link={false}
-              basePath="/invoices"
+              basePath="/receives"
               record={record}
             >
               <SupplierField />
@@ -83,7 +83,7 @@ const ReceiveShow = (props: any) => {
             />
           </Grid>
         </Grid>
-        <div className={classes.invoices}>
+        <div className={classes.receives}>
           <Basket record={record} />
         </div>
       </CardContent>
@@ -96,5 +96,5 @@ export default ReceiveShow;
 const useStyles = makeStyles({
   root: { width: 600, margin: 'auto' },
   spacer: { height: 20 },
-  invoices: { margin: '10px 0' },
+  receives: { margin: '10px 0' },
 });

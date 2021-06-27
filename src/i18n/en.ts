@@ -457,6 +457,13 @@ const customEnglishMessages: TranslationMessages = {
         total_lines: 'Total Lines',
         salesorderitem_set: 'Sales Order Items',
       },
+      data: {
+        statuses: {
+          completed: 'Completed',
+          pending: 'Pending',
+          cancelled: 'Cancelled',
+        },
+      },
     },
     sales_order_items: {
       name: 'Sales Order Item |||| Sales Order Items',

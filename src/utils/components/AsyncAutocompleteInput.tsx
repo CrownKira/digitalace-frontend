@@ -1,4 +1,4 @@
-import { FC, useState, useMemo, useEffect } from 'react';
+import { FC, useState, useMemo, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 import Autocomplete, {
   AutocompleteChangeReason,
@@ -36,7 +36,6 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   validate,
   // ReferenceInputProps
   filter = {},
-  filterToQuery = (searchText) => (searchText ? { search: searchText } : {}),
   perPage = 25,
   sort = { field: 'id', order: 'DESC' },
   reference,
@@ -48,6 +47,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   className,
   fullWidth,
   // custom props
+  queryParamName,
   onChange: onChangeOverride = () => {},
   onInputChange: onInputChangeOverride = () => {},
   ...props
@@ -76,6 +76,12 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   const [autocompleteOptions, setAutocompleteOptions] = useState<Record[]>([]);
   const dataProvider = useDataProvider();
   const notify = useNotify();
+
+  const filterToQuery = useCallback(
+    (searchText) =>
+      searchText ? { [queryParamName || optionText]: searchText } : {},
+    [optionText, queryParamName]
+  );
 
   const fetch = useMemo(
     () =>
@@ -206,7 +212,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
 export interface AsyncAutocompleteInputProps
   extends Omit<TextInputProps, 'onChange'> {
   filter?: any;
-  filterToQuery?: (filter: string) => any;
+  queryParamName?: string;
   perPage?: number;
   reference: string;
   optionText: any;
@@ -226,7 +232,6 @@ export interface AsyncAutocompleteInputProps
 AsyncAutocompleteInput.defaultProps = {
   options: {},
   filter: {},
-  filterToQuery: (searchText) => (searchText ? { q: searchText } : {}),
   perPage: 25,
   sort: { field: 'id', order: 'DESC' },
   optionText: 'name',

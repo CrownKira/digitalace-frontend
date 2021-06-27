@@ -14,12 +14,14 @@ import {
   DateInput,
   BulkDeleteButton,
   BulkDeleteButtonProps,
+  SelectField,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
 import FullNameField from '../customers/FullNameField';
 import AddressField from '../customers/AddressField';
 import SalesOrderShow from './SalesOrderShow';
+import { statuses } from './data';
 
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
@@ -46,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // TODO: customizable table columns
-
 const SalesOrderList: FC<ListProps> = (props) => {
   const classes = useStyles();
   return (
@@ -58,7 +59,7 @@ const SalesOrderList: FC<ListProps> = (props) => {
       {...props}
     >
       <Datagrid rowClick="edit" expand={<SalesOrderShow />}>
-        <TextField source="id" />
+        <TextField source="reference" />
         <DateField source="date" />
         <ReferenceField source="customer" reference="customers">
           <FullNameField />
@@ -66,6 +67,7 @@ const SalesOrderList: FC<ListProps> = (props) => {
         <ReferenceField
           source="customer"
           reference="customers"
+          label="resources.customers.fields.address"
           link={false}
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
@@ -75,7 +77,12 @@ const SalesOrderList: FC<ListProps> = (props) => {
         <ReferenceField source="invoice" reference="invoices">
           <TextField source="id" />
         </ReferenceField>
-        <NumberField source="status" />
+        <SelectField
+          // TODO: use chip
+          // https://marmelab.com/react-admin/Fields.html#choice-fields
+          source="status"
+          choices={statuses}
+        />
         <NumberField source="grand_total" />
       </Datagrid>
     </List>

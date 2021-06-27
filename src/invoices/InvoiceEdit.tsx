@@ -70,7 +70,7 @@ const InvoiceForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <AsyncAutocompleteInput
-                        optionText="name"
+                        optionText="reference"
                         optionValue="id"
                         source="sales_order"
                         resource="invoices"
