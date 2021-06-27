@@ -30,6 +30,7 @@ import purchase_orders from '../purchase_orders';
 import sales_orders from '../sales_orders';
 import SubMenu from './SubMenu';
 import { AppState, ThemeName } from '../types';
+import { refreshLocalStorage } from '../utils';
 
 type MenuName =
   | 'menuOrganization'
@@ -60,29 +61,33 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
 
   useEffect(() => {
     // TODO: rewrite
-    let theme = localStorage.getItem('theme');
-    let language = localStorage.getItem('language');
+    const theme = localStorage.getItem('theme');
+    const language = localStorage.getItem('language');
+    const updateStores = () => {
+      theme && dispatch(changeTheme(theme as ThemeName));
+      language && setLocale(language);
+    };
 
-    if (!(theme && language)) {
-      dataProvider
-        .getUserConfig()
-        .then((response: unknown) => {
-          if (response) {
-            const { data } = response as { data: UserConfig };
-            // set config in first login and config update
-            localStorage.setItem('theme', data.theme);
-            localStorage.setItem('language', data.language);
-            theme = data.theme;
-            language = data.language;
-          }
-        })
-        .catch((error: Error) => {
-          notify('ra.notification.data_provider_error', 'warning');
-        });
-    } else {
-      dispatch(changeTheme(theme as ThemeName));
-      setLocale(language);
+    if (theme && language) {
+      updateStores();
+      return;
     }
+
+    dataProvider
+      .getUserConfig()
+      .then((response: unknown) => {
+        if (response) {
+          const {
+            data: { theme, language },
+          } = response as { data: UserConfig };
+          // set config in first login and config update
+          refreshLocalStorage({ theme, language });
+          updateStores();
+        }
+      })
+      .catch((error: Error) => {
+        notify('ra.notification.data_provider_error', 'warning');
+      });
   }, [dataProvider, dispatch, notify, setLocale]);
 
   return (

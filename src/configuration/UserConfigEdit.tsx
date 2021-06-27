@@ -19,6 +19,7 @@ import useGetUserConfig from './useGetUserConfig';
 import { ThemeSelectInput } from './ThemeSelectInput';
 import { LanguageSelectInput } from './LanguageSelectInput';
 import { UserConfig } from '../types';
+import { refreshLocalStorage } from '../utils';
 
 export const UserConfigEdit = () => {
   useAuthenticated();
@@ -33,10 +34,9 @@ export const UserConfigEdit = () => {
       setSaving(true);
       dataProvider
         .updateUserConfig({ data: values })
-        .then(({ data }: { data: UserConfig }) => {
+        .then(({ data: { theme, language } }: { data: UserConfig }) => {
           setSaving(false);
-          localStorage.setItem('theme', data.theme);
-          localStorage.setItem('language', data.language);
+          refreshLocalStorage({ theme, language });
           notify('pos.user_menu.user_config.success', 'info');
         })
         .catch(() => {

@@ -52,3 +52,9 @@ export const dateParser = (date: string) => {
   // fix parse doesn't parse on render default input
   return date || null;
 };
+
+export function refreshLocalStorage(data: { [key: string]: any }) {
+  for (const [key, value] of Object.entries(data)) {
+    localStorage.setItem(key, value);
+  }
+}
