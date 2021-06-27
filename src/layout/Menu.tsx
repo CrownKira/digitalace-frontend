@@ -66,10 +66,9 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
     if (!(theme && language)) {
       dataProvider
         .getUserConfig()
-        // FIXME: fix any
-        .then((response: any) => {
+        .then((response: unknown) => {
           if (response) {
-            const { data }: { data: UserConfig } = response;
+            const { data } = response as { data: UserConfig };
             // set config in first login and config update
             localStorage.setItem('theme', data.theme);
             localStorage.setItem('language', data.language);

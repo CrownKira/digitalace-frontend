@@ -12,7 +12,10 @@ import {
   ReferenceArrayInput,
   AutocompleteArrayInput,
   required,
+  Record,
 } from 'react-admin';
+
+import { Department } from '../types';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: 32 },
@@ -30,8 +33,10 @@ const postDefaultValue = () => ({
 const DepartmentCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
 
-  const transform = (data: any) => {
-    data.designation_set = data.designation_set.filter((x: any) => x);
+  const transform = (data: Record) => {
+    (data as Department).designation_set = (
+      data as Department
+    ).designation_set.filter((x) => x);
     return data;
   };
 

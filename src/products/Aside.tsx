@@ -120,7 +120,7 @@ const Aside: FC = () => {
         >
           {ids &&
             data &&
-            ids.map((id: any) => (
+            ids.map((id) => (
               <FilterListItem
                 label={inflection.humanize(data[id].name)}
                 key={data[id].id}

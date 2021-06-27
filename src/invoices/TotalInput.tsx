@@ -8,6 +8,7 @@ import {
 import { useForm, useFormState } from 'react-final-form';
 
 import { toFixedNumber } from '../utils';
+import { InvoiceItem } from '../types';
 
 interface Props extends NumberInputProps, FormDataConsumerRenderParams {
   inputClassName?: string | undefined;
@@ -25,8 +26,8 @@ const AmountInput: FC<Props> = ({
 
   useEffect(() => {
     // round quantity, unit_price, gst_rate and discount rate first
-    const total_amount = formData?.invoiceitem_set
-      ?.map((x: Record) =>
+    const total_amount = (formData?.invoiceitem_set as InvoiceItem[])
+      ?.map((x) =>
         x ? toFixedNumber(x.quantity, 2) * toFixedNumber(x.unit_price, 2) : 0
       )
       .reduce((x: number, y: number) => x + y, 0);

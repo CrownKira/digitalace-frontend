@@ -18,6 +18,7 @@ import {
   SaveButton,
   Labeled,
   TextField,
+  Record,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -39,7 +40,7 @@ export const styles = {
     display: 'inline-block',
   },
   lineItemInput: { width: 150 },
-  productInput: { width: 200 },
+  productInput: { width: 250 },
   hiddenInput: {
     display: 'none',
   },
@@ -54,6 +55,13 @@ const InvoiceCreate: FC<CreateProps> = (props) => {
     </Create>
   );
 };
+
+// a fix for DateField parse not working
+export const transform = (data: unknown) => ({
+  ...(data as Record),
+  date: dateParser((data as Record).date),
+  payment_date: dateParser((data as Record).payment_date),
+});
 
 const InvoiceForm = (props: any) => {
   const classes = useStyles();
@@ -85,14 +93,6 @@ const InvoiceForm = (props: any) => {
     gst_rate: userConfig?.gst_rate,
     gst_amount: '0.00',
     grand_total: '0.00',
-  });
-
-  // a fix for DateField parse not working
-  // FIXME: fix any
-  const transform = (data: any) => ({
-    ...data,
-    date: dateParser(data.date),
-    payment_date: dateParser(data.payment_date),
   });
 
   return loadingInvoices || loadingUserConfig ? (

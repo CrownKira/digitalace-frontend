@@ -33,6 +33,7 @@ import { SectionTitle, Separator, Break } from '../utils/components/Divider';
 
 const useStyles = makeStyles({
   ...createStyles,
+  /** edit styles go here */
 });
 
 const EmployeeTitle: FC<FieldProps<Employee>> = ({ record }) =>

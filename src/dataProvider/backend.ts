@@ -1,5 +1,5 @@
 import { DataProvider, UpdateParams } from 'ra-core';
-import { fetchUtils } from 'react-admin';
+import { fetchUtils, Record } from 'react-admin';
 import drfProvider from 'ra-data-django-rest-framework';
 import HttpMethodsEnum from 'http-methods-enum';
 
@@ -25,9 +25,11 @@ export const apiUrl = `${baseURL}/api`;
 
 const fileLabels = ['image', 'thumbnail', 'resume'];
 
-// FIXME: fix any
 // TODO: use axios
-export const httpClient = (url: string, options: any = {}) => {
+export const httpClient = (
+  url: string,
+  options: { [key: string]: any } = {}
+) => {
   if (!options.headers) {
     options.headers = new Headers({});
   }
@@ -38,13 +40,11 @@ export const httpClient = (url: string, options: any = {}) => {
 };
 const restProvider = drfProvider(apiUrl, httpClient);
 
-// FIXME: fix any
-function getFormData(data: any, method = HttpMethodsEnum.PATCH) {
+function getFormData(data: Record, method = HttpMethodsEnum.PATCH) {
   const formData = new FormData();
-  // FIXME: fix any
-  const jsonData = {} as any;
-  // FIXME: fix any
-  for (const [key, value] of Object.entries<any>(data)) {
+  const jsonData = {} as { [key: string]: any };
+
+  for (const [key, value] of Object.entries(data)) {
     if (fileLabels.includes(key) && value) {
       if (
         method === HttpMethodsEnum.POST ||

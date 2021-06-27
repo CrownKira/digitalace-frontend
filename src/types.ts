@@ -144,6 +144,7 @@ export interface Invoice extends Record {
   customer: Identifier;
   salesperson: Identifier;
   sales_order: Identifier;
+  invoiceitem_set: InvoiceItem[];
 }
 
 export interface InvoiceItem extends Record {
@@ -173,6 +174,7 @@ export interface SalesOrder extends Record {
   customer: Identifier;
   salesperson: Identifier;
   invoice: Identifier;
+  salesorderitem_set: SalesOrderItem[];
 }
 
 export interface SalesOrderItem extends Record {
@@ -201,6 +203,7 @@ export interface Receive extends Record {
   status: string;
   supplier: Identifier;
   purchase_order: Identifier;
+  receiveitem_set: ReceiveItem[];
 }
 
 export interface ReceiveItem extends Record {
@@ -229,6 +232,7 @@ export interface PurchaseOrder extends Record {
   status: string;
   supplier: Identifier;
   receive: Identifier;
+  purchaseorder_set: PurchaseOrderItem[];
 }
 
 export interface PurchaseOrderItem extends Record {

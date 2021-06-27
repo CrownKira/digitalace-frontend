@@ -1,121 +1,100 @@
-// import { FC } from 'react';
-// import Typography from '@material-ui/core/Typography';
-// import { makeStyles } from '@material-ui/core/styles';
-// import Card from '@material-ui/core/Card';
-// import CardContent from '@material-ui/core/CardContent';
-// import Grid from '@material-ui/core/Grid';
+import { FC } from 'react';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
 import {
   useShowController,
-  // FieldProps,
-  // ReferenceField,
-  // TextField,
+  FieldProps,
+  ReferenceField,
+  TextField,
 } from 'react-admin';
 
-// import Basket from '../sales_orders/Basket';
-import { Invoice } from '../types';
+import Basket from './Basket';
+import { Invoice, Customer } from '../types';
 
-// const CustomerField: FC<FieldProps<Customer>> = ({ record }) =>
-//   record ? (
-//     <Typography>
-//       {record.first_name} {record.last_name}
-//       <br />
-//       {record.address}
-//       <br />
-//       {record.city}, {record.zipcode}
-//     </Typography>
-//   ) : null;
+const CustomerField: FC<FieldProps<Customer>> = ({ record }) =>
+  record ? (
+    <Typography>
+      {record.first_name} {record.last_name}
+      <br />
+      {record.address}
+      <br />
+      {record.city}
+      {record.zipcode ? `,${record.zipcode}` : ''}
+    </Typography>
+  ) : null;
 
 const InvoiceShow = (props: any) => {
   const { record } = useShowController<Invoice>(props);
-  // const classes = useStyles();
+  const classes = useStyles();
 
   if (!record) return null;
 
-  return <div>Coming soon...</div>;
+  return (
+    <Card className={classes.root}>
+      <CardContent>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Typography variant="h6" gutterBottom>
+              DigitaLAce
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="h6" gutterBottom align="right">
+              Invoice {record.reference}
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={12} container alignContent="flex-end">
+            <ReferenceField
+              reference="customers"
+              resource="invoices"
+              source="customer"
+              link={false}
+              basePath="/invoices"
+              record={record}
+            >
+              <CustomerField />
+            </ReferenceField>
+          </Grid>
+        </Grid>
+        <div className={classes.spacer}>&nbsp;</div>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Typography variant="h6" gutterBottom align="center">
+              Date{' '}
+            </Typography>
+            <Typography gutterBottom align="center">
+              {new Date(record.date).toLocaleDateString()}
+            </Typography>
+          </Grid>
+          <Grid item xs={5}>
+            <Typography variant="h6" gutterBottom align="center">
+              Sales Order
+            </Typography>
+            <TextField
+              source="sales_order"
+              align="center"
+              component="p"
+              gutterBottom
+            />
+          </Grid>
+        </Grid>
+        <div className={classes.invoices}>
+          <Basket record={record} />
+        </div>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default InvoiceShow;
 
-// const useStyles = makeStyles({
-//   root: { width: 600, margin: 'auto' },
-//   spacer: { height: 20 },
-//   invoices: { margin: '10px 0' },
-// });
-
-// TODO: reimplement invoiceshow
-/*
-<Card className={classes.root}>
-  <CardContent>
-    <Grid container spacing={2}>
-      <Grid item xs={6}>
-        <Typography variant="h6" gutterBottom>
-          DigitaLAce
-        </Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <Typography variant="h6" gutterBottom align="right">
-          Invoice {record.id}
-        </Typography>
-      </Grid>
-    </Grid>
-    <Grid container spacing={2}>
-      <Grid item xs={12} container alignContent="flex-end">
-        <ReferenceField
-          reference="customers"
-          resource="invoices"
-          source="customer"
-          link={false}
-          // TODO: redundant?
-          basePath="/invoices"
-          record={record}
-        >
-          <CustomerField />
-        </ReferenceField>
-      </Grid>
-    </Grid>
-    <div className={classes.spacer}>&nbsp;</div>
-    <Grid container spacing={2}>
-      <Grid item xs={6}>
-        <Typography variant="h6" gutterBottom align="center">
-          Date{' '}
-        </Typography>
-        <Typography gutterBottom align="center">
-          {new Date(record.date).toLocaleDateString()}
-        </Typography>
-      </Grid>
-      <Grid item xs={5}>
-        <Typography variant="h6" gutterBottom align="center">
-          Order
-        </Typography>
-        <ReferenceField
-          resource="invoices"
-          reference="commands"
-          source="command_id"
-          basePath="/invoices"
-          record={record}
-          link={false}
-        >
-          <TextField
-            source="reference"
-            align="center"
-            component="p"
-            gutterBottom
-          />
-        </ReferenceField>
-      </Grid>
-    </Grid>
-    <div className={classes.invoices}>
-      <ReferenceField
-        resource="invoices"
-        reference="commands"
-        source="command_id"
-        basePath="/invoices"
-        record={record}
-        link={false}
-      >
-        <Basket />
-      </ReferenceField>
-    </div>
-  </CardContent>
-</Card>
-*/
+const useStyles = makeStyles({
+  root: { width: 600, margin: 'auto' },
+  spacer: { height: 20 },
+  invoices: { margin: '10px 0' },
+});

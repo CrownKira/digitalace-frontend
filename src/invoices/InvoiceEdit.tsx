@@ -29,25 +29,15 @@ import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { dateParser } from '../utils';
+import { transform, styles as createStyles } from './InvoiceCreate';
 
-export const styles = {
-  leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
-  rightFormGroup: {
-    display: 'inline-block',
-  },
-  lineItemInput: { width: 150 },
-  productInput: { width: 200 },
-  hiddenInput: {
-    display: 'none',
-  },
+const useStyles = makeStyles({
+  ...createStyles,
   toolbar: {
     display: 'flex',
     justifyContent: 'space-between',
   },
-};
-
-// TODO: refactor create and edit
-const useStyles = makeStyles(styles);
+});
 
 const InvoiceEdit: FC<EditProps> = (props) => {
   return (
@@ -59,14 +49,6 @@ const InvoiceEdit: FC<EditProps> = (props) => {
 
 const InvoiceForm = (props: any) => {
   const classes = useStyles();
-
-  // a fix for DateField parse not working
-  // FIXME: fix any
-  const transform = (data: any) => ({
-    ...data,
-    date: dateParser(data.date),
-    payment_date: dateParser(data.payment_date),
-  });
 
   return (
     <FormWithRedirect
