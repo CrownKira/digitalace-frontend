@@ -131,7 +131,7 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
           <Resource
             name="categories"
             {...pickBy<ReactNode>(categories, (value, key) =>
-              hasPermission('category', value, key)
+              hasPermission('productcategory', value, key)
             )}
           />,
           <Resource
@@ -160,9 +160,3 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
 };
 
 export default App;
-
-/*
-userPermissions.includes('view_employee') ? (
-  <Resource name="employees" {...employees} />
-) : null,
-*/
