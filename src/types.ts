@@ -127,6 +127,7 @@ export interface Supplier extends Record {
 }
 
 export interface Invoice extends Record {
+  reference: string;
   company: Identifier;
   company_name: string;
   date: Date;
@@ -158,6 +159,7 @@ export interface InvoiceItem extends Record {
 }
 
 export interface SalesOrder extends Record {
+  reference: string;
   company: Identifier;
   company_name: string;
   date: Date;
@@ -189,6 +191,7 @@ export interface SalesOrderItem extends Record {
 }
 
 export interface Receive extends Record {
+  reference: string;
   company: Identifier;
   company_name: string;
   date: Date;
@@ -219,6 +222,7 @@ export interface ReceiveItem extends Record {
 }
 
 export interface PurchaseOrder extends Record {
+  reference: string;
   company: Identifier;
   company_name: string;
   date: Date;

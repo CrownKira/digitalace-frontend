@@ -14,12 +14,14 @@ import {
   DateInput,
   BulkDeleteButton,
   BulkDeleteButtonProps,
+  SelectField,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
 import FullNameField from '../suppliers/FullNameField';
 import AddressField from '../suppliers/AddressField';
 import ReceiveShow from './ReceiveShow';
+import { statuses } from '../invoices/data';
 
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
@@ -57,7 +59,7 @@ const ReceiveList: FC<ListProps> = (props) => {
       {...props}
     >
       <Datagrid rowClick="edit" expand={<ReceiveShow />}>
-        <TextField source="id" />
+        <TextField source="reference" />
         <DateField source="date" />
         <ReferenceField source="supplier" reference="suppliers">
           <FullNameField />
@@ -65,6 +67,7 @@ const ReceiveList: FC<ListProps> = (props) => {
         <ReferenceField
           source="supplier"
           reference="suppliers"
+          label="resources.suppliers.fields.address"
           link={false}
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
@@ -74,7 +77,12 @@ const ReceiveList: FC<ListProps> = (props) => {
         <ReferenceField source="purchase_order" reference="purchase_orders">
           <TextField source="id" />
         </ReferenceField>
-        <NumberField source="status" />
+        <SelectField
+          // TODO: use chip
+          // https://marmelab.com/react-admin/Fields.html#choice-fields
+          source="status"
+          choices={statuses}
+        />
         <NumberField source="grand_total" />
       </Datagrid>
     </List>
