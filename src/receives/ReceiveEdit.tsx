@@ -50,22 +50,22 @@ const ReceiveEdit: FC<EditProps> = (props) => {
   );
 };
 
-const notify = useNotify();
-const refresh = useRefresh();
-
-const onFailure = (error: any) => {
-  notify(
-    typeof error === 'string'
-      ? error
-      : getFieldError(error) || 'ra.notification.http_error',
-    'warning'
-  );
-
-  refresh();
-};
-
 const ReceiveForm = (props: any) => {
   const classes = useStyles();
+
+  const notify = useNotify();
+  const refresh = useRefresh();
+
+  const onFailure = (error: any) => {
+    notify(
+      typeof error === 'string'
+        ? error
+        : getFieldError(error) || 'ra.notification.http_error',
+      'warning'
+    );
+
+    refresh();
+  };
 
   return (
     <FormWithRedirect
