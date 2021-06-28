@@ -16,6 +16,7 @@ import {
   DeleteButton,
   Labeled,
   TextField,
+  ReferenceField,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,7 +28,6 @@ import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
-import { dateParser } from '../utils';
 import { transform, styles as createStyles } from './SalesOrderCreate';
 
 const useStyles = makeStyles({
@@ -94,12 +94,13 @@ const SalesOrderForm = (props: any) => {
                       <FormDataConsumer>
                         {({ formData }) => (
                           <Labeled label="resources.sales_orders.fields.customer_id">
-                            <TextField
+                            <ReferenceField
                               source="customer"
-                              resource="sales_orders"
+                              reference="customers"
                               record={formData}
-                              fullWidth
-                            />
+                            >
+                              <TextField source="reference" />
+                            </ReferenceField>
                           </Labeled>
                         )}
                       </FormDataConsumer>

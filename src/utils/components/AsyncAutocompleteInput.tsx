@@ -46,6 +46,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   // override props produced by useInput()
   className,
   fullWidth,
+  InputProps: InputPropsOverride,
   // custom props
   queryParamName,
   onChange: onChangeOverride = () => {},
@@ -175,36 +176,53 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       }}
       className={className}
       fullWidth={fullWidth}
-      renderInput={(params) => (
-        <ResettableTextField
-          {...input}
-          onChange={onInputChangeOverride}
-          label={
-            label !== '' &&
-            label !== false && (
-              <FieldTitle
-                // TODO: translate array input source label
-                label={label}
-                source={source}
-                resource={resource}
-                isRequired={isRequired}
+      renderInput={(params) => {
+        const { InputProps, ...rest } = params;
+        // InputPropsOverride = {
+        //   // ref: React.Ref<any>;
+        //   // className: string;
+        //   startAdornment: {
+        //     ...InputProps.startAdornment,
+        //     ...InputPropsOverride,
+        //   },
+        //   endAdornment: {
+        //     ...InputProps.endAdornment,
+        //     ...InputPropsOverride,
+        //   },
+        // };
+        return (
+          <ResettableTextField
+            {...input}
+            onChange={onInputChangeOverride}
+            label={
+              label !== '' &&
+              label !== false && (
+                <FieldTitle
+                  // TODO: translate array input source label
+                  label={label}
+                  source={source}
+                  resource={resource}
+                  isRequired={isRequired}
+                />
+              )
+            }
+            error={!!(touched && (error || submitError))}
+            helperText={
+              <InputHelperText
+                // qn: why need !! here but not in TextInput source code
+                touched={!!touched}
+                error={error || submitError}
+                helperText={helperText}
               />
-            )
-          }
-          error={!!(touched && (error || submitError))}
-          helperText={
-            <InputHelperText
-              // qn: why need !! here but not in TextInput source code
-              touched={!!touched}
-              error={error || submitError}
-              helperText={helperText}
-            />
-          }
-          {...options}
-          {...sanitizeInputRestProps(input)}
-          {...params}
-        />
-      )}
+            }
+            {...options}
+            {...sanitizeInputRestProps(input)}
+            {...rest}
+            // TODO: better way?
+            InputProps={{ ...InputProps, ...InputPropsOverride }}
+          />
+        );
+      }}
     />
   );
 };

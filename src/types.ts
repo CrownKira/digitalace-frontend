@@ -240,7 +240,7 @@ export interface PurchaseOrder extends Record {
   status: string;
   supplier: Identifier;
   receive: Identifier;
-  purchaseorder_set: PurchaseOrderItem[];
+  purchaseorderitem_set: PurchaseOrderItem[];
 }
 
 export interface PurchaseOrderItem extends Record {

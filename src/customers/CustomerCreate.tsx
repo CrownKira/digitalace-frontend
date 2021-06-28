@@ -10,12 +10,18 @@ import {
   ImageField,
   ReferenceArrayInput,
   AutocompleteArrayInput,
+  useGetList,
+  Loading,
+  useNotify,
+  useRefresh,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Styles } from '@material-ui/styles/withStyles';
 
 import { SectionTitle, Separator } from '../utils/components/Divider';
+import { Customer } from '../types';
+import { incrementReference, getFieldError } from '../utils';
 
 export const styles: Styles<Theme, any> = {
   name: { display: 'inline-block' },
@@ -51,16 +57,47 @@ export const validatePasswords = ({
  * provide defaults for non-string and non-integer inputs
  * these fields if left empty, will get rejected by drf serializer
  */
-const postDefaultValue = () => ({
-  image: '',
-});
 
 const CustomerCreate: FC<CreateProps> = (props) => {
   // qn: why need props?
   const classes = useStyles(props);
+  const {
+    data: customers,
+    ids: customerIds,
+    loading: loadingCustomers,
+  } = useGetList<Customer>(
+    'customers',
+    { page: 1, perPage: 1 },
+    { field: 'id', order: 'DESC' },
+    {}
+  );
+  const postDefaultValue = () => ({
+    image: '',
+    reference:
+      customers && customerIds.length > 0
+        ? incrementReference(customers[customerIds[0]].reference, 'C', 4)
+        : 'C-0000',
+  });
 
-  return (
-    <Create {...props}>
+  const notify = useNotify();
+  const refresh = useRefresh();
+
+  // TODO: make a custom type for error
+  const onFailure = (error: any) => {
+    notify(
+      typeof error === 'string'
+        ? error
+        : getFieldError(error) || 'ra.notification.http_error',
+      'warning'
+    );
+
+    refresh();
+  };
+
+  return loadingCustomers ? (
+    <Loading />
+  ) : (
+    <Create {...props} onFailure={onFailure}>
       <SimpleForm validate={validatePasswords} initialValues={postDefaultValue}>
         <SectionTitle label="resources.customers.fieldGroups.avatar" />
         <ImageInput
@@ -72,6 +109,7 @@ const CustomerCreate: FC<CreateProps> = (props) => {
           <ImageField source="src" title="title" />
         </ImageInput>
         <SectionTitle label="resources.customers.fieldGroups.identity" />
+        <TextInput source="reference" validate={requiredValidate} />
         <TextInput
           autoFocus
           source="name"

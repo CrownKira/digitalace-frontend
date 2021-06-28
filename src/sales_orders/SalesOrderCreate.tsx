@@ -18,6 +18,7 @@ import {
   Labeled,
   TextField,
   Record,
+  ReferenceField,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -84,6 +85,7 @@ const SalesOrderForm = (props: any) => {
         ? incrementReference(sales_orders[salesOrderIds[0]].reference, 'SO', 4)
         : 'SO-0000',
     date: new Date(),
+    invoice: null,
     // FIXME: default to null date instead
     payment_date: new Date(),
     status: 'PD',
@@ -144,12 +146,13 @@ const SalesOrderForm = (props: any) => {
                       <FormDataConsumer>
                         {({ formData }) => (
                           <Labeled label="resources.sales_orders.fields.customer_id">
-                            <TextField
+                            <ReferenceField
                               source="customer"
-                              resource="sales_orders"
+                              reference="customers"
                               record={formData}
-                              fullWidth
-                            />
+                            >
+                              <TextField source="reference" />
+                            </ReferenceField>
                           </Labeled>
                         )}
                       </FormDataConsumer>

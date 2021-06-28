@@ -73,7 +73,7 @@ const SalesOrderShow = (props: any) => {
           </Grid>
           <Grid item xs={5}>
             <Typography variant="h6" gutterBottom align="center">
-              Sales Order
+              Invoice
             </Typography>
             <TextField
               source="invoice"

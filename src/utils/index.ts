@@ -58,3 +58,11 @@ export function refreshLocalStorage(data: { [key: string]: any }) {
     localStorage.setItem(key, value);
   }
 }
+
+export const getFieldError = (error: any) => {
+  // TODO: extend this to get all errors instead of one
+  const { body, status, message } = error;
+  return status === 400
+    ? `${Object.keys(body)[0]}: ${Object.values(body)[0]}`
+    : message;
+};

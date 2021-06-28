@@ -17,6 +17,7 @@ import {
   DeleteButton,
   Labeled,
   TextField,
+  ReferenceField,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -95,12 +96,13 @@ const ReceiveForm = (props: any) => {
                       <FormDataConsumer>
                         {({ formData }) => (
                           <Labeled label="resources.receives.fields.supplier_id">
-                            <TextField
+                            <ReferenceField
                               source="supplier"
-                              resource="receives"
+                              reference="suppliers"
                               record={formData}
-                              fullWidth
-                            />
+                            >
+                              <TextField source="reference" />
+                            </ReferenceField>
                           </Labeled>
                         )}
                       </FormDataConsumer>

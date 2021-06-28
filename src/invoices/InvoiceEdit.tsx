@@ -17,6 +17,7 @@ import {
   DeleteButton,
   Labeled,
   TextField,
+  ReferenceField,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -48,6 +49,7 @@ const InvoiceEdit: FC<EditProps> = (props) => {
 };
 
 const InvoiceForm = (props: any) => {
+  // TODO: add custom onFailure
   const classes = useStyles();
 
   return (
@@ -70,6 +72,8 @@ const InvoiceForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <AsyncAutocompleteInput
+                        // TODO: edit button start adornment
+                        // refer to ProductNameInput.tsx
                         optionText="reference"
                         optionValue="id"
                         source="sales_order"
@@ -89,18 +93,20 @@ const InvoiceForm = (props: any) => {
                         reference="customers"
                         validate={requiredValidate}
                         fullWidth
+                        // helperText="Please select your customer"
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <FormDataConsumer>
                         {({ formData }) => (
                           <Labeled label="resources.invoices.fields.customer_id">
-                            <TextField
+                            <ReferenceField
                               source="customer"
-                              resource="invoices"
+                              reference="customers"
                               record={formData}
-                              fullWidth
-                            />
+                            >
+                              <TextField source="reference" />
+                            </ReferenceField>
                           </Labeled>
                         )}
                       </FormDataConsumer>
@@ -272,7 +278,12 @@ const InvoiceForm = (props: any) => {
                         validate={requiredValidate}
                         InputProps={{
                           endAdornment: (
-                            <InputAdornment position="end">%</InputAdornment>
+                            <InputAdornment
+                              // qn: is this redundant?
+                              position="end"
+                            >
+                              %
+                            </InputAdornment>
                           ),
                         }}
                       />

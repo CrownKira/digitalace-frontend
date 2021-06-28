@@ -12,6 +12,8 @@ import {
   ImageField,
   ReferenceArrayInput,
   AutocompleteArrayInput,
+  useNotify,
+  useRefresh,
 } from 'react-admin';
 import { Box, Card, CardContent } from '@material-ui/core';
 
@@ -19,15 +21,32 @@ import Aside from './Aside';
 import FullNameField from './FullNameField';
 import { validatePasswords } from './CustomerCreate';
 import { Customer } from '../types';
-import { formatImage } from '../utils';
+import { formatImage, getFieldError } from '../utils';
 import { SectionTitle, Separator } from '../utils/components/Divider';
 
 const CustomerEdit: FC<EditProps> = (props) => {
+  const notify = useNotify();
+  const refresh = useRefresh();
+
+  // TODO: make a custom type for error
+  // TODO: wrap all edit and create with this
+  const onFailure = (error: any) => {
+    notify(
+      typeof error === 'string'
+        ? error
+        : getFieldError(error) || 'ra.notification.http_error',
+      'warning'
+    );
+
+    refresh();
+  };
+
   return (
     <Edit
       title={<CustomerTitle />}
       aside={<Aside />}
       component="div"
+      onFailure={onFailure}
       {...props}
     >
       <CustomerForm />
@@ -50,7 +69,6 @@ const CustomerForm = (props: any) => {
           <form>
             <CardContent>
               <SectionTitle label="resources.customers.fieldGroups.avatar" />
-
               <ImageInput
                 format={formatImage}
                 source="image"
@@ -62,6 +80,7 @@ const CustomerForm = (props: any) => {
               </ImageInput>
               <Separator />
               <SectionTitle label="resources.customers.fieldGroups.identity" />
+              <TextInput source="reference" validate={requiredValidate} />
               <Box display={{ xs: 'block', sm: 'flex' }}>
                 <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                   <TextInput

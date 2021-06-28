@@ -75,7 +75,7 @@ const InvoiceList: FC<ListProps> = (props) => {
           <AddressField />
         </ReferenceField>
         <ReferenceField source="sales_order" reference="sales_orders">
-          <TextField source="id" />
+          <TextField source="reference" />
         </ReferenceField>
         <SelectField
           // TODO: use chip

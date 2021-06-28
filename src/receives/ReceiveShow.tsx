@@ -73,7 +73,7 @@ const ReceiveShow = (props: any) => {
           </Grid>
           <Grid item xs={5}>
             <Typography variant="h6" gutterBottom align="center">
-              Sales Order
+              Purchase Order
             </Typography>
             <TextField
               source="purchase_order"

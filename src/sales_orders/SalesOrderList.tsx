@@ -75,14 +75,9 @@ const SalesOrderList: FC<ListProps> = (props) => {
           <AddressField />
         </ReferenceField>
         <ReferenceField source="invoice" reference="invoices">
-          <TextField source="id" />
+          <TextField source="reference" />
         </ReferenceField>
-        <SelectField
-          // TODO: use chip
-          // https://marmelab.com/react-admin/Fields.html#choice-fields
-          source="status"
-          choices={statuses}
-        />
+        <SelectField source="status" choices={statuses} />
         <NumberField source="grand_total" />
       </Datagrid>
     </List>

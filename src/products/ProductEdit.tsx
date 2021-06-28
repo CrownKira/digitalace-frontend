@@ -11,6 +11,8 @@ import {
   TextInput,
   ImageInput,
   ImageField,
+  useNotify,
+  useRefresh,
 } from 'react-admin';
 import { InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,7 +20,7 @@ import RichTextInput from 'ra-input-rich-text';
 
 import { styles as createStyles } from './ProductCreate';
 import { Product } from '../types';
-import { formatImage } from '../utils';
+import { formatImage, getFieldError } from '../utils';
 
 interface ProductTitleProps {
   record?: Product;
@@ -43,9 +45,22 @@ const useStyles = makeStyles({
 
 const ProductEdit: FC<EditProps> = (props) => {
   const classes = useStyles();
+  const notify = useNotify();
+  const refresh = useRefresh();
+
+  const onFailure = (error: any) => {
+    notify(
+      typeof error === 'string'
+        ? error
+        : getFieldError(error) || 'ra.notification.http_error',
+      'warning'
+    );
+
+    refresh();
+  };
 
   return (
-    <Edit {...props} title={<ProductTitle />}>
+    <Edit {...props} title={<ProductTitle />} onFailure={onFailure}>
       <TabbedForm>
         <FormTab
           label="resources.products.tabs.image"
@@ -73,6 +88,7 @@ const ProductEdit: FC<EditProps> = (props) => {
           path="details"
           contentClassName={classes.tab}
         >
+          <TextInput source="reference" validate={requiredValidate} />
           <ReferenceInput
             source="category"
             reference="categories"

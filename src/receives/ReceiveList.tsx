@@ -75,7 +75,7 @@ const ReceiveList: FC<ListProps> = (props) => {
           <AddressField />
         </ReferenceField>
         <ReferenceField source="purchase_order" reference="purchase_orders">
-          <TextField source="id" />
+          <TextField source="reference" />
         </ReferenceField>
         <SelectField
           // TODO: use chip

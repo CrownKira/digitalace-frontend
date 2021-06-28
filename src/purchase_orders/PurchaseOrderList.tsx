@@ -14,12 +14,14 @@ import {
   DateInput,
   BulkDeleteButton,
   BulkDeleteButtonProps,
+  SelectField,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
 import FullNameField from '../suppliers/FullNameField';
 import AddressField from '../suppliers/AddressField';
 import PurchaseOrderShow from './PurchaseOrderShow';
+import { statuses } from './data';
 
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
@@ -57,7 +59,7 @@ const PurchaseOrderList: FC<ListProps> = (props) => {
       {...props}
     >
       <Datagrid rowClick="edit" expand={<PurchaseOrderShow />}>
-        <TextField source="id" />
+        <TextField source="reference" />
         <DateField source="date" />
         <ReferenceField source="supplier" reference="suppliers">
           <FullNameField />
@@ -65,6 +67,7 @@ const PurchaseOrderList: FC<ListProps> = (props) => {
         <ReferenceField
           source="supplier"
           reference="suppliers"
+          label="resources.suppliers.fields.address"
           link={false}
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
@@ -72,9 +75,9 @@ const PurchaseOrderList: FC<ListProps> = (props) => {
           <AddressField />
         </ReferenceField>
         <ReferenceField source="receive" reference="receives">
-          <TextField source="id" />
+          <TextField source="reference" />
         </ReferenceField>
-        <NumberField source="status" />
+        <SelectField source="status" choices={statuses} />
         <NumberField source="grand_total" />
       </Datagrid>
     </List>
