@@ -41,9 +41,17 @@ const authProvider: AuthProvider = {
   getPermissions: async () => {
     // https://stackoverflow.com/questions/54715260/typescript-json-parse-error-type-null-is-not-assignable-to-type-string
     const { permissions } = await Promise.resolve(
-      httpClient(`${apiUrl}/user/me/`).then((response) => {
-        return response.json;
-      })
+      httpClient(`${apiUrl}/user/me/`)
+        .then((response) => {
+          return response.json;
+        })
+        .catch(() => {
+          // for some reason getPermission is invoked in custom routes
+          // https://github.com/marmelab/react-admin/issues/4821
+          // here we resolve the promise with an object to be destructured
+          // FIXME: find a better fix
+          return { permissions: [] };
+        })
     );
     return Promise.resolve(permissions);
   },

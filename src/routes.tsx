@@ -11,6 +11,7 @@ export default [
     exact
     path="/register"
     component={Register}
-    noLayout={true}
+    // noLayout={true}
+    noLayout
   />,
 ];
