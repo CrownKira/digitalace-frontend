@@ -18,6 +18,8 @@ import {
   Labeled,
   TextField,
   ReferenceField,
+  useNotify,
+  useRefresh,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -28,6 +30,7 @@ import ProductNameInput from '../invoices/ProductNameInput';
 import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
+import { getFieldError } from '../utils';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { transform, styles as createStyles } from './ReceiveCreate';
 
@@ -45,6 +48,20 @@ const ReceiveEdit: FC<EditProps> = (props) => {
       <ReceiveForm />
     </Edit>
   );
+};
+
+const notify = useNotify();
+const refresh = useRefresh();
+
+const onFailure = (error: any) => {
+  notify(
+    typeof error === 'string'
+      ? error
+      : getFieldError(error) || 'ra.notification.http_error',
+    'warning'
+  );
+
+  refresh();
 };
 
 const ReceiveForm = (props: any) => {
@@ -355,6 +372,7 @@ const ReceiveForm = (props: any) => {
                 saving={formProps.saving}
                 submitOnEnter={formProps.submitOnEnter}
                 transform={transform}
+                onFailure={onFailure}
               />
               {formProps.record && typeof formProps.record.id !== 'undefined' && (
                 <DeleteButton

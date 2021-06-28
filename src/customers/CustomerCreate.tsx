@@ -53,11 +53,6 @@ export const validatePasswords = ({
   return errors;
 };
 
-/**
- * provide defaults for non-string and non-integer inputs
- * these fields if left empty, will get rejected by drf serializer
- */
-
 const CustomerCreate: FC<CreateProps> = (props) => {
   // qn: why need props?
   const classes = useStyles(props);
@@ -71,6 +66,10 @@ const CustomerCreate: FC<CreateProps> = (props) => {
     { field: 'id', order: 'DESC' },
     {}
   );
+  /**
+   * provide defaults for non-string and non-integer inputs
+   * these fields if left empty, will get rejected by drf serializer
+   */
   const postDefaultValue = () => ({
     image: '',
     reference:
