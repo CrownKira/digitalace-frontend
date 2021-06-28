@@ -58,10 +58,10 @@ const InvoiceCreate: FC<CreateProps> = (props) => {
 };
 
 // a fix for DateField parse not working
-export const transform = (data: unknown) => ({
-  ...(data as Record),
-  date: dateParser((data as Record).date),
-  payment_date: dateParser((data as Record).payment_date),
+export const transform = (data: Record) => ({
+  ...data,
+  date: dateParser(data.date),
+  payment_date: dateParser(data.payment_date),
 });
 
 const InvoiceForm = (props: any) => {
@@ -199,7 +199,6 @@ const InvoiceForm = (props: any) => {
                       >
                         <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                           <DateInput
-                            parse={dateParser}
                             source="payment_date"
                             resource="invoices"
                             fullWidth

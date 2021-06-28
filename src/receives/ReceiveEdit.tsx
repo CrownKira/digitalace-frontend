@@ -29,7 +29,6 @@ import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
-import { dateParser } from '../utils';
 import { transform, styles as createStyles } from './ReceiveCreate';
 
 const useStyles = makeStyles({
@@ -141,7 +140,6 @@ const ReceiveForm = (props: any) => {
                       >
                         <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                           <DateInput
-                            parse={dateParser}
                             source="payment_date"
                             resource="receives"
                             fullWidth

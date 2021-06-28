@@ -28,7 +28,6 @@ import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
-import { dateParser } from '../utils';
 import { transform, styles as createStyles } from './PurchaseOrderCreate';
 
 const useStyles = makeStyles({

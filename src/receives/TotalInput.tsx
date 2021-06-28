@@ -3,7 +3,6 @@ import {
   NumberInputProps,
   NumberInput,
   FormDataConsumerRenderParams,
-  Record,
 } from 'react-admin';
 import { useForm, useFormState } from 'react-final-form';
 
