@@ -146,7 +146,7 @@ const Login = () => {
                 <div className={classes.input}>
                   <Field
                     // TODO: validate email (react final form)
-                    autoFocus
+                    // autoFocus
                     name="email"
                     type="email"
                     // TODO: render using EmailField and PasswordField?
