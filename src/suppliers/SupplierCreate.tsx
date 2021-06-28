@@ -8,12 +8,18 @@ import {
   email,
   ImageInput,
   ImageField,
+  useGetList,
+  Loading,
+  useNotify,
+  useRefresh,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Styles } from '@material-ui/styles/withStyles';
 
 import { SectionTitle, Separator } from '../utils/components/Divider';
+import { Supplier } from '../types';
+import { incrementReference, getFieldError } from '../utils';
 
 export const styles: Styles<Theme, any> = {
   name: { display: 'inline-block' },
@@ -44,15 +50,44 @@ export const validatePasswords = ({
   return errors;
 };
 
-const postDefaultValue = () => ({
-  image: '',
-});
-
 const SupplierCreate: FC<CreateProps> = (props) => {
   const classes = useStyles(props);
+  const {
+    data: suppliers,
+    ids: supplierIds,
+    loading: loadingSuppliers,
+  } = useGetList<Supplier>(
+    'suppliers',
+    { page: 1, perPage: 1 },
+    { field: 'id', order: 'DESC' },
+    {}
+  );
+  const postDefaultValue = () => ({
+    image: '',
+    reference:
+      suppliers && supplierIds.length > 0
+        ? incrementReference(suppliers[supplierIds[0]].reference, 'S', 4)
+        : 'S-0000',
+  });
 
-  return (
-    <Create {...props}>
+  const notify = useNotify();
+  const refresh = useRefresh();
+
+  const onFailure = (error: any) => {
+    notify(
+      typeof error === 'string'
+        ? error
+        : getFieldError(error) || 'ra.notification.http_error',
+      'warning'
+    );
+
+    refresh();
+  };
+
+  return loadingSuppliers ? (
+    <Loading />
+  ) : (
+    <Create {...props} onFailure={onFailure}>
       <SimpleForm validate={validatePasswords} initialValues={postDefaultValue}>
         <SectionTitle label="resources.suppliers.fieldGroups.avatar" />
         <ImageInput
@@ -64,6 +99,7 @@ const SupplierCreate: FC<CreateProps> = (props) => {
           <ImageField source="src" title="title" />
         </ImageInput>
         <SectionTitle label="resources.suppliers.fieldGroups.identity" />
+        <TextInput source="reference" validate={requiredValidate} />
         <TextInput
           autoFocus
           source="name"

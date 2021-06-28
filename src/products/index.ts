@@ -5,6 +5,7 @@ import ProductCreate from './ProductCreate';
 import ProductEdit from './ProductEdit';
 
 const resource = {
+  codename: 'product',
   list: ProductList,
   create: ProductCreate,
   edit: ProductEdit,

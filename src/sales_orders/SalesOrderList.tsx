@@ -14,12 +14,14 @@ import {
   DateInput,
   BulkDeleteButton,
   BulkDeleteButtonProps,
+  SelectField,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
 import FullNameField from '../customers/FullNameField';
 import AddressField from '../customers/AddressField';
 import SalesOrderShow from './SalesOrderShow';
+import { statuses } from './data';
 
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
@@ -46,46 +48,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // TODO: customizable table columns
-
 const SalesOrderList: FC<ListProps> = (props) => {
   const classes = useStyles();
   return (
     <List
-      {...props}
       filters={<ListFilters />}
       perPage={25}
       sort={{ field: 'date', order: 'desc' }}
       bulkActionButtons={<SalesOrderBulkActionButtons />}
+      {...props}
     >
       <Datagrid rowClick="edit" expand={<SalesOrderShow />}>
-        <TextField source="id" />
+        <TextField source="reference" />
         <DateField source="date" />
-        <ReferenceField
-          // TODO: remove _id
-          source="customer"
-          reference="customers"
-          label="resources.sales_orders.fields.customer"
-        >
+        <ReferenceField source="customer" reference="customers">
           <FullNameField />
         </ReferenceField>
         <ReferenceField
           source="customer"
           reference="customers"
+          label="resources.customers.fields.address"
           link={false}
-          label="resources.sales_orders.fields.address"
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField
-          source="invoice"
-          reference="invoices"
-          label="resources.sales_orders.fields.invoice"
-        >
-          <TextField source="id" />
+        <ReferenceField source="invoice" reference="invoices">
+          <TextField source="reference" />
         </ReferenceField>
-        <NumberField source="status" />
+        <SelectField source="status" choices={statuses} />
         <NumberField source="grand_total" />
       </Datagrid>
     </List>

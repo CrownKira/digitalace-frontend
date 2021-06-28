@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   Edit,
   EditProps,
@@ -14,7 +13,9 @@ import {
   ReferenceArrayInput,
   AutocompleteArrayInput,
   required,
+  Record,
 } from 'react-admin';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { Department } from '../types';
 import { formatImage } from '../utils';
@@ -39,12 +40,10 @@ const DepartmentTitle: FC<FieldProps<Department>> = ({ record }) => {
 const DepartmentEdit: FC<EditProps> = (props) => {
   const classes = useStyles();
   // TODO: better way to add default id and user_set?
-  // FIXME: fix any
-  const transform = (data: any) => {
-    // TODO: fix any
-    data.designation_set = data.designation_set
-      .filter((x: any) => x)
-      .map((designation_data: any) => {
+  const transform = (data: Record) => {
+    (data as Department).designation_set = (data as Department).designation_set
+      .filter((x) => x)
+      .map((designation_data) => {
         if (!designation_data.user_set) designation_data.user_set = [];
         return designation_data;
       });

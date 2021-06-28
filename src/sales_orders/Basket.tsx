@@ -9,13 +9,13 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { Link, FieldProps, useTranslate, useQueryWithStore } from 'react-admin';
 
-import { AppState, Order, Product } from '../types';
+import { AppState, SalesOrder, Product } from '../types';
 
 const useStyles = makeStyles({
   rightAlignedCell: { textAlign: 'right' },
 });
 
-const Basket: FC<FieldProps<Order>> = ({ record }) => {
+const Basket: FC<FieldProps<SalesOrder>> = ({ record }) => {
   const classes = useStyles();
   const translate = useTranslate();
 
@@ -24,13 +24,16 @@ const Basket: FC<FieldProps<Order>> = ({ record }) => {
       type: 'getMany',
       resource: 'products',
       payload: {
-        ids: record ? record.basket.map((item) => item.product_id) : [],
+        ids: record
+          ? record.salesorderitem_set.map((item) => item.product)
+          : [],
       },
     },
     {},
+    // TODO: remove this?
     (state) => {
       const productIds = record
-        ? record.basket.map((item) => item.product_id)
+        ? record.salesorderitem_set.map((item) => item.product)
         : [];
 
       return productIds
@@ -53,31 +56,31 @@ const Basket: FC<FieldProps<Order>> = ({ record }) => {
       <TableHead>
         <TableRow>
           <TableCell>
-            {translate('resources.commands.fields.basket.reference')}
+            {translate('resources.sales_order_items.fields.product')}
           </TableCell>
           <TableCell className={classes.rightAlignedCell}>
-            {translate('resources.commands.fields.basket.unit_price')}
+            {translate('resources.sales_order_items.fields.unit_price')}
           </TableCell>
           <TableCell className={classes.rightAlignedCell}>
-            {translate('resources.commands.fields.basket.quantity')}
+            {translate('resources.sales_order_items.fields.quantity')}
           </TableCell>
           <TableCell className={classes.rightAlignedCell}>
-            {translate('resources.commands.fields.basket.total')}
+            {translate('resources.sales_order_items.fields.amount')}
           </TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        {record.basket.map(
+        {record.salesorderitem_set.map(
           (item: any) =>
-            products[item.product_id] && (
-              <TableRow key={item.product_id}>
+            products[item.product] && (
+              <TableRow key={item.product}>
                 <TableCell>
-                  <Link to={`/products/${item.product_id}`}>
-                    {products[item.product_id].reference}
+                  <Link to={`/products/${item.product}`}>
+                    {products[item.product].name}
                   </Link>
                 </TableCell>
                 <TableCell className={classes.rightAlignedCell}>
-                  {products[item.product_id].price.toLocaleString(undefined, {
+                  {item.unit_price.toLocaleString(undefined, {
                     style: 'currency',
                     currency: 'SGD',
                   })}
@@ -86,9 +89,7 @@ const Basket: FC<FieldProps<Order>> = ({ record }) => {
                   {item.quantity}
                 </TableCell>
                 <TableCell className={classes.rightAlignedCell}>
-                  {(
-                    products[item.product_id].price * item.quantity
-                  ).toLocaleString(undefined, {
+                  {item.amount.toLocaleString(undefined, {
                     style: 'currency',
                     currency: 'SGD',
                   })}

@@ -5,6 +5,7 @@ import PurchaseOrderCreate from './PurchaseOrderCreate';
 import PurchaseOrderEdit from './PurchaseOrderEdit';
 
 export default {
+  codename: 'purchaseorder',
   list: PurchaseOrderList,
   create: PurchaseOrderCreate,
   edit: PurchaseOrderEdit,

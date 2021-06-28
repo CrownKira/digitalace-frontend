@@ -23,7 +23,7 @@ interface Props extends FieldProps<Department> {
   size?: string;
 }
 
-const FullNameField: FC<Props> = ({ record, size }) => {
+const NameField: FC<Props> = ({ record, size }) => {
   const classes = useStyles();
   return record ? (
     <div className={classes.root}>
@@ -33,9 +33,9 @@ const FullNameField: FC<Props> = ({ record, size }) => {
   ) : null;
 };
 
-FullNameField.defaultProps = {
+NameField.defaultProps = {
   source: 'name',
   label: 'resources.departments.fields.name',
 };
 
-export default memo<Props>(FullNameField);
+export default memo<Props>(NameField);

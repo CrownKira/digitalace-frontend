@@ -42,7 +42,7 @@ const RoleEdit: FC<EditProps> = (props) => (
       <AutocompleteArrayInput
         source="permissions"
         choices={permissions}
-        optionText="codename"
+        optionText="name"
         optionValue="id"
       />
       <ReferenceArrayInput

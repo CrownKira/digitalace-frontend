@@ -14,12 +14,14 @@ import {
   DateInput,
   BulkDeleteButton,
   BulkDeleteButtonProps,
+  SelectField,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
 import FullNameField from '../suppliers/FullNameField';
 import AddressField from '../suppliers/AddressField';
 import PurchaseOrderShow from './PurchaseOrderShow';
+import { statuses } from './data';
 
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
@@ -50,41 +52,32 @@ const PurchaseOrderList: FC<ListProps> = (props) => {
   const classes = useStyles();
   return (
     <List
-      {...props}
       filters={<ListFilters />}
       perPage={25}
       sort={{ field: 'date', order: 'desc' }}
       bulkActionButtons={<PurchaseOrderBulkActionButtons />}
+      {...props}
     >
       <Datagrid rowClick="edit" expand={<PurchaseOrderShow />}>
-        <TextField source="id" />
+        <TextField source="reference" />
         <DateField source="date" />
-        <ReferenceField
-          // TODO: remove _id
-          source="supplier"
-          reference="suppliers"
-          label="resources.purchase_orders.fields.supplier"
-        >
+        <ReferenceField source="supplier" reference="suppliers">
           <FullNameField />
         </ReferenceField>
         <ReferenceField
           source="supplier"
           reference="suppliers"
+          label="resources.suppliers.fields.address"
           link={false}
-          label="resources.purchase_orders.fields.address"
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField
-          source="receive"
-          reference="receives"
-          label="resources.purchase_orders.fields.receive"
-        >
-          <TextField source="id" />
+        <ReferenceField source="receive" reference="receives">
+          <TextField source="reference" />
         </ReferenceField>
-        <NumberField source="status" />
+        <SelectField source="status" choices={statuses} />
         <NumberField source="grand_total" />
       </Datagrid>
     </List>

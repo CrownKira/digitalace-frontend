@@ -2,7 +2,6 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Field, withTypes } from 'react-final-form';
 import { useLocation } from 'react-router-dom';
-
 import {
   Avatar,
   Button,
@@ -21,7 +20,6 @@ import {
   Link,
   useNotify,
 } from 'react-admin';
-
 import { lightTheme } from '../layout/themes';
 
 export const styles = makeStyles((theme) => ({
@@ -74,15 +72,17 @@ export const renderInput = ({
   meta: { touched, error } = { touched: false, error: undefined },
   input: { ...inputProps },
   ...props
-}) => (
-  <TextField
-    error={!!(touched && error)}
-    helperText={touched && error}
-    {...inputProps}
-    {...props}
-    fullWidth
-  />
-);
+}) => {
+  return (
+    <TextField
+      error={!!(touched && error)}
+      helperText={touched && error}
+      {...inputProps}
+      {...props}
+      fullWidth
+    />
+  );
+};
 
 interface FormValues {
   email?: string;
@@ -96,7 +96,6 @@ const Login = () => {
   const translate = useTranslate();
   const classes = styles();
   const notify = useNotify();
-
   const login = useLogin();
   const location = useLocation<{ nextPathname: string } | null>();
 
@@ -151,7 +150,7 @@ const Login = () => {
                     name="email"
                     type="email"
                     // TODO: render using EmailField and PasswordField?
-                    // TODO: fix this
+                    // TODO: fix warning
                     // @ts-ignore
                     component={renderInput}
                     label={translate('pos.auth.email')}

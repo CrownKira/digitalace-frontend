@@ -3,6 +3,8 @@ import inflection from 'inflection';
 import { Card as MuiCard, CardContent } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
+import Domain from '@material-ui/icons/Domain';
+import WorkOutline from '@material-ui/icons/WorkOutline';
 import {
   FilterList,
   FilterLiveSearch,
@@ -26,35 +28,36 @@ const Card = withStyles((theme) => ({
 }))(MuiCard);
 
 const Aside: FC = () => {
-  const { data: departments, ids: departmentIDs } = useGetList<Category>(
+  const { data: departments, ids: departmentIds } = useGetList<Category>(
     'departments',
     { page: 1, perPage: 100 },
     { field: 'name', order: 'ASC' },
     {}
   );
-  const { data: designations, ids: designationIDs } = useGetList<Category>(
+  const { data: designations, ids: designationIds } = useGetList<Category>(
     'designations',
     { page: 1, perPage: 100 },
     { field: 'name', order: 'ASC' },
     {}
   );
-  const { data: roles, ids: roleIDs } = useGetList<Category>(
+  const { data: roles, ids: roleIds } = useGetList<Category>(
     'roles',
     { page: 1, perPage: 100 },
     { field: 'name', order: 'ASC' },
     {}
   );
+
   return (
     <Card>
       <CardContent>
         <FilterLiveSearch />
         <FilterList
           label="resources.employees.filters.department"
-          icon={<DirectionsWalkIcon />}
+          icon={<Domain />}
         >
-          {departmentIDs &&
+          {departmentIds &&
             departments &&
-            departmentIDs.map((id: any) => (
+            departmentIds.map((id) => (
               <FilterListItem
                 label={inflection.humanize(departments[id].name)}
                 key={departments[id].id}
@@ -64,11 +67,11 @@ const Aside: FC = () => {
         </FilterList>
         <FilterList
           label="resources.employees.filters.designation"
-          icon={<DirectionsWalkIcon />}
+          icon={<WorkOutline />}
         >
-          {designationIDs &&
+          {designationIds &&
             designations &&
-            designationIDs.map((id: any) => (
+            designationIds.map((id) => (
               <FilterListItem
                 label={inflection.humanize(designations[id].name)}
                 key={designations[id].id}
@@ -80,9 +83,9 @@ const Aside: FC = () => {
           label="resources.employees.filters.role"
           icon={<DirectionsWalkIcon />}
         >
-          {roleIDs &&
+          {roleIds &&
             roles &&
-            roleIDs.map((id: any) => (
+            roleIds.map((id) => (
               <FilterListItem
                 label={inflection.humanize(roles[id].name)}
                 key={roles[id].id}

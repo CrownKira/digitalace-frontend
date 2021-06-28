@@ -7,7 +7,6 @@ import {
   ReferenceArrayInput,
   AutocompleteArrayInput,
   FileInput,
-  ReferenceInput,
   ImageInput,
   FileField,
   ImageField,
@@ -17,6 +16,9 @@ import {
   email,
   TabbedForm,
   FormTab,
+  ReferenceInput,
+  FormDataConsumer,
+  useGetList,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -60,6 +62,12 @@ const postDefaultValue = () => ({
 
 const EmployeeCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
+
+  const { data: departmentsData } = useGetList(
+    'departments',
+    { page: 1, perPage },
+    { field: 'id', order: 'DESC' }
+  );
 
   return (
     <Create {...props}>
@@ -143,6 +151,33 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
           <TextInput source="postal_code" />
           <Separator />
           <SectionTitle label="resources.employees.fieldGroups.company_details" />
+          <ReferenceInput
+            source="department"
+            reference="departments"
+            perPage={perPage}
+            allowEmpty
+            formClassName={classes.leftFormGroup}
+          >
+            <SelectInput
+              // TODO: replace with async version
+              source="name"
+            />
+          </ReferenceInput>
+          <FormDataConsumer formClassName={classes.rightFormGroup}>
+            {({ formData, ...rest }) => (
+              <SelectInput
+                {...rest}
+                source="designation"
+                choices={
+                  departmentsData[formData.department]
+                    ? departmentsData[formData.department].designation_set
+                    : []
+                }
+                validate={formData.department ? requiredValidate : []}
+              />
+            )}
+          </FormDataConsumer>
+          <Break />
           <DateInput
             source="date_of_commencement"
             formClassName={classes.leftFormGroup}
@@ -207,36 +242,6 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
 };
 
 const requiredValidate = [required()];
+const perPage = 25;
 
 export default EmployeeCreate;
-
-// TODO: make designation choices depend on department input
-/*
-<ReferenceInput
-  source="department"
-  reference="departments"
-  allowEmpty
-  formClassName={classes.leftFormGroup}
->
-  <SelectInput source="name" />
-</ReferenceInput>
-<ReferenceInput
-  source="designation"
-  reference="designations"
-  allowEmpty
-  formClassName={classes.rightFormGroup}
->
-  <SelectInput source="name" />
-</ReferenceInput>
-<Break />
-*/
-
-// TODO: password field
-/*
-<Separator /><SectionTitle label="resources.employees.fieldGroups.password" />
-<PasswordInput source="password" formClassName={classes.password} />
-<PasswordInput
-  source="confirm_password"
-  formClassName={classes.confirm_password}
-/>
-*/

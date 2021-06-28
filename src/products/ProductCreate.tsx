@@ -11,10 +11,17 @@ import {
   CreateProps,
   ImageInput,
   ImageField,
+  useGetList,
+  Loading,
+  useNotify,
+  useRefresh,
 } from 'react-admin';
 import { InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
+
+import { Product } from '../types';
+import { incrementReference, getFieldError } from '../utils';
 
 export const styles = {
   unit: { width: '7em' },
@@ -26,16 +33,45 @@ export const styles = {
 
 const useStyles = makeStyles(styles);
 
-const postDefaultValue = () => ({
-  image: '',
-  thumbnail: '',
-});
-
 const ProductCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
+  const {
+    data: products,
+    ids: productIds,
+    loading: loadingProducts,
+  } = useGetList<Product>(
+    'products',
+    { page: 1, perPage: 1 },
+    { field: 'id', order: 'DESC' },
+    {}
+  );
+  const postDefaultValue = () => ({
+    image: '',
+    thumbnail: '',
+    reference:
+      products && productIds.length > 0
+        ? incrementReference(products[productIds[0]].reference, 'P', 4)
+        : 'P-0000',
+  });
 
-  return (
-    <Create {...props}>
+  const notify = useNotify();
+  const refresh = useRefresh();
+
+  const onFailure = (error: any) => {
+    notify(
+      typeof error === 'string'
+        ? error
+        : getFieldError(error) || 'ra.notification.http_error',
+      'warning'
+    );
+
+    refresh();
+  };
+
+  return loadingProducts ? (
+    <Loading />
+  ) : (
+    <Create {...props} onFailure={onFailure}>
       <TabbedForm initialValues={postDefaultValue}>
         <FormTab label="resources.products.tabs.image">
           <ImageInput
@@ -61,6 +97,7 @@ const ProductCreate: FC<CreateProps> = (props) => {
           </ImageInput>
         </FormTab>
         <FormTab label="resources.products.tabs.details" path="details">
+          <TextInput source="reference" validate={requiredValidate} />
           <ReferenceInput source="category" reference="categories">
             <SelectInput source="name" validate={requiredValidate} />
           </ReferenceInput>

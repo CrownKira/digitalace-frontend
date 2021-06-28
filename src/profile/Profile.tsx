@@ -95,21 +95,7 @@ export const ProfileEdit = () => {
     (values) => {
       setSaving(true);
       dataProvider
-        .updateUserProfile(
-          { data: values }
-          // TODO: why onFailure doesn't catch error
-          // {
-          //   onSuccess: () => {
-          //     setSaving(false);
-          //     notify('pos.user_menu.profile.success', 'info');
-          //     refreshProfile();
-          //   },
-          //   onFailure: () => {
-          //     setSaving(false);
-          //     notify('pos.user_menu.profile.failure', 'warning');
-          //   },
-          // }
-        )
+        .updateUserProfile({ data: values })
         .then(() => {
           setSaving(false);
           notify('pos.user_menu.profile.success', 'info');
@@ -129,9 +115,9 @@ export const ProfileEdit = () => {
       save: handleSave,
       saving,
       // FIXME: write implementations
-      setOnSuccess: () => void 0,
-      setOnFailure: () => void 0,
-      setTransform: () => void 0,
+      setOnSuccess: () => {},
+      setOnFailure: () => {},
+      setTransform: () => {},
     }),
     [saving, handleSave]
   );
@@ -328,13 +314,28 @@ export const ProfileEdit = () => {
                   </>
                 )}
               </CardContent>
-              <Toolbar>
+
+              <Toolbar
+                // props from react-admin demo VisitorEdit
+                resource="user_configs"
+                record={formProps.record}
+                basePath={formProps.basePath}
+                undoable={true}
+                invalid={formProps.invalid}
+                handleSubmit={formProps.handleSubmit}
+                saving={formProps.saving}
+                pristine={formProps.pristine}
+              >
                 <SaveButton
-                  // FIXME: fix save button behavior (disable when saving)
-                  // https://marmelab.com/react-admin/CreateEdit.html#toolbar
+                  // props from Toolbar.tsx
+                  handleSubmitWithRedirect={
+                    formProps.handleSubmitWithRedirect || formProps.handleSubmit
+                  }
+                  disabled={formProps.disabled}
+                  invalid={formProps.invalid}
+                  redirect={formProps.redirect}
                   saving={formProps.saving}
-                  disabled={formProps.pristine}
-                  handleSubmitWithRedirect={formProps.handleSubmitWithRedirect}
+                  submitOnEnter={formProps.submitOnEnter}
                 />
               </Toolbar>
             </form>

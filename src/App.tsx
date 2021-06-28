@@ -1,7 +1,8 @@
 // TODO: order dependencies
-import { useEffect } from 'react';
+import { useEffect, ReactNode } from 'react';
 import { Admin, Resource, DataProvider } from 'react-admin';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
+import pickBy from 'lodash/pickBy';
 
 import authProvider from './authProvider';
 import themeReducer from './themeReducer';
@@ -10,7 +11,6 @@ import { Login } from './auth';
 import { Dashboard } from './dashboard';
 import customRoutes from './routes';
 import englishMessages from './i18n/en';
-
 import departments from './departments';
 import roles from './roles';
 import employees from './employees';
@@ -22,6 +22,7 @@ import customers from './customers';
 import suppliers from './suppliers';
 import categories from './categories';
 import products from './products';
+import permissions from './permissions/data';
 
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
@@ -55,20 +56,105 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
       i18nProvider={i18nProvider}
       disableTelemetry
     >
-      <Resource name="invoices" {...invoices} />
-      <Resource name="receives" {...receives} />
-      <Resource name="sales_orders" {...sales_orders} />
-      <Resource name="purchase_orders" {...purchase_orders} />
-      <Resource name="products" {...products} />
-      <Resource name="customers" {...customers} />
-      <Resource name="suppliers" {...suppliers} />
-      <Resource name="categories" {...categories} />
-      <Resource name="reviews" />
-      <Resource name="commands" />
-      <Resource name="departments" {...departments} />
-      <Resource name="roles" {...roles} />
-      <Resource name="designations" />
-      <Resource name="employees" {...employees} />
+      {(userPermissions: unknown) => {
+        // make sure backend passes in a list of numbers
+        userPermissions = (userPermissions as number[])
+          .map((x) => permissions.find((y) => y.id === x)?.codename)
+          .filter((x) => x);
+
+        const hasPermission = (
+          codename: string,
+          component: ReactNode,
+          action: string
+        ) => {
+          switch (action) {
+            case 'list':
+              return (userPermissions as string[]).includes(`view_${codename}`);
+            case 'create':
+              return (userPermissions as string[]).includes(`add_${codename}`);
+            case 'edit':
+              return (userPermissions as string[]).includes(
+                `change_${codename}`
+              );
+            case 'codename':
+              // TODO: remove codename field
+              return false;
+            default:
+              return true;
+          }
+        };
+
+        return [
+          <Resource
+            name="invoices"
+            // The keys are always strings. This means you can't use an object instance's identity as a key.
+            {...pickBy<ReactNode>(invoices, (value, key) =>
+              hasPermission('invoice', value, key)
+            )}
+          />,
+          <Resource
+            name="receives"
+            {...pickBy<ReactNode>(receives, (value, key) =>
+              hasPermission('receive', value, key)
+            )}
+          />,
+          <Resource
+            name="sales_orders"
+            {...pickBy<ReactNode>(sales_orders, (value, key) =>
+              hasPermission('salesorder', value, key)
+            )}
+          />,
+          <Resource
+            name="purchase_orders"
+            {...pickBy<ReactNode>(purchase_orders, (value, key) =>
+              hasPermission('purchaseorder', value, key)
+            )}
+          />,
+          <Resource
+            name="products"
+            {...pickBy<ReactNode>(products, (value, key) =>
+              hasPermission('product', value, key)
+            )}
+          />,
+          <Resource
+            name="customers"
+            {...pickBy<ReactNode>(customers, (value, key) =>
+              hasPermission('customer', value, key)
+            )}
+          />,
+          <Resource
+            name="suppliers"
+            {...pickBy<ReactNode>(suppliers, (value, key) =>
+              hasPermission('supplier', value, key)
+            )}
+          />,
+          <Resource
+            name="categories"
+            {...pickBy<ReactNode>(categories, (value, key) =>
+              hasPermission('productcategory', value, key)
+            )}
+          />,
+          <Resource
+            name="departments"
+            {...pickBy<ReactNode>(departments, (value, key) =>
+              hasPermission('department', value, key)
+            )}
+          />,
+          <Resource
+            name="roles"
+            {...pickBy<ReactNode>(roles, (value, key) =>
+              hasPermission('role', value, key)
+            )}
+          />,
+          <Resource name="designations" />,
+          <Resource
+            name="employees"
+            {...pickBy<ReactNode>(employees, (value, key) =>
+              hasPermission('user', value, key)
+            )}
+          />,
+        ];
+      }}
     </Admin>
   );
 };

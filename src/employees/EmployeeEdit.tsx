@@ -18,6 +18,8 @@ import {
   Edit,
   EditProps,
   FieldProps,
+  FormDataConsumer,
+  useGetList,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -31,6 +33,7 @@ import { SectionTitle, Separator, Break } from '../utils/components/Divider';
 
 const useStyles = makeStyles({
   ...createStyles,
+  /** edit styles go here */
 });
 
 const EmployeeTitle: FC<FieldProps<Employee>> = ({ record }) =>
@@ -38,12 +41,7 @@ const EmployeeTitle: FC<FieldProps<Employee>> = ({ record }) =>
 
 const EmployeeEdit: FC<EditProps> = (props) => {
   return (
-    <Edit
-      title={<EmployeeTitle />}
-      // aside={<Aside />}
-      component="div"
-      {...props}
-    >
+    <Edit title={<EmployeeTitle />} component="div" {...props}>
       <EmployeeForm />
     </Edit>
   );
@@ -53,11 +51,19 @@ const EmployeeEdit: FC<EditProps> = (props) => {
 const EmployeeForm = (props: any) => {
   const classes = useStyles();
 
+  // only result in one api call if this fetches
+  // the same resource as the ReferenceInput below
+  const { data: departmentsData } = useGetList(
+    'departments',
+    { page: 1, perPage },
+    { field: 'id', order: 'DESC' }
+  );
+
   return (
     <TabbedForm
       // TODO: make tabs scrollable
-      {...props}
       validate={validatePasswords}
+      {...props}
     >
       <FormTab
         // qn: FormTab doesn't take input wrapped in box?
@@ -116,6 +122,30 @@ const EmployeeForm = (props: any) => {
         <TextInput source="postal_code" />
         <Separator />
         <SectionTitle label="resources.employees.fieldGroups.company_details" />
+        <ReferenceInput
+          source="department"
+          reference="departments"
+          perPage={perPage}
+          allowEmpty
+          formClassName={classes.leftFormGroup}
+        >
+          <SelectInput source="name" />
+        </ReferenceInput>
+        <FormDataConsumer formClassName={classes.rightFormGroup}>
+          {({ formData, ...rest }) => (
+            <SelectInput
+              {...rest}
+              source="designation"
+              choices={
+                departmentsData[formData.department]
+                  ? departmentsData[formData.department].designation_set
+                  : []
+              }
+              validate={formData.department ? requiredValidate : []}
+            />
+          )}
+        </FormDataConsumer>
+        <Break />
         <DateInput
           source="date_of_commencement"
           formClassName={classes.leftFormGroup}
@@ -179,60 +209,7 @@ const EmployeeForm = (props: any) => {
 };
 
 const requiredValidate = [required()];
+// TODO: add perPage to all ReferenceInput
+const perPage = 25;
 
 export default EmployeeEdit;
-
-// TODO: make designation choices depend on department input
-/*
-<ReferenceInput
-  source="department"
-  reference="departments"
-  allowEmpty
-  formClassName={classes.leftFormGroup}
->
-  <SelectInput source="name" />
-</ReferenceInput>
-
-<ReferenceInput
-  source="designation"
-  reference="designations"
-  allowEmpty
-  formClassName={classes.rightFormGroup}
->
-  <SelectInput source="name" />
-</ReferenceInput>
-<Break />
-*/
-
-// TODO: password field
-/*
-<Typography variant="h6" gutterBottom>
-  {translate(
-    'resources.employees.fieldGroups.change_password'
-  )}
-</Typography>
-<Box display={{ xs: 'block', sm: 'flex' }}>
-  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-    <PasswordInput
-      source="password"
-      resource="employees"
-      fullWidth
-    />
-  </Box>
-
-  <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
-    <PasswordInput
-      source="confirm_password"
-      resource="employees"
-      fullWidth
-    />
-  </Box>
-</Box>
-*/
-
-// TODO: agent fields
-/*
-<div>
-  <SegmentsInput fullWidth />
-</div>
-*/

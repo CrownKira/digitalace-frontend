@@ -134,7 +134,7 @@ const Register = () => {
                 </Avatar>
               </div>
               <div className={classes.hint}>
-                {translate('pos.auth.register_message')}
+                {translate('pos.auth.register_title')}
               </div>
               <div className={classes.form}>
                 <div className={classes.input}>
@@ -160,7 +160,7 @@ const Register = () => {
                   <Field
                     // TODO: email field? (react final form)
                     name="email"
-                    // TODO: fix this
+                    // TODO: fix warning
                     // @ts-ignore
                     component={renderInput}
                     label={translate('pos.auth.email')}

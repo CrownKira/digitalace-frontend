@@ -1,59 +1,88 @@
 import { ReduxState, Record, Identifier } from 'react-admin';
 
-// TODO: update types (copy from serializer fields)
-
 export type ThemeName = 'light' | 'dark';
 
 export interface AppState extends ReduxState {
   theme: ThemeName;
 }
 
-export interface UserProfile {
-  // TODO: update props
-  id: Identifier;
-  fullName?: string;
-  avatar?: string;
-  [key: string]: any;
+export interface FileValue {
+  src: string;
+  title: string;
+}
+
+export interface UserConfig extends Record {
+  gst_rate: number;
+  discount_rate: number;
+  theme: ThemeName;
+  language: string;
+}
+
+export interface UserProfile extends Record {
+  fullName: string;
+  avatar: string;
+  is_staff: boolean;
+  email: string;
+  name: string;
+  roles: string;
+  image: FileValue;
+  resume: FileValue;
+  first_name: string;
+  last_name: string;
+  residential_address: string;
+  postal_code: string;
+  ic_no: string;
+  nationality: string;
+  gender: string;
+  date_of_birth: Date;
+  date_of_commencement: Date;
+  date_of_cessation: Date;
+  phone_no: string;
 }
 
 export interface Category extends Record {
   name: string;
+  image: FileValue;
+}
+
+export interface Designation extends Record {
+  department: Identifier;
+  name: string;
+  user_set: Identifier[];
 }
 
 export interface Department extends Record {
   name: string;
-}
-
-export interface Designation extends Record {
-  name: string;
+  image: FileValue;
+  designation_set: Designation[];
 }
 
 export interface Role extends Record {
   name: string;
+  image: FileValue;
 }
 
 export interface Product extends Record {
   category: Identifier;
-  description: string;
-  height: number;
-  image: { src?: string; title?: string };
-  price: number;
-  reference: string;
+  supplier: Identifier;
+  name: string;
+  unit: string;
+  cost: string;
+  unit_price: string;
+  image: FileValue;
+  thumbnail: FileValue;
   stock: number;
-  thumbnail: { src?: string; title?: string };
-  width: number;
+  sales: number;
+  description: string;
 }
 
 export interface Employee extends Record {
-  id: number;
-  password: string;
-  company: string;
+  is_staff: boolean;
   email: string;
   name: string;
-  department: string;
-  role: string;
-  image: { src?: string; title?: string };
-  resume: string;
+  roles: Identifier[];
+  image: FileValue;
+  resume: FileValue;
   first_name: string;
   last_name: string;
   residential_address: string;
@@ -68,42 +97,159 @@ export interface Employee extends Record {
 }
 
 export interface Customer extends Record {
-  first_name: string;
-  last_name: string;
+  attention: string;
+  name: string;
   address: string;
-  stateAbbr: string;
   city: string;
+  state: string;
   zipcode: string;
-  avatar: string;
-  birthday: string;
-  first_seen: string;
-  last_seen: string;
-  has_ordered: boolean;
-  latest_purchase: string;
-  has_newsletter: boolean;
-  groups: string[];
-  agents: number[];
-  nb_commands: number;
-  total_spent: number;
+  contact: string;
+  term: string;
+  phone_no: string;
+  email: string;
+  receivables: number;
+  image: FileValue;
 }
 
 export interface Supplier extends Record {
-  first_name: string;
-  last_name: string;
+  attention: string;
+  name: string;
   address: string;
-  stateAbbr: string;
   city: string;
+  state: string;
   zipcode: string;
-  avatar: string;
-  birthday: string;
-  first_seen: string;
-  last_seen: string;
-  has_ordered: boolean;
-  latest_purchase: string;
-  has_newsletter: boolean;
-  groups: string[];
-  nb_commands: number;
-  total_spent: number;
+  contact: string;
+  term: string;
+  phone_no: string;
+  email: string;
+  payables: string;
+  image: FileValue;
+}
+
+export interface Invoice extends Record {
+  reference: string;
+  company: Identifier;
+  company_name: string;
+  date: Date;
+  description: string;
+  payment_date: Date;
+  payment_method: string;
+  payment_note: string;
+  gst_rate: number;
+  discount_rate: number;
+  gst_amount: number;
+  discount_amount: number;
+  net: number;
+  total_amount: number;
+  grand_total: number;
+  status: string;
+  customer: Identifier;
+  salesperson: Identifier;
+  sales_order: Identifier;
+  invoiceitem_set: InvoiceItem[];
+}
+
+export interface InvoiceItem extends Record {
+  product: Identifier;
+  unit: number;
+  cost: number;
+  quantity: number;
+  unit_price: number;
+  invoice: Identifier;
+}
+
+export interface SalesOrder extends Record {
+  reference: string;
+  company: Identifier;
+  company_name: string;
+  date: Date;
+  description: string;
+  payment_date: Date;
+  payment_method: string;
+  payment_note: string;
+  gst_rate: number;
+  discount_rate: number;
+  gst_amount: number;
+  discount_amount: number;
+  net: number;
+  total_amount: number;
+  grand_total: number;
+  status: string;
+  customer: Identifier;
+  salesperson: Identifier;
+  invoice: Identifier;
+  salesorderitem_set: SalesOrderItem[];
+}
+
+export interface SalesOrderItem extends Record {
+  product: Identifier;
+  unit: number;
+  cost: number;
+  quantity: number;
+  unit_price: number;
+  sales_order: Identifier;
+}
+
+export interface Receive extends Record {
+  reference: string;
+  company: Identifier;
+  company_name: string;
+  date: Date;
+  description: string;
+  payment_date: Date;
+  payment_method: string;
+  payment_note: string;
+  gst_rate: number;
+  discount_rate: number;
+  gst_amount: number;
+  discount_amount: number;
+  net: number;
+  total_amount: number;
+  grand_total: number;
+  status: string;
+  supplier: Identifier;
+  purchase_order: Identifier;
+  receiveitem_set: ReceiveItem[];
+}
+
+export interface ReceiveItem extends Record {
+  product: Identifier;
+  unit: number;
+  cost: number;
+  quantity: number;
+  unit_price: number;
+  receive: Identifier;
+}
+
+export interface PurchaseOrder extends Record {
+  reference: string;
+  company: Identifier;
+  company_name: string;
+  date: Date;
+  description: string;
+  payment_date: Date;
+  payment_method: string;
+  payment_note: string;
+  gst_rate: number;
+  discount_rate: number;
+  gst_amount: number;
+  discount_amount: number;
+  net: number;
+  total_amount: number;
+  grand_total: number;
+  status: string;
+  supplier: Identifier;
+  receive: Identifier;
+  purchaseorderitem_set: PurchaseOrderItem[];
+}
+
+export interface PurchaseOrderItem extends Record {
+  product: Identifier;
+  unit: number;
+  cost: number;
+  quantity: number;
+  unit_price: number;
+  purchase_order: Identifier;
 }
 
 export type OrderStatus = 'ordered' | 'delivered' | 'cancelled';
@@ -119,8 +265,6 @@ export interface BasketItem {
   product_id: Identifier;
   quantity: number;
 }
-
-export interface Invoice extends Record {}
 
 export type ReviewStatus = 'accepted' | 'pending' | 'rejected';
 

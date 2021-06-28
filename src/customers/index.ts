@@ -5,6 +5,7 @@ import CustomerCreate from './CustomerCreate';
 import CustomerEdit from './CustomerEdit';
 
 const resource = {
+  codename: 'customer',
   list: CustomerList,
   create: CustomerCreate,
   edit: CustomerEdit,

@@ -6,11 +6,19 @@ import { makeStyles } from '@material-ui/core/styles';
 import EmailIcon from '@material-ui/icons/Email';
 import DomainIcon from '@material-ui/icons/Domain';
 import GroupIcon from '@material-ui/icons/Group';
-import { EditButton, Identifier, EmailField, TextField } from 'react-admin';
+import {
+  EditButton,
+  Identifier,
+  EmailField,
+  ReferenceField,
+  ReferenceArrayField,
+  SingleFieldList,
+  ChipField,
+} from 'react-admin';
 
 import { IconText } from '../utils/components/IconText';
 import AvatarField from './AvatarField';
-// import ColoredNumberField from './ColoredNumberField';
+import DepartmentLinkField from '../departments/DepartmentLinkField';
 import { Employee } from '../types';
 
 const useStyles = makeStyles((theme) => ({
@@ -72,21 +80,28 @@ const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
             </IconText>
             <IconText
               text={
-                <TextField
-                  // TODO: custom field (link to edit)
+                <ReferenceField
                   record={data[id]}
                   source="department"
-                />
+                  reference="departments"
+                >
+                  <DepartmentLinkField />
+                </ReferenceField>
               }
             >
               <DomainIcon color="secondary" />
             </IconText>
             <IconText
               text={
-                <TextField
-                  // TODO: custom field (link to edit)
+                <ReferenceArrayField
+                  record={data[id]}
+                  reference="roles"
                   source="roles"
-                />
+                >
+                  <SingleFieldList>
+                    <ChipField source="name" />
+                  </SingleFieldList>
+                </ReferenceArrayField>
               }
             >
               <GroupIcon color="secondary" />
@@ -104,13 +119,3 @@ MobileGrid.defaultProps = {
 };
 
 export default MobileGrid;
-
-/*
-// TODO: agent field
-// https://marmelab.com/react-admin/Fields.html#referencemanyfield
-{data[id].groups && data[id].groups.length > 0 && (
-  <CardContent className={classes.cardContent}>
-    <SegmentsField record={data[id]} />
-  </CardContent>
-)}
-*/

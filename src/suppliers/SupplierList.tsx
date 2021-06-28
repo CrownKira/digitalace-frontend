@@ -29,11 +29,11 @@ const SupplierList = (props: ListProps): ReactElement => {
   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('sm'));
   return (
     <List
-      {...props}
       filters={isSmall ? <SupplierFilter /> : undefined}
       sort={{ field: 'last_seen', order: 'DESC' }}
       perPage={25}
       aside={<SupplierListAside />}
+      {...props}
     >
       {isXsmall ? (
         <MobileGrid />
@@ -42,10 +42,7 @@ const SupplierList = (props: ListProps): ReactElement => {
           <SupplierLinkField />
           <TextField source="attention" />
           <EmailField source="email" />
-          <TextField
-            source="phone_no"
-            label="resources.customers.fields.phone_no"
-          />
+          <TextField source="phone_no" />
           <ColoredNumberField
             source="payables"
             options={{ style: 'currency', currency: 'SGD' }}

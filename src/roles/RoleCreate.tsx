@@ -31,7 +31,7 @@ const RoleCreate: FC<CreateProps> = (props) => (
       <AutocompleteArrayInput
         source="permissions"
         choices={permissions}
-        optionText="codename"
+        optionText="name"
         optionValue="id"
       />
       <ReferenceArrayInput

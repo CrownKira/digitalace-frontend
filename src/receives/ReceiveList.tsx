@@ -14,12 +14,14 @@ import {
   DateInput,
   BulkDeleteButton,
   BulkDeleteButtonProps,
+  SelectField,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
 import FullNameField from '../suppliers/FullNameField';
 import AddressField from '../suppliers/AddressField';
 import ReceiveShow from './ReceiveShow';
+import { statuses } from '../invoices/data';
 
 const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
@@ -50,41 +52,37 @@ const ReceiveList: FC<ListProps> = (props) => {
   const classes = useStyles();
   return (
     <List
-      {...props}
       filters={<ListFilters />}
       perPage={25}
       sort={{ field: 'date', order: 'desc' }}
       bulkActionButtons={<ReceiveBulkActionButtons />}
+      {...props}
     >
       <Datagrid rowClick="edit" expand={<ReceiveShow />}>
-        <TextField source="id" />
+        <TextField source="reference" />
         <DateField source="date" />
-        <ReferenceField
-          // TODO: remove _id
-          source="supplier"
-          reference="suppliers"
-          label="resources.receives.fields.supplier"
-        >
+        <ReferenceField source="supplier" reference="suppliers">
           <FullNameField />
         </ReferenceField>
         <ReferenceField
           source="supplier"
           reference="suppliers"
+          label="resources.suppliers.fields.address"
           link={false}
-          label="resources.receives.fields.address"
           cellClassName={classes.hiddenOnSmallScreens}
           headerClassName={classes.hiddenOnSmallScreens}
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField
-          source="purchase_order"
-          reference="purchase_orders"
-          label="resources.receives.fields.purchase_order"
-        >
-          <TextField source="id" />
+        <ReferenceField source="purchase_order" reference="purchase_orders">
+          <TextField source="reference" />
         </ReferenceField>
-        <NumberField source="status" />
+        <SelectField
+          // TODO: use chip
+          // https://marmelab.com/react-admin/Fields.html#choice-fields
+          source="status"
+          choices={statuses}
+        />
         <NumberField source="grand_total" />
       </Datagrid>
     </List>

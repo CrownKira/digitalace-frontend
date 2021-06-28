@@ -14,10 +14,10 @@ const DepartmentInput: FC<Props> = (props) => {
   const classes = useStyles();
   return (
     <ReferenceInput
-      {...props}
       className={classes.input}
       reference="departments"
       source="department"
+      {...props}
     >
       <SelectInput source="name" />
     </ReferenceInput>

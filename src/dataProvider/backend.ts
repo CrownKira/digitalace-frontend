@@ -1,10 +1,10 @@
 import { DataProvider, UpdateParams } from 'ra-core';
-import { fetchUtils } from 'react-admin';
+import { fetchUtils, Record } from 'react-admin';
 import drfProvider from 'ra-data-django-rest-framework';
 import HttpMethodsEnum from 'http-methods-enum';
 
 import { baseURL } from '../apis/backend';
-import { UserProfile } from '../types';
+import { UserProfile, UserConfig } from '../types';
 
 export const apiUrl = `${baseURL}/api`;
 
@@ -25,9 +25,11 @@ export const apiUrl = `${baseURL}/api`;
 
 const fileLabels = ['image', 'thumbnail', 'resume'];
 
-// FIXME: fix any
 // TODO: use axios
-export const httpClient = (url: string, options: any = {}) => {
+export const httpClient = (
+  url: string,
+  options: { [key: string]: any } = {}
+) => {
   if (!options.headers) {
     options.headers = new Headers({});
   }
@@ -38,13 +40,11 @@ export const httpClient = (url: string, options: any = {}) => {
 };
 const restProvider = drfProvider(apiUrl, httpClient);
 
-// FIXME: fix any
-function getFormData(data: any, method = HttpMethodsEnum.PATCH) {
+function getFormData(data: Record, method = HttpMethodsEnum.PATCH) {
   const formData = new FormData();
-  // FIXME: fix any
-  const jsonData = {} as any;
-  // FIXME: fix any
-  for (const [key, value] of Object.entries<any>(data)) {
+  const jsonData = {} as { [key: string]: any };
+
+  for (const [key, value] of Object.entries(data)) {
     if (fileLabels.includes(key) && value) {
       if (
         method === HttpMethodsEnum.POST ||
@@ -76,7 +76,7 @@ const customDataProvider: DataProvider = {
   },
   update: async (resource, params) => {
     if (fileLabels.every((x) => !params.data.hasOwnProperty(x))) {
-      return restProvider.create(resource, params);
+      return restProvider.update(resource, params);
     }
     const { json } = await httpClient(`${apiUrl}/${resource}/${params.id}/`, {
       method: HttpMethodsEnum.PATCH,
@@ -99,6 +99,25 @@ const customDataProvider: DataProvider = {
   },
   updateUserProfile: async (params: UpdateParams) => {
     const { json } = await httpClient(`${apiUrl}/user/me/`, {
+      method: HttpMethodsEnum.PATCH,
+      body: getFormData(params.data),
+    });
+    return {
+      data: json,
+    };
+  },
+  getUserConfig: async () => {
+    const data: UserConfig = await Promise.resolve(
+      httpClient(`${apiUrl}/user/config/`).then((response) => {
+        return response.json;
+      })
+    );
+    return {
+      data: data,
+    };
+  },
+  updateUserConfig: async (params: UpdateParams) => {
+    const { json } = await httpClient(`${apiUrl}/user/config/`, {
       method: HttpMethodsEnum.PATCH,
       body: getFormData(params.data),
     });

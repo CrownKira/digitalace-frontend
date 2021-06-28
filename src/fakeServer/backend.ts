@@ -1,3 +1,3 @@
 export default () => {
-  return () => void 0;
+  return () => {};
 };

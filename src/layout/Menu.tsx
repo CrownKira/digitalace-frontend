@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import SettingsIcon from '@material-ui/icons/Label';
 import { useMediaQuery, Theme, Box } from '@material-ui/core';
@@ -12,7 +12,11 @@ import {
   MenuItemLink,
   MenuProps,
 } from 'react-admin';
+import { useSetLocale, useNotify, useDataProvider } from 'react-admin';
+import { useDispatch } from 'react-redux';
 
+import { changeTheme } from '../configuration/actions';
+import { UserConfig } from '../types';
 import departments from '../departments';
 import roles from '../roles';
 import employees from '../employees';
@@ -25,7 +29,8 @@ import receives from '../receives';
 import purchase_orders from '../purchase_orders';
 import sales_orders from '../sales_orders';
 import SubMenu from './SubMenu';
-import { AppState } from '../types';
+import { AppState, ThemeName } from '../types';
+import { refreshLocalStorage } from '../utils';
 
 type MenuName =
   | 'menuOrganization'
@@ -46,10 +51,44 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
   );
   const open = useSelector((state: AppState) => state.admin.ui.sidebarOpen);
   useSelector((state: AppState) => state.theme);
-
   const handleToggle = (menu: MenuName) => {
     setState((state) => ({ ...state, [menu]: !state[menu] }));
   };
+  const dispatch = useDispatch();
+  const setLocale = useSetLocale();
+  const notify = useNotify();
+  const dataProvider = useDataProvider();
+
+  useEffect(() => {
+    // TODO: rewrite
+    const theme = localStorage.getItem('theme');
+    const language = localStorage.getItem('language');
+    const updateStores = () => {
+      theme && dispatch(changeTheme(theme as ThemeName));
+      language && setLocale(language);
+    };
+
+    if (theme && language) {
+      updateStores();
+      return;
+    }
+
+    dataProvider
+      .getUserConfig()
+      .then((response: unknown) => {
+        if (response) {
+          const {
+            data: { theme, language },
+          } = response as { data: UserConfig };
+          // set config in first login and config update
+          refreshLocalStorage({ theme, language });
+          updateStores();
+        }
+      })
+      .catch((error: Error) => {
+        notify('ra.notification.data_provider_error', 'warning');
+      });
+  }, [dataProvider, dispatch, notify, setLocale]);
 
   return (
     <Box mt={1}>
