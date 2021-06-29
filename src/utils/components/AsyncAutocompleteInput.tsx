@@ -110,6 +110,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   );
 
   useEffect(() => {
+    // TODO: add rationale for each condition
     if (inputValue || valueOverride || !input.value || isNaN(input.value))
       return;
 
