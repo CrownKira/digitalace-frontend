@@ -33,7 +33,7 @@ import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { PurchaseOrder } from '../types';
 import { incrementReference, dateParser } from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
@@ -67,6 +67,11 @@ export const transform = (data: Record) => ({
 const PurchaseOrderForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'purchase_orders',
+    source: 'reference',
+    message: 'resources.purchase_orders.validation.reference_already_used',
+  });
 
   const {
     data: purchase_orders,
@@ -123,7 +128,10 @@ const PurchaseOrderForm = (props: any) => {
                         source="reference"
                         resource="purchase_orders"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={[
+                          ...requiredValidate,
+                          validateReferenceUnicity,
+                        ]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>

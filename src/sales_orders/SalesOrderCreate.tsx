@@ -31,7 +31,7 @@ import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
 import {} from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { SalesOrder } from '../types';
 import { incrementReference, dateParser } from '../utils';
@@ -68,6 +68,11 @@ export const transform = (data: Record) => ({
 const SalesOrderForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'sales_orders',
+    source: 'reference',
+    message: 'resources.sales_orders.validation.reference_already_used',
+  });
 
   const {
     data: sales_orders,
@@ -120,7 +125,10 @@ const SalesOrderForm = (props: any) => {
                         source="reference"
                         resource="sales_orders"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={[
+                          ...requiredValidate,
+                          validateReferenceUnicity,
+                        ]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>

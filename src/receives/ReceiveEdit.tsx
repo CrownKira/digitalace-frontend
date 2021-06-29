@@ -29,7 +29,7 @@ import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
 import {} from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { transform, styles as createStyles } from './ReceiveCreate';
 
@@ -52,6 +52,12 @@ const ReceiveEdit: FC<EditProps> = (props) => {
 const ReceiveForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'receives',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.receives.validation.reference_already_used',
+  });
 
   return (
     <FormWithRedirect
@@ -68,7 +74,10 @@ const ReceiveForm = (props: any) => {
                         source="reference"
                         resource="receives"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={[
+                          ...requiredValidate,
+                          validateReferenceUnicity,
+                        ]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -360,7 +369,7 @@ const ReceiveForm = (props: any) => {
                 transform={transform}
                 onFailure={onFailure}
               />
-              {formProps.record && typeof formProps.record.id !== 'undefined' && (
+              {formProps.record && formProps.record.id !== undefined && (
                 <DeleteButton
                   // props from Toolbar.tsx
                   basePath={formProps.basePath}

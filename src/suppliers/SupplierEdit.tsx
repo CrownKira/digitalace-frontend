@@ -25,7 +25,7 @@ import FullNameField from './FullNameField';
 import { validatePasswords } from './SupplierCreate';
 import { Supplier } from '../types';
 import { formatImage } from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import NameField from '../categories/NameField';
 import ProductRefField from '../products/ProductRefField';
@@ -51,6 +51,13 @@ const SupplierTitle: FC<FieldProps<Supplier>> = ({ record }) =>
   record ? <FullNameField record={record} size="32" /> : null;
 
 const SupplierForm = (props: any) => {
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'suppliers',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.suppliers.validation.reference_already_used',
+  });
+
   return (
     <FormWithRedirect
       validate={validatePasswords}
@@ -71,7 +78,10 @@ const SupplierForm = (props: any) => {
               </ImageInput>
               <Separator />
               <SectionTitle label="resources.suppliers.fieldGroups.identity" />
-              <TextInput source="reference" validate={requiredValidate} />
+              <TextInput
+                source="reference"
+                validate={[...requiredValidate, validateReferenceUnicity]}
+              />
               <Box display={{ xs: 'block', sm: 'flex' }}>
                 <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                   <TextInput

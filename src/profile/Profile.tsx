@@ -29,7 +29,8 @@ import {
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { formatImage } from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { UserProfile } from '../types';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { genders } from '../utils/data';
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import useGetUserProfile from './useGetUserProfile';
@@ -92,6 +93,13 @@ export const ProfileEdit = () => {
   const [saving, setSaving] = useState(false);
   const { loaded, identity } = useGetUserProfile();
   const { refreshProfile } = useProfile();
+  const validateEmailUnicity = useValidateUnicity({
+    reference: 'users',
+    source: 'email',
+    // this function can only be invoked after identity is loaded
+    record: identity as UserProfile,
+    message: 'pos.user_menu.profile.validation.email_already_used',
+  });
 
   // TODO: remove permission on submit
   const handleSave = useCallback(
@@ -112,6 +120,21 @@ export const ProfileEdit = () => {
     [dataProvider, notify, refreshProfile]
   );
 
+  /*
+  export type SetOnSuccess = (onSuccess: OnSuccess) => void;
+  export type SetOnFailure = (onFailure: OnFailure) => void;
+  export type TransformData = (data: any) => any | Promise<any>;
+  export type SetTransformData = (transform: TransformData) => void;
+
+  export interface SideEffectContextValue {
+    setOnSuccess?: SetOnSuccess;
+    setOnFailure?: SetOnFailure;
+    setTransform?: SetTransformData;
+  }
+
+  export type OnSuccess = (response?: any) => void;
+  export type OnFailure = (error?: any) => void;
+  */
   const saveContext = useMemo(
     // useSaveContext is invoked in SaveButton.tsx
     () => ({
@@ -180,7 +203,11 @@ export const ProfileEdit = () => {
                 <TextInput
                   type="email"
                   source="email"
-                  validate={[...requiredValidate, email()]}
+                  validate={[
+                    ...requiredValidate,
+                    email(),
+                    validateEmailUnicity,
+                  ]}
                   fullWidth
                   resource="users"
                 />

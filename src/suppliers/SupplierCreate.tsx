@@ -18,7 +18,7 @@ import { Styles } from '@material-ui/styles/withStyles';
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import { Supplier } from '../types';
 import { incrementReference } from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 
 export const styles: Styles<Theme, any> = {
   name: { display: 'inline-block' },
@@ -52,6 +52,11 @@ export const validatePasswords = ({
 const SupplierCreate: FC<CreateProps> = (props) => {
   const classes = useStyles(props);
   const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'suppliers',
+    source: 'reference',
+    message: 'resources.suppliers.validation.reference_already_used',
+  });
 
   const {
     data: suppliers,
@@ -86,7 +91,10 @@ const SupplierCreate: FC<CreateProps> = (props) => {
           <ImageField source="src" title="title" />
         </ImageInput>
         <SectionTitle label="resources.suppliers.fieldGroups.identity" />
-        <TextInput source="reference" validate={requiredValidate} />
+        <TextInput
+          source="reference"
+          validate={[...requiredValidate, validateReferenceUnicity]}
+        />
         <TextInput
           autoFocus
           source="name"

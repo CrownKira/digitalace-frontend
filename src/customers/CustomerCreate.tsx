@@ -20,7 +20,7 @@ import { Styles } from '@material-ui/styles/withStyles';
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import { Customer } from '../types';
 import { incrementReference } from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 
 export const styles: Styles<Theme, any> = {
   name: { display: 'inline-block' },
@@ -56,6 +56,11 @@ const CustomerCreate: FC<CreateProps> = (props) => {
   // qn: why need props?
   const classes = useStyles(props);
   const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'customers',
+    source: 'reference',
+    message: 'resources.customers.validation.reference_already_used',
+  });
 
   const {
     data: customers,
@@ -94,7 +99,10 @@ const CustomerCreate: FC<CreateProps> = (props) => {
           <ImageField source="src" title="title" />
         </ImageInput>
         <SectionTitle label="resources.customers.fieldGroups.identity" />
-        <TextInput source="reference" validate={requiredValidate} />
+        <TextInput
+          source="reference"
+          validate={[...requiredValidate, validateReferenceUnicity]}
+        />
         <TextInput
           autoFocus
           source="name"

@@ -90,6 +90,9 @@ const customEnglishMessages: TranslationMessages = {
         success: 'Your profile has been updated',
         failure:
           'A technical error occurred while updating your profile. Please try later.',
+        validation: {
+          email_already_used: 'Email already used',
+        },
       },
       user_config: {
         success: 'Your configurations have been updated',
@@ -280,6 +283,9 @@ const customEnglishMessages: TranslationMessages = {
         password_mismatch:
           'The password confirmation is not the same as the password.',
       },
+      validation: {
+        reference_already_used: 'Reference already used',
+      },
     },
     suppliers: {
       name: 'Supplier |||| Suppliers',
@@ -335,6 +341,9 @@ const customEnglishMessages: TranslationMessages = {
         password_mismatch:
           'The password confirmation is not the same as the password.',
       },
+      validation: {
+        reference_already_used: 'Reference already used',
+      },
     },
     products: {
       name: 'Product |||| Products',
@@ -381,6 +390,9 @@ const customEnglishMessages: TranslationMessages = {
         low_sellers: 'Low',
         never_sold: 'Never sold',
       },
+      validation: {
+        reference_already_used: 'Reference already used',
+      },
     },
     invoices: {
       name: 'Invoice |||| Invoices',
@@ -415,6 +427,9 @@ const customEnglishMessages: TranslationMessages = {
           paid: 'Paid',
           unpaid: 'Unpaid',
         },
+      },
+      validation: {
+        reference_already_used: 'Reference already used',
       },
     },
     invoice_items: {
@@ -464,6 +479,9 @@ const customEnglishMessages: TranslationMessages = {
           cancelled: 'Cancelled',
         },
       },
+      validation: {
+        reference_already_used: 'Reference already used',
+      },
     },
     sales_order_items: {
       name: 'Sales Order Item |||| Sales Order Items',
@@ -503,6 +521,9 @@ const customEnglishMessages: TranslationMessages = {
         grand_total: 'Grand Total',
         total_lines: 'Total Lines',
         receiveitem_set: 'Receive Items',
+      },
+      validation: {
+        reference_already_used: 'Reference already used',
       },
     },
     receive_items: {
@@ -550,6 +571,9 @@ const customEnglishMessages: TranslationMessages = {
           pending: 'Pending',
           cancelled: 'Cancelled',
         },
+      },
+      validation: {
+        reference_already_used: 'Reference already used',
       },
     },
     purchase_order_items: {

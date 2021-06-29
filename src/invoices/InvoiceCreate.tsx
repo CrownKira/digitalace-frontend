@@ -34,7 +34,7 @@ import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { Invoice } from '../types';
 import { incrementReference, dateParser } from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
@@ -68,6 +68,11 @@ export const transform = (data: Record) => ({
 const InvoiceForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'invoices',
+    source: 'reference',
+    message: 'resources.invoices.validation.reference_already_used',
+  });
 
   const {
     data: invoices,
@@ -118,7 +123,10 @@ const InvoiceForm = (props: any) => {
                         source="reference"
                         resource="invoices"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={[
+                          ...requiredValidate,
+                          validateReferenceUnicity,
+                        ]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>

@@ -19,11 +19,21 @@ import RichTextInput from 'ra-input-rich-text';
 import { styles as createStyles } from './ProductCreate';
 import { Product } from '../types';
 import { formatImage } from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 
 interface ProductTitleProps {
   record?: Product;
 }
+
+const ProductEdit: FC<EditProps> = (props) => {
+  const onFailure = useOnFailure();
+
+  return (
+    <Edit {...props} title={<ProductTitle />} onFailure={onFailure}>
+      <ProductForm />
+    </Edit>
+  );
+};
 
 const ProductTitle: FC<ProductTitleProps> = ({ record }) =>
   record ? <span>Product #{record.reference}</span> : null;
@@ -42,101 +52,104 @@ const useStyles = makeStyles({
   },
 });
 
-const ProductEdit: FC<EditProps> = (props) => {
+const ProductForm = (props: any) => {
   const classes = useStyles();
-  const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'products',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.products.validation.reference_already_used',
+  });
 
   return (
-    <Edit {...props} title={<ProductTitle />} onFailure={onFailure}>
-      <TabbedForm>
-        <FormTab
-          label="resources.products.tabs.image"
-          contentClassName={classes.tab}
+    <TabbedForm>
+      <FormTab
+        label="resources.products.tabs.image"
+        contentClassName={classes.tab}
+      >
+        <ImageInput
+          format={formatImage}
+          source="image"
+          accept="image/*"
+          placeholder={<p>Drop your file here</p>}
         >
-          <ImageInput
-            format={formatImage}
-            source="image"
-            accept="image/*"
-            placeholder={<p>Drop your file here</p>}
-          >
-            <ImageField source="src" title="title" />
-          </ImageInput>
-          <ImageInput
-            format={formatImage}
-            source="thumbnail"
-            accept="image/*"
-            placeholder={<p>Drop your file here</p>}
-          >
-            <ImageField source="src" title="title" />
-          </ImageInput>
-        </FormTab>
-        <FormTab
-          label="resources.products.tabs.details"
-          path="details"
-          contentClassName={classes.tab}
+          <ImageField source="src" title="title" />
+        </ImageInput>
+        <ImageInput
+          format={formatImage}
+          source="thumbnail"
+          accept="image/*"
+          placeholder={<p>Drop your file here</p>}
         >
-          <TextInput source="reference" validate={requiredValidate} />
-          <ReferenceInput
-            source="category"
-            reference="categories"
-            validate={requiredValidate}
-          >
-            <SelectInput source="name" />
-          </ReferenceInput>
-          <TextInput source="name" validate={requiredValidate} />
-          <NumberInput
-            source="cost"
-            className={classes.cost}
-            formClassName={classes.costFormGroup}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">S$</InputAdornment>
-              ),
-            }}
-            validate={requiredValidate}
-          />
-          <NumberInput
-            source="unit_price"
-            className={classes.unitPrice}
-            formClassName={classes.unitPriceFormGroup}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">S$</InputAdornment>
-              ),
-            }}
-            validate={requiredValidate}
-          />
-          <TextInput
-            source="unit"
-            className={classes.unit}
-            validate={requiredValidate}
-          />
-          <ReferenceInput
-            source="supplier"
-            reference="suppliers"
-            validate={requiredValidate}
-          >
-            <SelectInput source="name" />
-          </ReferenceInput>
-        </FormTab>
-        <FormTab
-          label="resources.products.tabs.description"
-          path="description"
-          contentClassName={classes.tab}
+          <ImageField source="src" title="title" />
+        </ImageInput>
+      </FormTab>
+      <FormTab
+        label="resources.products.tabs.details"
+        path="details"
+        contentClassName={classes.tab}
+      >
+        <TextInput
+          source="reference"
+          validate={[...requiredValidate, validateReferenceUnicity]}
+        />
+        <ReferenceInput
+          source="category"
+          reference="categories"
+          validate={requiredValidate}
         >
-          <RichTextInput source="description" label="" />
-        </FormTab>
-        <FormTab
-          label="resources.products.tabs.reviews"
-          path="reviews"
-        ></FormTab>
-        <FormTab label="resources.products.tabs.stock" path="stock"></FormTab>
-        <FormTab
-          label="resources.products.tabs.transactions"
-          path="transactions"
-        ></FormTab>
-      </TabbedForm>
-    </Edit>
+          <SelectInput source="name" />
+        </ReferenceInput>
+        <TextInput source="name" validate={requiredValidate} />
+        <NumberInput
+          source="cost"
+          className={classes.cost}
+          formClassName={classes.costFormGroup}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">S$</InputAdornment>
+            ),
+          }}
+          validate={requiredValidate}
+        />
+        <NumberInput
+          source="unit_price"
+          className={classes.unitPrice}
+          formClassName={classes.unitPriceFormGroup}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">S$</InputAdornment>
+            ),
+          }}
+          validate={requiredValidate}
+        />
+        <TextInput
+          source="unit"
+          className={classes.unit}
+          validate={requiredValidate}
+        />
+        <ReferenceInput
+          source="supplier"
+          reference="suppliers"
+          validate={requiredValidate}
+        >
+          <SelectInput source="name" />
+        </ReferenceInput>
+      </FormTab>
+      <FormTab
+        label="resources.products.tabs.description"
+        path="description"
+        contentClassName={classes.tab}
+      >
+        <RichTextInput source="description" label="" />
+      </FormTab>
+      <FormTab label="resources.products.tabs.reviews" path="reviews"></FormTab>
+      <FormTab label="resources.products.tabs.stock" path="stock"></FormTab>
+      <FormTab
+        label="resources.products.tabs.transactions"
+        path="transactions"
+      ></FormTab>
+    </TabbedForm>
   );
 };
 

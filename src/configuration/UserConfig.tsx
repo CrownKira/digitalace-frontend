@@ -20,7 +20,7 @@ import { ThemeSelectInput } from './ThemeSelectInput';
 import { LanguageSelectInput } from './LanguageSelectInput';
 import { UserConfig } from '../types';
 import { refreshLocalStorage } from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { useOnFailure } from '../utils/hooks';
 
 export const UserConfigEdit = () => {
   useAuthenticated();
@@ -55,7 +55,6 @@ export const UserConfigEdit = () => {
     () => ({
       save: handleSave,
       saving,
-      // qn: what are these methods used for?
       setOnSuccess: () => {},
       setOnFailure: () => {},
       setTransform: () => {},

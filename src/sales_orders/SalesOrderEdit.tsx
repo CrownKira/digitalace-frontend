@@ -28,7 +28,7 @@ import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
 import {} from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { transform, styles as createStyles } from './SalesOrderCreate';
 
@@ -51,6 +51,12 @@ const SalesOrderEdit: FC<EditProps> = (props) => {
 const SalesOrderForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'sales_orders',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.sales_orders.validation.reference_already_used',
+  });
 
   return (
     <FormWithRedirect
@@ -67,7 +73,10 @@ const SalesOrderForm = (props: any) => {
                         source="reference"
                         resource="sales_orders"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={[
+                          ...requiredValidate,
+                          validateReferenceUnicity,
+                        ]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -315,7 +324,7 @@ const SalesOrderForm = (props: any) => {
                 transform={transform}
                 onFailure={onFailure}
               />
-              {formProps.record && typeof formProps.record.id !== 'undefined' && (
+              {formProps.record && formProps.record.id !== undefined && (
                 <DeleteButton
                   // props from Toolbar.tsx
                   basePath={formProps.basePath}

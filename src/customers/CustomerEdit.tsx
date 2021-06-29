@@ -20,7 +20,7 @@ import FullNameField from './FullNameField';
 import { validatePasswords } from './CustomerCreate';
 import { Customer } from '../types';
 import { formatImage } from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { SectionTitle, Separator } from '../utils/components/Divider';
 
 const CustomerEdit: FC<EditProps> = (props) => {
@@ -46,7 +46,15 @@ const CustomerTitle: FC<FieldProps<Customer>> = ({ record }) =>
 
 // TODO: redesign layout
 // TODO: split into 2 columns
+
 const CustomerForm = (props: any) => {
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'customers',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.customers.validation.reference_already_used',
+  });
+
   return (
     <FormWithRedirect
       validate={validatePasswords}
@@ -67,7 +75,10 @@ const CustomerForm = (props: any) => {
               </ImageInput>
               <Separator />
               <SectionTitle label="resources.customers.fieldGroups.identity" />
-              <TextInput source="reference" validate={requiredValidate} />
+              <TextInput
+                source="reference"
+                validate={[...requiredValidate, validateReferenceUnicity]}
+              />
               <Box display={{ xs: 'block', sm: 'flex' }}>
                 <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
                   <TextInput

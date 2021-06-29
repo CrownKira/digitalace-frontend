@@ -29,7 +29,7 @@ import AmountInput from './AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
 import {} from '../utils';
-import useOnFailure from '../utils/hooks/useOnFailure';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { transform, styles as createStyles } from './InvoiceCreate';
 
@@ -53,6 +53,12 @@ const InvoiceForm = (props: any) => {
   // TODO: add custom onFailure
   const classes = useStyles();
   const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'invoices',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.invoices.validation.reference_already_used',
+  });
 
   /**
    * You can have tooling support which checks and enforces these rules.
@@ -75,7 +81,10 @@ const InvoiceForm = (props: any) => {
                         source="reference"
                         resource="invoices"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={[
+                          ...requiredValidate,
+                          validateReferenceUnicity,
+                        ]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -384,7 +393,7 @@ const InvoiceForm = (props: any) => {
                 transform={transform}
                 onFailure={onFailure}
               />
-              {formProps.record && typeof formProps.record.id !== 'undefined' && (
+              {formProps.record && formProps.record.id !== undefined && (
                 <DeleteButton
                   // props from Toolbar.tsx
                   basePath={formProps.basePath}
