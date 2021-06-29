@@ -2,7 +2,6 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Field, withTypes } from 'react-final-form';
 import { useLocation } from 'react-router-dom';
-
 import {
   Avatar,
   Button,
@@ -139,7 +138,7 @@ const Register = () => {
               <div className={classes.form}>
                 <div className={classes.input}>
                   <Field
-                    autoFocus
+                    // autoFocus
                     name="company_name"
                     // @ts-ignore
                     component={renderInput}

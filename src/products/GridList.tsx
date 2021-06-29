@@ -95,7 +95,7 @@ const LoadedGridList: FC<GridProps> = ({ width }) => {
             title={data[id].name}
             subtitle={
               <span>
-                {data[id].name},{' '}
+                {data[id].reference},{' '}
                 <NumberField
                   className={classes.price}
                   source="unit_price"

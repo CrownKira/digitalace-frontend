@@ -56,9 +56,9 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
       i18nProvider={i18nProvider}
       disableTelemetry
     >
-      {(userPermissions: unknown) => {
+      {(userPermissions: number[]) => {
         // make sure backend passes in a list of numbers
-        userPermissions = (userPermissions as number[])
+        const permissionCodeNames = userPermissions
           .map((x) => permissions.find((y) => y.id === x)?.codename)
           .filter((x) => x);
 
@@ -69,13 +69,11 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
         ) => {
           switch (action) {
             case 'list':
-              return (userPermissions as string[]).includes(`view_${codename}`);
+              return permissionCodeNames.includes(`view_${codename}`);
             case 'create':
-              return (userPermissions as string[]).includes(`add_${codename}`);
+              return permissionCodeNames.includes(`add_${codename}`);
             case 'edit':
-              return (userPermissions as string[]).includes(
-                `change_${codename}`
-              );
+              return permissionCodeNames.includes(`change_${codename}`);
             case 'codename':
               // TODO: remove codename field
               return false;

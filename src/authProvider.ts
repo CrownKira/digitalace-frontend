@@ -2,6 +2,10 @@ import { AuthProvider } from 'react-admin';
 import backend from './apis/backend';
 import { httpClient, apiUrl } from './dataProvider/backend';
 
+const isPublicUrl = (url: string) => {
+  return ['#/register/'].includes(url);
+};
+
 const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     try {
@@ -31,6 +35,9 @@ const authProvider: AuthProvider = {
     return Promise.resolve();
   },
   checkAuth: () => {
+    if (isPublicUrl(window.location.hash)) {
+      return Promise.resolve();
+    }
     return localStorage.getItem('auth')
       ? Promise.resolve()
       : Promise.reject({
@@ -39,6 +46,13 @@ const authProvider: AuthProvider = {
         });
   },
   getPermissions: async () => {
+    if (isPublicUrl(window.location.hash)) {
+      // for some reason getPermission is invoked in custom routes
+      // https://github.com/marmelab/react-admin/issues/4821
+      // here we resolve the promise with an object to be destructured
+      // FIXME: find a better fix
+      return Promise.resolve([]);
+    }
     // https://stackoverflow.com/questions/54715260/typescript-json-parse-error-type-null-is-not-assignable-to-type-string
     const { permissions } = await Promise.resolve(
       httpClient(`${apiUrl}/user/me/`).then((response) => {

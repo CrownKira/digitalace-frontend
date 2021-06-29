@@ -26,9 +26,10 @@ import {
   FormWithRedirect,
   Toolbar,
   SaveButton,
+  useRefresh,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
-import { formatImage } from '../utils';
+import { formatImage, getFieldError } from '../utils';
 import { genders } from '../utils/data';
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import useGetUserProfile from './useGetUserProfile';
@@ -84,11 +85,12 @@ export const useProfile = () => useContext(ProfileContext);
 
 export const ProfileEdit = () => {
   useAuthenticated();
-  const dataProvider = useDataProvider();
   const notify = useNotify();
+  const refresh = useRefresh();
+  const dataProvider = useDataProvider();
   const [saving, setSaving] = useState(false);
-  const { refreshProfile } = useProfile();
   const { loaded, identity } = useGetUserProfile();
+  const { refreshProfile } = useProfile();
 
   // TODO: remove permission on submit
   const handleSave = useCallback(
@@ -125,6 +127,17 @@ export const ProfileEdit = () => {
   if (!loaded) {
     return null;
   }
+
+  const onFailure = (error: any) => {
+    notify(
+      typeof error === 'string'
+        ? error
+        : getFieldError(error) || 'ra.notification.http_error',
+      'warning'
+    );
+
+    refresh();
+  };
 
   // TODO: add aside
   // TODO: use react-final-form <Form> component?
@@ -336,6 +349,7 @@ export const ProfileEdit = () => {
                   redirect={formProps.redirect}
                   saving={formProps.saving}
                   submitOnEnter={formProps.submitOnEnter}
+                  onFailure={onFailure}
                 />
               </Toolbar>
             </form>

@@ -19,6 +19,8 @@ import {
   TextField,
   Record,
   ReferenceField,
+  useNotify,
+  useRefresh,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,7 +34,7 @@ import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { PurchaseOrder } from '../types';
-import { incrementReference, dateParser } from '../utils';
+import { incrementReference, dateParser, getFieldError } from '../utils';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
@@ -101,6 +103,20 @@ const PurchaseOrderForm = (props: any) => {
     gst_amount: '0.00',
     grand_total: '0.00',
   });
+
+  const notify = useNotify();
+  const refresh = useRefresh();
+
+  const onFailure = (error: any) => {
+    notify(
+      typeof error === 'string'
+        ? error
+        : getFieldError(error) || 'ra.notification.http_error',
+      'warning'
+    );
+
+    refresh();
+  };
 
   return loadingPurchaseOrders || loadingUserConfig ? (
     <Loading />
@@ -365,6 +381,7 @@ const PurchaseOrderForm = (props: any) => {
                 saving={formProps.saving}
                 submitOnEnter={formProps.submitOnEnter}
                 transform={transform}
+                onFailure={onFailure}
               />
             </Toolbar>
           </form>

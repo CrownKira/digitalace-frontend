@@ -12,6 +12,7 @@ import {
   SaveButton,
   useTranslate,
   Title,
+  useRefresh,
 } from 'react-admin';
 
 import { SectionTitle, Separator } from '../utils/components/Divider';
@@ -19,10 +20,11 @@ import useGetUserConfig from './useGetUserConfig';
 import { ThemeSelectInput } from './ThemeSelectInput';
 import { LanguageSelectInput } from './LanguageSelectInput';
 import { UserConfig } from '../types';
-import { refreshLocalStorage } from '../utils';
+import { refreshLocalStorage, getFieldError } from '../utils';
 
 export const UserConfigEdit = () => {
   useAuthenticated();
+  const refresh = useRefresh();
   const notify = useNotify();
   const translate = useTranslate();
   const dataProvider = useDataProvider();
@@ -63,6 +65,17 @@ export const UserConfigEdit = () => {
   if (!loaded) {
     return null;
   }
+
+  const onFailure = (error: any) => {
+    notify(
+      typeof error === 'string'
+        ? error
+        : getFieldError(error) || 'ra.notification.http_error',
+      'warning'
+    );
+
+    refresh();
+  };
 
   return (
     <SaveContextProvider value={saveContext}>
@@ -140,6 +153,7 @@ export const UserConfigEdit = () => {
                   redirect={formProps.redirect}
                   saving={formProps.saving}
                   submitOnEnter={formProps.submitOnEnter}
+                  onFailure={onFailure}
                 />
               </Toolbar>
             </form>
