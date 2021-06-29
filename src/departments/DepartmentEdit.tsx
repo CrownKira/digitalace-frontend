@@ -89,6 +89,6 @@ const DepartmentEdit: FC<EditProps> = (props) => {
   );
 };
 
-const requiredValidate = [required()];
+const requiredValidate = required();
 
 export default DepartmentEdit;

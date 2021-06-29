@@ -22,6 +22,7 @@ import {
 
 import { lightTheme } from '../layout/themes';
 import { styles as loginStyles, renderInput } from './Login';
+import { useValidateUnicity } from '../utils/hooks';
 import backend from '../apis/backend';
 
 const register = async ({
@@ -69,6 +70,11 @@ const Register = () => {
   const notify = useNotify();
   const location = useLocation<{ nextPathname: string } | null>();
   const redirect = useRedirect();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'customers',
+    source: 'reference',
+    message: 'resources.customers.validation.reference_already_used',
+  });
 
   const handleSubmit = (values: FormValues) => {
     setLoading(true);
@@ -96,6 +102,8 @@ const Register = () => {
   };
 
   const validate = (values: FormValues) => {
+    validateReferenceUnicity(values.email || '');
+
     const errors: FormValues = {};
     if (!values.company_name) {
       errors.company_name = translate('ra.validation.required');

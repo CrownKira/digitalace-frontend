@@ -45,6 +45,6 @@ const RoleCreate: FC<CreateProps> = (props) => (
   </Create>
 );
 
-const requiredValidate = [required()];
+const requiredValidate = required();
 
 export default RoleCreate;

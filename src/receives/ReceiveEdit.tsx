@@ -74,10 +74,7 @@ const ReceiveForm = (props: any) => {
                         source="reference"
                         resource="receives"
                         fullWidth
-                        validate={[
-                          ...requiredValidate,
-                          validateReferenceUnicity,
-                        ]}
+                        validate={[requiredValidate, validateReferenceUnicity]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -386,6 +383,6 @@ const ReceiveForm = (props: any) => {
   );
 };
 
-const requiredValidate = [required()];
+const requiredValidate = required();
 
 export default ReceiveEdit;

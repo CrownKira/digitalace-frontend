@@ -80,7 +80,7 @@ const SupplierForm = (props: any) => {
               <SectionTitle label="resources.suppliers.fieldGroups.identity" />
               <TextInput
                 source="reference"
-                validate={[...requiredValidate, validateReferenceUnicity]}
+                validate={[requiredValidate, validateReferenceUnicity]}
               />
               <Box display={{ xs: 'block', sm: 'flex' }}>
                 <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
@@ -103,7 +103,7 @@ const SupplierForm = (props: any) => {
                 type="email"
                 source="email"
                 resource="suppliers"
-                validate={[email()]}
+                validate={validateEmail}
                 fullWidth
               />
               <Box display={{ xs: 'block', sm: 'flex' }}>
@@ -196,7 +196,8 @@ const SupplierForm = (props: any) => {
   );
 };
 
-const requiredValidate = [required()];
+const requiredValidate = required();
+const validateEmail = email();
 
 export default SupplierEdit;
 

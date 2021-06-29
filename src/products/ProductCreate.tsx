@@ -91,7 +91,7 @@ const ProductCreate: FC<CreateProps> = (props) => {
         <FormTab label="resources.products.tabs.details" path="details">
           <TextInput
             source="reference"
-            validate={[...requiredValidate, validateReferenceUnicity]}
+            validate={[requiredValidate, validateReferenceUnicity]}
           />
           <ReferenceInput source="category" reference="categories">
             <SelectInput source="name" validate={requiredValidate} />
@@ -136,6 +136,6 @@ const ProductCreate: FC<CreateProps> = (props) => {
   );
 };
 
-const requiredValidate = [required()];
+const requiredValidate = required();
 
 export default ProductCreate;

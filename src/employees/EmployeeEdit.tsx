@@ -89,7 +89,7 @@ const EmployeeForm = (props: any) => {
         <TextInput
           type="email"
           source="email"
-          validate={[...requiredValidate, email()]}
+          validate={[requiredValidate, validateEmail]}
         />
         <PasswordInput
           source="password"
@@ -208,7 +208,8 @@ const EmployeeForm = (props: any) => {
   );
 };
 
-const requiredValidate = [required()];
+const requiredValidate = required();
+const validateEmail = email();
 // TODO: add perPage to all ReferenceInput
 const perPage = 25;
 

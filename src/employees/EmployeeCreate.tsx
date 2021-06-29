@@ -106,13 +106,13 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
             type="email"
             source="email"
             formClassName={classes.leftFormGroup}
-            validate={[...requiredValidate, email()]}
+            validate={[requiredValidate, validateEmail]}
           />
           <TextInput
             type="email"
             source="confirm_email"
             formClassName={classes.rightFormGroup}
-            validate={[...requiredValidate, email()]}
+            validate={[requiredValidate, validateEmail]}
           />
           <Break />
           <PasswordInput
@@ -241,7 +241,8 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
   );
 };
 
-const requiredValidate = [required()];
+const requiredValidate = required();
+const validateEmail = email();
 const perPage = 25;
 
 export default EmployeeCreate;

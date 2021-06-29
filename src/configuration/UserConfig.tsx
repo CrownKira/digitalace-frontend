@@ -153,4 +153,4 @@ export const UserConfigEdit = () => {
   );
 };
 
-const requiredValidate = [required()];
+const requiredValidate = required();

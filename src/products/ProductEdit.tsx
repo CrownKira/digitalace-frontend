@@ -92,7 +92,7 @@ const ProductForm = (props: any) => {
       >
         <TextInput
           source="reference"
-          validate={[...requiredValidate, validateReferenceUnicity]}
+          validate={[requiredValidate, validateReferenceUnicity]}
           resource="products"
         />
         <ReferenceInput
@@ -155,7 +155,7 @@ const ProductForm = (props: any) => {
   );
 };
 
-const requiredValidate = [required()];
+const requiredValidate = required();
 
 export default ProductEdit;
 
