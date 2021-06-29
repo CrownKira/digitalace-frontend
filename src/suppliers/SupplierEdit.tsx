@@ -17,8 +17,6 @@ import {
   EditButton,
   ReferenceManyField,
   Labeled,
-  useNotify,
-  useRefresh,
 } from 'react-admin';
 import { Box, Card, CardContent } from '@material-ui/core';
 
@@ -26,26 +24,15 @@ import Aside from './Aside';
 import FullNameField from './FullNameField';
 import { validatePasswords } from './SupplierCreate';
 import { Supplier } from '../types';
-import { formatImage, getFieldError } from '../utils';
+import { formatImage } from '../utils';
+import useOnFailure from '../utils/hooks/useOnFailure';
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import NameField from '../categories/NameField';
 import ProductRefField from '../products/ProductRefField';
 import ThumbnailField from '../products/ThumbnailField';
 
 const SupplierEdit: FC<EditProps> = (props) => {
-  const notify = useNotify();
-  const refresh = useRefresh();
-
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
+  const onFailure = useOnFailure();
 
   return (
     <Edit

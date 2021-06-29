@@ -20,16 +20,16 @@ import {
   required,
   email,
   useDataProvider,
-  useNotify,
   SaveContextProvider,
   useAuthenticated,
   FormWithRedirect,
   Toolbar,
   SaveButton,
-  useRefresh,
+  useNotify,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
-import { formatImage, getFieldError } from '../utils';
+import { formatImage } from '../utils';
+import useOnFailure from '../utils/hooks/useOnFailure';
 import { genders } from '../utils/data';
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import useGetUserProfile from './useGetUserProfile';
@@ -85,8 +85,9 @@ export const useProfile = () => useContext(ProfileContext);
 
 export const ProfileEdit = () => {
   useAuthenticated();
+
   const notify = useNotify();
-  const refresh = useRefresh();
+  const onFailure = useOnFailure();
   const dataProvider = useDataProvider();
   const [saving, setSaving] = useState(false);
   const { loaded, identity } = useGetUserProfile();
@@ -127,17 +128,6 @@ export const ProfileEdit = () => {
   if (!loaded) {
     return null;
   }
-
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
 
   // TODO: add aside
   // TODO: use react-final-form <Form> component?

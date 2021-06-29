@@ -11,8 +11,6 @@ import {
   TextInput,
   ImageInput,
   ImageField,
-  useNotify,
-  useRefresh,
 } from 'react-admin';
 import { InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,7 +18,8 @@ import RichTextInput from 'ra-input-rich-text';
 
 import { styles as createStyles } from './ProductCreate';
 import { Product } from '../types';
-import { formatImage, getFieldError } from '../utils';
+import { formatImage } from '../utils';
+import useOnFailure from '../utils/hooks/useOnFailure';
 
 interface ProductTitleProps {
   record?: Product;
@@ -45,19 +44,7 @@ const useStyles = makeStyles({
 
 const ProductEdit: FC<EditProps> = (props) => {
   const classes = useStyles();
-  const notify = useNotify();
-  const refresh = useRefresh();
-
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
+  const onFailure = useOnFailure();
 
   return (
     <Edit {...props} title={<ProductTitle />} onFailure={onFailure}>

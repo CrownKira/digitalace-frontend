@@ -10,8 +10,6 @@ import {
   ImageField,
   useGetList,
   Loading,
-  useNotify,
-  useRefresh,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles, Theme } from '@material-ui/core/styles';
@@ -19,7 +17,8 @@ import { Styles } from '@material-ui/styles/withStyles';
 
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import { Supplier } from '../types';
-import { incrementReference, getFieldError } from '../utils';
+import { incrementReference } from '../utils';
+import useOnFailure from '../utils/hooks/useOnFailure';
 
 export const styles: Styles<Theme, any> = {
   name: { display: 'inline-block' },
@@ -52,6 +51,8 @@ export const validatePasswords = ({
 
 const SupplierCreate: FC<CreateProps> = (props) => {
   const classes = useStyles(props);
+  const onFailure = useOnFailure();
+
   const {
     data: suppliers,
     ids: supplierIds,
@@ -69,20 +70,6 @@ const SupplierCreate: FC<CreateProps> = (props) => {
         ? incrementReference(suppliers[supplierIds[0]].reference, 'S', 4)
         : 'S-0000',
   });
-
-  const notify = useNotify();
-  const refresh = useRefresh();
-
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
 
   return loadingSuppliers ? (
     <Loading />

@@ -12,8 +12,6 @@ import {
   AutocompleteArrayInput,
   useGetList,
   Loading,
-  useNotify,
-  useRefresh,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles, Theme } from '@material-ui/core/styles';
@@ -21,7 +19,8 @@ import { Styles } from '@material-ui/styles/withStyles';
 
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import { Customer } from '../types';
-import { incrementReference, getFieldError } from '../utils';
+import { incrementReference } from '../utils';
+import useOnFailure from '../utils/hooks/useOnFailure';
 
 export const styles: Styles<Theme, any> = {
   name: { display: 'inline-block' },
@@ -56,6 +55,8 @@ export const validatePasswords = ({
 const CustomerCreate: FC<CreateProps> = (props) => {
   // qn: why need props?
   const classes = useStyles(props);
+  const onFailure = useOnFailure();
+
   const {
     data: customers,
     ids: customerIds,
@@ -77,21 +78,6 @@ const CustomerCreate: FC<CreateProps> = (props) => {
         ? incrementReference(customers[customerIds[0]].reference, 'C', 4)
         : 'C-0000',
   });
-
-  const notify = useNotify();
-  const refresh = useRefresh();
-
-  // TODO: make a custom type for error
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
 
   return loadingCustomers ? (
     <Loading />

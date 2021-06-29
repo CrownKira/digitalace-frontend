@@ -12,7 +12,6 @@ import {
   SaveButton,
   useTranslate,
   Title,
-  useRefresh,
 } from 'react-admin';
 
 import { SectionTitle, Separator } from '../utils/components/Divider';
@@ -20,11 +19,13 @@ import useGetUserConfig from './useGetUserConfig';
 import { ThemeSelectInput } from './ThemeSelectInput';
 import { LanguageSelectInput } from './LanguageSelectInput';
 import { UserConfig } from '../types';
-import { refreshLocalStorage, getFieldError } from '../utils';
+import { refreshLocalStorage } from '../utils';
+import useOnFailure from '../utils/hooks/useOnFailure';
 
 export const UserConfigEdit = () => {
   useAuthenticated();
-  const refresh = useRefresh();
+
+  const onFailure = useOnFailure();
   const notify = useNotify();
   const translate = useTranslate();
   const dataProvider = useDataProvider();
@@ -65,17 +66,6 @@ export const UserConfigEdit = () => {
   if (!loaded) {
     return null;
   }
-
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
 
   return (
     <SaveContextProvider value={saveContext}>
