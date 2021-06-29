@@ -19,7 +19,6 @@ import {
   EditProps,
   FieldProps,
   FormDataConsumer,
-  useGetList,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -30,6 +29,7 @@ import { validatePasswords } from './EmployeeCreate';
 import { Employee } from '../types';
 import { formatImage } from '../utils';
 import { SectionTitle, Separator, Break } from '../utils/components/Divider';
+import DesignationSelectInput from './DesignationSelectInput';
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -50,14 +50,6 @@ const EmployeeEdit: FC<EditProps> = (props) => {
 // TODO: redesign layout
 const EmployeeForm = (props: any) => {
   const classes = useStyles();
-
-  // only result in one api call if this fetches
-  // the same resource as the ReferenceInput below
-  const { data: departmentsData } = useGetList(
-    'departments',
-    { page: 1, perPage },
-    { field: 'id', order: 'DESC' }
-  );
 
   return (
     <TabbedForm
@@ -125,25 +117,19 @@ const EmployeeForm = (props: any) => {
         <ReferenceInput
           source="department"
           reference="departments"
-          perPage={perPage}
           allowEmpty
           formClassName={classes.leftFormGroup}
         >
           <SelectInput source="name" />
         </ReferenceInput>
         <FormDataConsumer formClassName={classes.rightFormGroup}>
-          {({ formData, ...rest }) => (
-            <SelectInput
-              {...rest}
-              source="designation"
-              choices={
-                departmentsData[formData.department]
-                  ? departmentsData[formData.department].designation_set
-                  : []
-              }
-              validate={formData.department ? requiredValidate : []}
-            />
-          )}
+          {({ formData, ...rest }) => {
+            return formData.department ? (
+              <DesignationSelectInput formData={formData} {...rest} />
+            ) : (
+              <SelectInput {...rest} source="designation" choices={[]} />
+            );
+          }}
         </FormDataConsumer>
         <Break />
         <DateInput
@@ -210,7 +196,5 @@ const EmployeeForm = (props: any) => {
 
 const requiredValidate = required();
 const validateEmail = email();
-// TODO: add perPage to all ReferenceInput
-const perPage = 25;
 
 export default EmployeeEdit;

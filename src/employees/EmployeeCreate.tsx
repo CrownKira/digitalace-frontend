@@ -18,13 +18,13 @@ import {
   FormTab,
   ReferenceInput,
   FormDataConsumer,
-  useGetList,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { genders } from '../utils/data';
 import { SectionTitle, Separator, Break } from '../utils/components/Divider';
+import DesignationSelectInput from './DesignationSelectInput';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: 32 },
@@ -62,12 +62,6 @@ const postDefaultValue = () => ({
 
 const EmployeeCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
-
-  const { data: departmentsData } = useGetList(
-    'departments',
-    { page: 1, perPage },
-    { field: 'id', order: 'DESC' }
-  );
 
   return (
     <Create {...props}>
@@ -154,7 +148,6 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
           <ReferenceInput
             source="department"
             reference="departments"
-            perPage={perPage}
             allowEmpty
             formClassName={classes.leftFormGroup}
           >
@@ -164,18 +157,13 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
             />
           </ReferenceInput>
           <FormDataConsumer formClassName={classes.rightFormGroup}>
-            {({ formData, ...rest }) => (
-              <SelectInput
-                {...rest}
-                source="designation"
-                choices={
-                  departmentsData[formData.department]
-                    ? departmentsData[formData.department].designation_set
-                    : []
-                }
-                validate={formData.department ? requiredValidate : []}
-              />
-            )}
+            {({ formData, ...rest }) => {
+              return formData.department ? (
+                <DesignationSelectInput formData={formData} {...rest} />
+              ) : (
+                <SelectInput {...rest} source="designation" choices={[]} />
+              );
+            }}
           </FormDataConsumer>
           <Break />
           <DateInput
@@ -243,6 +231,5 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
 
 const requiredValidate = required();
 const validateEmail = email();
-const perPage = 25;
 
 export default EmployeeCreate;
