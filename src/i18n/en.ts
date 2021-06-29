@@ -148,6 +148,9 @@ const customEnglishMessages: TranslationMessages = {
           female: 'Female',
         },
       },
+      validation: {
+        email_already_used: 'Email already used',
+      },
     },
     user_configs: {
       name: 'User Config |||| User Configs',

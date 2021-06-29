@@ -1,6 +1,6 @@
 import { useNotify, useRefresh } from 'react-admin';
 
-import { getFieldError } from '..';
+import { getErrorMessage } from '..';
 
 const useOnFailure = () => {
   const notify = useNotify();
@@ -10,7 +10,7 @@ const useOnFailure = () => {
     notify(
       typeof error === 'string'
         ? error
-        : getFieldError(error) || 'ra.notification.http_error',
+        : getErrorMessage(error) || 'ra.notification.http_error',
       'warning'
     );
 

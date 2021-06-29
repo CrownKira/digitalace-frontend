@@ -22,7 +22,7 @@ import {
 
 import { lightTheme } from '../layout/themes';
 import { styles as loginStyles, renderInput } from './Login';
-import { useValidateUnicity } from '../utils/hooks';
+import { getErrorMessage } from '../utils';
 import backend from '../apis/backend';
 
 const register = async ({
@@ -33,23 +33,20 @@ const register = async ({
   password,
   confirm_password,
 }: FormValues) => {
-  try {
-    const response = await backend.post('/api/user/create/', {
-      company_name,
-      name,
-      email,
-      confirm_email,
-      password,
-      confirm_password,
-    });
+  const response = await backend.post('/api/user/create/', {
+    company_name,
+    name,
+    email,
+    confirm_email,
+    password,
+    confirm_password,
+  });
 
-    if (response.status < 200 || response.status >= 300) throw new Error();
+  // TODO: remove this?
+  // if (response.status < 200 || response.status >= 300) throw new Error();
 
-    const auth = response.data;
-    localStorage.setItem('auth', JSON.stringify(auth));
-  } catch (error) {
-    throw new Error('ra.auth.sign_in_error');
-  }
+  const auth = response.data;
+  localStorage.setItem('auth', JSON.stringify(auth));
 };
 
 interface FormValues {
@@ -66,15 +63,17 @@ const { Form } = withTypes<FormValues>();
 const Register = () => {
   const [loading, setLoading] = useState(false);
   const translate = useTranslate();
-  const classes = loginStyles();
   const notify = useNotify();
+  const classes = loginStyles();
   const location = useLocation<{ nextPathname: string } | null>();
   const redirect = useRedirect();
-  const validateReferenceUnicity = useValidateUnicity({
-    reference: 'customers',
-    source: 'reference',
-    message: 'resources.customers.validation.reference_already_used',
-  });
+  // TODO: doesn't work due to the following error:
+  // Failed prop type: Invalid prop `helperText` supplied to `ForwardRef(TextField)`, expected a ReactNode.
+  // const validateReferenceUnicity = useValidateUnicity({
+  //   reference: 'users',
+  //   source: 'email',
+  //   message: 'resources.users.validation.email_already_used',
+  // });
 
   const handleSubmit = (values: FormValues) => {
     setLoading(true);
@@ -82,28 +81,11 @@ const Register = () => {
       .then(() => redirect(location.state ? location.state.nextPathname : '/'))
       .catch((error: Error) => {
         setLoading(false);
-        if (typeof error === 'string') {
-          notify(error, 'warning');
-        } else {
-          notify('pos.auth.register_error', 'warning');
-          /*
-          for (const [key, value] of Object.entries(error)) {
-            if (typeof value === 'object') {
-              for (const [, item] of Object.entries(value)) {
-                notify(`${key}: ${item}`, 'warning');
-              }
-            } else {
-              notify(`${key}: ${value}`, 'warning');
-            }
-          }
-          */
-        }
+        notify(getErrorMessage(error), 'warning');
       });
   };
 
   const validate = (values: FormValues) => {
-    validateReferenceUnicity(values.email || '');
-
     const errors: FormValues = {};
     if (!values.company_name) {
       errors.company_name = translate('ra.validation.required');
@@ -173,6 +155,7 @@ const Register = () => {
                     label={translate('pos.auth.email')}
                     type="email"
                     disabled={loading}
+                    // validate={validateReferenceUnicity}
                   />
                 </div>
                 <div className={classes.input}>

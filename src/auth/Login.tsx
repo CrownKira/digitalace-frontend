@@ -20,7 +20,9 @@ import {
   Link,
   useNotify,
 } from 'react-admin';
+
 import { lightTheme } from '../layout/themes';
+import { getErrorMessage } from '../utils';
 
 export const styles = makeStyles((theme) => ({
   main: {
@@ -109,7 +111,7 @@ const Login = () => {
         if (typeof error === 'string') {
           notify(error, 'warning');
         } else {
-          notify('ra.auth.sign_in_error', 'warning');
+          notify(getErrorMessage(error), 'warning');
         }
       }
     );
