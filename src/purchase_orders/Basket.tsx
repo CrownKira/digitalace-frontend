@@ -41,7 +41,7 @@ const Basket: FC<FieldProps<PurchaseOrder>> = ({ record }) => {
           (productId) =>
             state.admin.resources.products.data[productId] as Product
         )
-        .filter((r) => typeof r !== 'undefined')
+        .filter((r) => r !== undefined)
         .reduce((prev, next) => {
           prev[next.id] = next;
           return prev;

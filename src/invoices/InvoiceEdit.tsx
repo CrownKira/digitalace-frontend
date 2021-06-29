@@ -18,8 +18,6 @@ import {
   Labeled,
   TextField,
   ReferenceField,
-  useNotify,
-  useRefresh,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,7 +28,8 @@ import ProductNameInput from './ProductNameInput';
 import AmountInput from './AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
-import { getFieldError } from '../utils';
+import {} from '../utils';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { transform, styles as createStyles } from './InvoiceCreate';
 
@@ -53,25 +52,19 @@ const InvoiceEdit: FC<EditProps> = (props) => {
 const InvoiceForm = (props: any) => {
   // TODO: add custom onFailure
   const classes = useStyles();
+  const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'invoices',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.invoices.validation.reference_already_used',
+  });
 
   /**
    * You can have tooling support which checks and enforces these rules.
    * For example, eslint-plugin-react-hooks utilizes a heuristic that assumes,
    * a function starting with "use" prefix and a capital letter after it is a Hook.
    */
-  const notify = useNotify();
-  const refresh = useRefresh();
-
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
 
   return (
     <FormWithRedirect
@@ -88,7 +81,10 @@ const InvoiceForm = (props: any) => {
                         source="reference"
                         resource="invoices"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={[
+                          ...requiredValidate,
+                          validateReferenceUnicity,
+                        ]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -397,7 +393,7 @@ const InvoiceForm = (props: any) => {
                 transform={transform}
                 onFailure={onFailure}
               />
-              {formProps.record && typeof formProps.record.id !== 'undefined' && (
+              {formProps.record && formProps.record.id !== undefined && (
                 <DeleteButton
                   // props from Toolbar.tsx
                   basePath={formProps.basePath}

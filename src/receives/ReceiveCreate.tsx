@@ -20,8 +20,6 @@ import {
   TextField,
   Record,
   ReferenceField,
-  useNotify,
-  useRefresh,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -33,7 +31,8 @@ import ProductNameInput from '../invoices/ProductNameInput';
 import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
-import { getFieldError } from '../utils';
+import {} from '../utils';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { Receive } from '../types';
 import { incrementReference, dateParser } from '../utils';
@@ -69,6 +68,13 @@ export const transform = (data: Record) => ({
 
 const ReceiveForm = (props: any) => {
   const classes = useStyles();
+  const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'receives',
+    source: 'reference',
+    message: 'resources.receives.validation.reference_already_used',
+  });
+
   const {
     data: receives,
     ids: receiveIds,
@@ -100,20 +106,6 @@ const ReceiveForm = (props: any) => {
     grand_total: '0.00',
   });
 
-  const notify = useNotify();
-  const refresh = useRefresh();
-
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
-
   return loadingReceives || loadingUserConfig ? (
     <Loading />
   ) : (
@@ -132,7 +124,10 @@ const ReceiveForm = (props: any) => {
                         source="reference"
                         resource="receives"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={[
+                          ...requiredValidate,
+                          validateReferenceUnicity,
+                        ]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>

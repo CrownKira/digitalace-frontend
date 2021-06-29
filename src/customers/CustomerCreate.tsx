@@ -12,8 +12,6 @@ import {
   AutocompleteArrayInput,
   useGetList,
   Loading,
-  useNotify,
-  useRefresh,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles, Theme } from '@material-ui/core/styles';
@@ -21,7 +19,8 @@ import { Styles } from '@material-ui/styles/withStyles';
 
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import { Customer } from '../types';
-import { incrementReference, getFieldError } from '../utils';
+import { incrementReference } from '../utils';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 
 export const styles: Styles<Theme, any> = {
   name: { display: 'inline-block' },
@@ -56,6 +55,13 @@ export const validatePasswords = ({
 const CustomerCreate: FC<CreateProps> = (props) => {
   // qn: why need props?
   const classes = useStyles(props);
+  const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'customers',
+    source: 'reference',
+    message: 'resources.customers.validation.reference_already_used',
+  });
+
   const {
     data: customers,
     ids: customerIds,
@@ -78,21 +84,6 @@ const CustomerCreate: FC<CreateProps> = (props) => {
         : 'C-0000',
   });
 
-  const notify = useNotify();
-  const refresh = useRefresh();
-
-  // TODO: make a custom type for error
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
-
   return loadingCustomers ? (
     <Loading />
   ) : (
@@ -108,7 +99,10 @@ const CustomerCreate: FC<CreateProps> = (props) => {
           <ImageField source="src" title="title" />
         </ImageInput>
         <SectionTitle label="resources.customers.fieldGroups.identity" />
-        <TextInput source="reference" validate={requiredValidate} />
+        <TextInput
+          source="reference"
+          validate={[...requiredValidate, validateReferenceUnicity]}
+        />
         <TextInput
           autoFocus
           source="name"

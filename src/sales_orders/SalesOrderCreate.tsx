@@ -19,8 +19,6 @@ import {
   TextField,
   Record,
   ReferenceField,
-  useNotify,
-  useRefresh,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,7 +30,8 @@ import ProductNameInput from '../invoices/ProductNameInput';
 import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
-import { getFieldError } from '../utils';
+import {} from '../utils';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { SalesOrder } from '../types';
 import { incrementReference, dateParser } from '../utils';
@@ -68,6 +67,13 @@ export const transform = (data: Record) => ({
 
 const SalesOrderForm = (props: any) => {
   const classes = useStyles();
+  const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'sales_orders',
+    source: 'reference',
+    message: 'resources.sales_orders.validation.reference_already_used',
+  });
+
   const {
     data: sales_orders,
     ids: salesOrderIds,
@@ -101,20 +107,6 @@ const SalesOrderForm = (props: any) => {
     grand_total: '0.00',
   });
 
-  const notify = useNotify();
-  const refresh = useRefresh();
-
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
-
   return loadingSalesOrders || loadingUserConfig ? (
     <Loading />
   ) : (
@@ -133,7 +125,10 @@ const SalesOrderForm = (props: any) => {
                         source="reference"
                         resource="sales_orders"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={[
+                          ...requiredValidate,
+                          validateReferenceUnicity,
+                        ]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>

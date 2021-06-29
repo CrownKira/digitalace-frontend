@@ -13,15 +13,14 @@ import {
   ImageField,
   useGetList,
   Loading,
-  useNotify,
-  useRefresh,
 } from 'react-admin';
 import { InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
 
 import { Product } from '../types';
-import { incrementReference, getFieldError } from '../utils';
+import { incrementReference } from '../utils';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 
 export const styles = {
   unit: { width: '7em' },
@@ -35,6 +34,13 @@ const useStyles = makeStyles(styles);
 
 const ProductCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
+  const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'products',
+    source: 'reference',
+    message: 'resources.products.validation.reference_already_used',
+  });
+
   const {
     data: products,
     ids: productIds,
@@ -53,20 +59,6 @@ const ProductCreate: FC<CreateProps> = (props) => {
         ? incrementReference(products[productIds[0]].reference, 'P', 4)
         : 'P-0000',
   });
-
-  const notify = useNotify();
-  const refresh = useRefresh();
-
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
 
   return loadingProducts ? (
     <Loading />
@@ -97,7 +89,10 @@ const ProductCreate: FC<CreateProps> = (props) => {
           </ImageInput>
         </FormTab>
         <FormTab label="resources.products.tabs.details" path="details">
-          <TextInput source="reference" validate={requiredValidate} />
+          <TextInput
+            source="reference"
+            validate={[...requiredValidate, validateReferenceUnicity]}
+          />
           <ReferenceInput source="category" reference="categories">
             <SelectInput source="name" validate={requiredValidate} />
           </ReferenceInput>

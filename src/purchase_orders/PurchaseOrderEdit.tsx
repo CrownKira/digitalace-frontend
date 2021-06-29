@@ -17,8 +17,6 @@ import {
   Labeled,
   TextField,
   ReferenceField,
-  useNotify,
-  useRefresh,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -29,7 +27,8 @@ import ProductNameInput from '../invoices/ProductNameInput';
 import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
-import { getFieldError } from '../utils';
+import {} from '../utils';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { transform, styles as createStyles } from './PurchaseOrderCreate';
 
@@ -51,20 +50,13 @@ const PurchaseOrderEdit: FC<EditProps> = (props) => {
 
 const PurchaseOrderForm = (props: any) => {
   const classes = useStyles();
-
-  const notify = useNotify();
-  const refresh = useRefresh();
-
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
+  const onFailure = useOnFailure();
+  const validateReferenceUnicity = useValidateUnicity({
+    reference: 'purchase_orders',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.purchase_orders.validation.reference_already_used',
+  });
 
   return (
     <FormWithRedirect
@@ -81,7 +73,10 @@ const PurchaseOrderForm = (props: any) => {
                         source="reference"
                         resource="purchase_orders"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={[
+                          ...requiredValidate,
+                          validateReferenceUnicity,
+                        ]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -329,7 +324,7 @@ const PurchaseOrderForm = (props: any) => {
                 transform={transform}
                 onFailure={onFailure}
               />
-              {formProps.record && typeof formProps.record.id !== 'undefined' && (
+              {formProps.record && formProps.record.id !== undefined && (
                 <DeleteButton
                   // props from Toolbar.tsx
                   basePath={formProps.basePath}

@@ -80,7 +80,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
 
   const filterToQuery = useCallback(
     (searchText) =>
-      searchText ? { [queryParamName || optionText]: searchText } : {},
+      searchText
+        ? { [`${queryParamName || optionText}__icontains`]: searchText }
+        : {},
     [optionText, queryParamName]
   );
 

@@ -20,16 +20,17 @@ import {
   required,
   email,
   useDataProvider,
-  useNotify,
   SaveContextProvider,
   useAuthenticated,
   FormWithRedirect,
   Toolbar,
   SaveButton,
-  useRefresh,
+  useNotify,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
-import { formatImage, getFieldError } from '../utils';
+import { formatImage } from '../utils';
+import { UserProfile } from '../types';
+import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { genders } from '../utils/data';
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import useGetUserProfile from './useGetUserProfile';
@@ -85,12 +86,20 @@ export const useProfile = () => useContext(ProfileContext);
 
 export const ProfileEdit = () => {
   useAuthenticated();
+
   const notify = useNotify();
-  const refresh = useRefresh();
+  const onFailure = useOnFailure();
   const dataProvider = useDataProvider();
   const [saving, setSaving] = useState(false);
   const { loaded, identity } = useGetUserProfile();
   const { refreshProfile } = useProfile();
+  const validateEmailUnicity = useValidateUnicity({
+    reference: 'users',
+    source: 'email',
+    // this function can only be invoked after identity is loaded
+    record: identity as UserProfile,
+    message: 'pos.user_menu.profile.validation.email_already_used',
+  });
 
   // TODO: remove permission on submit
   const handleSave = useCallback(
@@ -111,6 +120,21 @@ export const ProfileEdit = () => {
     [dataProvider, notify, refreshProfile]
   );
 
+  /*
+  export type SetOnSuccess = (onSuccess: OnSuccess) => void;
+  export type SetOnFailure = (onFailure: OnFailure) => void;
+  export type TransformData = (data: any) => any | Promise<any>;
+  export type SetTransformData = (transform: TransformData) => void;
+
+  export interface SideEffectContextValue {
+    setOnSuccess?: SetOnSuccess;
+    setOnFailure?: SetOnFailure;
+    setTransform?: SetTransformData;
+  }
+
+  export type OnSuccess = (response?: any) => void;
+  export type OnFailure = (error?: any) => void;
+  */
   const saveContext = useMemo(
     // useSaveContext is invoked in SaveButton.tsx
     () => ({
@@ -127,17 +151,6 @@ export const ProfileEdit = () => {
   if (!loaded) {
     return null;
   }
-
-  const onFailure = (error: any) => {
-    notify(
-      typeof error === 'string'
-        ? error
-        : getFieldError(error) || 'ra.notification.http_error',
-      'warning'
-    );
-
-    refresh();
-  };
 
   // TODO: add aside
   // TODO: use react-final-form <Form> component?
@@ -190,7 +203,11 @@ export const ProfileEdit = () => {
                 <TextInput
                   type="email"
                   source="email"
-                  validate={[...requiredValidate, email()]}
+                  validate={[
+                    ...requiredValidate,
+                    email(),
+                    validateEmailUnicity,
+                  ]}
                   fullWidth
                   resource="users"
                 />
