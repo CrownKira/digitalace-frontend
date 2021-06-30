@@ -1,4 +1,4 @@
-import { FC, useMemo, useCallback } from 'react';
+import { FC } from 'react';
 import {
   Edit,
   EditProps,
@@ -15,9 +15,6 @@ import {
   ReferenceInput,
   SaveButton,
   DeleteButton,
-  Labeled,
-  TextField,
-  ReferenceField,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -28,11 +25,9 @@ import ProductNameInput from './ProductNameInput';
 import AmountInput from './AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
-import {} from '../utils';
 import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { transform, styles as createStyles } from './InvoiceCreate';
-import { memoize } from '../utils';
 
 const useStyles = makeStyles({
   ...createStyles,

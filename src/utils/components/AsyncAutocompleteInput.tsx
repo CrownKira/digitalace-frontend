@@ -116,9 +116,16 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   );
 
   useEffect(() => {
-    // TODO: add rationale for each condition
-    if (inputValue || valueOverride || !input.value || isNaN(input.value))
+    // fetch initial value for display of optionText
+    // since input.value will be initialized before valueOverride
+    if (
+      inputValue || // presence means value has already been fetched
+      valueOverride || // presence means value has already been fetched
+      !input.value || // undefined means initial value from record is undefined
+      isNaN(input.value) // eg. undefined, string, etc
+    ) {
       return;
+    }
 
     dataProvider
       .getOne(reference, { id: input.value })
@@ -216,8 +223,8 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
             {...options}
             {...sanitizeInputRestProps(input)}
             {...rest}
-            // TODO: better way?
             InputProps={{
+              ...InputProps,
               startAdornment: input.value ? (
                 <IconButton
                   size="small"
@@ -228,7 +235,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
                   <EditIcon />
                 </IconButton>
               ) : null,
-              ...InputProps,
+
               ...InputPropsOverride,
             }}
           />
