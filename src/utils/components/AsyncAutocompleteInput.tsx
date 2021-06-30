@@ -181,18 +181,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       fullWidth={fullWidth}
       renderInput={(params) => {
         const { InputProps, ...rest } = params;
-        // InputPropsOverride = {
-        //   // ref: React.Ref<any>;
-        //   // className: string;
-        //   startAdornment: {
-        //     ...InputProps.startAdornment,
-        //     ...InputPropsOverride,
-        //   },
-        //   endAdornment: {
-        //     ...InputProps.endAdornment,
-        //     ...InputPropsOverride,
-        //   },
-        // };
+
         return (
           <ResettableTextField
             {...input}

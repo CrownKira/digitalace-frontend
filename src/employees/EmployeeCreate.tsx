@@ -156,7 +156,7 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
                 record={formData}
                 link={false}
               >
-                <DesignationSelectInput formData={formData} />
+                <DesignationSelectInput />
               </ReferenceField>
             )}
           </FormDataConsumer>

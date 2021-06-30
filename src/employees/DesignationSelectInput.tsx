@@ -1,21 +1,21 @@
 import { FC } from 'react';
-import { SelectInput, TextFieldProps, required } from 'react-admin';
+import { SelectInput, InputProps, required } from 'react-admin';
 
-interface Props extends TextFieldProps {
-  formData: any;
+interface Props extends Omit<InputProps, 'source'> {
+  // TODO: provide default source?
 }
 
-const DesignationSelectInput: FC<Props> = ({ formData, record, ...rest }) => {
-  return (
-    <SelectInput
-      // qn: how is label derived?
-      // look at source and resource of innermost component?
-      source="designation"
-      choices={record ? record.designation_set : []}
-      validate={record ? requiredValidate : null}
-    />
-  );
-};
+const DesignationSelectInput: FC<Props> = ({ record }) => (
+  <SelectInput
+    // injected props not needed here since resource can be derived from location
+    // qn: how is label derived?
+    // component is eval to react native component
+    // resource is deduced from the location?
+    source="designation"
+    choices={record ? record.designation_set : []}
+    validate={record ? requiredValidate : null}
+  />
+);
 
 const requiredValidate = required();
 

@@ -125,7 +125,7 @@ const EmployeeForm = (props: any) => {
               record={formData}
               link={false}
             >
-              <DesignationSelectInput formData={formData} />
+              <DesignationSelectInput />
             </ReferenceField>
           )}
         </FormDataConsumer>
