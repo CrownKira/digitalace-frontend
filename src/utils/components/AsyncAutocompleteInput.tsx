@@ -1,4 +1,5 @@
 import { FC, useState, useMemo, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 import Autocomplete, {
   AutocompleteChangeReason,
@@ -14,12 +15,17 @@ import {
   FieldTitle,
   InputHelperText,
   sanitizeInputRestProps,
+  linkToRecord,
 } from 'react-admin';
+import EditIcon from '@material-ui/icons/Edit';
+import { IconButton } from '@material-ui/core';
 
 // TODO: rewrite
 // TODO: add loading icon
 // TODO: add allowEmpty
 // https://material-ui.com/components/autocomplete/#google-maps-place
+// FIXME: Cannot update a component (`ReferenceInput`) while rendering a different component (`AsyncAutocompleteInput`)
+// https://github.com/marmelab/react-admin/issues/4572
 export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   // TextInputProps
   // use this instead of AutocompleteInputProps since most of them are not needed here
@@ -211,7 +217,20 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
             {...sanitizeInputRestProps(input)}
             {...rest}
             // TODO: better way?
-            InputProps={{ ...InputProps, ...InputPropsOverride }}
+            InputProps={{
+              startAdornment: input.value ? (
+                <IconButton
+                  size="small"
+                  color="primary"
+                  component={Link}
+                  to={linkToRecord(`/${reference}`, input.value)}
+                >
+                  <EditIcon />
+                </IconButton>
+              ) : null,
+              ...InputProps,
+              ...InputPropsOverride,
+            }}
           />
         );
       }}

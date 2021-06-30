@@ -1,3 +1,5 @@
+import lodashMemoize from 'lodash/memoize';
+
 import QuickFilter from './QuickFilter';
 export { QuickFilter };
 
@@ -79,3 +81,11 @@ export const getErrorMessage = (error: any) => {
     ? `${Object.keys(body)[0]}: ${Object.values(body)[0]}`
     : message;
 };
+
+type Memoize = <T extends (...args: any[]) => any>(
+  func: T,
+  resolver?: (...args: any[]) => any
+) => T;
+
+export const memoize: Memoize = (fn: any) =>
+  lodashMemoize(fn, (...args) => JSON.stringify(args));

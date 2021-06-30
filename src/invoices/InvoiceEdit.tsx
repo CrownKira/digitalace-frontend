@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo, useCallback } from 'react';
 import {
   Edit,
   EditProps,
@@ -32,6 +32,7 @@ import {} from '../utils';
 import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { transform, styles as createStyles } from './InvoiceCreate';
+import { memoize } from '../utils';
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -53,6 +54,9 @@ const InvoiceForm = (props: any) => {
   // TODO: add custom onFailure
   const classes = useStyles();
   const onFailure = useOnFailure();
+
+  // somehow this is not getting reinvoked every time
+  // qn: is React caching results automatically?
   const validateReferenceUnicity = useValidateUnicity({
     reference: 'invoices',
     source: 'reference',
@@ -110,21 +114,7 @@ const InvoiceForm = (props: any) => {
                         // helperText="Please select your customer"
                       />
                     </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <FormDataConsumer>
-                        {({ formData }) => (
-                          <Labeled label="resources.invoices.fields.customer_id">
-                            <ReferenceField
-                              source="customer"
-                              reference="customers"
-                              record={formData}
-                            >
-                              <TextField source="reference" />
-                            </ReferenceField>
-                          </Labeled>
-                        )}
-                      </FormDataConsumer>
-                    </Box>
+                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}></Box>
                   </Box>
                   <RichTextInput source="description" label="" />
                 </Box>
@@ -210,7 +200,10 @@ const InvoiceForm = (props: any) => {
                     validate={requiredValidate}
                   >
                     <SimpleFormIterator resource="invoice_items">
-                      <FormDataConsumer formClassName={classes.leftFormGroup}>
+                      <FormDataConsumer
+                        formClassName={classes.leftFormGroup}
+                        validate={requiredValidate}
+                      >
                         {({ getSource, ...rest }) =>
                           getSource ? (
                             <ProductNameInput
@@ -218,7 +211,6 @@ const InvoiceForm = (props: any) => {
                               getSource={getSource}
                               fullWidth
                               inputClassName={classes.productInput}
-                              validate={requiredValidate}
                               {...rest}
                             />
                           ) : null
@@ -410,3 +402,17 @@ const InvoiceForm = (props: any) => {
 const requiredValidate = required();
 
 export default InvoiceEdit;
+
+// <FormDataConsumer>
+// {({ formData }) => (
+//   <Labeled label="resources.invoices.fields.customer_id">
+//     <ReferenceField
+//       source="customer"
+//       reference="customers"
+//       record={formData}
+//     >
+//       <TextField source="reference" />
+//     </ReferenceField>
+//   </Labeled>
+// )}
+// </FormDataConsumer>

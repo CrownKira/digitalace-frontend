@@ -41,22 +41,6 @@ const ProductNameInput: FC<Props> = ({
       }}
       label="resources.invoice_items.fields.product"
       className={inputClassName}
-      InputProps={
-        scopedFormData && scopedFormData.product
-          ? {
-              startAdornment: (
-                <IconButton
-                  size="small"
-                  color="primary"
-                  component={Link}
-                  to={linkToRecord('/products', scopedFormData.product)}
-                >
-                  <EditIcon />
-                </IconButton>
-              ),
-            }
-          : null
-      }
     />
   );
 };
@@ -64,3 +48,20 @@ const ProductNameInput: FC<Props> = ({
 ProductNameInput.defaultProps = {};
 
 export default ProductNameInput;
+
+// InputProps={
+//   scopedFormData && scopedFormData.product
+//     ? {
+//         startAdornment: (
+//           <IconButton
+//             size="small"
+//             color="primary"
+//             component={Link}
+//             to={linkToRecord('/products', scopedFormData.product)}
+//           >
+//             <EditIcon />
+//           </IconButton>
+//         ),
+//       }
+//     : null
+// }
