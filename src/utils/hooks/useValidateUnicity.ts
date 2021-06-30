@@ -22,6 +22,7 @@ const useValidateUnicity = ({ reference, source, record, message }: Props) => {
           filter: { [source]: value },
         });
         return (
+          response &&
           response.data.length < 2 &&
           (response.data.length === 0 ||
             (record !== undefined && response.data[0].id === record.id))

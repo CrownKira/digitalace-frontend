@@ -76,6 +76,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
     dataProvider
       .getUserConfig()
       .then((response: unknown) => {
+        // for some reason response might be undefined
+        // so we have to handle that
         if (response) {
           const {
             data: { theme, language },

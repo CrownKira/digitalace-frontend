@@ -35,6 +35,10 @@ import englishMessages from 'ra-language-english';
  * form label:
  * (<=3): Title case
  * (>3): Sentence case
+ *
+ * error message:
+ * eg:
+ * <error_title>: <error_message>
  */
 
 const customEnglishMessages: TranslationMessages = {
