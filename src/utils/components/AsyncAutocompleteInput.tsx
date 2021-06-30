@@ -16,6 +16,7 @@ import {
   InputHelperText,
   sanitizeInputRestProps,
   linkToRecord,
+  LinearProgress,
 } from 'react-admin';
 import EditIcon from '@material-ui/icons/Edit';
 import { IconButton } from '@material-ui/core';
@@ -122,7 +123,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       inputValue || // presence means value has already been fetched
       valueOverride || // presence means value has already been fetched
       !input.value || // undefined means initial value from record is undefined
-      isNaN(input.value) // eg. undefined, string, etc
+      isNaN(input.value) // eg. 'hello', {}, etc
     ) {
       return;
     }
@@ -165,7 +166,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     };
   }, [valueOverride, inputValue, fetch]);
 
-  return (
+  return input.value && !valueOverride ? (
+    <LinearProgress />
+  ) : (
     <Autocomplete
       options={autocompleteOptions}
       getOptionLabel={(option) => option[optionText]}

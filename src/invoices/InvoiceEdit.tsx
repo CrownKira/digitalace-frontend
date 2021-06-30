@@ -74,6 +74,40 @@ const InvoiceForm = (props: any) => {
             <CardContent>
               <Box display={{ sm: 'block', md: 'flex' }}>
                 <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                  <DateInput
+                    source="date"
+                    resource="invoices"
+                    fullWidth
+                    validate={requiredValidate}
+                  />
+
+                  <Box display={{ sm: 'block', md: 'flex' }}>
+                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                      <AsyncAutocompleteInput
+                        optionText="name"
+                        optionValue="id"
+                        source="customer"
+                        resource="invoices"
+                        reference="customers"
+                        validate={requiredValidate}
+                        fullWidth
+                        // helperText="Please select your customer"
+                      />
+                    </Box>
+                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                      <AsyncAutocompleteInput
+                        optionText="name"
+                        optionValue="id"
+                        source="salesperson"
+                        resource="invoices"
+                        reference="employees"
+                        fullWidth
+                      />
+                    </Box>
+                  </Box>
+                  <RichTextInput source="description" label="" />
+                </Box>
+                <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <TextInput
@@ -97,40 +131,7 @@ const InvoiceForm = (props: any) => {
                     </Box>
                   </Box>
                   <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                      <AsyncAutocompleteInput
-                        optionText="name"
-                        optionValue="id"
-                        source="customer"
-                        resource="invoices"
-                        reference="customers"
-                        validate={requiredValidate}
-                        fullWidth
-                        // helperText="Please select your customer"
-                      />
-                    </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}></Box>
-                  </Box>
-                  <RichTextInput source="description" label="" />
-                </Box>
-                <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                  <DateInput
-                    source="date"
-                    resource="invoices"
-                    fullWidth
-                    validate={requiredValidate}
-                  />
-                  <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                      <AsyncAutocompleteInput
-                        optionText="name"
-                        optionValue="id"
-                        source="salesperson"
-                        resource="invoices"
-                        reference="employees"
-                        fullWidth
-                      />
-                    </Box>
+                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}></Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <SelectInput
                         source="status"
