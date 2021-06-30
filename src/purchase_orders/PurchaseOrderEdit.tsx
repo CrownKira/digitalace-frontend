@@ -73,10 +73,7 @@ const PurchaseOrderForm = (props: any) => {
                         source="reference"
                         resource="purchase_orders"
                         fullWidth
-                        validate={[
-                          ...requiredValidate,
-                          validateReferenceUnicity,
-                        ]}
+                        validate={[requiredValidate, validateReferenceUnicity]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -341,6 +338,6 @@ const PurchaseOrderForm = (props: any) => {
   );
 };
 
-const requiredValidate = [required()];
+const requiredValidate = required();
 
 export default PurchaseOrderEdit;

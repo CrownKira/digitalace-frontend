@@ -123,10 +123,7 @@ const InvoiceForm = (props: any) => {
                         source="reference"
                         resource="invoices"
                         fullWidth
-                        validate={[
-                          ...requiredValidate,
-                          validateReferenceUnicity,
-                        ]}
+                        validate={[requiredValidate, validateReferenceUnicity]}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -434,6 +431,6 @@ const InvoiceForm = (props: any) => {
   );
 };
 
-const requiredValidate = [required()];
+const requiredValidate = required();
 
 export default InvoiceCreate;

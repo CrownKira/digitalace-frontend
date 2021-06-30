@@ -54,6 +54,7 @@ const useStyles = makeStyles({
 
 const ProductForm = (props: any) => {
   const classes = useStyles();
+
   const validateReferenceUnicity = useValidateUnicity({
     reference: 'products',
     source: 'reference',
@@ -62,7 +63,7 @@ const ProductForm = (props: any) => {
   });
 
   return (
-    <TabbedForm>
+    <TabbedForm {...props}>
       <FormTab
         label="resources.products.tabs.image"
         contentClassName={classes.tab}
@@ -91,7 +92,8 @@ const ProductForm = (props: any) => {
       >
         <TextInput
           source="reference"
-          validate={[...requiredValidate, validateReferenceUnicity]}
+          validate={[requiredValidate, validateReferenceUnicity]}
+          resource="products"
         />
         <ReferenceInput
           source="category"
@@ -153,7 +155,7 @@ const ProductForm = (props: any) => {
   );
 };
 
-const requiredValidate = [required()];
+const requiredValidate = required();
 
 export default ProductEdit;
 

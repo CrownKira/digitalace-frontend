@@ -1,4 +1,5 @@
 import { FC, useState, useMemo, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 import Autocomplete, {
   AutocompleteChangeReason,
@@ -14,12 +15,18 @@ import {
   FieldTitle,
   InputHelperText,
   sanitizeInputRestProps,
+  linkToRecord,
+  LinearProgress,
 } from 'react-admin';
+import EditIcon from '@material-ui/icons/Edit';
+import { IconButton } from '@material-ui/core';
 
 // TODO: rewrite
 // TODO: add loading icon
 // TODO: add allowEmpty
 // https://material-ui.com/components/autocomplete/#google-maps-place
+// FIXME: Cannot update a component (`ReferenceInput`) while rendering a different component (`AsyncAutocompleteInput`)
+// https://github.com/marmelab/react-admin/issues/4572
 export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   // TextInputProps
   // use this instead of AutocompleteInputProps since most of them are not needed here
@@ -101,7 +108,10 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
             })
             .catch((error: Error) => {
               // TODO: notify more specific error
-              notify('ra.notification.data_provider_error', 'warning');
+              notify(
+                'pos.async_autocomplete_input.data_provider_error',
+                'warning'
+              );
             });
         },
         150
@@ -110,8 +120,16 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   );
 
   useEffect(() => {
-    if (inputValue || valueOverride || !input.value || isNaN(input.value))
+    // fetch initial value for display of optionText
+    // since input.value will be initialized before valueOverride
+    if (
+      inputValue || // presence means value has already been fetched
+      valueOverride || // presence means value has already been fetched
+      !input.value || // undefined means initial value from record is undefined
+      isNaN(input.value) // eg. 'hello', {}, etc
+    ) {
       return;
+    }
 
     dataProvider
       .getOne(reference, { id: input.value })
@@ -119,7 +137,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
         response && setValueOverride(response.data);
       })
       .catch((error: Error) => {
-        notify('ra.notification.data_provider_error', 'warning');
+        notify('pos.async_autocomplete_input.data_provider_error', 'warning');
       });
   }, [dataProvider, input.value, inputValue, notify, reference, valueOverride]);
 
@@ -151,7 +169,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     };
   }, [valueOverride, inputValue, fetch]);
 
-  return (
+  return input.value && !valueOverride ? (
+    <LinearProgress />
+  ) : (
     <Autocomplete
       options={autocompleteOptions}
       getOptionLabel={(option) => option[optionText]}
@@ -180,18 +200,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       fullWidth={fullWidth}
       renderInput={(params) => {
         const { InputProps, ...rest } = params;
-        // InputPropsOverride = {
-        //   // ref: React.Ref<any>;
-        //   // className: string;
-        //   startAdornment: {
-        //     ...InputProps.startAdornment,
-        //     ...InputPropsOverride,
-        //   },
-        //   endAdornment: {
-        //     ...InputProps.endAdornment,
-        //     ...InputPropsOverride,
-        //   },
-        // };
+
         return (
           <ResettableTextField
             {...input}
@@ -220,8 +229,21 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
             {...options}
             {...sanitizeInputRestProps(input)}
             {...rest}
-            // TODO: better way?
-            InputProps={{ ...InputProps, ...InputPropsOverride }}
+            InputProps={{
+              ...InputProps,
+              startAdornment: input.value ? (
+                <IconButton
+                  size="small"
+                  color="primary"
+                  component={Link}
+                  to={linkToRecord(`/${reference}`, input.value)}
+                >
+                  <EditIcon />
+                </IconButton>
+              ) : null,
+
+              ...InputPropsOverride,
+            }}
           />
         );
       }}

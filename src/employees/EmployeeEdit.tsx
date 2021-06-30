@@ -7,7 +7,6 @@ import {
   ReferenceArrayInput,
   AutocompleteArrayInput,
   FileInput,
-  ReferenceInput,
   ImageInput,
   FileField,
   ImageField,
@@ -19,7 +18,7 @@ import {
   EditProps,
   FieldProps,
   FormDataConsumer,
-  useGetList,
+  ReferenceField,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -30,6 +29,8 @@ import { validatePasswords } from './EmployeeCreate';
 import { Employee } from '../types';
 import { formatImage } from '../utils';
 import { SectionTitle, Separator, Break } from '../utils/components/Divider';
+import DesignationSelectInput from './DesignationSelectInput';
+import DepartmentSelectInput from './DepartmentSelectInput';
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -50,14 +51,6 @@ const EmployeeEdit: FC<EditProps> = (props) => {
 // TODO: redesign layout
 const EmployeeForm = (props: any) => {
   const classes = useStyles();
-
-  // only result in one api call if this fetches
-  // the same resource as the ReferenceInput below
-  const { data: departmentsData } = useGetList(
-    'departments',
-    { page: 1, perPage },
-    { field: 'id', order: 'DESC' }
-  );
 
   return (
     <TabbedForm
@@ -89,7 +82,7 @@ const EmployeeForm = (props: any) => {
         <TextInput
           type="email"
           source="email"
-          validate={[...requiredValidate, email()]}
+          validate={[requiredValidate, validateEmail]}
         />
         <PasswordInput
           source="password"
@@ -122,27 +115,18 @@ const EmployeeForm = (props: any) => {
         <TextInput source="postal_code" />
         <Separator />
         <SectionTitle label="resources.employees.fieldGroups.company_details" />
-        <ReferenceInput
-          source="department"
-          reference="departments"
-          perPage={perPage}
-          allowEmpty
-          formClassName={classes.leftFormGroup}
-        >
-          <SelectInput source="name" />
-        </ReferenceInput>
+        <DepartmentSelectInput formClassName={classes.leftFormGroup} />
         <FormDataConsumer formClassName={classes.rightFormGroup}>
           {({ formData, ...rest }) => (
-            <SelectInput
+            <ReferenceField
               {...rest}
-              source="designation"
-              choices={
-                departmentsData[formData.department]
-                  ? departmentsData[formData.department].designation_set
-                  : []
-              }
-              validate={formData.department ? requiredValidate : []}
-            />
+              source="department"
+              reference="departments"
+              record={formData}
+              link={false}
+            >
+              <DesignationSelectInput />
+            </ReferenceField>
           )}
         </FormDataConsumer>
         <Break />
@@ -208,8 +192,7 @@ const EmployeeForm = (props: any) => {
   );
 };
 
-const requiredValidate = [required()];
-// TODO: add perPage to all ReferenceInput
-const perPage = 25;
+const requiredValidate = required();
+const validateEmail = email();
 
 export default EmployeeEdit;

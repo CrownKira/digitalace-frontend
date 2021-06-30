@@ -16,15 +16,16 @@ import {
   email,
   TabbedForm,
   FormTab,
-  ReferenceInput,
   FormDataConsumer,
-  useGetList,
+  ReferenceField,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { genders } from '../utils/data';
 import { SectionTitle, Separator, Break } from '../utils/components/Divider';
+import DesignationSelectInput from './DesignationSelectInput';
+import DepartmentSelectInput from './DepartmentSelectInput';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: 32 },
@@ -63,12 +64,6 @@ const postDefaultValue = () => ({
 const EmployeeCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
 
-  const { data: departmentsData } = useGetList(
-    'departments',
-    { page: 1, perPage },
-    { field: 'id', order: 'DESC' }
-  );
-
   return (
     <Create {...props}>
       <TabbedForm
@@ -106,13 +101,13 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
             type="email"
             source="email"
             formClassName={classes.leftFormGroup}
-            validate={[...requiredValidate, email()]}
+            validate={[requiredValidate, validateEmail]}
           />
           <TextInput
             type="email"
             source="confirm_email"
             formClassName={classes.rightFormGroup}
-            validate={[...requiredValidate, email()]}
+            validate={[requiredValidate, validateEmail]}
           />
           <Break />
           <PasswordInput
@@ -151,30 +146,18 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
           <TextInput source="postal_code" />
           <Separator />
           <SectionTitle label="resources.employees.fieldGroups.company_details" />
-          <ReferenceInput
-            source="department"
-            reference="departments"
-            perPage={perPage}
-            allowEmpty
-            formClassName={classes.leftFormGroup}
-          >
-            <SelectInput
-              // TODO: replace with async version
-              source="name"
-            />
-          </ReferenceInput>
+          <DepartmentSelectInput formClassName={classes.leftFormGroup} />
           <FormDataConsumer formClassName={classes.rightFormGroup}>
             {({ formData, ...rest }) => (
-              <SelectInput
+              <ReferenceField
                 {...rest}
-                source="designation"
-                choices={
-                  departmentsData[formData.department]
-                    ? departmentsData[formData.department].designation_set
-                    : []
-                }
-                validate={formData.department ? requiredValidate : []}
-              />
+                source="department"
+                reference="departments"
+                record={formData}
+                link={false}
+              >
+                <DesignationSelectInput />
+              </ReferenceField>
             )}
           </FormDataConsumer>
           <Break />
@@ -241,7 +224,7 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
   );
 };
 
-const requiredValidate = [required()];
-const perPage = 25;
+const requiredValidate = required();
+const validateEmail = email();
 
 export default EmployeeCreate;

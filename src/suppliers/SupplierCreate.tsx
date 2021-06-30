@@ -93,7 +93,7 @@ const SupplierCreate: FC<CreateProps> = (props) => {
         <SectionTitle label="resources.suppliers.fieldGroups.identity" />
         <TextInput
           source="reference"
-          validate={[...requiredValidate, validateReferenceUnicity]}
+          validate={[requiredValidate, validateReferenceUnicity]}
         />
         <TextInput
           autoFocus
@@ -108,7 +108,7 @@ const SupplierCreate: FC<CreateProps> = (props) => {
           validation={{ email: true }}
           fullWidth
           formClassName={classes.email}
-          validate={[email()]}
+          validate={validateEmail}
         />
         <TextInput source="phone_no" />
         <Separator />
@@ -135,7 +135,8 @@ const SupplierCreate: FC<CreateProps> = (props) => {
   );
 };
 
-const requiredValidate = [required()];
+const requiredValidate = required();
+const validateEmail = email();
 
 export default SupplierCreate;
 

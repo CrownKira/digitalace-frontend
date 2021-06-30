@@ -1,3 +1,5 @@
+import lodashMemoize from 'lodash/memoize';
+
 import QuickFilter from './QuickFilter';
 export { QuickFilter };
 
@@ -59,10 +61,31 @@ export function refreshLocalStorage(data: { [key: string]: any }) {
   }
 }
 
-export const getFieldError = (error: any) => {
+const getAxiosErrorMessage = (error: any) => {
+  const {
+    response: { data, status, statusText },
+  } = error;
+
+  return status === 400
+    ? `${Object.keys(data)[0]}: ${Object.values(data)[0]}`
+    : statusText;
+};
+
+export const getErrorMessage = (error: any) => {
   // TODO: extend this to get all errors instead of one
-  const { body, status, message } = error;
+  const { isAxiosError, body, status, message } = error;
+
+  if (isAxiosError) return getAxiosErrorMessage(error);
+
   return status === 400
     ? `${Object.keys(body)[0]}: ${Object.values(body)[0]}`
     : message;
 };
+
+type Memoize = <T extends (...args: any[]) => any>(
+  func: T,
+  resolver?: (...args: any[]) => any
+) => T;
+
+export const memoize: Memoize = (fn: any) =>
+  lodashMemoize(fn, (...args) => JSON.stringify(args));

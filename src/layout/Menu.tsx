@@ -76,6 +76,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
     dataProvider
       .getUserConfig()
       .then((response: unknown) => {
+        // for some reason response might be undefined
+        // so we have to handle that
         if (response) {
           const {
             data: { theme, language },
@@ -86,7 +88,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         }
       })
       .catch((error: Error) => {
-        notify('ra.notification.data_provider_error', 'warning');
+        notify('pos.user_menu.user_config.data_provider_error', 'warning');
       });
   }, [dataProvider, dispatch, notify, setLocale]);
 

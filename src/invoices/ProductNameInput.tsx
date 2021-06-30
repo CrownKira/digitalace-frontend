@@ -1,13 +1,6 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  TextInputProps,
-  FormDataConsumerRenderParams,
-  linkToRecord,
-} from 'react-admin';
+import { TextInputProps, FormDataConsumerRenderParams } from 'react-admin';
 import { useForm } from 'react-final-form';
-import EditIcon from '@material-ui/icons/Edit';
-import { IconButton } from '@material-ui/core';
 
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 
@@ -41,22 +34,6 @@ const ProductNameInput: FC<Props> = ({
       }}
       label="resources.invoice_items.fields.product"
       className={inputClassName}
-      InputProps={
-        scopedFormData && scopedFormData.product
-          ? {
-              startAdornment: (
-                <IconButton
-                  size="small"
-                  color="primary"
-                  component={Link}
-                  to={linkToRecord('/products', scopedFormData.product)}
-                >
-                  <EditIcon />
-                </IconButton>
-              ),
-            }
-          : null
-      }
     />
   );
 };

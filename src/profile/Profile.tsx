@@ -48,8 +48,6 @@ export const validatePasswords = ({
   return errors;
 };
 
-const requiredValidate = [required()];
-
 export interface ProfileContextValue {
   profileVersion: number;
   refreshProfile: () => void;
@@ -204,8 +202,8 @@ export const ProfileEdit = () => {
                   type="email"
                   source="email"
                   validate={[
-                    ...requiredValidate,
-                    email(),
+                    requiredValidate,
+                    validateEmail,
                     validateEmailUnicity,
                   ]}
                   fullWidth
@@ -376,3 +374,6 @@ export const ProfileEdit = () => {
     </SaveContextProvider>
   );
 };
+
+const requiredValidate = required();
+const validateEmail = email();

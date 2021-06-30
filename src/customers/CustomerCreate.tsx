@@ -101,7 +101,7 @@ const CustomerCreate: FC<CreateProps> = (props) => {
         <SectionTitle label="resources.customers.fieldGroups.identity" />
         <TextInput
           source="reference"
-          validate={[...requiredValidate, validateReferenceUnicity]}
+          validate={[requiredValidate, validateReferenceUnicity]}
         />
         <TextInput
           autoFocus
@@ -116,7 +116,7 @@ const CustomerCreate: FC<CreateProps> = (props) => {
           validation={{ email: true }}
           fullWidth
           formClassName={classes.email}
-          validate={[email()]}
+          validate={validateEmail}
         />
         <TextInput source="phone_no" />
         <Separator />
@@ -156,7 +156,13 @@ const CustomerCreate: FC<CreateProps> = (props) => {
   );
 };
 
-const requiredValidate = [required()];
+/**
+ * Tip: Make sure to define validation functions or array of functions in a variable
+ * outside of your component, instead of defining them directly in JSX.
+ * This can result in a new function or array at every render, and trigger infinite rerender.
+ */
+const requiredValidate = required();
+const validateEmail = email();
 
 export default CustomerCreate;
 

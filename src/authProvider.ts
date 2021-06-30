@@ -8,19 +8,15 @@ const isPublicUrl = (url: string) => {
 
 const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
-    try {
-      const response = await backend.post('/api/user/token/', {
-        email,
-        password,
-      });
+    const response = await backend.post('/api/user/token/', {
+      email,
+      password,
+    });
 
-      if (response.status < 200 || response.status >= 300) throw new Error();
+    // if (response.status < 200 || response.status >= 300) throw new Error();
 
-      const auth = response.data;
-      localStorage.setItem('auth', JSON.stringify(auth));
-    } catch (error) {
-      throw new Error('ra.auth.sign_in_error');
-    }
+    const auth = response.data;
+    localStorage.setItem('auth', JSON.stringify(auth));
   },
   logout: () => {
     localStorage.removeItem('auth');

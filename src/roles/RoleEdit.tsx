@@ -56,6 +56,6 @@ const RoleEdit: FC<EditProps> = (props) => (
   </Edit>
 );
 
-const requiredValidate = [required()];
+const requiredValidate = required();
 
 export default RoleEdit;
