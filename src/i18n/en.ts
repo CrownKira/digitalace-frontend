@@ -40,6 +40,7 @@ import englishMessages from 'ra-language-english';
 const customEnglishMessages: TranslationMessages = {
   ...englishMessages,
   pos: {
+    // nouns
     search: 'Search',
     configuration: 'Configuration',
     profile: 'Profile',
@@ -49,7 +50,18 @@ const customEnglishMessages: TranslationMessages = {
       light: 'Light',
       dark: 'Dark',
     },
+    // components
+    async_autocomplete_input: {
+      data_provider_error:
+        // TODO: better message
+        'async_autocomplete_input: dataProvider error. Check the console for details.',
+    },
+    use_validate_unicity: {
+      data_provider_error:
+        'use_validate_unicity: dataProvider error. Check the console for details.',
+    },
     auth: {
+      // auth component
       company_name: 'Company Name',
       email: 'Email',
       confirm_email: 'Confirm Email',
@@ -80,12 +92,14 @@ const customEnglishMessages: TranslationMessages = {
       },
     },
     menu: {
+      // menu on the left
       organization: 'Organization',
       maintenance: 'Maintenance',
       transactions: 'Transactions',
       orders: 'Orders',
     },
     user_menu: {
+      // menu on the top right
       profile: {
         success: 'Your profile has been updated',
         failure:
@@ -98,6 +112,8 @@ const customEnglishMessages: TranslationMessages = {
         success: 'Your configurations have been updated',
         failure:
           'A technical error occurred while updating your configurations. Please try later.',
+        data_provider_error:
+          'user_config: dataProvider error. Check the console for details.',
       },
     },
   },

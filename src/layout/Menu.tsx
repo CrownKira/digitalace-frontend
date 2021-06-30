@@ -86,7 +86,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         }
       })
       .catch((error: Error) => {
-        notify('ra.notification.data_provider_error', 'warning');
+        notify('pos.user_menu.user_config.data_provider_error', 'warning');
       });
   }, [dataProvider, dispatch, notify, setLocale]);
 

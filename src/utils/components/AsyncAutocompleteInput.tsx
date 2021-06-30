@@ -108,7 +108,10 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
             })
             .catch((error: Error) => {
               // TODO: notify more specific error
-              notify('ra.notification.data_provider_error', 'warning');
+              notify(
+                'pos.async_autocomplete_input.data_provider_error',
+                'warning'
+              );
             });
         },
         150
@@ -134,7 +137,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
         response && setValueOverride(response.data);
       })
       .catch((error: Error) => {
-        notify('ra.notification.data_provider_error', 'warning');
+        notify('pos.async_autocomplete_input.data_provider_error', 'warning');
       });
   }, [dataProvider, input.value, inputValue, notify, reference, valueOverride]);
 

@@ -27,8 +27,7 @@ const useValidateUnicity = ({ reference, source, record, message }: Props) => {
             (record !== undefined && response.data[0].id === record.id))
         );
       } catch (error) {
-        // TODO: notify more specific error
-        notify('ra.notification.data_provider_error', 'warning');
+        notify('pos.use_validate_unicity.data_provider_error', 'warning');
         return false;
       }
     }
