@@ -7,6 +7,7 @@ const useStyles = makeStyles({
 });
 
 interface Props extends Omit<InputProps, 'source'> {
+  // this is needed since the source might be different but still refers to agent
   source?: string;
 }
 

@@ -7,7 +7,6 @@ import {
   ReferenceArrayInput,
   AutocompleteArrayInput,
   FileInput,
-  ReferenceInput,
   ImageInput,
   FileField,
   ImageField,
@@ -19,6 +18,7 @@ import {
   EditProps,
   FieldProps,
   FormDataConsumer,
+  ReferenceField,
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -30,6 +30,7 @@ import { Employee } from '../types';
 import { formatImage } from '../utils';
 import { SectionTitle, Separator, Break } from '../utils/components/Divider';
 import DesignationSelectInput from './DesignationSelectInput';
+import DepartmentSelectInput from './DepartmentSelectInput';
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -114,22 +115,19 @@ const EmployeeForm = (props: any) => {
         <TextInput source="postal_code" />
         <Separator />
         <SectionTitle label="resources.employees.fieldGroups.company_details" />
-        <ReferenceInput
-          source="department"
-          reference="departments"
-          allowEmpty
-          formClassName={classes.leftFormGroup}
-        >
-          <SelectInput source="name" />
-        </ReferenceInput>
+        <DepartmentSelectInput formClassName={classes.leftFormGroup} />
         <FormDataConsumer formClassName={classes.rightFormGroup}>
-          {({ formData, ...rest }) => {
-            return formData.department ? (
-              <DesignationSelectInput formData={formData} {...rest} />
-            ) : (
-              <SelectInput {...rest} source="designation" choices={[]} />
-            );
-          }}
+          {({ formData, ...rest }) => (
+            <ReferenceField
+              {...rest}
+              source="department"
+              reference="departments"
+              record={formData}
+              link={false}
+            >
+              <DesignationSelectInput formData={formData} />
+            </ReferenceField>
+          )}
         </FormDataConsumer>
         <Break />
         <DateInput

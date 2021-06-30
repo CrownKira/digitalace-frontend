@@ -16,8 +16,8 @@ import {
   email,
   TabbedForm,
   FormTab,
-  ReferenceInput,
   FormDataConsumer,
+  ReferenceField,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,6 +25,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { genders } from '../utils/data';
 import { SectionTitle, Separator, Break } from '../utils/components/Divider';
 import DesignationSelectInput from './DesignationSelectInput';
+import DepartmentSelectInput from './DepartmentSelectInput';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: 32 },
@@ -145,25 +146,19 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
           <TextInput source="postal_code" />
           <Separator />
           <SectionTitle label="resources.employees.fieldGroups.company_details" />
-          <ReferenceInput
-            source="department"
-            reference="departments"
-            allowEmpty
-            formClassName={classes.leftFormGroup}
-          >
-            <SelectInput
-              // TODO: replace with async version
-              source="name"
-            />
-          </ReferenceInput>
+          <DepartmentSelectInput formClassName={classes.leftFormGroup} />
           <FormDataConsumer formClassName={classes.rightFormGroup}>
-            {({ formData, ...rest }) => {
-              return formData.department ? (
-                <DesignationSelectInput formData={formData} {...rest} />
-              ) : (
-                <SelectInput {...rest} source="designation" choices={[]} />
-              );
-            }}
+            {({ formData, ...rest }) => (
+              <ReferenceField
+                {...rest}
+                source="department"
+                reference="departments"
+                record={formData}
+                link={false}
+              >
+                <DesignationSelectInput formData={formData} />
+              </ReferenceField>
+            )}
           </FormDataConsumer>
           <Break />
           <DateInput

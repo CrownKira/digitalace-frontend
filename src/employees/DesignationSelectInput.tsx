@@ -1,29 +1,18 @@
 import { FC } from 'react';
-import {
-  SelectInput,
-  LinearProgress,
-  useGetOne,
-  FormDataConsumerRenderParams,
-  required,
-} from 'react-admin';
+import { SelectInput, TextFieldProps, required } from 'react-admin';
 
-const DesignationSelectInput: FC<FormDataConsumerRenderParams> = ({
-  formData,
-  ...rest
-}) => {
-  // here we assume that department is defined
-  // since we cannot conditionally invoke useGetOne
-  // we have to make sure to pass in formData in which department is defined
-  const { data, loading } = useGetOne('departments', formData.department);
+interface Props extends TextFieldProps {
+  formData: any;
+}
 
-  return loading || !data ? (
-    <LinearProgress />
-  ) : (
+const DesignationSelectInput: FC<Props> = ({ formData, record, ...rest }) => {
+  return (
     <SelectInput
-      {...rest}
+      // qn: how is label derived?
+      // look at source and resource of innermost component?
       source="designation"
-      choices={data.designation_set}
-      validate={data.designation_set.length > 0 ? requiredValidate : null}
+      choices={record ? record.designation_set : []}
+      validate={record ? requiredValidate : null}
     />
   );
 };
@@ -31,3 +20,14 @@ const DesignationSelectInput: FC<FormDataConsumerRenderParams> = ({
 const requiredValidate = required();
 
 export default DesignationSelectInput;
+
+/*
+rest:
+record: { id: 32, name: "Department5", image: {…}, designation_set: (1) […] }
+basePath: "/employees"
+id: undefined
+margin: undefined
+resource: "departments"
+translateChoice: false
+variant: undefined
+*/
