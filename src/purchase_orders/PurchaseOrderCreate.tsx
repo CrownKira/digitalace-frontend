@@ -41,7 +41,7 @@ export const styles = {
     display: 'inline-block',
   },
   lineItemInput: { width: 150 },
-  productInput: { width: 250 },
+  productInput: { width: 300 },
   hiddenInput: {
     display: 'none',
   },

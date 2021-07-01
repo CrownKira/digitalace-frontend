@@ -22,11 +22,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { IconButton } from '@material-ui/core';
 
 // TODO: rewrite
-// TODO: add loading icon
-// TODO: add allowEmpty
 // https://material-ui.com/components/autocomplete/#google-maps-place
-// FIXME: Cannot update a component (`ReferenceInput`) while rendering a different component (`AsyncAutocompleteInput`)
-// https://github.com/marmelab/react-admin/issues/4572
 export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   // TextInputProps
   // use this instead of AutocompleteInputProps since most of them are not needed here
@@ -58,6 +54,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   queryParamName,
   onChange: onChangeOverride = () => {},
   onInputChange: onInputChangeOverride = () => {},
+  wait = 300, // debounce timeout
   ...props
 }) => {
   const {
@@ -114,9 +111,18 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
               );
             });
         },
-        150
+        wait
       ),
-    [dataProvider, filter, filterToQuery, notify, perPage, reference, sort]
+    [
+      dataProvider,
+      filter,
+      filterToQuery,
+      notify,
+      perPage,
+      reference,
+      sort,
+      wait,
+    ]
   );
 
   useEffect(() => {
@@ -267,8 +273,9 @@ export interface AsyncAutocompleteInputProps
         details?: AutocompleteChangeDetails<Record> | undefined
       ) => void)
     | undefined;
-  [key: string]: any;
   onInputChange?: (event: any) => void;
+  wait?: number;
+  [key: string]: any;
 }
 
 AsyncAutocompleteInput.defaultProps = {
@@ -280,6 +287,7 @@ AsyncAutocompleteInput.defaultProps = {
   optionValue: 'id',
   onChange: () => {},
   onInputChange: () => {},
+  wait: 300,
 };
 
 /*
