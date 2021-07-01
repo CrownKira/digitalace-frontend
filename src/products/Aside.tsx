@@ -123,8 +123,8 @@ const Aside: FC = () => {
             ids.map((id) => (
               <FilterListItem
                 label={inflection.humanize(data[id].name)}
-                key={data[id].id}
-                value={{ category: data[id].id }}
+                key={data[id]?.id}
+                value={{ category: data[id]?.id }}
               />
             ))}
         </FilterList>

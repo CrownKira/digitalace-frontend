@@ -47,8 +47,8 @@ const Aside: FC = () => {
             ids.map((id) => (
               <FilterListItem
                 label={inflection.humanize(data[id].name)}
-                key={data[id].id}
-                value={{ agents: data[id].id }}
+                key={data[id]?.id}
+                value={{ agents: data[id]?.id }}
               />
             ))}
         </FilterList>

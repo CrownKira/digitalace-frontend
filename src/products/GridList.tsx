@@ -84,7 +84,7 @@ const LoadedGridList: FC<GridProps> = ({ width }) => {
         <GridListTile
           key={id}
           component={Link}
-          to={linkToRecord(basePath, data[id].id)}
+          to={linkToRecord(basePath, data[id]?.id)}
         >
           <img
             src={data[id].thumbnail?.src || data[id].image?.src}
