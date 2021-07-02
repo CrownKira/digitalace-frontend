@@ -444,6 +444,8 @@ const customEnglishMessages: TranslationMessages = {
         grand_total: 'Grand Total',
         total_lines: 'Total Lines',
         invoiceitem_set: 'Invoice Items',
+        credits_available: 'Credits Available',
+        credits_applied: 'Credits Applied',
       },
       data: {
         statuses: {
@@ -454,7 +456,14 @@ const customEnglishMessages: TranslationMessages = {
       validation: {
         reference_already_used: 'Reference already used',
       },
+      tabs: {
+        details: 'Details',
+        credits_applied: 'Credits Applied',
+        record_payment: 'Record Payment',
+        delivery_order: 'Delivery Order',
+      },
     },
+
     invoice_items: {
       name: 'Invoice Item |||| Invoice Items',
       fields: {

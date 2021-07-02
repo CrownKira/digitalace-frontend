@@ -60,6 +60,8 @@ const CustomerForm = (props: any) => {
       validate={validatePasswords}
       {...props}
       render={(formProps: any) => (
+        // FIXME: Property 'basePath' does not exist on type 'FormWithRedirectRenderProps'
+        // remove :any?, rewrite toolbar props?
         <Card>
           <form>
             <CardContent>
@@ -195,35 +197,16 @@ const validateEmail = email();
 
 export default CustomerEdit;
 
-// TODO: password field
 /*
-<Typography variant="h6" gutterBottom>
-  {translate(
-    'resources.customers.fieldGroups.change_password'
-  )}
-</Typography>
-<Box display={{ xs: 'block', sm: 'flex' }}>
-  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
-    <PasswordInput
-      source="password"
-      resource="customers"
-      fullWidth
-    />
-  </Box>
-
-  <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
-    <PasswordInput
-      source="confirm_password"
-      resource="customers"
-      fullWidth
-    />
-  </Box>
-</Box>
-*/
-
-// TODO: agent fields
-/*
-<div>
-  <SegmentsInput fullWidth />
-</div>
+{ basePath: "/invoices", 
+redirect: "list", 
+resource: "invoices", 
+undoable: undefined, 
+mutationMode: undefined, 
+form: {…}, 
+handleSubmit: handleSubmit(event), 
+active: undefined, 
+dirty: undefined, 
+dirtyFields: undefined, 
+… }
 */

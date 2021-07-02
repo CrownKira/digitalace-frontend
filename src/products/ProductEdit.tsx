@@ -11,6 +11,7 @@ import {
   TextInput,
   ImageInput,
   ImageField,
+  TabbedFormTabs,
 } from 'react-admin';
 import { InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -62,8 +63,13 @@ const ProductForm = (props: any) => {
     message: 'resources.products.validation.reference_already_used',
   });
 
+  console.log('props', props);
+
   return (
-    <TabbedForm {...props}>
+    <TabbedForm
+      /// children have to be overwritten
+      {...props}
+    >
       <FormTab
         label="resources.products.tabs.image"
         contentClassName={classes.tab}

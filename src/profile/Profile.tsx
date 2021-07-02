@@ -80,6 +80,7 @@ export const ProfileProvider = ({
   );
 };
 
+/// can use useProfile only if inside provider
 export const useProfile = () => useContext(ProfileContext);
 
 export const ProfileEdit = () => {

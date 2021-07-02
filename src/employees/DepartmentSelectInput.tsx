@@ -10,6 +10,7 @@ interface Props extends Omit<InputProps, 'source'> {
 // use InputProps to take in injected props
 // wrapper for department select input
 const DepartmentSelectInput: FC<Props> = (props) => {
+  // TODO: can just use formProps.form
   const form = useForm();
 
   return (

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import {
   Edit,
   EditProps,
@@ -15,6 +15,8 @@ import {
   ReferenceInput,
   SaveButton,
   DeleteButton,
+  TabbedForm,
+  TabbedFormView,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -28,6 +30,7 @@ import LineNumberField from './LineNumberField';
 import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { transform, styles as createStyles } from './InvoiceCreate';
+import { FormTabWithLayout } from './FormTabWithLayout';
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -58,6 +61,10 @@ const InvoiceForm = (props: any) => {
     record: props.record,
     message: 'resources.invoices.validation.reference_already_used',
   });
+  const [state, setState] = useState({
+    // TODO: make use of formProps instead?
+    isPaid: props?.record?.status === 'PD',
+  });
 
   /**
    * You can have tooling support which checks and enforces these rules.
@@ -65,13 +72,66 @@ const InvoiceForm = (props: any) => {
    * a function starting with "use" prefix and a capital letter after it is a Hook.
    */
 
+  /// can't use <TabbedForm> since inner layout does not have access to formProps
+  /// no access to formProps
+  /// need to make it have access to formProps
+  /// we need to saving, etc options from react admin
+  /// so we using react admin form
+
+  // TODO: add wrapper card component
+  // TODO: add custom toolbar
+
   return (
     <FormWithRedirect
       {...props}
-      render={(formProps: any) => (
-        <Card>
-          <form>
-            <CardContent>
+      render={(formProps: any) => {
+        // console.log(formProps?.form?.getFieldState('status')?.value);
+        return (
+          <TabbedFormView
+            {...formProps}
+            toolbar={
+              <Toolbar
+                // props from react-admin demo VisitorEdit
+                resource="invoices"
+                record={formProps.record}
+                basePath={formProps.basePath}
+                // undoable={true}
+                invalid={formProps.invalid}
+                handleSubmit={formProps.handleSubmit}
+                saving={formProps.saving}
+                pristine={formProps.pristine}
+                classes={{ toolbar: classes.toolbar }}
+              >
+                <SaveButton
+                  // props from Toolbar.tsx
+                  handleSubmitWithRedirect={
+                    formProps.handleSubmitWithRedirect || formProps.handleSubmit
+                  }
+                  disabled={formProps.disabled}
+                  invalid={formProps.invalid}
+                  redirect={formProps.redirect}
+                  saving={formProps.saving}
+                  submitOnEnter={formProps.submitOnEnter}
+                  transform={transform}
+                  onFailure={onFailure}
+                />
+                {formProps.record && formProps.record.id !== undefined && (
+                  <DeleteButton
+                    // props from Toolbar.tsx
+                    basePath={formProps.basePath}
+                    record={formProps.record}
+                    resource={formProps.resource}
+                    mutationMode={formProps.mutationMode}
+                  />
+                )}
+              </Toolbar>
+            }
+          >
+            <FormTabWithLayout
+              label="resources.invoices.tabs.details"
+              // contentClassName={classes.tab}
+              /// just take in and not modify children
+            >
               <Box display={{ sm: 'block', md: 'flex' }}>
                 <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                   <DateInput
@@ -131,60 +191,22 @@ const InvoiceForm = (props: any) => {
                     </Box>
                   </Box>
                   <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}></Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <SelectInput
                         source="status"
                         choices={statuses}
                         fullWidth
                         validate={requiredValidate}
+                        onChange={(event: any) => {
+                          setState((state) => ({
+                            ...state,
+                            isPaid: event.target.value === 'PD',
+                          }));
+                        }}
                       />
                     </Box>
+                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}></Box>
                   </Box>
-                  <FormDataConsumer>
-                    {({ formData }) => (
-                      <Box
-                        display={{ sm: 'block', md: 'flex' }}
-                        // hide instead of null so that date is formatted properly
-                        className={
-                          formData && formData.status === 'UPD'
-                            ? classes.hiddenInput
-                            : ''
-                        }
-                      >
-                        <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                          <DateInput
-                            source="payment_date"
-                            resource="invoices"
-                            fullWidth
-                          />
-                        </Box>
-                        <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                          <ReferenceInput
-                            source="payment_method"
-                            reference="payment_methods"
-                            fullWidth
-                          >
-                            <SelectInput source="name" />
-                          </ReferenceInput>
-                        </Box>
-                      </Box>
-                    )}
-                  </FormDataConsumer>
-                  <FormDataConsumer>
-                    {({ formData }) => (
-                      <TextInput
-                        source="payment_note"
-                        multiline
-                        fullWidth
-                        className={
-                          formData && formData.status === 'UPD'
-                            ? classes.hiddenInput
-                            : ''
-                        }
-                      />
-                    )}
-                  </FormDataConsumer>
                 </Box>
               </Box>
               <Card>
@@ -332,6 +354,26 @@ const InvoiceForm = (props: any) => {
                       />
                     </Box>
                   </Box>
+                  <Box display={{ sm: 'block', md: 'flex' }}>
+                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                      <NumberInput
+                        source="credits_available"
+                        resource="invoices"
+                        fullWidth
+                        disabled
+                      />
+                    </Box>
+                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                      <NumberInput
+                        // TODO: default 0.00
+                        // TODO: check that it must be less than credits available
+                        source="credits_applied"
+                        resource="invoices"
+                        fullWidth
+                        validate={requiredValidate}
+                      />
+                    </Box>
+                  </Box>
                   <NumberInput
                     source="grand_total"
                     resource="invoices"
@@ -339,58 +381,58 @@ const InvoiceForm = (props: any) => {
                     validate={requiredValidate}
                     disabled
                   />
-                  <FormDataConsumer>
-                    {(props) => (
-                      <LineNumberField
-                        source="total_lines"
-                        resource="invoices"
-                        fullWidth
-                        label="resources.invoices.fields.total_lines"
-                        {...props}
-                      />
-                    )}
-                  </FormDataConsumer>
                 </Box>
               </Box>
-            </CardContent>
-            <Toolbar
-              // props from react-admin demo VisitorEdit
-              resource="invoices"
-              record={formProps.record}
-              basePath={formProps.basePath}
-              undoable={true}
-              invalid={formProps.invalid}
-              handleSubmit={formProps.handleSubmit}
-              saving={formProps.saving}
-              pristine={formProps.pristine}
-              classes={{ toolbar: classes.toolbar }}
-            >
-              <SaveButton
-                // props from Toolbar.tsx
-                handleSubmitWithRedirect={
-                  formProps.handleSubmitWithRedirect || formProps.handleSubmit
-                }
-                disabled={formProps.disabled}
-                invalid={formProps.invalid}
-                redirect={formProps.redirect}
-                saving={formProps.saving}
-                submitOnEnter={formProps.submitOnEnter}
-                transform={transform}
-                onFailure={onFailure}
-              />
-              {formProps.record && formProps.record.id !== undefined && (
-                <DeleteButton
-                  // props from Toolbar.tsx
-                  basePath={formProps.basePath}
-                  record={formProps.record}
-                  resource={formProps.resource}
-                  mutationMode={formProps.mutationMode}
+            </FormTabWithLayout>
+
+            {state.isPaid ? (
+              <FormTabWithLayout
+                /**
+                 * TODO: hide tab when unpaid
+                 * for some reason, this tab cannot be toggled using
+                 * formProps?.form?.getFieldState('status')?.value === 'UPD' ? null : (...)
+                 */
+
+                label="resources.invoices.tabs.record_payment"
+                // hidden={}
+              >
+                <Box
+                  display={{ sm: 'block', md: 'flex' }}
+                  // hide instead of null so that date is formatted properly
+                >
+                  <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                    <DateInput
+                      source="payment_date"
+                      resource="invoices"
+                      fullWidth
+                      // disabled={formData && formData.status === 'UPD'}
+                    />
+                  </Box>
+                  <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                    <ReferenceInput
+                      source="payment_method"
+                      reference="payment_methods"
+                      fullWidth
+                      // disabled={formData && formData.status === 'UPD'}
+                    >
+                      <SelectInput source="name" />
+                    </ReferenceInput>
+                  </Box>
+                </Box>
+
+                <TextInput
+                  source="payment_note"
+                  multiline
+                  fullWidth
+                  // disabled={formData && formData.status === 'UPD'}
                 />
-              )}
-            </Toolbar>
-          </form>
-        </Card>
-      )}
+              </FormTabWithLayout>
+            ) : null}
+
+            <FormTabWithLayout label="resources.invoices.tabs.credits_applied"></FormTabWithLayout>
+          </TabbedFormView>
+        );
+      }}
     />
   );
 };
@@ -398,6 +440,20 @@ const InvoiceForm = (props: any) => {
 const requiredValidate = required();
 
 export default InvoiceEdit;
+
+/*
+<FormDataConsumer>
+{(props) => (
+  <LineNumberField
+    source="total_lines"
+    resource="invoices"
+    fullWidth
+    label="resources.invoices.fields.total_lines"
+    {...props}
+  />
+)}
+</FormDataConsumer>
+*/
 
 // <FormDataConsumer>
 // {({ formData }) => (
@@ -412,3 +468,17 @@ export default InvoiceEdit;
 //   </Labeled>
 // )}
 // </FormDataConsumer>
+
+/*
+      <FormWithRedirect /// cannot be nested
+      /// only one <form>
+        {...props}
+        render={(formProps: any) => {
+          console.log('formprops', formProps);
+
+          return (
+
+          );
+        }}
+      />
+*/
