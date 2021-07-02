@@ -63,6 +63,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   onChange: onChangeOverride = () => {},
   onInputChange: onInputChangeOverride = () => {},
   wait = 300, // debounce timeout
+  showEdit = true,
   ...props
 }) => {
   const {
@@ -250,16 +251,17 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
             {...rest}
             InputProps={{
               ...InputProps,
-              startAdornment: input.value ? (
-                <IconButton
-                  size="small"
-                  color="primary"
-                  component={Link}
-                  to={linkToRecord(`/${reference}`, input.value)}
-                >
-                  <EditIcon />
-                </IconButton>
-              ) : null,
+              startAdornment:
+                showEdit && input.value ? (
+                  <IconButton
+                    size="small"
+                    color="primary"
+                    component={Link}
+                    to={linkToRecord(`/${reference}`, input.value)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                ) : null,
 
               ...InputPropsOverride,
             }}
@@ -298,6 +300,7 @@ AsyncAutocompleteInput.defaultProps = {
   onChange: () => {},
   onInputChange: () => {},
   wait: 300,
+  showEdit: true,
 };
 
 /*
