@@ -49,6 +49,7 @@ const AmountInput: FC<Props> = ({
 
   return (
     <NumberInput
+      min={0}
       {...rest}
       label="resources.invoice_items.fields.amount"
       className={inputClassName}

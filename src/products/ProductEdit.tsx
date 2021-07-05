@@ -110,6 +110,7 @@ const ProductForm = (props: any) => {
         </ReferenceInput>
         <TextInput source="name" validate={requiredValidate} />
         <NumberInput
+          min={0}
           source="cost"
           className={classes.cost}
           formClassName={classes.costFormGroup}
@@ -121,6 +122,7 @@ const ProductForm = (props: any) => {
           validate={requiredValidate}
         />
         <NumberInput
+          min={0}
           source="unit_price"
           className={classes.unitPrice}
           formClassName={classes.unitPriceFormGroup}

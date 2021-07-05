@@ -26,6 +26,7 @@ import categories from '../categories';
 import products from '../products';
 import invoices from '../invoices';
 import receives from '../receives';
+import credit_notes from '../credit_notes';
 import purchase_orders from '../purchase_orders';
 import sales_orders from '../sales_orders';
 import SubMenu from './SubMenu';
@@ -209,6 +210,16 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
             smart_count: 2,
           })}
           leftIcon={<receives.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+        />
+        <MenuItemLink
+          to={'/credit_notes'}
+          primaryText={translate('resources.credit_notes.name', {
+            smart_count: 2,
+          })}
+          leftIcon={<credit_notes.icon />}
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}

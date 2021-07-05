@@ -126,6 +126,41 @@ export interface Supplier extends Record {
   image: FileValue;
 }
 
+export interface CreditNote extends Record {
+  reference: string;
+  created_from: string;
+  company: Identifier;
+  company_name: string;
+  date: Date;
+  description: string;
+  payment_date: Date;
+  payment_method: string;
+  payment_note: string;
+  gst_rate: number;
+  discount_rate: number;
+  gst_amount: number;
+  discount_amount: number;
+  net: number;
+  total_amount: number;
+  grand_total: number;
+  status: string;
+  customer: Identifier;
+  salesperson: Identifier;
+  sales_order: Identifier;
+  creditnoteitem_set: CreditNoteItem[];
+  credits_used: number;
+  credits_remaining: number;
+}
+
+export interface CreditNoteItem extends Record {
+  product: Identifier;
+  unit: number;
+  cost: number;
+  quantity: number;
+  unit_price: number;
+  invoice: Identifier;
+}
+
 export interface Invoice extends Record {
   reference: string;
   company: Identifier;

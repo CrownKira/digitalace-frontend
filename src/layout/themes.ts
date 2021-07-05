@@ -128,6 +128,7 @@ export const lightTheme = {
       },
     },
     MuiFilledInput: {
+      // TODO: remove fill?
       root: {
         backgroundColor: 'rgba(0, 0, 0, 0.04)',
         '&$disabled': {

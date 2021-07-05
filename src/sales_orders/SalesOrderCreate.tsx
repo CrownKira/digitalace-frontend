@@ -35,6 +35,7 @@ import { useOnFailure, useValidateUnicity } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { SalesOrder } from '../types';
 import { incrementReference, dateParser } from '../utils';
+import LineItemsIterator from '../invoices/LineItemsIterator';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
@@ -42,7 +43,7 @@ export const styles = {
     display: 'inline-block',
   },
   lineItemInput: { width: 150 },
-  productInput: { width: 300 },
+  lineItemReferenceInput: { width: 300 },
   hiddenInput: {
     display: 'none',
   },
@@ -119,63 +120,62 @@ const SalesOrderForm = (props: any) => {
             <CardContent>
               <Box display={{ sm: 'block', md: 'flex' }}>
                 <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                  <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                      <TextInput
-                        source="reference"
-                        resource="sales_orders"
-                        fullWidth
-                        validate={[requiredValidate, validateReferenceUnicity]}
-                      />
-                    </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <AsyncAutocompleteInput
-                        optionText="reference"
-                        optionValue="id"
-                        source="invoice"
-                        resource="sales_orders"
-                        reference="invoices"
-                        fullWidth
-                      />
-                    </Box>
-                  </Box>
+                  <DateInput
+                    source="date"
+                    resource="sales_order"
+                    fullWidth
+                    validate={requiredValidate}
+                  />
+
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <AsyncAutocompleteInput
                         optionText="name"
                         optionValue="id"
                         source="customer"
-                        resource="sales_orders"
+                        resource="sales_order"
                         reference="customers"
                         validate={requiredValidate}
                         fullWidth
+                        // helperText="Please select your customer"
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <FormDataConsumer>
-                        {({ formData }) => (
-                          <Labeled label="resources.sales_orders.fields.customer_id">
-                            <ReferenceField
-                              source="customer"
-                              reference="customers"
-                              record={formData}
-                            >
-                              <TextField source="reference" />
-                            </ReferenceField>
-                          </Labeled>
-                        )}
-                      </FormDataConsumer>
+                      <AsyncAutocompleteInput
+                        optionText="name"
+                        optionValue="id"
+                        source="salesperson"
+                        resource="sales_order"
+                        reference="employees"
+                        fullWidth
+                      />
                     </Box>
                   </Box>
                   <RichTextInput source="description" label="" />
                 </Box>
                 <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                  <DateInput
-                    source="date"
-                    resource="sales_orders"
-                    fullWidth
-                    validate={requiredValidate}
-                  />
+                  <Box display={{ sm: 'block', md: 'flex' }}>
+                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                      <TextInput
+                        source="reference"
+                        resource="sales_order"
+                        fullWidth
+                        validate={[requiredValidate, validateReferenceUnicity]}
+                      />
+                    </Box>
+                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                      <AsyncAutocompleteInput
+                        // TODO: edit button start adornment
+                        // refer to ProductNameInput.tsx
+                        optionText="reference"
+                        optionValue="id"
+                        source="sales_order"
+                        resource="sales_order"
+                        reference="sales_orders"
+                        fullWidth
+                      />
+                    </Box>
+                  </Box>
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <SelectInput
@@ -197,22 +197,25 @@ const SalesOrderForm = (props: any) => {
                     label="resources.sales_orders.fields.salesorderitem_set"
                     validate={requiredValidate}
                   >
-                    <SimpleFormIterator resource="sales_order_items">
-                      <FormDataConsumer formClassName={classes.leftFormGroup}>
+                    <LineItemsIterator resource="sales_order_items">
+                      <FormDataConsumer
+                        formClassName={classes.leftFormGroup}
+                        validate={requiredValidate}
+                      >
                         {({ getSource, ...rest }) =>
                           getSource ? (
                             <ProductNameInput
                               source={getSource('product')}
                               getSource={getSource}
                               fullWidth
-                              inputClassName={classes.productInput}
-                              validate={requiredValidate}
+                              inputClassName={classes.lineItemReferenceInput}
                               {...rest}
                             />
                           ) : null
                         }
                       </FormDataConsumer>
                       <NumberInput
+                        min={0}
                         source="quantity"
                         formClassName={classes.leftFormGroup}
                         className={classes.lineItemInput}
@@ -226,6 +229,7 @@ const SalesOrderForm = (props: any) => {
                         disabled
                       />
                       <NumberInput
+                        min={0}
                         source="unit_price"
                         formClassName={classes.leftFormGroup}
                         className={classes.lineItemInput}
@@ -252,7 +256,7 @@ const SalesOrderForm = (props: any) => {
                           ) : null
                         }
                       </FormDataConsumer>
-                    </SimpleFormIterator>
+                    </LineItemsIterator>
                   </ArrayInput>
                 </CardContent>
               </Card>
@@ -262,7 +266,7 @@ const SalesOrderForm = (props: any) => {
                     {(props) => (
                       <TotalInput
                         source="total_amount"
-                        resource="sales_orders"
+                        resource="sales_order"
                         fullWidth
                         validate={requiredValidate}
                         disabled
@@ -273,21 +277,28 @@ const SalesOrderForm = (props: any) => {
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
+                        min={0}
                         source="discount_rate"
-                        resource="sales_orders"
+                        resource="sales_order"
                         fullWidth
                         validate={requiredValidate}
                         InputProps={{
                           endAdornment: (
-                            <InputAdornment position="end">%</InputAdornment>
+                            <InputAdornment
+                              // qn: is this redundant?
+                              position="end"
+                            >
+                              %
+                            </InputAdornment>
                           ),
                         }}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
+                        min={0}
                         source="discount_amount"
-                        resource="sales_orders"
+                        resource="sales_order"
                         fullWidth
                         validate={requiredValidate}
                         disabled
@@ -295,8 +306,9 @@ const SalesOrderForm = (props: any) => {
                     </Box>
                   </Box>
                   <NumberInput
+                    min={0}
                     source="net"
-                    resource="sales_orders"
+                    resource="sales_order"
                     fullWidth
                     validate={requiredValidate}
                     disabled
@@ -306,8 +318,9 @@ const SalesOrderForm = (props: any) => {
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
+                        min={0}
                         source="gst_rate"
-                        resource="sales_orders"
+                        resource="sales_order"
                         fullWidth
                         validate={requiredValidate}
                         InputProps={{
@@ -319,8 +332,9 @@ const SalesOrderForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
+                        min={0}
                         source="gst_amount"
-                        resource="sales_orders"
+                        resource="sales_order"
                         fullWidth
                         validate={requiredValidate}
                         disabled
@@ -328,23 +342,13 @@ const SalesOrderForm = (props: any) => {
                     </Box>
                   </Box>
                   <NumberInput
+                    min={0}
                     source="grand_total"
-                    resource="sales_orders"
+                    resource="sales_order"
                     fullWidth
                     validate={requiredValidate}
                     disabled
                   />
-                  <FormDataConsumer>
-                    {(props) => (
-                      <LineNumberField
-                        source="total_lines"
-                        resource="sales_orders"
-                        fullWidth
-                        label="resources.sales_orders.fields.total_lines"
-                        {...props}
-                      />
-                    )}
-                  </FormDataConsumer>
                 </Box>
               </Box>
             </CardContent>

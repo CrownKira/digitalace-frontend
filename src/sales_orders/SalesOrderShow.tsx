@@ -22,7 +22,7 @@ const SupplierField: FC<FieldProps<Supplier>> = ({ record }) =>
       {record.address}
       <br />
       {record.city}
-      {record.zipcode ? `,${record.zipcode}` : ''}
+      {record.zipcode ? `, ${record.zipcode}` : ''}
     </Typography>
   ) : null;
 

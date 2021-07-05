@@ -153,7 +153,7 @@ const PurchaseOrderForm = (props: any) => {
                               source={getSource('product')}
                               getSource={getSource}
                               fullWidth
-                              inputClassName={classes.productInput}
+                              inputClassName={classes.lineItemReferenceInput}
                               validate={requiredValidate}
                               {...rest}
                             />
@@ -161,6 +161,7 @@ const PurchaseOrderForm = (props: any) => {
                         }
                       </FormDataConsumer>
                       <NumberInput
+                        min={0}
                         source="quantity"
                         formClassName={classes.leftFormGroup}
                         className={classes.lineItemInput}
@@ -174,6 +175,7 @@ const PurchaseOrderForm = (props: any) => {
                         disabled
                       />
                       <NumberInput
+                        min={0}
                         source="unit_price"
                         formClassName={classes.leftFormGroup}
                         className={classes.lineItemInput}
@@ -221,6 +223,7 @@ const PurchaseOrderForm = (props: any) => {
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
+                        min={0}
                         source="discount_rate"
                         resource="purchase_orders"
                         fullWidth
@@ -234,6 +237,7 @@ const PurchaseOrderForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
+                        min={0}
                         source="discount_amount"
                         resource="purchase_orders"
                         fullWidth
@@ -243,6 +247,7 @@ const PurchaseOrderForm = (props: any) => {
                     </Box>
                   </Box>
                   <NumberInput
+                    min={0}
                     source="net"
                     resource="purchase_orders"
                     fullWidth
@@ -254,6 +259,7 @@ const PurchaseOrderForm = (props: any) => {
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
+                        min={0}
                         source="gst_rate"
                         resource="purchase_orders"
                         fullWidth
@@ -267,6 +273,7 @@ const PurchaseOrderForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
+                        min={0}
                         source="gst_amount"
                         resource="purchase_orders"
                         fullWidth
@@ -276,6 +283,7 @@ const PurchaseOrderForm = (props: any) => {
                     </Box>
                   </Box>
                   <NumberInput
+                    min={0}
                     source="grand_total"
                     resource="purchase_orders"
                     fullWidth

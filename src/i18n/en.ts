@@ -54,6 +54,10 @@ const customEnglishMessages: TranslationMessages = {
       light: 'Light',
       dark: 'Dark',
     },
+    message: {
+      coming_soon:
+        'We are currently working on this feature and will launch soon!',
+    },
     // components
     async_autocomplete_input: {
       data_provider_error:
@@ -417,10 +421,92 @@ const customEnglishMessages: TranslationMessages = {
         reference_already_used: 'Reference already used',
       },
     },
+    credits_applications: {
+      name: 'Credit Applied |||| Credits Applied',
+      fields: {
+        id: 'Credits Applied ID',
+        // reference: 'Reference',
+        date: 'Date',
+        invoice: 'Invoice',
+        credit_note: 'Credit Note',
+        // grand_total: 'Credit Amount',
+        // credits_remaining: 'Credits Available',
+        amount_to_credit: 'Amount to Credit',
+      },
+    },
+    credit_notes: {
+      name: 'Credit Note |||| Credit Notes',
+      fields: {
+        id: 'Credit Note ID',
+        reference: 'Reference',
+        description: 'Description',
+        payment_date: 'Payment Date',
+        payment_method: 'Payment Method',
+        payment_note: 'Payment Note',
+        gst_rate: 'GST Rate',
+        discount_rate: 'Discount Rate',
+        gst_amount: 'GST Amount',
+        discount_amount: 'Discount Amount',
+        net: 'Net',
+        total_amount: 'Total Amount',
+        status: 'Status',
+        salesperson: 'Salesperson',
+        date: 'Date',
+        customer: 'Customer',
+        customer_id: 'Customer Reference',
+        date__gte: 'Passed Since',
+        date__lte: 'Passed Before',
+        total__gte: 'Min amount',
+        address: 'Address',
+        sales_order: 'Order',
+        grand_total: 'Credit Amount',
+        credits_remaining: 'Credits Available',
+        credits_used: 'Credits Used',
+        amount_to_credit: 'Amount to Credit',
+        total_lines: 'Total Lines',
+        creditnoteitem_set: 'Credit Note Items',
+        creditsapplication_set: 'Apply to Invoice',
+        created_from: 'Created from',
+      },
+      data: {
+        statuses: {
+          draft: 'Draft',
+          open: 'Open',
+          closed: 'Closed',
+        },
+      },
+      validation: {
+        reference_already_used: 'Reference already used',
+      },
+      tabs: {
+        details: 'Details',
+        invoices_credited: 'Invoices Credited',
+      },
+      action: {
+        print: 'Print',
+        pdf: 'PDF',
+        add_item_header: 'Add Item Header',
+        apply_to_invoice: 'Apply to Invoice',
+      },
+    },
+    credit_note_items: {
+      name: 'Credit Note Item |||| Credit Note Items',
+      fields: {
+        id: 'ID',
+        product: 'Product',
+        unit: 'Unit',
+        cost: 'Cost',
+        quantity: 'Quantity',
+        unit_price: 'Unit Price',
+        amount: 'Amount',
+        credit_note: 'Credit Note',
+      },
+    },
     invoices: {
       name: 'Invoice |||| Invoices',
       fields: {
         id: 'Invoice ID',
+        reference: 'Reference',
         description: 'Description',
         payment_date: 'Payment Date',
         payment_method: 'Payment Method',
@@ -444,17 +530,22 @@ const customEnglishMessages: TranslationMessages = {
         grand_total: 'Grand Total',
         total_lines: 'Total Lines',
         invoiceitem_set: 'Invoice Items',
+        creditsapplication_set: 'Apply Credits',
         credits_available: 'Credits Available',
         credits_applied: 'Credits Applied',
+        balance_due: 'Balance Due',
       },
       data: {
         statuses: {
+          draft: 'Draft',
           paid: 'Paid',
           unpaid: 'Unpaid',
         },
       },
       validation: {
         reference_already_used: 'Reference already used',
+        invalid_credits:
+          'Credits applied cannot be more than credits available',
       },
       tabs: {
         details: 'Details',
@@ -462,8 +553,13 @@ const customEnglishMessages: TranslationMessages = {
         record_payment: 'Record Payment',
         delivery_order: 'Delivery Order',
       },
+      action: {
+        print: 'Print',
+        pdf: 'PDF',
+        print_delivery_order: 'Print Delivery Order',
+        add_item_header: 'Add Item Header',
+      },
     },
-
     invoice_items: {
       name: 'Invoice Item |||| Invoice Items',
       fields: {
@@ -480,6 +576,7 @@ const customEnglishMessages: TranslationMessages = {
     sales_orders: {
       name: 'Sales Order |||| Sales Orders',
       fields: {
+        reference: 'Reference',
         description: 'Description',
         payment_date: 'Payment Date',
         payment_method: 'Payment Method',
@@ -500,12 +597,14 @@ const customEnglishMessages: TranslationMessages = {
         total__gte: 'Min amount',
         address: 'Address',
         invoice: 'Invoice',
+        invoice_set: 'Invoices',
         grand_total: 'Grand Total',
         total_lines: 'Total Lines',
         salesorderitem_set: 'Sales Order Items',
       },
       data: {
         statuses: {
+          draft: 'Draft',
           completed: 'Completed',
           pending: 'Pending',
           cancelled: 'Cancelled',
@@ -513,6 +612,10 @@ const customEnglishMessages: TranslationMessages = {
       },
       validation: {
         reference_already_used: 'Reference already used',
+      },
+      tabs: {
+        details: 'Details',
+        invoices: 'Invoices',
       },
     },
     sales_order_items: {
@@ -531,6 +634,7 @@ const customEnglishMessages: TranslationMessages = {
     receives: {
       name: 'Receive |||| Receives',
       fields: {
+        reference: 'Reference',
         description: 'Description',
         payment_date: 'Payment Date',
         payment_method: 'Payment Method',
@@ -574,6 +678,7 @@ const customEnglishMessages: TranslationMessages = {
     purchase_orders: {
       name: 'Purchase Order |||| Purchase Orders',
       fields: {
+        reference: 'Reference',
         description: 'Description',
         payment_date: 'Payment Date',
         payment_method: 'Payment Method',
@@ -599,6 +704,7 @@ const customEnglishMessages: TranslationMessages = {
       },
       data: {
         statuses: {
+          draft: 'Draft',
           completed: 'Completed',
           pending: 'Pending',
           cancelled: 'Cancelled',

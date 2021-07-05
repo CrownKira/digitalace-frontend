@@ -13,7 +13,7 @@ interface Props extends NumberInputProps, FormDataConsumerRenderParams {
   inputClassName?: string | undefined;
 }
 
-const AmountInput: FC<Props> = ({
+const TotalInput: FC<Props> = ({
   formData,
   scopedFormData,
   getSource,
@@ -38,11 +38,14 @@ const AmountInput: FC<Props> = ({
     const net = total_amount * (1 - discount_rate / 100);
     const gst_amount = net * (gst_rate / 100);
     const grand_total = net * (1 - gst_rate / 100);
+    const credits_applied = toFixedNumber(formData?.credits_applied, 2);
+    const balance_due = grand_total - credits_applied;
 
     // toFixed(2): converts '0' to '0.00'
     form.batch(() => {
       !isNaN(total_amount) &&
         form.change('total_amount', total_amount.toFixed(2));
+      // TODO: better way?
       !isNaN(discount_rate) &&
         form.getFieldState('discount_rate')?.active === false &&
         form.change('discount_rate', discount_rate.toFixed(2));
@@ -54,6 +57,10 @@ const AmountInput: FC<Props> = ({
       !isNaN(gst_amount) && form.change('gst_amount', gst_amount.toFixed(2));
       !isNaN(net) && form.change('net', net.toFixed(2));
       !isNaN(grand_total) && form.change('grand_total', grand_total.toFixed(2));
+      !isNaN(credits_applied) &&
+        form.getFieldState('credits_applied')?.active === false &&
+        form.change('credits_applied', credits_applied.toFixed(2));
+      !isNaN(balance_due) && form.change('balance_due', balance_due.toFixed(2));
     });
   }, [
     form,
@@ -61,9 +68,9 @@ const AmountInput: FC<Props> = ({
     formState, // so that discount_rate and gst_rate input round up on blur
   ]);
 
-  return <NumberInput {...rest} className={inputClassName} />;
+  return <NumberInput min={0} {...rest} className={inputClassName} />;
 };
 
-AmountInput.defaultProps = {};
+TotalInput.defaultProps = {};
 
-export default AmountInput;
+export default TotalInput;

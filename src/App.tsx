@@ -16,6 +16,7 @@ import roles from './roles';
 import employees from './employees';
 import invoices from './invoices';
 import receives from './receives';
+import credit_notes from './credit_notes';
 import sales_orders from './sales_orders';
 import purchase_orders from './purchase_orders';
 import customers from './customers';
@@ -31,6 +32,7 @@ const i18nProvider = polyglotI18nProvider(
   'en',
   {
     // https://github.com/marmelab/react-admin/issues/3903
+    // https://marmelab.com/react-admin/Translation.html#specific-case-in-confirm-messages-and-empty-page
     allowMissing: true,
   }
 );
@@ -97,6 +99,12 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
             )}
           />,
           <Resource
+            name="credit_notes"
+            {...pickBy<ReactNode>(credit_notes, (value, key) =>
+              hasPermission('creditnote', value, key)
+            )}
+          />,
+          <Resource
             name="sales_orders"
             {...pickBy<ReactNode>(sales_orders, (value, key) =>
               hasPermission('salesorder', value, key)
@@ -151,6 +159,7 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
               hasPermission('user', value, key)
             )}
           />,
+          <Resource name="credits_applications" />,
         ];
       }}
     </Admin>

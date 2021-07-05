@@ -13,7 +13,7 @@ interface Props extends NumberInputProps, FormDataConsumerRenderParams {
   inputClassName?: string | undefined;
 }
 
-const AmountInput: FC<Props> = ({
+const TotalInput: FC<Props> = ({
   formData,
   scopedFormData,
   getSource,
@@ -61,9 +61,9 @@ const AmountInput: FC<Props> = ({
     formState, // so that discount_rate and gst_rate input round up on blur
   ]);
 
-  return <NumberInput {...rest} className={inputClassName} />;
+  return <NumberInput min={0} {...rest} className={inputClassName} />;
 };
 
-AmountInput.defaultProps = {};
+TotalInput.defaultProps = {};
 
-export default AmountInput;
+export default TotalInput;

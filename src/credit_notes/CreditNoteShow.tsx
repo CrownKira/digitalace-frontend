@@ -12,9 +12,9 @@ import {
 } from 'react-admin';
 
 import Basket from './Basket';
-import { Invoice, Customer } from '../types';
+import { CreditNote, Supplier } from '../types';
 
-const CustomerField: FC<FieldProps<Customer>> = ({ record }) =>
+const SupplierField: FC<FieldProps<Supplier>> = ({ record }) =>
   record ? (
     <Typography>
       {record.first_name} {record.last_name}
@@ -26,8 +26,8 @@ const CustomerField: FC<FieldProps<Customer>> = ({ record }) =>
     </Typography>
   ) : null;
 
-const InvoiceShow = (props: any) => {
-  const { record } = useShowController<Invoice>(props);
+const CreditNoteShow = (props: any) => {
+  const { record } = useShowController<CreditNote>(props);
   const classes = useStyles();
 
   if (!record) return null;
@@ -43,7 +43,7 @@ const InvoiceShow = (props: any) => {
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h6" gutterBottom align="right">
-              Invoice {record.reference}
+              CreditNote {record.reference}
             </Typography>
           </Grid>
         </Grid>
@@ -51,13 +51,13 @@ const InvoiceShow = (props: any) => {
           <Grid item xs={12} container alignContent="flex-end">
             <ReferenceField
               reference="customers"
-              resource="invoices"
+              resource="receives"
               source="customer"
               link={false}
-              basePath="/invoices"
+              basePath="/receives"
               record={record}
             >
-              <CustomerField />
+              <SupplierField />
             </ReferenceField>
           </Grid>
         </Grid>
@@ -73,17 +73,17 @@ const InvoiceShow = (props: any) => {
           </Grid>
           <Grid item xs={5}>
             <Typography variant="h6" gutterBottom align="center">
-              Sales Order
+              Invoice
             </Typography>
             <TextField
-              source="sales_order"
+              source="invoice"
               align="center"
               component="p"
               gutterBottom
             />
           </Grid>
         </Grid>
-        <div className={classes.invoices}>
+        <div className={classes.receives}>
           <Basket record={record} />
         </div>
       </CardContent>
@@ -91,10 +91,10 @@ const InvoiceShow = (props: any) => {
   );
 };
 
-export default InvoiceShow;
+export default CreditNoteShow;
 
 const useStyles = makeStyles({
   root: { width: 600, margin: 'auto' },
   spacer: { height: 20 },
-  invoices: { margin: '10px 0' },
+  receives: { margin: '10px 0' },
 });

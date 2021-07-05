@@ -21,6 +21,8 @@ import {
 import EditIcon from '@material-ui/icons/Edit';
 import { IconButton } from '@material-ui/core';
 
+// TODO: write js doc
+// TODO: show top results if empty
 // https://material-ui.com/components/autocomplete/#google-maps-place
 export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   /**

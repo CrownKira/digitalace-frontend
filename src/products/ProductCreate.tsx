@@ -98,6 +98,7 @@ const ProductCreate: FC<CreateProps> = (props) => {
           </ReferenceInput>
           <TextInput source="name" validate={requiredValidate} />
           <NumberInput
+            min={0}
             source="cost"
             validate={requiredValidate}
             className={classes.cost}
@@ -109,6 +110,7 @@ const ProductCreate: FC<CreateProps> = (props) => {
             }}
           />
           <NumberInput
+            min={0}
             source="unit_price"
             validate={requiredValidate}
             className={classes.unitPrice}

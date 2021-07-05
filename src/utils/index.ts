@@ -89,3 +89,20 @@ type Memoize = <T extends (...args: any[]) => any>(
 
 export const memoize: Memoize = (fn: any) =>
   lodashMemoize(fn, (...args) => JSON.stringify(args));
+
+export const sanitizeButtonRestProps = ({
+  // The next props are injected by Toolbar
+  basePath,
+  handleSubmit,
+  handleSubmitWithRedirect,
+  invalid,
+  onSave,
+  pristine,
+  record,
+  redirect,
+  resource,
+  saving,
+  submitOnEnter,
+  undoable,
+  ...rest
+}: any) => rest;

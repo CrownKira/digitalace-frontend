@@ -6,8 +6,9 @@ import { Customer } from '../types';
 const AddressField: FC<FieldProps<Customer>> = ({ record }) =>
   record ? (
     <span>
-      {record.address} {record.city ? `,${record.city}` : ''}{' '}
-      {record.state ? `,${record.state}` : ''} {record.zipcode}
+      {record.address}
+      {record.city ? `, ${record.city}` : ''}
+      {record.state ? `, ${record.state}` : ''} {record.zipcode}
     </span>
   ) : null;
 
