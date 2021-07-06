@@ -69,8 +69,21 @@ const Wrapper = withStyles((theme) => ({
 }))(CardContent);
 
 const SalesOrderEdit: FC<EditProps> = (props) => {
+  const notify = useNotify();
+  const refresh = useRefresh();
+
+  const onSuccess = ({ data }: { data: Record }) => {
+    notify(`Changes to "${data.reference}" saved`);
+    refresh();
+  };
+
   return (
-    <Edit component="div" {...props}>
+    <Edit
+      component="div"
+      onSuccess={onSuccess}
+      mutationMode="pessimistic"
+      {...props}
+    >
       <SalesOrderForm />
     </Edit>
   );

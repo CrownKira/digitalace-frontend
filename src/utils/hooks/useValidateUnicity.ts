@@ -16,11 +16,21 @@ const useValidateUnicity = ({ reference, source, record, message }: Props) => {
   const checkSourceIsUnique = memoize(
     async (value: string): Promise<boolean> => {
       try {
-        const response = await dataProvider.getList(reference, {
+        // TODO: use getManyReference?
+        // const response = await dataProvider.getList(reference, {
+        //   pagination: { page: 1, perPage: 2 },
+        //   sort: { field: 'id', order: 'DESC' },
+        //   filter: { [source]: value },
+        // });
+
+        const response = await dataProvider.getManyReference(reference, {
+          target: source,
+          id: value,
           pagination: { page: 1, perPage: 2 },
           sort: { field: 'id', order: 'DESC' },
-          filter: { [source]: value },
+          filter: {},
         });
+
         return (
           response &&
           response.data.length < 2 &&

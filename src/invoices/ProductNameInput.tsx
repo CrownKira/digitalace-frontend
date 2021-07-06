@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { TextInputProps, FormDataConsumerRenderParams } from 'react-admin';
+import { InputProps, FormDataConsumerRenderParams } from 'react-admin';
 import { useForm } from 'react-final-form';
 
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 
-interface Props extends TextInputProps, FormDataConsumerRenderParams {
+interface Props extends InputProps, FormDataConsumerRenderParams {
   inputClassName?: string | undefined;
 }
 

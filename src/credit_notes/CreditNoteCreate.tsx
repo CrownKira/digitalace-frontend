@@ -108,8 +108,10 @@ const CreditNoteForm = (props: any) => {
     grand_total: '0.00',
     credits_used: '0.00',
     credits_remaining: '0.00',
+    refund: '0.00',
   });
 
+  // TODO: add apply to invoice tab
   return loadingCreditNotes || loadingUserConfig ? (
     <Loading />
   ) : (
@@ -343,33 +345,47 @@ const CreditNoteForm = (props: any) => {
                   <NumberInput
                     min={0}
                     source="grand_total"
-                    resource="credit_note"
+                    resource="credit_notes"
                     fullWidth
                     validate={requiredValidate}
                     disabled
                   />
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                      <NumberInput
-                        min={0}
-                        source="credits_used"
-                        resource="credit_notes"
-                        fullWidth
-                        disabled
-                      />
+                      <FormDataConsumer>
+                        {({ formData }) => (
+                          <NumberInput
+                            min={0}
+                            max={formData.grand_total - formData.refund}
+                            source="credits_used"
+                            resource="credit_notes"
+                            fullWidth
+                            disabled
+                          />
+                        )}
+                      </FormDataConsumer>
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <NumberInput
-                        min={0}
-                        // TODO: default 0.00
-                        // TODO: check that it must be less than credits available
-                        source="credits_remaining"
-                        resource="credit_notes"
-                        fullWidth
-                        disabled
-                      />
+                      <FormDataConsumer>
+                        {({ formData }) => (
+                          <NumberInput
+                            min={0}
+                            max={formData.grand_total - formData.credits_used}
+                            source="refund"
+                            resource="credit_notes"
+                            fullWidth
+                          />
+                        )}
+                      </FormDataConsumer>
                     </Box>
                   </Box>
+                  <NumberInput
+                    min={0}
+                    source="credits_remaining"
+                    resource="credit_notes"
+                    fullWidth
+                    disabled
+                  />
                 </Box>
               </Box>
             </CardContent>

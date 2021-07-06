@@ -42,8 +42,21 @@ const useStyles = makeStyles({
 });
 
 const ReceiveEdit: FC<EditProps> = (props) => {
+  const notify = useNotify();
+  const refresh = useRefresh();
+
+  const onSuccess = ({ data }: { data: Record }) => {
+    notify(`Changes to "${data.reference}" saved`);
+    refresh();
+  };
+
   return (
-    <Edit component="div" {...props}>
+    <Edit
+      component="div"
+      onSuccess={onSuccess}
+      mutationMode="pessimistic"
+      {...props}
+    >
       <ReceiveForm />
     </Edit>
   );

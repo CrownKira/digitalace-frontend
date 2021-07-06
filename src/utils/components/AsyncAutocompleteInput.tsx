@@ -23,6 +23,7 @@ import { IconButton } from '@material-ui/core';
 
 // TODO: write js doc
 // TODO: show top results if empty
+// TODO: add renderOption
 // https://material-ui.com/components/autocomplete/#google-maps-place
 export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   /**
@@ -66,6 +67,8 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   onInputChange: onInputChangeOverride = () => {},
   wait = 300, // debounce timeout
   showEdit = true,
+  showSuggestions = true,
+  suggestionsCount = 5,
   ...props
 }) => {
   const {
@@ -81,6 +84,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     source,
     type: 'text',
     validate,
+
     ...props,
   });
 
@@ -114,7 +118,11 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
         async (request: string, callback: (results?: Record[]) => void) => {
           dataProvider
             .getList(reference, {
-              pagination: { page: 1, perPage },
+              pagination: {
+                page: 1,
+                perPage:
+                  !showSuggestions || request ? perPage : suggestionsCount,
+              },
               sort,
               filter: { ...filterToQuery(request), ...filter },
             })
@@ -137,7 +145,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       notify,
       perPage,
       reference,
+      showSuggestions,
       sort,
+      suggestionsCount,
       wait,
     ]
   );
@@ -169,10 +179,10 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   useEffect(() => {
     // FIXME: eliminate additional api calls after invoice update
     let active = true;
-    if (inputValue === '') {
-      setAutocompleteOptions(valueOverride ? [valueOverride] : []);
-      return undefined;
-    }
+    // if (inputValue === '') {
+    //   setAutocompleteOptions(valueOverride ? [valueOverride] : []);
+    //   return undefined;
+    // }
 
     fetch(inputValue, (results?: Record[]) => {
       if (active) {
@@ -290,6 +300,8 @@ export interface AsyncAutocompleteInputProps
     | undefined;
   onInputChange?: (event: any) => void;
   wait?: number;
+  showSuggestions?: boolean;
+  suggestionsCount?: number;
 }
 
 AsyncAutocompleteInput.defaultProps = {
@@ -303,6 +315,8 @@ AsyncAutocompleteInput.defaultProps = {
   onInputChange: () => {},
   wait: 300,
   showEdit: true,
+  showSuggestions: true,
+  suggestionsCount: 5,
 };
 
 /*

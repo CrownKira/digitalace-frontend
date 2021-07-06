@@ -51,7 +51,7 @@ const TotalInput: FC<Props> = ({
         form.change('discount_rate', discount_rate.toFixed(2));
       !isNaN(discount_amount) &&
         form.change('discount_amount', discount_amount.toFixed(2));
-      !isNaN(discount_rate) &&
+      !isNaN(gst_rate) &&
         form.getFieldState('gst_rate')?.active === false &&
         form.change('gst_rate', gst_rate.toFixed(2));
       !isNaN(gst_amount) && form.change('gst_amount', gst_amount.toFixed(2));
@@ -59,7 +59,9 @@ const TotalInput: FC<Props> = ({
       !isNaN(grand_total) && form.change('grand_total', grand_total.toFixed(2));
       !isNaN(credits_remaining) &&
         form.change('credits_remaining', credits_remaining.toFixed(2));
-      !isNaN(refund) && form.change('refund', refund.toFixed(2));
+      !isNaN(refund) &&
+        form.getFieldState('refund')?.active === false &&
+        form.change('refund', refund.toFixed(2));
     });
   }, [
     form,

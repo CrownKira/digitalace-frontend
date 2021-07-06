@@ -24,6 +24,10 @@ import {
   Datagrid,
   Pagination,
   Labeled,
+  useNotify,
+  useRefresh,
+  useRedirect,
+  Record,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -44,6 +48,7 @@ import PrintButton from './PrintButton';
 import PrintDeliveryOrderButton from './PrintDeliveryOrderButton';
 import LineItemsIterator from './LineItemsIterator';
 import ReferenceManyFieldWithActions from '../sales_orders/ReferenceManyFieldWithActions';
+import CustomerNameInput from './CustomerNameInput';
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -54,8 +59,21 @@ const useStyles = makeStyles({
 });
 
 const InvoiceEdit: FC<EditProps> = (props) => {
+  const notify = useNotify();
+  const refresh = useRefresh();
+
+  const onSuccess = ({ data }: { data: Record }) => {
+    notify(`Changes to "${data.reference}" saved`);
+    refresh();
+  };
+
   return (
-    <Edit component="div" {...props}>
+    <Edit
+      component="div"
+      onSuccess={onSuccess}
+      mutationMode="pessimistic"
+      {...props}
+    >
       <InvoiceForm />
     </Edit>
   );
@@ -96,6 +114,7 @@ const InvoiceForm = (props: any) => {
 
   return (
     <FormWithRedirect
+      // redirect={false}
       {...props}
       render={(formProps: any) => {
         // console.log(formProps?.form?.getFieldState('status')?.value);
@@ -162,17 +181,7 @@ const InvoiceForm = (props: any) => {
 
                       <Box display={{ sm: 'block', md: 'flex' }}>
                         <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                          <AsyncAutocompleteInput
-                            optionText="name"
-                            optionValue="id"
-                            source="customer"
-                            resource="invoices"
-                            reference="customers"
-                            validate={requiredValidate}
-                            fullWidth
-
-                            // helperText="Please select your customer"
-                          />
+                          <CustomerNameInput />
                         </Box>
                         <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                           <AsyncAutocompleteInput
@@ -500,34 +509,34 @@ const InvoiceForm = (props: any) => {
                 ) : null}
 
                 <FormTabWithLayout label="resources.invoices.tabs.credits_applied">
+                  <ReferenceManyFieldWithActions
+                    reference="credits_applications"
+                    target="invoice"
+                    addLabel={false}
+                    pagination={<Pagination />}
+                    fullWidth
+                    // actions={<InvoiceListActions />}
+                  >
+                    <Datagrid>
+                      <DateField source="date" />
+                      <ReferenceField
+                        source="credit_note"
+                        reference="credit_notes"
+                        label="resources.credit_notes.fields.reference"
+                        // fullWidth
+                        // formClassName={classes.leftFormGroup}
+                        // className={classes.lineItemInput}
+                        // className={classes.lineItemReferenceInput}
+                        // validate={requiredValidate}
+                      >
+                        <TextField source="reference" />
+                      </ReferenceField>
+                      <NumberField source="amount_to_credit" />
+                      <DeleteButton />
+                    </Datagrid>
+                  </ReferenceManyFieldWithActions>
                   <Card>
                     <CardContent>
-                      <ReferenceManyFieldWithActions
-                        reference="credits_applications"
-                        target="invoice"
-                        addLabel={false}
-                        pagination={<Pagination />}
-                        fullWidth
-                        // actions={<InvoiceListActions />}
-                      >
-                        <Datagrid>
-                          <DateField source="date" />
-                          <ReferenceField
-                            source="credit_note"
-                            reference="credit_notes"
-                            label="resources.credit_notes.fields.reference"
-                            // fullWidth
-                            // formClassName={classes.leftFormGroup}
-                            // className={classes.lineItemInput}
-                            // className={classes.lineItemReferenceInput}
-                            // validate={requiredValidate}
-                          >
-                            <TextField source="reference" />
-                          </ReferenceField>
-                          <NumberField source="amount_to_credit" />
-                          <DeleteButton />
-                        </Datagrid>
-                      </ReferenceManyFieldWithActions>
                       <ArrayInput
                         source="creditsapplication_set"
                         resource="credits_applications"
@@ -541,18 +550,17 @@ const InvoiceForm = (props: any) => {
                           disableAdd
                           disableRemove
                         >
-                          <ReferenceInput
-                            source="credit_note"
-                            reference="credit_notes"
+                          <TextInput
+                            min={0}
+                            // TODO: use NumberField instead
+                            // TODO: add currency
+                            source="reference"
                             label="resources.credit_notes.fields.reference"
-                            // fullWidth
                             formClassName={classes.leftFormGroup}
-                            // className={classes.lineItemInput}
-                            className={classes.lineItemReferenceInput}
-                            validate={requiredValidate}
-                          >
-                            <SelectInput source="reference" />
-                          </ReferenceInput>
+                            className={classes.lineItemInput}
+                            // validate={requiredValidate}
+                            disabled
+                          />
                           <DateInput
                             source="date"
                             formClassName={classes.leftFormGroup}
@@ -565,20 +573,8 @@ const InvoiceForm = (props: any) => {
                             min={0}
                             // TODO: use NumberField instead
                             // TODO: add currency
-                            source="credit_note"
-                            // label="resources.credit_notes.fields.credits_used"
-                            formClassName={classes.leftFormGroup}
-                            className={classes.lineItemInput}
-                            // validate={requiredValidate}
-                            disabled
-                          />
-
-                          <NumberInput
-                            min={0}
-                            // TODO: use NumberField instead
-                            // TODO: add currency
-                            source="credit_amount"
-                            label="resources.credit_notes.fields.credits_used"
+                            source="grand_total"
+                            label="resources.credit_notes.fields.grand_total"
                             formClassName={classes.leftFormGroup}
                             className={classes.lineItemInput}
                             // validate={requiredValidate}
@@ -588,7 +584,7 @@ const InvoiceForm = (props: any) => {
                           <NumberInput
                             /// use number, since it makes changing the field easier
                             min={0}
-                            source="credits_available"
+                            source="credits_remaining"
                             label="resources.credit_notes.fields.credits_remaining"
                             formClassName={classes.leftFormGroup}
                             className={classes.lineItemInput}
