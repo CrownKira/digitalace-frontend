@@ -20,6 +20,8 @@ import {
   TextField,
   Record,
   ReferenceField,
+  number,
+  minValue,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,8 +33,9 @@ import ProductNameInput from '../invoices/ProductNameInput';
 import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
-import {} from '../utils';
-import { useOnFailure, useValidateUnicity } from '../utils/hooks';
+import { validateUnicity } from '../utils';
+import { memoize } from '../utils';
+import { useOnFailure } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { Receive } from '../types';
 import { incrementReference, dateParser } from '../utils';
@@ -69,11 +72,6 @@ export const transform = (data: Record) => ({
 const ReceiveForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
-  const validateReferenceUnicity = useValidateUnicity({
-    reference: 'receives',
-    source: 'reference',
-    message: 'resources.receives.validation.reference_already_used',
-  });
 
   const {
     data: receives,
@@ -124,7 +122,7 @@ const ReceiveForm = (props: any) => {
                         source="reference"
                         resource="receives"
                         fullWidth
-                        validate={[requiredValidate, validateReferenceUnicity]}
+                        validate={validateReference(props)}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -256,25 +254,22 @@ const ReceiveForm = (props: any) => {
                         }
                       </FormDataConsumer>
                       <NumberInput
-                        min={0}
                         source="quantity"
                         formClassName={classes.leftFormGroup}
                         className={classes.lineItemInput}
-                        validate={requiredValidate}
+                        validate={validateNumber}
                       />
                       <TextInput
                         source="unit"
                         formClassName={classes.leftFormGroup}
                         className={classes.lineItemInput}
-                        validate={requiredValidate}
                         disabled
                       />
                       <NumberInput
-                        min={0}
                         source="unit_price"
                         formClassName={classes.leftFormGroup}
                         className={classes.lineItemInput}
-                        validate={requiredValidate}
+                        validate={validateNumber}
                       />
                       <FormDataConsumer
                         formClassName={classes.leftFormGroup}
@@ -286,7 +281,6 @@ const ReceiveForm = (props: any) => {
                               source={getSource('amount')}
                               getSource={getSource}
                               inputClassName={classes.lineItemInput}
-                              validate={requiredValidate}
                               // FIXME: error thrown if do no pass save and saving as strings
                               // hint: this happened because props are injected into react element
                               // instead of NumberInput
@@ -309,7 +303,6 @@ const ReceiveForm = (props: any) => {
                         source="total_amount"
                         resource="receives"
                         fullWidth
-                        validate={requiredValidate}
                         disabled
                         {...props}
                       />
@@ -318,11 +311,10 @@ const ReceiveForm = (props: any) => {
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
-                        min={0}
                         source="discount_rate"
                         resource="receives"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={validateNumber}
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end">%</InputAdornment>
@@ -332,21 +324,18 @@ const ReceiveForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
-                        min={0}
                         source="discount_amount"
                         resource="receives"
                         fullWidth
-                        validate={requiredValidate}
                         disabled
                       />
                     </Box>
                   </Box>
                   <NumberInput
-                    min={0}
                     source="net"
                     resource="receives"
                     fullWidth
-                    validate={requiredValidate}
+                    validate={validateNumber}
                     disabled
                   />
                 </Box>
@@ -354,11 +343,10 @@ const ReceiveForm = (props: any) => {
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
-                        min={0}
                         source="gst_rate"
                         resource="receives"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={validateNumber}
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end">%</InputAdornment>
@@ -368,21 +356,18 @@ const ReceiveForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
-                        min={0}
                         source="gst_amount"
                         resource="receives"
                         fullWidth
-                        validate={requiredValidate}
                         disabled
                       />
                     </Box>
                   </Box>
                   <NumberInput
-                    min={0}
                     source="grand_total"
                     resource="receives"
                     fullWidth
-                    validate={requiredValidate}
+                    validate={validateNumber}
                     disabled
                   />
                   <FormDataConsumer>
@@ -432,5 +417,17 @@ const ReceiveForm = (props: any) => {
 };
 
 const requiredValidate = required();
+const validateNumber = [requiredValidate, number(), minValue(0)];
+const validateReferenceUnicity = (props: any) =>
+  validateUnicity({
+    reference: 'receives',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.receives.validation.reference_already_used',
+  });
+const validateReference = memoize((props: any) => [
+  requiredValidate,
+  validateReferenceUnicity(props),
+]);
 
 export default ReceiveCreate;

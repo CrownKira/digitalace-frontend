@@ -61,7 +61,7 @@ const TotalInput: FC<Props> = ({
     formState, // so that discount_rate and gst_rate input round up on blur
   ]);
 
-  return <NumberInput min={0} {...rest} className={inputClassName} />;
+  return <NumberInput {...rest} className={inputClassName} />;
 };
 
 TotalInput.defaultProps = {};

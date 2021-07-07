@@ -24,8 +24,9 @@ import Aside from './Aside';
 import FullNameField from './FullNameField';
 import { validatePasswords } from './SupplierCreate';
 import { Supplier } from '../types';
-import { formatImage } from '../utils';
-import { useOnFailure, useValidateUnicity } from '../utils/hooks';
+import { formatImage, validateUnicity } from '../utils';
+import { memoize } from '../utils';
+import { useOnFailure } from '../utils/hooks';
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import NameField from '../categories/NameField';
 import ProductRefField from '../products/ProductRefField';
@@ -51,13 +52,6 @@ const SupplierTitle: FC<FieldProps<Supplier>> = ({ record }) =>
   record ? <FullNameField record={record} size="32" /> : null;
 
 const SupplierForm = (props: any) => {
-  const validateReferenceUnicity = useValidateUnicity({
-    reference: 'suppliers',
-    source: 'reference',
-    record: props.record,
-    message: 'resources.suppliers.validation.reference_already_used',
-  });
-
   return (
     <FormWithRedirect
       validate={validatePasswords}
@@ -80,7 +74,7 @@ const SupplierForm = (props: any) => {
               <SectionTitle label="resources.suppliers.fieldGroups.identity" />
               <TextInput
                 source="reference"
-                validate={[requiredValidate, validateReferenceUnicity]}
+                validate={validateReference(props)}
               />
               <Box display={{ xs: 'block', sm: 'flex' }}>
                 <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
@@ -198,6 +192,17 @@ const SupplierForm = (props: any) => {
 
 const requiredValidate = required();
 const validateEmail = email();
+const validateReferenceUnicity = (props: any) =>
+  validateUnicity({
+    reference: 'suppliers',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.suppliers.validation.reference_already_used',
+  });
+const validateReference = memoize((props: any) => [
+  requiredValidate,
+  validateReferenceUnicity(props),
+]);
 
 export default SupplierEdit;
 

@@ -28,9 +28,10 @@ import {
   useNotify,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
-import { formatImage } from '../utils';
+import { formatImage, validateUnicity } from '../utils';
 import { UserProfile } from '../types';
-import { useOnFailure, useValidateUnicity } from '../utils/hooks';
+import { memoize } from '../utils';
+import { useOnFailure } from '../utils/hooks';
 import { genders } from '../utils/data';
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import useGetUserProfile from './useGetUserProfile';
@@ -92,13 +93,6 @@ export const ProfileEdit = () => {
   const [saving, setSaving] = useState(false);
   const { loaded, identity } = useGetUserProfile();
   const { refreshProfile } = useProfile();
-  const validateEmailUnicity = useValidateUnicity({
-    reference: 'users',
-    source: 'email',
-    // this function can only be invoked after identity is loaded
-    record: identity as UserProfile,
-    message: 'pos.user_menu.profile.validation.email_already_used',
-  });
 
   // TODO: remove permission on submit
   const handleSave = useCallback(
@@ -202,11 +196,7 @@ export const ProfileEdit = () => {
                 <TextInput
                   type="email"
                   source="email"
-                  validate={[
-                    requiredValidate,
-                    validateEmail,
-                    validateEmailUnicity,
-                  ]}
+                  validate={validateEmail(identity)}
                   fullWidth
                   resource="users"
                 />
@@ -377,4 +367,16 @@ export const ProfileEdit = () => {
 };
 
 const requiredValidate = required();
-const validateEmail = email();
+const validateEmailUnicity = (identity: any) =>
+  validateUnicity({
+    reference: 'users',
+    source: 'email',
+    // this function can only be invoked after identity is loaded
+    record: identity as UserProfile,
+    message: 'pos.user_menu.profile.validation.email_already_used',
+  });
+const validateEmail = memoize((identity: any) => [
+  requiredValidate,
+  email(),
+  validateEmailUnicity(identity),
+]);

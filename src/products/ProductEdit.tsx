@@ -12,6 +12,8 @@ import {
   ImageInput,
   ImageField,
   TabbedFormTabs,
+  number,
+  minValue,
 } from 'react-admin';
 import { InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,8 +21,9 @@ import RichTextInput from 'ra-input-rich-text';
 
 import { styles as createStyles } from './ProductCreate';
 import { Product } from '../types';
-import { formatImage } from '../utils';
-import { useOnFailure, useValidateUnicity } from '../utils/hooks';
+import { formatImage, validateUnicity } from '../utils';
+import { memoize } from '../utils';
+import { useOnFailure } from '../utils/hooks';
 
 interface ProductTitleProps {
   record?: Product;
@@ -55,13 +58,6 @@ const useStyles = makeStyles({
 
 const ProductForm = (props: any) => {
   const classes = useStyles();
-
-  const validateReferenceUnicity = useValidateUnicity({
-    reference: 'products',
-    source: 'reference',
-    record: props.record,
-    message: 'resources.products.validation.reference_already_used',
-  });
 
   console.log('props', props);
 
@@ -98,7 +94,7 @@ const ProductForm = (props: any) => {
       >
         <TextInput
           source="reference"
-          validate={[requiredValidate, validateReferenceUnicity]}
+          validate={validateReference(props)}
           resource="products"
         />
         <ReferenceInput
@@ -110,7 +106,6 @@ const ProductForm = (props: any) => {
         </ReferenceInput>
         <TextInput source="name" validate={requiredValidate} />
         <NumberInput
-          min={0}
           source="cost"
           className={classes.cost}
           formClassName={classes.costFormGroup}
@@ -119,10 +114,9 @@ const ProductForm = (props: any) => {
               <InputAdornment position="start">S$</InputAdornment>
             ),
           }}
-          validate={requiredValidate}
+          validate={validateNumber}
         />
         <NumberInput
-          min={0}
           source="unit_price"
           className={classes.unitPrice}
           formClassName={classes.unitPriceFormGroup}
@@ -131,7 +125,7 @@ const ProductForm = (props: any) => {
               <InputAdornment position="start">S$</InputAdornment>
             ),
           }}
-          validate={requiredValidate}
+          validate={validateNumber}
         />
         <TextInput
           source="unit"
@@ -164,6 +158,18 @@ const ProductForm = (props: any) => {
 };
 
 const requiredValidate = required();
+const validateNumber = [requiredValidate, number(), minValue(0)];
+const validateReferenceUnicity = (props: any) =>
+  validateUnicity({
+    reference: 'products',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.products.validation.reference_already_used',
+  });
+const validateReference = memoize((props: any) => [
+  requiredValidate,
+  validateReferenceUnicity(props),
+]);
 
 export default ProductEdit;
 

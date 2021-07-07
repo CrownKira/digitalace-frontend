@@ -12,6 +12,8 @@ import {
   AutocompleteArrayInput,
   useGetList,
   Loading,
+  number,
+  minValue,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles, Theme } from '@material-ui/core/styles';
@@ -19,8 +21,9 @@ import { Styles } from '@material-ui/styles/withStyles';
 
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import { Customer } from '../types';
-import { incrementReference } from '../utils';
-import { useOnFailure, useValidateUnicity } from '../utils/hooks';
+import { incrementReference, validateUnicity } from '../utils';
+import { memoize } from '../utils';
+import { useOnFailure } from '../utils/hooks';
 
 export const styles: Styles<Theme, any> = {
   name: { display: 'inline-block' },
@@ -56,11 +59,6 @@ const CustomerCreate: FC<CreateProps> = (props) => {
   // qn: why need props?
   const classes = useStyles(props);
   const onFailure = useOnFailure();
-  const validateReferenceUnicity = useValidateUnicity({
-    reference: 'customers',
-    source: 'reference',
-    message: 'resources.customers.validation.reference_already_used',
-  });
 
   const {
     data: customers,
@@ -99,10 +97,7 @@ const CustomerCreate: FC<CreateProps> = (props) => {
           <ImageField source="src" title="title" />
         </ImageInput>
         <SectionTitle label="resources.customers.fieldGroups.identity" />
-        <TextInput
-          source="reference"
-          validate={[requiredValidate, validateReferenceUnicity]}
-        />
+        <TextInput source="reference" validate={validateReference(props)} />
         <TextInput
           autoFocus
           source="name"
@@ -163,6 +158,17 @@ const CustomerCreate: FC<CreateProps> = (props) => {
  */
 const requiredValidate = required();
 const validateEmail = email();
+const validateReferenceUnicity = (props: any) =>
+  validateUnicity({
+    reference: 'customers',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.customers.validation.reference_already_used',
+  });
+const validateReference = memoize((props: any) => [
+  requiredValidate,
+  validateReferenceUnicity(props),
+]);
 
 export default CustomerCreate;
 

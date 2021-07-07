@@ -59,7 +59,7 @@ function getFormData(data: Record, method = HttpMethodsEnum.PATCH) {
   return formData;
 }
 
-const customDataProvider: DataProvider = {
+export const customDataProvider: DataProvider = {
   ...restProvider,
   create: async (resource, params) => {
     if (fileLabels.every((x) => !params.data.hasOwnProperty(x))) {

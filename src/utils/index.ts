@@ -1,4 +1,7 @@
 import lodashMemoize from 'lodash/memoize';
+import { Record } from 'react-admin';
+
+import customDataProvider from '../dataProvider/backend';
 
 import QuickFilter from './QuickFilter';
 export { QuickFilter };
@@ -49,7 +52,20 @@ export const incrementReference = (
   return `${defaultPrefix}-${'0'.repeat(defaultDigits)}`;
 };
 
-export const dateParser = (date: string) => {
+export const dateFormatter = (v: Date) => {
+  // https://stackoverflow.com/questions/64714107/can-use-react-admin-dateinput-to-change-the-format-like-dd-mm-yyyy-to-mm-dd-yyyy
+  // v is a `Date` object
+  // if (!(v instanceof Date) || isNaN(v)) return;
+  const pad = '00';
+  const yy = v.getFullYear().toString();
+  const mm = (v.getMonth() + 1).toString();
+  const dd = v.getDate().toString();
+  return `${yy}-${(pad + mm).slice(-2)}-${(pad + dd).slice(-2)}`;
+};
+
+export const dateParser = (date: any) => {
+  // for some reason, RA might not format payment_date
+  if (date instanceof Date) return dateFormatter(date);
   // FIXME: fix parse not converting this to null
   // fix parse doesn't parse on render default input
   return date || null;
@@ -61,13 +77,16 @@ export function refreshLocalStorage(data: { [key: string]: any }) {
   }
 }
 
+// TODO: display error in the field helper instead?
+// https://marmelab.com/react-admin/CreateEdit.html#submission-validation
 const getAxiosErrorMessage = (error: any) => {
   const {
     response: { data, status, statusText },
   } = error;
 
   return status === 400
-    ? `${Object.keys(data)[0]}: ${Object.values(data)[0]}`
+    ? // stringify it since it might be an object
+      `${Object.keys(data)[0]} - ${JSON.stringify(Object.values(data)[0])}`
     : statusText;
 };
 
@@ -78,7 +97,7 @@ export const getErrorMessage = (error: any) => {
   if (isAxiosError) return getAxiosErrorMessage(error);
 
   return status === 400
-    ? `${Object.keys(body)[0]}: ${Object.values(body)[0]}`
+    ? `${Object.keys(body)[0]} - ${JSON.stringify(Object.values(body)[0])}`
     : message;
 };
 
@@ -106,3 +125,56 @@ export const sanitizeButtonRestProps = ({
   undoable,
   ...rest
 }: any) => rest;
+
+export const validatePositivity = (value: number) => {
+  if (value < 0) {
+    const message = 'resources.invoices.validation.negative_number';
+    return message;
+  }
+};
+
+export const validateUnicity = ({
+  reference,
+  source,
+  record,
+  message,
+}: {
+  reference: string;
+  source: string;
+  record?: Record;
+  message: string;
+}) => {
+  const checkSourceIsUnique = async (value: string): Promise<boolean> => {
+    try {
+      // can't use hook since result can't be memoized
+      // TODO: use raw data provider
+      const response = await customDataProvider.getManyReference(reference, {
+        target: source,
+        id: value,
+        pagination: { page: 1, perPage: 2 },
+        sort: { field: 'id', order: 'DESC' },
+        filter: {},
+      });
+
+      return (
+        response &&
+        response.data.length < 2 &&
+        (response.data.length === 0 ||
+          (record !== undefined && response.data[0].id === record.id))
+      );
+    } catch (error) {
+      // notify('pos.use_validate_unicity.data_provider_error', 'warning');
+      return false;
+    }
+  };
+
+  return lodashMemoize(async (value: string) => {
+    const isSourceUnique = await checkSourceIsUnique(value);
+    if (!isSourceUnique) {
+      return {
+        message,
+        args: { [source]: value },
+      };
+    }
+  });
+};

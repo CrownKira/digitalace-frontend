@@ -39,7 +39,10 @@ const TotalInput: FC<Props> = ({
     const gst_amount = net * (gst_rate / 100);
     const grand_total = net * (1 - gst_rate / 100);
     const credits_used = toFixedNumber(formData?.credits_used, 2);
-    const refund = toFixedNumber(formData?.refund, 2);
+    const refund = Math.min(
+      toFixedNumber(formData?.refund, 2),
+      grand_total - credits_used
+    );
     const credits_remaining = grand_total - credits_used - refund;
 
     // toFixed(2): converts '0' to '0.00'
@@ -69,7 +72,7 @@ const TotalInput: FC<Props> = ({
     formState, // so that discount_rate and gst_rate input round up on blur
   ]);
 
-  return <NumberInput min={0} {...rest} className={inputClassName} />;
+  return <NumberInput {...rest} className={inputClassName} />;
 };
 
 TotalInput.defaultProps = {};

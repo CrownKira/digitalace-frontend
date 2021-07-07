@@ -67,13 +67,6 @@ const Register = () => {
   const classes = loginStyles();
   const location = useLocation<{ nextPathname: string } | null>();
   const redirect = useRedirect();
-  // TODO: doesn't work due to the following error:
-  // Failed prop type: Invalid prop `helperText` supplied to `ForwardRef(TextField)`, expected a ReactNode.
-  // const validateReferenceUnicity = useValidateUnicity({
-  //   reference: 'users',
-  //   source: 'email',
-  //   message: 'resources.users.validation.email_already_used',
-  // });
 
   const handleSubmit = (values: FormValues) => {
     setLoading(true);

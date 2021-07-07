@@ -14,7 +14,7 @@ const useOnFailure = () => {
       'warning'
     );
 
-    refresh();
+    // refresh();
   };
 };
 

@@ -19,6 +19,8 @@ import {
   TextField,
   Record,
   ReferenceField,
+  number,
+  minValue,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,8 +32,9 @@ import ProductNameInput from '../invoices/ProductNameInput';
 import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
 import LineNumberField from './LineNumberField';
-import {} from '../utils';
-import { useOnFailure, useValidateUnicity } from '../utils/hooks';
+import { validateUnicity } from '../utils';
+import { memoize } from '../utils';
+import { useOnFailure } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { CreditNote } from '../types';
 import { incrementReference, dateParser } from '../utils';
@@ -69,11 +72,7 @@ export const transform = (data: Record) => ({
 const CreditNoteForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
-  const validateReferenceUnicity = useValidateUnicity({
-    reference: 'credit_notes',
-    source: 'reference',
-    message: 'resources.credit_notes.validation.reference_already_used',
-  });
+  console.log('recreate');
 
   const {
     data: credit_notes,
@@ -98,7 +97,7 @@ const CreditNoteForm = (props: any) => {
     invoice: null,
     // FIXME: default to null date instead
     payment_date: new Date(),
-    status: 'PD',
+    status: 'DFT',
     total_amount: '0.00',
     discount_rate: userConfig?.discount_rate,
     discount_amount: '0.00',
@@ -164,7 +163,7 @@ const CreditNoteForm = (props: any) => {
                         source="reference"
                         resource="credit_note"
                         fullWidth
-                        validate={[requiredValidate, validateReferenceUnicity]}
+                        validate={validateReference(props)}
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -172,7 +171,7 @@ const CreditNoteForm = (props: any) => {
                         source="created_from"
                         resource="credit_note"
                         fullWidth
-                        // validate={[requiredValidate, validateReferenceUnicity]}
+                        // validate={validateReference(props)}
                         disabled
                       />
                     </Box>
@@ -216,11 +215,10 @@ const CreditNoteForm = (props: any) => {
                         }
                       </FormDataConsumer>
                       <NumberInput
-                        min={0}
                         source="quantity"
                         formClassName={classes.leftFormGroup}
                         className={classes.lineItemInput}
-                        validate={requiredValidate}
+                        validate={validateNumber}
                       />
                       <TextInput
                         source="unit"
@@ -230,11 +228,10 @@ const CreditNoteForm = (props: any) => {
                         disabled
                       />
                       <NumberInput
-                        min={0}
                         source="unit_price"
                         formClassName={classes.leftFormGroup}
                         className={classes.lineItemInput}
-                        validate={requiredValidate}
+                        validate={validateNumber}
                       />
                       <FormDataConsumer
                         formClassName={classes.leftFormGroup}
@@ -246,7 +243,6 @@ const CreditNoteForm = (props: any) => {
                               source={getSource('amount')}
                               getSource={getSource}
                               inputClassName={classes.lineItemInput}
-                              validate={requiredValidate}
                               // FIXME: error thrown if do no pass save and saving as strings
                               // hint: this happened because props are injected into react element
                               // instead of NumberInput
@@ -269,7 +265,6 @@ const CreditNoteForm = (props: any) => {
                         source="total_amount"
                         resource="credit_note"
                         fullWidth
-                        validate={requiredValidate}
                         disabled
                         {...props}
                       />
@@ -278,11 +273,10 @@ const CreditNoteForm = (props: any) => {
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
-                        min={0}
                         source="discount_rate"
                         resource="credit_note"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={validateNumber}
                         InputProps={{
                           endAdornment: (
                             <InputAdornment
@@ -297,21 +291,18 @@ const CreditNoteForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
-                        min={0}
                         source="discount_amount"
                         resource="credit_note"
                         fullWidth
-                        validate={requiredValidate}
                         disabled
                       />
                     </Box>
                   </Box>
                   <NumberInput
-                    min={0}
                     source="net"
                     resource="credit_note"
                     fullWidth
-                    validate={requiredValidate}
+                    validate={validateNumber}
                     disabled
                   />
                 </Box>
@@ -319,11 +310,10 @@ const CreditNoteForm = (props: any) => {
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
-                        min={0}
                         source="gst_rate"
                         resource="credit_note"
                         fullWidth
-                        validate={requiredValidate}
+                        validate={validateNumber}
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end">%</InputAdornment>
@@ -333,54 +323,41 @@ const CreditNoteForm = (props: any) => {
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                       <NumberInput
-                        min={0}
                         source="gst_amount"
                         resource="credit_note"
                         fullWidth
-                        validate={requiredValidate}
                         disabled
                       />
                     </Box>
                   </Box>
                   <NumberInput
-                    min={0}
                     source="grand_total"
                     resource="credit_notes"
                     fullWidth
-                    validate={requiredValidate}
+                    validate={validateNumber}
                     disabled
                   />
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                      <FormDataConsumer>
-                        {({ formData }) => (
-                          <NumberInput
-                            min={0}
-                            max={formData.grand_total - formData.refund}
-                            source="credits_used"
-                            resource="credit_notes"
-                            fullWidth
-                            disabled
-                          />
-                        )}
-                      </FormDataConsumer>
+                      <NumberInput
+                        // FIXME: max doesn't work
+                        // max={formData.grand_total - formData.refund}
+                        // TODO: use maxValue validation
+                        source="credits_used"
+                        resource="credit_notes"
+                        fullWidth
+                        disabled
+                      />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                      <FormDataConsumer>
-                        {({ formData }) => (
-                          <NumberInput
-                            min={0}
-                            max={formData.grand_total - formData.credits_used}
-                            source="refund"
-                            resource="credit_notes"
-                            fullWidth
-                          />
-                        )}
-                      </FormDataConsumer>
+                      <NumberInput
+                        source="refund"
+                        resource="credit_notes"
+                        fullWidth
+                      />
                     </Box>
                   </Box>
                   <NumberInput
-                    min={0}
                     source="credits_remaining"
                     resource="credit_notes"
                     fullWidth
@@ -422,5 +399,17 @@ const CreditNoteForm = (props: any) => {
 };
 
 const requiredValidate = required();
+const validateNumber = [requiredValidate, number(), minValue(0)];
+const validateReferenceUnicity = (props: any) =>
+  validateUnicity({
+    reference: 'credit_notes',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.credit_notes.validation.reference_already_used',
+  });
+const validateReference = memoize((props: any) => [
+  requiredValidate,
+  validateReferenceUnicity(props),
+]);
 
 export default CreditNoteCreate;

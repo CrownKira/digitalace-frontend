@@ -47,12 +47,13 @@ const ApplyToInvoiceButton: FC<ApplyToInvoiceButtonProps> = (props) => {
   //   }),
   //   [basePath, resource, scrollToTop]
   // );
+
   return isSmall ? (
     <Fab
       component={Link}
       color="primary"
       className={classnames(classes.floating, className)}
-      // to={location}
+      to=""
       aria-label={label && translate(label)}
       onClick={() => {
         notify('pos.message.coming_soon');

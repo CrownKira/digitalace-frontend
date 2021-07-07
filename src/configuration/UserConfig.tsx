@@ -20,6 +20,7 @@ import { ThemeSelectInput } from './ThemeSelectInput';
 import { LanguageSelectInput } from './LanguageSelectInput';
 import { UserConfig } from '../types';
 import { refreshLocalStorage } from '../utils';
+import { memoize } from '../utils';
 import { useOnFailure } from '../utils/hooks';
 
 export const UserConfigEdit = () => {

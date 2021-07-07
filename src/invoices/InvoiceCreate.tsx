@@ -21,6 +21,10 @@ import {
   Record,
   ReferenceField,
   TabbedFormView,
+  number,
+  minValue,
+  maxValue,
+  NumberField,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,13 +40,16 @@ import CreditsAppliedInput from './CreditsAppliedInput';
 import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { Invoice } from '../types';
-import { incrementReference, dateParser } from '../utils';
-import { useOnFailure, useValidateUnicity } from '../utils/hooks';
+import { incrementReference, dateParser, validateUnicity } from '../utils';
+import { memoize } from '../utils';
+import { useOnFailure } from '../utils/hooks';
 import { FormTabWithLayout } from '../invoices/FormTabWithLayout';
 import PdfButton from '../invoices/PdfButton';
 import PrintButton from '../invoices/PrintButton';
 import PrintDeliveryOrderButton from '../invoices/PrintDeliveryOrderButton';
 import LineItemsIterator from '../invoices/LineItemsIterator';
+import CreditsApplicationListActions from './CreditsApplicationListActions';
+import CustomerNameInput from './CustomerNameInput';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
@@ -88,13 +95,10 @@ const InvoiceForm = (props: any) => {
   const [state, setState] = useState({
     // TODO: make use of formProps instead?
     isPaid: props?.record?.status === 'PD',
+    openApplyCredits: false,
   });
+
   const onFailure = useOnFailure();
-  const validateReferenceUnicity = useValidateUnicity({
-    reference: 'invoices',
-    source: 'reference',
-    message: 'resources.invoices.validation.reference_already_used',
-  });
 
   const {
     data: invoices,
@@ -128,6 +132,7 @@ const InvoiceForm = (props: any) => {
     credits_available: '0.00',
     credits_applied: '0.00',
     balance_due: '0.00',
+    creditsapplication_set: [],
   });
 
   return loadingInvoices || loadingUserConfig ? (
@@ -189,21 +194,13 @@ const InvoiceForm = (props: any) => {
 
                       <Box display={{ sm: 'block', md: 'flex' }}>
                         <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                          <AsyncAutocompleteInput
-                            optionText="name"
-                            optionValue="id"
-                            source="customer"
-                            resource="invoices"
-                            reference="customers"
-                            validate={requiredValidate}
-                            fullWidth
-                            onChange={(event, newValue) => {
-                              formProps.form.change(
-                                'credits_available',
-                                newValue ? newValue.unused_credits : '0.00'
-                              );
+                          <CustomerNameInput
+                            onChange={() => {
+                              setState({
+                                ...state,
+                                openApplyCredits: false,
+                              });
                             }}
-                            // helperText="Please select your customer"
                           />
                         </Box>
                         <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -226,10 +223,7 @@ const InvoiceForm = (props: any) => {
                             source="reference"
                             resource="invoices"
                             fullWidth
-                            validate={[
-                              requiredValidate,
-                              validateReferenceUnicity,
-                            ]}
+                            validate={validateReference(props)}
                           />
                         </Box>
                         <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -292,26 +286,24 @@ const InvoiceForm = (props: any) => {
                             }
                           </FormDataConsumer>
                           <NumberInput
-                            min={0}
                             source="quantity"
                             formClassName={classes.leftFormGroup}
                             className={classes.lineItemInput}
-                            validate={requiredValidate}
+                            validate={validateNumber}
                           />
                           <TextInput
                             source="unit"
                             formClassName={classes.leftFormGroup}
                             className={classes.lineItemInput}
-                            validate={requiredValidate}
                             disabled
                           />
                           <NumberInput
-                            min={0}
                             source="unit_price"
                             formClassName={classes.leftFormGroup}
                             className={classes.lineItemInput}
-                            validate={requiredValidate}
+                            validate={validateNumber}
                           />
+
                           <FormDataConsumer
                             formClassName={classes.leftFormGroup}
                             disabled
@@ -322,7 +314,6 @@ const InvoiceForm = (props: any) => {
                                   source={getSource('amount')}
                                   getSource={getSource}
                                   inputClassName={classes.lineItemInput}
-                                  validate={requiredValidate}
                                   // FIXME: error thrown if do no pass save and saving as strings
                                   // hint: this happened because props are injected into react element
                                   // instead of NumberInput
@@ -345,7 +336,6 @@ const InvoiceForm = (props: any) => {
                             source="total_amount"
                             resource="invoices"
                             fullWidth
-                            validate={requiredValidate}
                             disabled
                             {...props}
                           />
@@ -354,11 +344,10 @@ const InvoiceForm = (props: any) => {
                       <Box display={{ sm: 'block', md: 'flex' }}>
                         <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                           <NumberInput
-                            min={0}
                             source="discount_rate"
                             resource="invoices"
                             fullWidth
-                            validate={requiredValidate}
+                            validate={validateNumber}
                             InputProps={{
                               endAdornment: (
                                 <InputAdornment
@@ -373,21 +362,17 @@ const InvoiceForm = (props: any) => {
                         </Box>
                         <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                           <NumberInput
-                            min={0}
                             source="discount_amount"
                             resource="invoices"
                             fullWidth
-                            validate={requiredValidate}
                             disabled
                           />
                         </Box>
                       </Box>
                       <NumberInput
-                        min={0}
                         source="net"
                         resource="invoices"
                         fullWidth
-                        validate={requiredValidate}
                         disabled
                       />
                     </Box>
@@ -395,11 +380,10 @@ const InvoiceForm = (props: any) => {
                       <Box display={{ sm: 'block', md: 'flex' }}>
                         <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                           <NumberInput
-                            min={0}
                             source="gst_rate"
                             resource="invoices"
                             fullWidth
-                            validate={requiredValidate}
+                            validate={validateNumber}
                             InputProps={{
                               endAdornment: (
                                 <InputAdornment position="end">
@@ -411,33 +395,57 @@ const InvoiceForm = (props: any) => {
                         </Box>
                         <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                           <NumberInput
-                            min={0}
                             source="gst_amount"
                             resource="invoices"
                             fullWidth
-                            validate={requiredValidate}
                             disabled
                           />
                         </Box>
                       </Box>
+
+                      <NumberInput
+                        source="grand_total"
+                        resource="invoices"
+                        fullWidth
+                        disabled
+                      />
                       <Box display={{ sm: 'block', md: 'flex' }}>
                         <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                          <NumberInput
-                            min={0}
-                            source="credits_available"
-                            resource="invoices"
-                            fullWidth
-                            disabled
-                          />
+                          <FormDataConsumer>
+                            {({ formData }) => (
+                              <Labeled label="resources.invoices.fields.credits_available">
+                                <ReferenceField
+                                  // TODO: use label?
+                                  source="customer"
+                                  reference="customers"
+                                  record={formData}
+
+                                  // label="resources.invoices.fields.credits_available"
+                                  // fullWidth
+                                  // formClassName={classes.leftFormGroup}
+                                  // className={classes.lineItemInput}
+                                  // className={classes.lineItemReferenceInput}
+                                  // validate={requiredValidate}
+                                >
+                                  <NumberField
+                                    source="unused_credits"
+                                    options={{
+                                      style: 'currency',
+                                      currency: 'SGD',
+                                    }}
+                                  />
+                                </ReferenceField>
+                              </Labeled>
+                            )}
+                          </FormDataConsumer>
                         </Box>
                         <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
                           <FormDataConsumer>
                             {(props) => (
                               <CreditsAppliedInput
-                                source="total_amount"
+                                source="credits_applied"
                                 resource="invoices"
                                 fullWidth
-                                validate={requiredValidate}
                                 disabled
                                 {...props}
                               />
@@ -445,12 +453,11 @@ const InvoiceForm = (props: any) => {
                           </FormDataConsumer>
                         </Box>
                       </Box>
+
                       <NumberInput
-                        min={0}
-                        source="grand_total"
+                        source="balance_due"
                         resource="invoices"
                         fullWidth
-                        validate={requiredValidate}
                         disabled
                       />
                     </Box>
@@ -502,61 +509,96 @@ const InvoiceForm = (props: any) => {
                 ) : null}
 
                 <FormTabWithLayout label="resources.invoices.tabs.credits_applied">
-                  <Card>
-                    <CardContent>
-                      <ArrayInput
-                        source="creditnoteitem_set"
-                        resource="credit_note_items"
-                        label="resources.invoices.fields.creditnoteitem_set"
-                        // validate={requiredValidate}
-                      >
-                        <SimpleFormIterator resource="credit_note_items">
-                          <ReferenceInput
-                            source="reference"
-                            reference="credit_notes"
-                            // fullWidth
-                            formClassName={classes.leftFormGroup}
-                            // className={classes.lineItemInput}
-                            className={classes.lineItemReferenceInput}
-                            validate={requiredValidate}
+                  <FormDataConsumer>
+                    {({ formData }) => (
+                      <CreditsApplicationListActions
+                        onClick={() => {
+                          setState({ ...state, openApplyCredits: true });
+                        }}
+                        // TODO: use form.getState() instead?
+                        formData={formData}
+                        disabled={state.openApplyCredits}
+                      />
+                    )}
+                  </FormDataConsumer>
+
+                  {state.openApplyCredits ? (
+                    // TODO: share with InvoiceEdit
+                    <Card>
+                      <CardContent>
+                        <ArrayInput
+                          source="creditsapplication_set"
+                          resource="credits_applications"
+                          label="resources.invoices.fields.creditsapplication_set"
+
+                          // validate={requiredValidate}
+                        >
+                          <SimpleFormIterator
+                            resource="credits_applications"
+                            // disabled
+                            disableAdd
+                            disableRemove
                           >
-                            <SelectInput source="reference" />
-                          </ReferenceInput>
-                          <DateInput
-                            source="date"
-                            formClassName={classes.leftFormGroup}
-                            className={classes.lineItemInput}
-                            validate={requiredValidate}
-                            disabled
-                          />
-                          <NumberInput
-                            min={0}
-                            // TODO: add currency
-                            source="grand_total"
-                            formClassName={classes.leftFormGroup}
-                            className={classes.lineItemInput}
-                            validate={requiredValidate}
-                            disabled
-                          />
-                          <NumberInput
-                            min={0}
-                            source="credits_remaining"
-                            formClassName={classes.leftFormGroup}
-                            className={classes.lineItemInput}
-                            validate={requiredValidate}
-                            disabled
-                          />
-                          <NumberInput
-                            min={0}
-                            source="amount_to_credit"
-                            formClassName={classes.leftFormGroup}
-                            className={classes.lineItemInput}
-                            validate={requiredValidate}
-                          />
-                        </SimpleFormIterator>
-                      </ArrayInput>
-                    </CardContent>
-                  </Card>
+                            <TextInput
+                              // TODO: use NumberField instead
+                              // TODO: add currency
+                              source="reference"
+                              label="resources.credit_notes.fields.reference"
+                              formClassName={classes.leftFormGroup}
+                              className={classes.lineItemInput}
+                              // validate={requiredValidate}
+                              disabled
+                            />
+
+                            <DateInput
+                              source="date"
+                              formClassName={classes.leftFormGroup}
+                              className={classes.lineItemInput}
+                              initialValue={new Date()}
+                              disabled
+                            />
+                            <NumberInput
+                              // TODO: use NumberField instead
+                              // TODO: add currency
+                              source="grand_total"
+                              label="resources.credit_notes.fields.grand_total"
+                              formClassName={classes.leftFormGroup}
+                              className={classes.lineItemInput}
+                              // validate={requiredValidate}
+                              disabled
+                            />
+
+                            <NumberInput
+                              /// use number, since it makes changing the field easier
+
+                              source="credits_remaining"
+                              label="resources.credit_notes.fields.credits_remaining"
+                              formClassName={classes.leftFormGroup}
+                              className={classes.lineItemInput}
+                              disabled
+                            />
+                            <FormDataConsumer
+                              formClassName={classes.leftFormGroup}
+                            >
+                              {({ scopedFormData, getSource }) =>
+                                getSource ? (
+                                  <NumberInput
+                                    // FIXME: can't add default value
+                                    //
+                                    source={getSource('amount_to_credit')}
+                                    label="resources.credits_applications.fields.amount_to_credit"
+                                    className={classes.lineItemInput}
+                                    validate={validateCredits(scopedFormData)}
+                                    // defaultValue="0.00"
+                                  />
+                                ) : null
+                              }
+                            </FormDataConsumer>
+                          </SimpleFormIterator>
+                        </ArrayInput>
+                      </CardContent>
+                    </Card>
+                  ) : null}
                 </FormTabWithLayout>
               </TabbedFormView>
             </Wrapper>
@@ -568,5 +610,22 @@ const InvoiceForm = (props: any) => {
 };
 
 const requiredValidate = required();
+const validateNumber = [requiredValidate, number(), minValue(0)];
+const validateReferenceUnicity = (props: any) =>
+  validateUnicity({
+    reference: 'invoices',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.invoices.validation.reference_already_used',
+  });
+const validateReference = memoize((props: any) => [
+  requiredValidate,
+  validateReferenceUnicity(props),
+]);
+export const validateCredits = (scopedFormData: any) => [
+  number(),
+  minValue(0),
+  maxValue(Number(scopedFormData?.credits_remaining)),
+];
 
 export default InvoiceCreate;

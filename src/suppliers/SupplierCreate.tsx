@@ -17,8 +17,9 @@ import { Styles } from '@material-ui/styles/withStyles';
 
 import { SectionTitle, Separator } from '../utils/components/Divider';
 import { Supplier } from '../types';
-import { incrementReference } from '../utils';
-import { useOnFailure, useValidateUnicity } from '../utils/hooks';
+import { incrementReference, validateUnicity } from '../utils';
+import { memoize } from '../utils';
+import { useOnFailure } from '../utils/hooks';
 
 export const styles: Styles<Theme, any> = {
   name: { display: 'inline-block' },
@@ -52,11 +53,6 @@ export const validatePasswords = ({
 const SupplierCreate: FC<CreateProps> = (props) => {
   const classes = useStyles(props);
   const onFailure = useOnFailure();
-  const validateReferenceUnicity = useValidateUnicity({
-    reference: 'suppliers',
-    source: 'reference',
-    message: 'resources.suppliers.validation.reference_already_used',
-  });
 
   const {
     data: suppliers,
@@ -91,10 +87,7 @@ const SupplierCreate: FC<CreateProps> = (props) => {
           <ImageField source="src" title="title" />
         </ImageInput>
         <SectionTitle label="resources.suppliers.fieldGroups.identity" />
-        <TextInput
-          source="reference"
-          validate={[requiredValidate, validateReferenceUnicity]}
-        />
+        <TextInput source="reference" validate={validateReference(props)} />
         <TextInput
           autoFocus
           source="name"
@@ -137,6 +130,17 @@ const SupplierCreate: FC<CreateProps> = (props) => {
 
 const requiredValidate = required();
 const validateEmail = email();
+const validateReferenceUnicity = (props: any) =>
+  validateUnicity({
+    reference: 'suppliers',
+    source: 'reference',
+    record: props.record,
+    message: 'resources.suppliers.validation.reference_already_used',
+  });
+const validateReference = memoize((props: any) => [
+  requiredValidate,
+  validateReferenceUnicity(props),
+]);
 
 export default SupplierCreate;
 

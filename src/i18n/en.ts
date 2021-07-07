@@ -38,7 +38,7 @@ import englishMessages from 'ra-language-english';
  *
  * error message:
  * eg:
- * <error_title>: <error_message>
+ * <error_title> - <error_message>
  */
 
 const customEnglishMessages: TranslationMessages = {
@@ -546,6 +546,7 @@ const customEnglishMessages: TranslationMessages = {
         reference_already_used: 'Reference already used',
         invalid_credits:
           'Credits applied cannot be more than credits available',
+        negative_number: 'Negative number not allowed',
       },
       tabs: {
         details: 'Details',

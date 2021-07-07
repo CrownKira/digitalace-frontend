@@ -38,25 +38,23 @@ export const FormTabWithLayout: FC<FormTabProps> = ({
   );
 
   const renderContent = () => (
-    <FormGroupContextProvider name={value?.toString() || ''}>
-      <span
-        style={hidden ? hiddenStyle : undefined}
-        className={contentClassName}
-        id={`tabpanel-${value}`}
-        aria-labelledby={`tabheader-${value}`}
-        // Set undefined instead of false because WAI-ARIA Authoring Practices 1.1
-        // notes that aria-hidden="false" currently behaves inconsistently across browsers.
-        aria-hidden={hidden || undefined}
-      >
-        {React.Children.map(
-          /// will return an array of formInput
-          children as
-            | ReactElement<any, string | React.JSXElementConstructor<any>>
-            | ReactElement<any, string | React.JSXElementConstructor<any>>[], /// assume each child is input
-          (input: ReactElement) => input
-        )}
-      </span>
-    </FormGroupContextProvider>
+    <span
+      style={hidden ? hiddenStyle : undefined}
+      className={contentClassName}
+      id={`tabpanel-${value}`}
+      aria-labelledby={`tabheader-${value}`}
+      // Set undefined instead of false because WAI-ARIA Authoring Practices 1.1
+      // notes that aria-hidden="false" currently behaves inconsistently across browsers.
+      aria-hidden={hidden || undefined}
+    >
+      {React.Children.map(
+        /// will return an array of formInput
+        children as
+          | ReactElement<any, string | React.JSXElementConstructor<any>>
+          | ReactElement<any, string | React.JSXElementConstructor<any>>[], /// assume each child is input
+        (input: ReactElement) => input
+      )}
+    </span>
   );
 
   return intent === 'header' ? renderHeader() : renderContent();
@@ -101,3 +99,8 @@ export interface FormTabProps {
 }
 
 FormTabWithLayout.displayName = 'FormTab';
+
+/*
+TODO: include formGroupContext?
+<FormGroupContextProvider name={value?.toString() || ''}>
+*/
