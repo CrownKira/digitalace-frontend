@@ -34,9 +34,10 @@ const i18nProvider = polyglotI18nProvider(
     // https://github.com/marmelab/react-admin/issues/3903
     // https://marmelab.com/react-admin/Translation.html#specific-case-in-confirm-messages-and-empty-page
     allowMissing: true,
+    // https://github.com/marmelab/react-admin/issues/5727
+    onMissingKey: (key: any, _: any, __: any) => key,
   }
 );
-
 interface AppProps {
   onUnmount: () => void;
   dataProvider: DataProvider;

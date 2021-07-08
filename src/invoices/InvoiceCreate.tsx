@@ -31,6 +31,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
 import useGetUserConfig from '../configuration/useGetUserConfig';
 import { withStyles } from '@material-ui/core/styles';
+import { AnyObject } from 'react-final-form';
 
 import { statuses } from './data';
 import ProductNameInput from './ProductNameInput';
@@ -51,13 +52,14 @@ import LineItemsIterator from '../invoices/LineItemsIterator';
 import CreditsApplicationListActions from './CreditsApplicationListActions';
 import CustomerNameInput from './CustomerNameInput';
 import { PriceField } from '../utils/components/PriceField';
+import ApplyCreditsCard from './ApplyCreditsCard';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
   rightFormGroup: {
     display: 'inline-block',
   },
-  lineItemInput: { width: 200 },
+  lineItemInput: { width: 150 },
   lineItemReferenceInput: { width: 300 },
   hiddenInput: {
     display: 'none',
@@ -85,6 +87,16 @@ const InvoiceCreate: FC<CreateProps> = (props) => {
       <InvoiceForm />
     </Create>
   );
+};
+
+export const validateForm = ({ credits_applied, grand_total }: AnyObject) => {
+  const errors = {} as any;
+
+  if (Number(credits_applied) > Number(grand_total)) {
+    errors.credits_applied = ['resources.invoices.validation.invalid_credits'];
+  }
+
+  return errors;
 };
 
 // a fix for DateField parse not working
@@ -148,6 +160,7 @@ const InvoiceForm = (props: any) => {
   ) : (
     <FormWithRedirect
       initialValues={postDefaultValue}
+      validate={validateForm}
       {...props}
       render={(formProps: any) => {
         // console.log(formProps?.form?.getFieldState('status')?.value);
@@ -449,6 +462,7 @@ const InvoiceForm = (props: any) => {
                                 resource="invoices"
                                 fullWidth
                                 disabled
+                                record={formProps.record}
                                 {...props}
                               />
                             )}
@@ -525,81 +539,7 @@ const InvoiceForm = (props: any) => {
                   </FormDataConsumer>
 
                   {state.openApplyCredits ? (
-                    // TODO: share with InvoiceEdit
-                    <Card>
-                      <CardContent>
-                        <ArrayInput
-                          source="fake_creditsapplication_set"
-                          resource="credits_applications"
-                          label="resources.invoices.fields.creditsapplication_set"
-
-                          // validate={requiredValidate}
-                        >
-                          <SimpleFormIterator
-                            resource="credits_applications"
-                            // disabled
-                            disableAdd
-                            disableRemove
-                          >
-                            <TextInput
-                              // TODO: use NumberField instead
-                              // TODO: add currency
-                              source="reference"
-                              label="resources.credit_notes.fields.reference"
-                              formClassName={classes.leftFormGroup}
-                              className={classes.lineItemInput}
-                              // validate={requiredValidate}
-                              disabled
-                            />
-
-                            <DateInput
-                              source="date"
-                              formClassName={classes.leftFormGroup}
-                              className={classes.lineItemInput}
-                              initialValue={new Date()}
-                              disabled
-                            />
-                            <NumberInput
-                              // TODO: use NumberField instead
-                              // TODO: add currency
-                              source="grand_total"
-                              label="resources.credit_notes.fields.grand_total"
-                              formClassName={classes.leftFormGroup}
-                              className={classes.lineItemInput}
-                              // validate={requiredValidate}
-                              disabled
-                            />
-
-                            <NumberInput
-                              /// use number, since it makes changing the field easier
-
-                              source="credits_remaining"
-                              label="resources.credit_notes.fields.credits_remaining"
-                              formClassName={classes.leftFormGroup}
-                              className={classes.lineItemInput}
-                              disabled
-                            />
-                            <FormDataConsumer
-                              formClassName={classes.leftFormGroup}
-                            >
-                              {({ scopedFormData, getSource }) =>
-                                getSource ? (
-                                  <NumberInput
-                                    // FIXME: can't add default value
-                                    //
-                                    source={getSource('amount_to_credit')}
-                                    label="resources.credits_applications.fields.amount_to_credit"
-                                    className={classes.lineItemInput}
-                                    validate={validateCredits(scopedFormData)}
-                                    // defaultValue="0.00"
-                                  />
-                                ) : null
-                              }
-                            </FormDataConsumer>
-                          </SimpleFormIterator>
-                        </ArrayInput>
-                      </CardContent>
-                    </Card>
+                    <ApplyCreditsCard formProps={formProps} />
                   ) : null}
                 </FormTabWithLayout>
               </TabbedFormView>

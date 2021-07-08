@@ -546,9 +546,7 @@ const customEnglishMessages: TranslationMessages = {
       },
       validation: {
         reference_already_used: 'Reference already used',
-        invalid_credits:
-          'Credits applied cannot be more than credits available',
-        negative_number: 'Negative number not allowed',
+        invalid_credits: 'Credits Applied cannot be more than Grand Total',
       },
       tabs: {
         details: 'Details',

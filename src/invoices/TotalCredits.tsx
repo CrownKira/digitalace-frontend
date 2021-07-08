@@ -36,7 +36,7 @@ const TotalCredits: FC<Props> = ({ formData, record }) => {
 
   // TODO: formData and record always present?
   const total_amount_to_credit = useMemo(
-    () => formData.credits_applied - (record ? record.credits_applied : 0),
+    () => formData.credits_applied - (record?.credits_applied || 0),
     [formData.credits_applied, record]
   );
   const balance_due = useMemo(

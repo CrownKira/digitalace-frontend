@@ -419,18 +419,13 @@ const CreditNoteForm = (props: any) => {
                   </Box>
                 </FormTabWithLayout>
 
-                <FormTabWithLayout
-                  label="resources.credit_notes.tabs.invoices_credited"
-                  // contentClassName={classes.tab}
-                  /// just take in and not modify children
-                >
+                <FormTabWithLayout label="resources.credit_notes.tabs.invoices_credited">
                   <ReferenceManyFieldWithActions
                     reference="credits_applications"
                     target="credit_note"
                     addLabel={false}
                     pagination={<Pagination />}
                     fullWidth
-                    // actions={<InvoiceListActions />}
                   >
                     <Datagrid>
                       <DateField source="date" />
@@ -438,16 +433,13 @@ const CreditNoteForm = (props: any) => {
                         source="invoice"
                         reference="invoices"
                         label="resources.invoices.fields.reference"
-
-                        // fullWidth
-                        // formClassName={classes.leftFormGroup}
-                        // className={classes.lineItemInput}
-                        // className={classes.lineItemReferenceField}
-                        // validate={validateNumber}
                       >
                         <TextField source="reference" />
                       </ReferenceField>
-                      <NumberField source="amount_to_credit" />
+                      <NumberField
+                        source="amount_to_credit"
+                        label="resources.invoices.fields.credits_applied"
+                      />
                     </Datagrid>
                   </ReferenceManyFieldWithActions>
                 </FormTabWithLayout>

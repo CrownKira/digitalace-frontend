@@ -59,6 +59,7 @@ import {
   styles as createStyles,
   Wrapper,
   validateCredits,
+  validateForm,
 } from './InvoiceCreate';
 import { FormTabWithLayout } from './FormTabWithLayout';
 import PdfButton from './PdfButton';
@@ -71,6 +72,7 @@ import { validateUnicity } from '../utils';
 import CreditsApplicationListActions from './CreditsApplicationListActions';
 import { PriceField } from '../utils/components/PriceField';
 import TotalCredits from './TotalCredits';
+import ApplyCreditsCard from './ApplyCreditsCard';
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -130,6 +132,7 @@ const InvoiceForm = (props: any) => {
 
   return (
     <FormWithRedirect
+      validate={validateForm}
       // redirect={false}
       {...props}
       render={(formProps: any) => {
@@ -170,7 +173,7 @@ const InvoiceForm = (props: any) => {
                     />
                     <PdfButton />
                     <PrintButton />
-                    <PrintDeliveryOrderButton />
+
                     {formProps.record && formProps.record.id !== undefined && (
                       <DeleteButton
                         // props from Toolbar.tsx
@@ -555,113 +558,7 @@ const InvoiceForm = (props: any) => {
                   </FormDataConsumer>
 
                   {state.openApplyCredits ? (
-                    // TODO: make this a modal
-                    <Card>
-                      <CardContent>
-                        <Box display="flex" justifyContent="flex-end">
-                          <FormDataConsumer>
-                            {({ formData }) => (
-                              <>
-                                <span className={classes.label}>
-                                  Invoice Balance:{' '}
-                                  {Number(formData.balance_due).toLocaleString(
-                                    undefined,
-                                    {
-                                      style: 'currency',
-                                      currency: 'SGD',
-                                    }
-                                  )}
-                                </span>
-                              </>
-                            )}
-                          </FormDataConsumer>
-                        </Box>
-                        <Divider />
-                        <ArrayInput
-                          // TODO: make this a table
-                          source="fake_creditsapplication_set"
-                          resource="credits_applications"
-                          label="resources.invoices.fields.creditsapplication_set"
-                          record={undefined}
-
-                          // validate={requiredValidate}
-                        >
-                          <SimpleFormIterator
-                            resource="credits_applications"
-                            record={undefined}
-                            // disabled
-                            disableAdd
-                            disableRemove
-                          >
-                            <TextInput
-                              // TODO: use NumberField instead
-                              // TODO: add currency
-                              source="reference"
-                              label="resources.credit_notes.fields.reference"
-                              formClassName={classes.leftFormGroup}
-                              className={classes.lineItemInput}
-                              // validate={requiredValidate}
-                              disabled
-                            />
-
-                            <DateInput
-                              source="date"
-                              formClassName={classes.leftFormGroup}
-                              className={classes.lineItemInput}
-                              initialValue={new Date()}
-                              disabled
-                            />
-                            <NumberInput
-                              // TODO: use NumberField instead
-                              // TODO: add currency
-                              source="grand_total"
-                              label="resources.credit_notes.fields.grand_total"
-                              formClassName={classes.leftFormGroup}
-                              className={classes.lineItemInput}
-                              // validate={requiredValidate}
-                              disabled
-                            />
-
-                            <NumberInput
-                              /// use number, since it makes changing the field easier
-
-                              source="credits_remaining"
-                              label="resources.credit_notes.fields.credits_remaining"
-                              formClassName={classes.leftFormGroup}
-                              className={classes.lineItemInput}
-                              disabled
-                            />
-                            <FormDataConsumer
-                              formClassName={classes.leftFormGroup}
-                            >
-                              {({ scopedFormData, getSource }) =>
-                                getSource ? (
-                                  <NumberInput
-                                    // FIXME: can't add default value
-
-                                    source={getSource('amount_to_credit')}
-                                    label="resources.credits_applications.fields.amount_to_credit"
-                                    className={classes.lineItemInput}
-                                    validate={validateCredits(scopedFormData)}
-                                    // defaultValue="0.00"
-                                  />
-                                ) : null
-                              }
-                            </FormDataConsumer>
-                          </SimpleFormIterator>
-                        </ArrayInput>
-                        <Divider />
-
-                        <FormDataConsumer>
-                          {({ formData }) => (
-                            <TotalCredits
-                              formData={formData}
-                              record={formProps.record}
-                            />
-                          )}
-                        </FormDataConsumer>
-                      </CardContent>
-                    </Card>
+                    <ApplyCreditsCard formProps={formProps} />
                   ) : null}
                 </FormTabWithLayout>
               </TabbedFormView>

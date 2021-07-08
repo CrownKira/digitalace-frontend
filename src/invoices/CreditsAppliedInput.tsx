@@ -32,7 +32,8 @@ const CreditsAppliedInput: FC<Props> = ({
   useEffect(() => {
     // console.log(formData);
     // round amount to credit first
-    if (!record || !formData.fake_creditsapplication_set) return;
+    // console.log(formData.fake_creditsapplication_set);
+    if (!formData.fake_creditsapplication_set) return;
 
     // TODO: extract this calculation to share with TotalCredits.tsx
     const amounts_to_credit = (
@@ -44,9 +45,15 @@ const CreditsAppliedInput: FC<Props> = ({
       0
     );
     const credits_applied =
-      toFixedNumber(record.credits_applied, 2) + total_amount_to_credit;
+      toFixedNumber(record?.credits_applied || 0, 2) + total_amount_to_credit;
+
+    // console.log('k2');
+    // console.log(amounts_to_credit);
+    // console.log(total_amount_to_credit);
+    // console.log(credits_applied);
 
     const balance_due = formData.grand_total - credits_applied;
+    // console.log(balance_due);
 
     form.batch(() => {
       // TODO: pass down record instead of form.change()?
