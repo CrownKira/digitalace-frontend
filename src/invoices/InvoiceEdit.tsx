@@ -34,9 +34,14 @@ import {
   maxValue,
   TopToolbar,
   Button,
-  TabbedForm,
 } from 'react-admin';
-import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
+import {
+  Box,
+  Card,
+  CardContent,
+  InputAdornment,
+  Divider,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
 
@@ -64,6 +69,8 @@ import ReferenceManyFieldWithActions from '../sales_orders/ReferenceManyFieldWit
 import CustomerNameInput from './CustomerNameInput';
 import { validateUnicity } from '../utils';
 import CreditsApplicationListActions from './CreditsApplicationListActions';
+import { PriceField } from '../utils/components/PriceField';
+import TotalCredits from './TotalCredits';
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -425,13 +432,7 @@ const InvoiceForm = (props: any) => {
                                   // className={classes.lineItemReferenceInput}
                                   // validate={requiredValidate}
                                 >
-                                  <NumberField
-                                    source="unused_credits"
-                                    options={{
-                                      style: 'currency',
-                                      currency: 'SGD',
-                                    }}
-                                  />
+                                  <PriceField source="unused_credits" />
                                 </ReferenceField>
                               </Labeled>
                             )}
@@ -445,6 +446,7 @@ const InvoiceForm = (props: any) => {
                                 resource="invoices"
                                 fullWidth
                                 disabled
+                                record={formProps.record}
                                 {...props}
                               />
                             )}
@@ -539,25 +541,54 @@ const InvoiceForm = (props: any) => {
                           >
                             <TextField source="reference" />
                           </ReferenceField>
-                          <NumberField source="amount_to_credit" />
-                          <DeleteButton />
+                          <NumberField
+                            label="resources.invoices.fields.credits_applied"
+                            source="amount_to_credit"
+                          />
+                          <DeleteButton
+                            mutationMode="pessimistic"
+                            redirect={false}
+                          />
                         </Datagrid>
                       </ReferenceManyFieldWithActions>
                     )}
                   </FormDataConsumer>
 
                   {state.openApplyCredits ? (
+                    // TODO: make this a modal
                     <Card>
                       <CardContent>
+                        <Box display="flex" justifyContent="flex-end">
+                          <FormDataConsumer>
+                            {({ formData }) => (
+                              <>
+                                <span className={classes.label}>
+                                  Invoice Balance:{' '}
+                                  {Number(formData.balance_due).toLocaleString(
+                                    undefined,
+                                    {
+                                      style: 'currency',
+                                      currency: 'SGD',
+                                    }
+                                  )}
+                                </span>
+                              </>
+                            )}
+                          </FormDataConsumer>
+                        </Box>
+                        <Divider />
                         <ArrayInput
-                          source="creditsapplication_set"
+                          // TODO: make this a table
+                          source="fake_creditsapplication_set"
                           resource="credits_applications"
                           label="resources.invoices.fields.creditsapplication_set"
+                          record={undefined}
 
                           // validate={requiredValidate}
                         >
                           <SimpleFormIterator
                             resource="credits_applications"
+                            record={undefined}
                             // disabled
                             disableAdd
                             disableRemove
@@ -619,6 +650,16 @@ const InvoiceForm = (props: any) => {
                             </FormDataConsumer>
                           </SimpleFormIterator>
                         </ArrayInput>
+                        <Divider />
+
+                        <FormDataConsumer>
+                          {({ formData }) => (
+                            <TotalCredits
+                              formData={formData}
+                              record={formProps.record}
+                            />
+                          )}
+                        </FormDataConsumer>
                       </CardContent>
                     </Card>
                   ) : null}

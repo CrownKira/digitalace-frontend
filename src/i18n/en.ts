@@ -466,6 +466,7 @@ const customEnglishMessages: TranslationMessages = {
         total_lines: 'Total Lines',
         creditnoteitem_set: 'Credit Note Items',
         creditsapplication_set: 'Apply to Invoice',
+        fake_creditsapplication_set: 'Apply to Invoice',
         created_from: 'Created from',
       },
       data: {
@@ -531,6 +532,7 @@ const customEnglishMessages: TranslationMessages = {
         total_lines: 'Total Lines',
         invoiceitem_set: 'Invoice Items',
         creditsapplication_set: 'Apply Credits',
+        fake_creditsapplication_set: 'Apply Credits',
         credits_available: 'Credits Available',
         credits_applied: 'Credits Applied',
         balance_due: 'Balance Due',

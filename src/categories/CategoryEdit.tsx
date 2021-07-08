@@ -21,6 +21,7 @@ import ProductRefField from '../products/ProductRefField';
 import { Category } from '../types';
 import FullNameField from '../suppliers/FullNameField';
 import { formatImage } from '../utils';
+import { PriceField } from '../utils/components/PriceField';
 
 const CategoryTitle: FC<FieldProps<Category>> = ({ record }) => {
   const translate = useTranslate();
@@ -55,14 +56,8 @@ const CategoryEdit: FC<EditProps> = (props) => (
           <ThumbnailField />
           <ProductRefField source="name" />
           <TextField source="unit" />
-          <NumberField
-            source="cost"
-            options={{ style: 'currency', currency: 'SGD' }}
-          />
-          <NumberField
-            source="unit_price"
-            options={{ style: 'currency', currency: 'SGD' }}
-          />
+          <PriceField source="cost" />
+          <PriceField source="unit_price" />
           <NumberField source="stock" />
           <NumberField source="sales" />
           <ReferenceField source="supplier" reference="suppliers">

@@ -126,6 +126,14 @@ export interface Supplier extends Record {
   image: FileValue;
 }
 
+export interface CreditsApplication extends Record {
+  id: Identifier;
+  invoice: Identifier;
+  credit_note: Identifier;
+  date: Date;
+  amount_to_credit: number;
+}
+
 export interface CreditNote extends Record {
   reference: string;
   created_from: string;

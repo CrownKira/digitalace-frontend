@@ -1,13 +1,15 @@
 import { NumberField, NumberFieldProps } from 'react-admin';
 
+import { PriceField } from '../utils/components/PriceField';
+
 const ColoredNumberField = (props: NumberFieldProps) =>
   props.record && props.source ? (
     props.record[props.source] > 500 ? (
       <span style={{ color: 'red' }}>
-        <NumberField {...props} />
+        <PriceField {...props} />
       </span>
     ) : (
-      <NumberField {...props} />
+      <PriceField {...props} />
     )
   ) : null;
 

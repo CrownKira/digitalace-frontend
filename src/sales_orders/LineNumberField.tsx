@@ -28,7 +28,7 @@ const LineNumberField: FC<Props> = ({
         record={{
           // TODO: better way to mock record?
           id: 1,
-          total_lines: formData?.salesorderitem_set?.length || 0,
+          total_lines: formData.salesorderitem_set?.length || 0,
         }}
       />
     </Labeled>

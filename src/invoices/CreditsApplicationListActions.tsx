@@ -49,7 +49,7 @@ const CreditsApplicationListActions: FC<Props> = ({
           // });
 
           form.change(
-            'creditsapplication_set',
+            'fake_creditsapplication_set',
             response
               ? response.data.map((creditNote: CreditNote) => ({
                   ...pick(creditNote, [

@@ -8,6 +8,7 @@ import {
   number,
 } from 'react-admin';
 import { useForm, useFormState } from 'react-final-form';
+import get from 'lodash/get';
 
 import { toFixedNumber } from '../utils';
 import { InvoiceItem } from '../types';
@@ -16,11 +17,13 @@ interface Props extends NumberInputProps, FormDataConsumerRenderParams {
   inputClassName?: string | undefined;
 }
 
+// TODO: remove this after making credits application a modal
 const CreditsAppliedInput: FC<Props> = ({
   formData,
   scopedFormData,
   getSource,
   inputClassName,
+  record,
   ...rest
 }) => {
   const form = useForm();
@@ -29,31 +32,35 @@ const CreditsAppliedInput: FC<Props> = ({
   useEffect(() => {
     // console.log(formData);
     // round amount to credit first
-    if (!formData?.creditsapplication_set) return;
+    if (!record || !formData.fake_creditsapplication_set) return;
 
+    // TODO: extract this calculation to share with TotalCredits.tsx
     const amounts_to_credit = (
-      formData?.creditsapplication_set as InvoiceItem[]
+      formData.fake_creditsapplication_set as InvoiceItem[]
     )?.map((x) => (x ? toFixedNumber(x.amount_to_credit, 2) : 0));
 
-    const credits_applied = amounts_to_credit.reduce(
+    const total_amount_to_credit = amounts_to_credit.reduce(
       (x: number, y: number) => x + y,
       0
     );
+    const credits_applied =
+      toFixedNumber(record.credits_applied, 2) + total_amount_to_credit;
 
     const balance_due = formData.grand_total - credits_applied;
 
     form.batch(() => {
+      // TODO: pass down record instead of form.change()?
       !isNaN(credits_applied) &&
         form.change('credits_applied', credits_applied.toFixed(2));
       !isNaN(balance_due) && form.change('balance_due', balance_due.toFixed(2));
       amounts_to_credit.forEach((amount_to_credit, index) => {
-        const source = `creditsapplication_set[${index}].amount_to_credit`;
+        const source = `fake_creditsapplication_set[${index}].amount_to_credit`;
         !isNaN(amount_to_credit) &&
           form.getFieldState(source)?.active === false &&
           form.change(source, amount_to_credit.toFixed(2));
       });
     });
-  }, [form, formData, formState]);
+  }, [form, formData, formState, record]);
 
   return (
     <NumberInput

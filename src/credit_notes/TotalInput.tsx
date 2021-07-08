@@ -25,22 +25,22 @@ const TotalInput: FC<Props> = ({
 
   useEffect(() => {
     // round quantity, unit_price, gst_rate and discount rate first
-    const total_amount = (formData?.creditnoteitem_set as CreditNoteItem[])
+    const total_amount = (formData.creditnoteitem_set as CreditNoteItem[])
       ?.map((x) =>
         x ? toFixedNumber(x.quantity, 2) * toFixedNumber(x.unit_price, 2) : 0
       )
       .reduce((x: number, y: number) => x + y, 0);
     // toFixedNumber: returns rounded number that can be used for numeric operations
-    const discount_rate = toFixedNumber(formData?.discount_rate, 2);
-    const gst_rate = toFixedNumber(formData?.gst_rate, 2);
+    const discount_rate = toFixedNumber(formData.discount_rate, 2);
+    const gst_rate = toFixedNumber(formData.gst_rate, 2);
     // round the rest only at the end of calculation for display
     const discount_amount = total_amount * (discount_rate / 100);
     const net = total_amount * (1 - discount_rate / 100);
     const gst_amount = net * (gst_rate / 100);
-    const grand_total = net * (1 - gst_rate / 100);
-    const credits_used = toFixedNumber(formData?.credits_used, 2);
+    const grand_total = net * (1 + gst_rate / 100);
+    const credits_used = toFixedNumber(formData.credits_used, 2);
     const refund = Math.min(
-      toFixedNumber(formData?.refund, 2),
+      toFixedNumber(formData.refund, 2),
       grand_total - credits_used
     );
     const credits_remaining = grand_total - credits_used - refund;

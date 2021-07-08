@@ -31,6 +31,7 @@ import { SectionTitle, Separator } from '../utils/components/Divider';
 import NameField from '../categories/NameField';
 import ProductRefField from '../products/ProductRefField';
 import ThumbnailField from '../products/ThumbnailField';
+import { PriceField } from '../utils/components/PriceField';
 
 const SupplierEdit: FC<EditProps> = (props) => {
   const onFailure = useOnFailure();
@@ -155,14 +156,8 @@ const SupplierForm = (props: any) => {
                     <ThumbnailField />
                     <ProductRefField source="name" />
                     <TextField source="unit" />
-                    <NumberField
-                      source="cost"
-                      options={{ style: 'currency', currency: 'SGD' }}
-                    />
-                    <NumberField
-                      source="unit_price"
-                      options={{ style: 'currency', currency: 'SGD' }}
-                    />
+                    <PriceField source="cost" />
+                    <PriceField source="unit_price" />
                     <NumberField source="stock" />
                     <NumberField source="sales" />
                     <ReferenceField source="category" reference="categories">

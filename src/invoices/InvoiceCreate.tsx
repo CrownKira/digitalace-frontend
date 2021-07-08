@@ -50,6 +50,7 @@ import PrintDeliveryOrderButton from '../invoices/PrintDeliveryOrderButton';
 import LineItemsIterator from '../invoices/LineItemsIterator';
 import CreditsApplicationListActions from './CreditsApplicationListActions';
 import CustomerNameInput from './CustomerNameInput';
+import { PriceField } from '../utils/components/PriceField';
 
 export const styles = {
   leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
@@ -60,6 +61,9 @@ export const styles = {
   lineItemReferenceInput: { width: 300 },
   hiddenInput: {
     display: 'none',
+  },
+  label: {
+    padding: '1em',
   },
 };
 
@@ -84,10 +88,14 @@ const InvoiceCreate: FC<CreateProps> = (props) => {
 };
 
 // a fix for DateField parse not working
-export const transform = (data: Record) => ({
+export const transform = ({
+  fake_creditsapplication_set,
+  ...data
+}: Record) => ({
   ...data,
   date: dateParser(data.date),
   payment_date: dateParser(data.payment_date),
+  creditsapplication_set: fake_creditsapplication_set, // TODO: better way to not pre-fill but send data?
 });
 
 const InvoiceForm = (props: any) => {
@@ -132,7 +140,7 @@ const InvoiceForm = (props: any) => {
     credits_available: '0.00',
     credits_applied: '0.00',
     balance_due: '0.00',
-    creditsapplication_set: [],
+    fake_creditsapplication_set: [],
   });
 
   return loadingInvoices || loadingUserConfig ? (
@@ -427,13 +435,7 @@ const InvoiceForm = (props: any) => {
                                   // className={classes.lineItemReferenceInput}
                                   // validate={requiredValidate}
                                 >
-                                  <NumberField
-                                    source="unused_credits"
-                                    options={{
-                                      style: 'currency',
-                                      currency: 'SGD',
-                                    }}
-                                  />
+                                  <PriceField source="unused_credits" />
                                 </ReferenceField>
                               </Labeled>
                             )}
@@ -527,7 +529,7 @@ const InvoiceForm = (props: any) => {
                     <Card>
                       <CardContent>
                         <ArrayInput
-                          source="creditsapplication_set"
+                          source="fake_creditsapplication_set"
                           resource="credits_applications"
                           label="resources.invoices.fields.creditsapplication_set"
 

@@ -49,10 +49,7 @@ const CustomerList = (props: ListProps): ReactElement => {
           <TextField source="attention" />
           <EmailField source="email" />
           <TextField source="phone_no" />
-          <ColoredNumberField
-            source="receivables"
-            options={{ style: 'currency', currency: 'SGD' }}
-          />
+          <ColoredNumberField source="receivables" />
         </Datagrid>
       )}
     </List>

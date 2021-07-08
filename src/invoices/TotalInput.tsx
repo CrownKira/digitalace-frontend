@@ -25,23 +25,25 @@ const TotalInput: FC<Props> = ({
 
   useEffect(() => {
     // round quantity, unit_price, gst_rate and discount rate first
-    const total_amount = (formData?.invoiceitem_set as InvoiceItem[])
+    const total_amount = (formData.invoiceitem_set as InvoiceItem[])
       ?.map((x) =>
         x ? toFixedNumber(x.quantity, 2) * toFixedNumber(x.unit_price, 2) : 0
       )
       .reduce((x: number, y: number) => x + y, 0);
     // toFixedNumber: returns rounded number that can be used for numeric operations
-    const discount_rate = toFixedNumber(formData?.discount_rate, 2);
-    const gst_rate = toFixedNumber(formData?.gst_rate, 2);
+    const discount_rate = toFixedNumber(formData.discount_rate, 2);
+    const gst_rate = toFixedNumber(formData.gst_rate, 2);
     // round the rest only at the end of calculation for display
     const discount_amount = total_amount * (discount_rate / 100);
     const net = total_amount * (1 - discount_rate / 100);
     const gst_amount = net * (gst_rate / 100);
-    const grand_total = net * (1 - gst_rate / 100);
-    const credits_applied = toFixedNumber(formData?.credits_applied, 2);
+    const grand_total = net * (1 + gst_rate / 100);
+    const credits_applied = toFixedNumber(formData.credits_applied, 2);
     const balance_due = grand_total - credits_applied;
 
     // toFixed(2): converts '0' to '0.00'
+    // TODO: use toLocaleString("en", {style:'currency', currency:'USD'}) instead of toFixed(2)
+
     form.batch(() => {
       !isNaN(total_amount) &&
         form.change('total_amount', total_amount.toFixed(2));

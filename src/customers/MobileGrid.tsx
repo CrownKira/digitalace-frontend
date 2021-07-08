@@ -76,11 +76,7 @@ const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
             </IconText>
             <IconText
               text={
-                <ColoredNumberField
-                  record={data[id]}
-                  source="receivables"
-                  options={{ style: 'currency', currency: 'SGD' }}
-                />
+                <ColoredNumberField record={data[id]} source="receivables" />
               }
             >
               <AttachMoneyIcon color="secondary" />

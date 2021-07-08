@@ -78,7 +78,7 @@ const Basket: FC<FieldProps<Receive>> = ({ record }) => {
                   </Link>
                 </TableCell>
                 <TableCell className={classes.rightAlignedCell}>
-                  {item.unit_price.toLocaleString(undefined, {
+                  {Number(item.unit_price).toLocaleString(undefined, {
                     style: 'currency',
                     currency: 'SGD',
                   })}
@@ -87,10 +87,7 @@ const Basket: FC<FieldProps<Receive>> = ({ record }) => {
                   {item.quantity}
                 </TableCell>
                 <TableCell className={classes.rightAlignedCell}>
-                  {item.amount.toLocaleString(undefined, {
-                    style: 'currency',
-                    currency: 'SGD',
-                  })}
+                  {item.amount}
                 </TableCell>
               </TableRow>
             )

@@ -14,6 +14,8 @@ import {
 import { Link } from 'react-router-dom';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
+import { PriceField } from '../utils/components/PriceField';
+
 const useStyles = makeStyles((theme) => ({
   gridList: {
     margin: 0,
@@ -96,16 +98,11 @@ const LoadedGridList: FC<GridProps> = ({ width }) => {
             subtitle={
               <span>
                 {data[id].reference},{' '}
-                <NumberField
+                <PriceField
                   className={classes.price}
                   source="unit_price"
                   record={data[id]}
                   color="inherit"
-                  options={{
-                    style: 'currency',
-                    // TODO: fix currency not displaying
-                    currency: 'SGD',
-                  }}
                 />
               </span>
             }
