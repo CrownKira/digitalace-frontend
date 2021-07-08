@@ -1,5 +1,4 @@
 import { FC, useState } from 'react';
-// import memoize from 'lodash/memoize';
 import {
   Edit,
   EditProps,
@@ -35,7 +34,6 @@ import RichTextInput from 'ra-input-rich-text';
 
 import { statuses } from './data';
 import ProductNameInput from './ProductNameInput';
-import AmountInput from './AmountInput';
 import TotalInput from './TotalInput';
 import CreditsAppliedInput from './CreditsAppliedInput';
 import { memoize } from '../utils';
@@ -275,24 +273,11 @@ const InvoiceForm = (props: any) => {
                             className={classes.lineItemInput}
                             validate={validateNumber}
                           />
-                          <FormDataConsumer
-                            formClassName={classes.leftFormGroup}
-                            disabled
-                          >
-                            {({ getSource, ...rest }) =>
-                              getSource ? (
-                                <AmountInput
-                                  source={getSource('amount')}
-                                  getSource={getSource}
-                                  inputClassName={classes.lineItemInput}
-                                  // FIXME: error thrown if do no pass save and saving as strings
-                                  // hint: need to sanitize the props
-
-                                  {...rest}
-                                />
-                              ) : null
-                            }
-                          </FormDataConsumer>
+                          <NumberInput
+                            source="amount"
+                            formClassName={classes.rightFormGroup}
+                            className={classes.lineItemInput}
+                          />
                         </LineItemsIterator>
                       </ArrayInput>
                     </CardContent>
@@ -371,7 +356,6 @@ const InvoiceForm = (props: any) => {
                           />
                         </Box>
                       </Box>
-
                       <NumberInput
                         source="grand_total"
                         resource="invoices"
@@ -425,7 +409,6 @@ const InvoiceForm = (props: any) => {
                      * for some reason, this tab cannot be toggled using
                      * formProps?.form?.getFieldState('status')?.value === 'UPD' ? null : (...)
                      */
-
                     label="resources.invoices.tabs.record_payment"
                   >
                     <Box

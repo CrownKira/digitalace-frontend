@@ -32,7 +32,6 @@ import { AnyObject } from 'react-final-form';
 
 import { statuses } from './data';
 import ProductNameInput from './ProductNameInput';
-import AmountInput from './AmountInput';
 import TotalInput from './TotalInput';
 import CreditsAppliedInput from './CreditsAppliedInput';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
@@ -309,26 +308,11 @@ const InvoiceForm = (props: any) => {
                             className={classes.lineItemInput}
                             validate={validateNumber}
                           />
-
-                          <FormDataConsumer
-                            formClassName={classes.leftFormGroup}
-                            disabled
-                          >
-                            {({ getSource, ...rest }) =>
-                              getSource ? (
-                                <AmountInput
-                                  source={getSource('amount')}
-                                  getSource={getSource}
-                                  inputClassName={classes.lineItemInput}
-                                  // FIXME: error thrown if do no pass save and saving as strings
-                                  // hint: this happened because props are injected into react element
-                                  // instead of NumberInput
-
-                                  {...rest}
-                                />
-                              ) : null
-                            }
-                          </FormDataConsumer>
+                          <NumberInput
+                            source="amount"
+                            formClassName={classes.rightFormGroup}
+                            className={classes.lineItemInput}
+                          />
                         </LineItemsIterator>
                       </ArrayInput>
                     </CardContent>

@@ -23,6 +23,31 @@ const TotalInput: FC<Props> = ({
   const form = useForm();
   const formState = useFormState();
 
+  const lineItems = useMemo(
+    () =>
+      formData.invoiceitem_set
+        ? (formData.invoiceitem_set as InvoiceItem[]).map((lineItem) => {
+            const quantity = lineItem ? toFixedNumber(lineItem.quantity, 0) : 0;
+
+            const unitPrice = lineItem
+              ? toFixedNumber(lineItem.unit_price, 2)
+              : 0;
+
+            const amount = quantity * unitPrice;
+
+            return {
+              quantity: quantity,
+              unit_price: unitPrice,
+              amount: amount,
+            };
+          })
+        : [],
+    [formData.invoiceitem_set]
+  );
+  const amounts = useMemo(
+    () => lineItems.map((lineItem) => lineItem.amount),
+    [lineItems]
+  );
   const discount_rate = useMemo(
     () => toFixedNumber(formData.discount_rate, 2),
     [formData.discount_rate]
@@ -46,18 +71,40 @@ const TotalInput: FC<Props> = ({
 
       'credits_applied' !== formState.active &&
         form.change('credits_applied', credits_applied.toFixed(2));
+
+      if (
+        !formState.active?.includes('invoiceitem_set') &&
+        formState.active !== undefined
+      )
+        return;
+
+      lineItems.forEach(({ quantity, unit_price, amount }, index) => {
+        const quantitySource = `invoiceitem_set[${index}].quantity`;
+        quantitySource !== formState.active &&
+          form.change(quantitySource, quantity.toFixed());
+
+        const unitPriceSource = `invoiceitem_set[${index}].unit_price`;
+        unitPriceSource !== formState.active &&
+          form.change(unitPriceSource, unit_price.toFixed(2));
+
+        const amountSource = `invoiceitem_set[${index}].amount`;
+        amountSource !== formState.active &&
+          form.change(amountSource, amount.toFixed(2));
+      });
     });
-  }, [credits_applied, discount_rate, form, formState.active, gst_rate]);
+  }, [
+    credits_applied,
+    discount_rate,
+    form,
+    formState.active,
+    gst_rate,
+    lineItems,
+  ]);
 
   useEffect(() => {
-    if (!formData.invoiceitem_set) return;
     // TODO: onBlur, then do calculation
     // round quantity, unit_price, gst_rate and discount rate first
-    const total_amount = (formData.invoiceitem_set as InvoiceItem[])
-      .map((x) =>
-        x ? toFixedNumber(x.quantity, 2) * toFixedNumber(x.unit_price, 2) : 0
-      )
-      .reduce((x: number, y: number) => x + y, 0);
+    const total_amount = amounts.reduce((x: number, y: number) => x + y, 0);
 
     // toFixedNumber: returns rounded number that can be used for numeric operations
     // round the rest only at the end of calculation for display
@@ -77,14 +124,12 @@ const TotalInput: FC<Props> = ({
       form.change('balance_due', balance_due.toFixed(2));
     });
   }, [
+    amounts,
+    credits_applied,
+    discount_rate,
     form,
     formData.invoiceitem_set,
-    formData.gst_rate,
-    formData.discount_rate,
-    formData.credits_applied,
-    discount_rate,
     gst_rate,
-    credits_applied,
   ]);
 
   return <NumberInput {...rest} className={inputClassName} />;
