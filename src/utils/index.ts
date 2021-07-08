@@ -20,6 +20,7 @@ export function formatImage(value: any) {
 }
 
 export function toFixedNumber(num: any, digits = 2, base = 10) {
+  if (isNaN(num)) return 0;
   const pow = Math.pow(base, digits);
   // Math.round() function returns the value of a number rounded to the nearest integer
   return Math.round(Number(num) * pow) / pow;
