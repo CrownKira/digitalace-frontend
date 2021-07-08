@@ -1,11 +1,5 @@
 import { FC } from 'react';
-import {
-  InputProps,
-  FormDataConsumerRenderParams,
-  useDataProvider,
-  required,
-} from 'react-admin';
-import { useForm } from 'react-final-form';
+import { required } from 'react-admin';
 
 import {
   AsyncAutocompleteInput,
@@ -18,9 +12,6 @@ interface Props extends Omit<AsyncAutocompleteInputProps, 'source'> {
 }
 
 const CustomerNameInput: FC<Props> = (props) => {
-  // const form = useForm();
-  // const dataProvider = useDataProvider();
-
   return (
     <AsyncAutocompleteInput
       optionText="name"
@@ -31,8 +22,6 @@ const CustomerNameInput: FC<Props> = (props) => {
       validate={requiredValidate}
       fullWidth
       {...props}
-
-      // helperText="Please select your customer"
     />
   );
 };

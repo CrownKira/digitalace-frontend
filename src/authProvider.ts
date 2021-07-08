@@ -1,6 +1,6 @@
 import { AuthProvider } from 'react-admin';
-import backend from './apis/backend';
-import { httpClient, apiUrl } from './dataProvider/backend';
+import main from './apis/main';
+import { httpClient, apiUrl } from './dataProvider/main';
 
 const isPublicUrl = (url: string) => {
   return ['#/register/'].includes(url);
@@ -8,7 +8,7 @@ const isPublicUrl = (url: string) => {
 
 const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
-    const response = await backend.post('/api/user/token/', {
+    const response = await main.post('/api/user/token/', {
       email,
       password,
     });

@@ -1,10 +1,8 @@
 import React from 'react';
 import { FC, ReactElement, ReactNode } from 'react';
 import PropTypes from 'prop-types';
-import { FormGroupContextProvider, Record } from 'ra-core';
-import { FormInput, FormTabHeader } from 'react-admin';
-// import  from './FormInput';
-// import {  } from './FormTabHeader';
+import { Record } from 'ra-core';
+import { FormTabHeader } from 'react-admin';
 
 const hiddenStyle = { display: 'none' };
 
@@ -48,10 +46,10 @@ export const FormTabWithLayout: FC<FormTabProps> = ({
       aria-hidden={hidden || undefined}
     >
       {React.Children.map(
-        /// will return an array of formInput
         children as
           | ReactElement<any, string | React.JSXElementConstructor<any>>
-          | ReactElement<any, string | React.JSXElementConstructor<any>>[], /// assume each child is input
+          | ReactElement<any, string | React.JSXElementConstructor<any>>[],
+
         (input: ReactElement) => input
       )}
     </span>
@@ -79,7 +77,6 @@ FormTabWithLayout.propTypes = {
 };
 
 export interface FormTabProps {
-  /// receive props injected by TabbedForm
   basePath?: string;
   className?: string;
   classes?: object;

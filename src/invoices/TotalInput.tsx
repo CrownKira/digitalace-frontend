@@ -36,7 +36,7 @@ const TotalInput: FC<Props> = ({
     [formData.credits_applied]
   );
 
-  useMemo(() => {
+  useEffect(() => {
     form.batch(() => {
       'discount_rate' !== formState.active &&
         form.change('discount_rate', discount_rate.toFixed(2));
@@ -58,9 +58,9 @@ const TotalInput: FC<Props> = ({
         x ? toFixedNumber(x.quantity, 2) * toFixedNumber(x.unit_price, 2) : 0
       )
       .reduce((x: number, y: number) => x + y, 0);
+
     // toFixedNumber: returns rounded number that can be used for numeric operations
     // round the rest only at the end of calculation for display
-
     const discount_amount = total_amount * (discount_rate / 100);
     const net = total_amount * (1 - discount_rate / 100);
     const gst_amount = net * (gst_rate / 100);

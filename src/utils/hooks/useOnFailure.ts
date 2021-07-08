@@ -1,10 +1,9 @@
-import { useNotify, useRefresh } from 'react-admin';
+import { useNotify } from 'react-admin';
 
 import { getErrorMessage } from '..';
 
 const useOnFailure = () => {
   const notify = useNotify();
-  const refresh = useRefresh();
 
   return (error: any) => {
     notify(
@@ -13,8 +12,6 @@ const useOnFailure = () => {
         : getErrorMessage(error) || 'ra.notification.http_error',
       'warning'
     );
-
-    // refresh();
   };
 };
 

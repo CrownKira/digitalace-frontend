@@ -1,1 +1,1 @@
-export const defaultServer = 'backend';
+export const defaultServer = 'main';

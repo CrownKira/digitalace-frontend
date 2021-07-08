@@ -34,6 +34,7 @@ const ProductNameInput: FC<Props> = ({
       }}
       label="resources.invoice_items.fields.product"
       className={inputClassName}
+      showSuggestions={false}
     />
   );
 };

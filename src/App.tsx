@@ -60,7 +60,7 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
       disableTelemetry
     >
       {(userPermissions: number[]) => {
-        // make sure backend passes in a list of numbers
+        // make sure main passes in a list of numbers
         const permissionCodeNames = userPermissions
           .map((x) => permissions.find((y) => y.id === x)?.codename)
           .filter((x) => x);

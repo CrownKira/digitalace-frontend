@@ -23,7 +23,7 @@ import {
 import { lightTheme } from '../layout/themes';
 import { styles as loginStyles, renderInput } from './Login';
 import { getErrorMessage } from '../utils';
-import backend from '../apis/backend';
+import main from '../apis/main';
 
 const register = async ({
   company_name,
@@ -33,7 +33,7 @@ const register = async ({
   password,
   confirm_password,
 }: FormValues) => {
-  const response = await backend.post('/api/user/create/', {
+  const response = await main.post('/api/user/create/', {
     company_name,
     name,
     email,

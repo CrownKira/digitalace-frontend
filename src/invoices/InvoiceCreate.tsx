@@ -9,7 +9,6 @@ import {
   DateInput,
   NumberInput,
   ArrayInput,
-  SimpleFormIterator,
   SelectInput,
   FormDataConsumer,
   Loading,
@@ -17,14 +16,12 @@ import {
   ReferenceInput,
   SaveButton,
   Labeled,
-  TextField,
   Record,
   ReferenceField,
   TabbedFormView,
   number,
   minValue,
   maxValue,
-  NumberField,
 } from 'react-admin';
 import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,16 +35,12 @@ import ProductNameInput from './ProductNameInput';
 import AmountInput from './AmountInput';
 import TotalInput from './TotalInput';
 import CreditsAppliedInput from './CreditsAppliedInput';
-import LineNumberField from './LineNumberField';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
 import { Invoice } from '../types';
 import { incrementReference, dateParser, validateUnicity } from '../utils';
 import { memoize } from '../utils';
 import { useOnFailure } from '../utils/hooks';
 import { FormTabWithLayout } from '../invoices/FormTabWithLayout';
-import PdfButton from '../invoices/PdfButton';
-import PrintButton from '../invoices/PrintButton';
-import PrintDeliveryOrderButton from '../invoices/PrintDeliveryOrderButton';
 import LineItemsIterator from '../invoices/LineItemsIterator';
 import CreditsApplicationListActions from './CreditsApplicationListActions';
 import CustomerNameInput from './CustomerNameInput';
@@ -163,7 +156,6 @@ const InvoiceForm = (props: any) => {
       validate={validateForm}
       {...props}
       render={(formProps: any) => {
-        // console.log(formProps?.form?.getFieldState('status')?.value);
         return (
           <Card>
             <Wrapper>
@@ -175,12 +167,10 @@ const InvoiceForm = (props: any) => {
                     resource="invoices"
                     record={formProps.record}
                     basePath={formProps.basePath}
-                    // undoable={true}
                     invalid={formProps.invalid}
                     handleSubmit={formProps.handleSubmit}
                     saving={formProps.saving}
                     pristine={formProps.pristine}
-                    // classes={{ toolbar: classes.toolbar }}
                   >
                     <SaveButton
                       // props from Toolbar.tsx
@@ -199,11 +189,7 @@ const InvoiceForm = (props: any) => {
                   </Toolbar>
                 }
               >
-                <FormTabWithLayout
-                  label="resources.invoices.tabs.details"
-                  // contentClassName={classes.tab}
-                  /// just take in and not modify children
-                >
+                <FormTabWithLayout label="resources.invoices.tabs.details">
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <DateInput
@@ -212,7 +198,6 @@ const InvoiceForm = (props: any) => {
                         fullWidth
                         validate={requiredValidate}
                       />
-
                       <Box display={{ sm: 'block', md: 'flex' }}>
                         <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                           <CustomerNameInput
@@ -338,8 +323,7 @@ const InvoiceForm = (props: any) => {
                                   // FIXME: error thrown if do no pass save and saving as strings
                                   // hint: this happened because props are injected into react element
                                   // instead of NumberInput
-                                  // save={formProps.save.toString()}
-                                  // saving={formProps.saving.toString()}
+
                                   {...rest}
                                 />
                               ) : null
@@ -436,17 +420,9 @@ const InvoiceForm = (props: any) => {
                             {({ formData }) => (
                               <Labeled label="resources.invoices.fields.credits_available">
                                 <ReferenceField
-                                  // TODO: use label?
                                   source="customer"
                                   reference="customers"
                                   record={formData}
-
-                                  // label="resources.invoices.fields.credits_available"
-                                  // fullWidth
-                                  // formClassName={classes.leftFormGroup}
-                                  // className={classes.lineItemInput}
-                                  // className={classes.lineItemReferenceInput}
-                                  // validate={requiredValidate}
                                 >
                                   <PriceField source="unused_credits" />
                                 </ReferenceField>
@@ -487,20 +463,14 @@ const InvoiceForm = (props: any) => {
                      * for some reason, this tab cannot be toggled using
                      * formProps?.form?.getFieldState('status')?.value === 'UPD' ? null : (...)
                      */
-
                     label="resources.invoices.tabs.record_payment"
-                    // hidden={}
                   >
-                    <Box
-                      display={{ sm: 'block', md: 'flex' }}
-                      // hide instead of null so that date is formatted properly
-                    >
+                    <Box display={{ sm: 'block', md: 'flex' }}>
                       <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                         <DateInput
                           source="payment_date"
                           resource="invoices"
                           fullWidth
-                          // disabled={formData && formData.status === 'UPD'}
                         />
                       </Box>
                       <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -508,22 +478,14 @@ const InvoiceForm = (props: any) => {
                           source="payment_method"
                           reference="payment_methods"
                           fullWidth
-                          // disabled={formData && formData.status === 'UPD'}
                         >
                           <SelectInput source="name" />
                         </ReferenceInput>
                       </Box>
                     </Box>
-
-                    <TextInput
-                      source="payment_note"
-                      multiline
-                      fullWidth
-                      // disabled={formData && formData.status === 'UPD'}
-                    />
+                    <TextInput source="payment_note" multiline fullWidth />
                   </FormTabWithLayout>
                 ) : null}
-
                 <FormTabWithLayout label="resources.invoices.tabs.credits_applied">
                   <FormDataConsumer>
                     {({ formData }) => (

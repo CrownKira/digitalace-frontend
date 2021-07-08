@@ -12,8 +12,6 @@ import {
   AutocompleteArrayInput,
   useGetList,
   Loading,
-  number,
-  minValue,
 } from 'react-admin';
 import { AnyObject } from 'react-final-form';
 import { makeStyles, Theme } from '@material-ui/core/styles';

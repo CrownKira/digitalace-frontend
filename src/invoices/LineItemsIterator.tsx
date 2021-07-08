@@ -31,7 +31,6 @@ import { FieldArrayRenderProps } from 'react-final-form-arrays';
 // TODO: make row draggable
 // TODO: add item header button
 const useStyles = makeStyles(
-  /// styles
   (theme) => ({
     root: {
       padding: 0,
@@ -81,7 +80,6 @@ const useStyles = makeStyles(
 );
 
 const DefaultAddButton = (props: any) => {
-  /// add button
   const classes = useStyles(props);
   const translate = useTranslate();
   return (
@@ -93,7 +91,6 @@ const DefaultAddButton = (props: any) => {
 };
 
 const DefaultRemoveButton = (props: any) => {
-  /// remove button
   const classes = useStyles(props);
   const translate = useTranslate();
   return (
@@ -105,8 +102,6 @@ const DefaultRemoveButton = (props: any) => {
 };
 
 const AddItemHeaderButton = (props: any) => {
-  /// not customisable since it is not shared
-  /// this is a specialised component
   const classes = useStyles(props);
   const translate = useTranslate();
   return (
@@ -138,13 +133,12 @@ const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
     defaultValue,
   } = props;
   const classes = useStyles(props);
-  const nodeRef = useRef(null); /// qn:?
+  const nodeRef = useRef(null);
   const notify = useNotify();
 
   // We need a unique id for each field for a proper enter/exit animation
   // so we keep an internal map between the field position and an auto-increment id
   const nextId = useRef(
-    /// generate next id for next field
     fields && fields.length
       ? fields.length
       : defaultValue
@@ -156,12 +150,10 @@ const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
   // the fields prop which will always be empty for a new record.
   // Without it, our ids wouldn't match the default value and we would get key warnings
   // on the CssTransition element inside our render method
-  /// array of item ids
   const ids = useRef(
     nextId.current > 0 ? Array.from(Array(nextId.current).keys()) : []
   );
 
-  /// remove field, then splic the ids array
   const removeField = (index: any) => () => {
     ids.current.splice(index, 1);
     fields.remove(index);
@@ -184,11 +176,9 @@ const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
   };
 
   // add field and call the onClick event of the button passed as addButton prop
-  /// curried function: used when need apply multiple times, unary
   const handleAddButtonClick =
     (originalOnClickHandler: any) => (event: any) => {
       addField();
-      /// invoke original later
       if (originalOnClickHandler) {
         originalOnClickHandler(event);
       }

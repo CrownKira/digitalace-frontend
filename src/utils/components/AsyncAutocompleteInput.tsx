@@ -179,10 +179,10 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   useEffect(() => {
     // FIXME: eliminate additional api calls after invoice update
     let active = true;
-    // if (inputValue === '') {
-    //   setAutocompleteOptions(valueOverride ? [valueOverride] : []);
-    //   return undefined;
-    // }
+    if (!showSuggestions && inputValue === '') {
+      setAutocompleteOptions(valueOverride ? [valueOverride] : []);
+      return undefined;
+    }
 
     fetch(inputValue, (results?: Record[]) => {
       if (active) {
@@ -202,7 +202,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     return () => {
       active = false;
     };
-  }, [valueOverride, inputValue, fetch]);
+  }, [valueOverride, inputValue, fetch, showSuggestions]);
 
   return input.value && !valueOverride ? (
     <LinearProgress />

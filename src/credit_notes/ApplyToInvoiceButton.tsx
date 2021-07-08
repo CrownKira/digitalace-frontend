@@ -1,37 +1,21 @@
-import * as React from 'react';
-import { FC, ReactElement, memo, useMemo } from 'react';
+import { FC, ReactElement, memo } from 'react';
 import PropTypes from 'prop-types';
 import { Fab, useMediaQuery, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ContentAdd from '@material-ui/icons/Add';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
-import { useTranslate, useResourceContext } from 'ra-core';
+import { useTranslate } from 'ra-core';
 import { ButtonProps, Button, useNotify } from 'react-admin';
 
 import { sanitizeButtonRestProps } from '../utils';
 
-/**
- * Opens the Create view of a given resource
- *
- * Renders as a regular button on desktop, and a Floating Action Button
- * on mobile.
- *
- * @example // basic usage
- * import { ApplyToInvoiceButton } from 'react-admin';
- *
- * const CommentApplyToInvoiceButton = () => (
- *     <ApplyToInvoiceButton basePath="/comments" label="Create comment" />
- * );
- */
 const ApplyToInvoiceButton: FC<ApplyToInvoiceButtonProps> = (props) => {
   const {
-    // basePath = '',
     className,
     classes: classesOverride,
     icon = defaultIcon,
     label = 'resources.credit_notes.action.apply_to_invoice',
-    // scrollToTop = true,
     variant,
     ...rest
   } = props;
@@ -39,14 +23,6 @@ const ApplyToInvoiceButton: FC<ApplyToInvoiceButtonProps> = (props) => {
   const translate = useTranslate();
   const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const notify = useNotify();
-  // const resource = useResourceContext();
-  // const location = useMemo(
-  //   () => ({
-  //     pathname: basePath ? `${basePath}/create` : `/${resource}/create`,
-  //     state: { _scrollToTop: scrollToTop },
-  //   }),
-  //   [basePath, resource, scrollToTop]
-  // );
 
   return isSmall ? (
     <Fab

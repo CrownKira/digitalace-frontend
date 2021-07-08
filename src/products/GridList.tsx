@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { WithWidth } from '@material-ui/core/withWidth';
 import {
   linkToRecord,
-  NumberField,
   useListContext,
   DatagridProps,
   Identifier,

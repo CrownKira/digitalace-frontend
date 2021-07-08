@@ -1,4 +1,4 @@
-import { FC, cloneElement } from 'react';
+import { FC } from 'react';
 import {
   Edit,
   EditProps,
@@ -9,28 +9,19 @@ import {
   DateInput,
   NumberInput,
   ArrayInput,
-  // SimpleFormIterator,
   SelectInput,
   FormDataConsumer,
   SaveButton,
   DeleteButton,
-  Labeled,
   TextField,
   ReferenceField,
   TabbedFormView,
-  ReferenceManyField,
   Datagrid,
   DateField,
-  SelectField,
   NumberField,
   Pagination,
-  EditButton,
-  TopToolbar,
-  CreateButton,
-  ExportButton,
   useNotify,
   useRefresh,
-  useRedirect,
   Record,
   number,
   minValue,
@@ -44,7 +35,6 @@ import { statuses } from './data';
 import ProductNameInput from '../invoices/ProductNameInput';
 import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
-import LineNumberField from './LineNumberField';
 import { validateUnicity } from '../utils';
 
 import { memoize } from '../utils';
@@ -54,11 +44,8 @@ import { transform, styles as createStyles } from './CreditNoteCreate';
 import { FormTabWithLayout } from '../invoices/FormTabWithLayout';
 import PdfButton from '../invoices/PdfButton';
 import PrintButton from '../invoices/PrintButton';
-import PrintDeliveryOrderButton from '../invoices/PrintDeliveryOrderButton';
 import LineItemsIterator from '../invoices/LineItemsIterator';
-import { statuses as invoiceStatuses } from '../invoices/data';
 import ReferenceManyFieldWithActions from './ReferenceManyFieldWithActions';
-import ApplyToInvoiceButton from './ApplyToInvoiceButton';
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -108,13 +95,6 @@ const CreditNoteEdit: FC<EditProps> = (props) => {
   );
 };
 
-// FIXME: fix any
-// const InvoiceListActions = (props: any) => (
-//   <TopToolbar>
-//     <ApplyToInvoiceButton />
-//   </TopToolbar>
-// );
-
 const CreditNoteForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
@@ -123,7 +103,6 @@ const CreditNoteForm = (props: any) => {
     <FormWithRedirect
       {...props}
       render={(formProps: any) => {
-        // console.log(formProps?.form?.getFieldState('status')?.value);
         return (
           <Card>
             <Wrapper>
@@ -135,7 +114,6 @@ const CreditNoteForm = (props: any) => {
                     resource="sales_orders"
                     record={formProps.record}
                     basePath={formProps.basePath}
-                    // undoable={true}
                     invalid={formProps.invalid}
                     handleSubmit={formProps.handleSubmit}
                     saving={formProps.saving}
@@ -170,11 +148,7 @@ const CreditNoteForm = (props: any) => {
                   </Toolbar>
                 }
               >
-                <FormTabWithLayout
-                  label="resources.credit_notes.tabs.details"
-                  // contentClassName={classes.tab}
-                  /// just take in and not modify children
-                >
+                <FormTabWithLayout label="resources.credit_notes.tabs.details">
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <DateInput
@@ -194,7 +168,6 @@ const CreditNoteForm = (props: any) => {
                             reference="customers"
                             validate={requiredValidate}
                             fullWidth
-                            // helperText="Please select your customer"
                           />
                         </Box>
                         <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -225,7 +198,6 @@ const CreditNoteForm = (props: any) => {
                             source="created_from"
                             resource="credit_note"
                             fullWidth
-                            // validate={validateReference(props)}
                             disabled
                           />
                         </Box>
@@ -301,8 +273,7 @@ const CreditNoteForm = (props: any) => {
                                   // FIXME: error thrown if do no pass save and saving as strings
                                   // hint: this happened because props are injected into react element
                                   // instead of NumberInput
-                                  // save={formProps.save.toString()}
-                                  // saving={formProps.saving.toString()}
+
                                   {...rest}
                                 />
                               ) : null
@@ -418,7 +389,6 @@ const CreditNoteForm = (props: any) => {
                     </Box>
                   </Box>
                 </FormTabWithLayout>
-
                 <FormTabWithLayout label="resources.credit_notes.tabs.invoices_credited">
                   <ReferenceManyFieldWithActions
                     reference="credits_applications"

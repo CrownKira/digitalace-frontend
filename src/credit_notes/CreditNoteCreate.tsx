@@ -9,16 +9,12 @@ import {
   DateInput,
   NumberInput,
   ArrayInput,
-  SimpleFormIterator,
   SelectInput,
   FormDataConsumer,
   Loading,
   useGetList,
   SaveButton,
-  Labeled,
-  TextField,
   Record,
-  ReferenceField,
   number,
   minValue,
 } from 'react-admin';
@@ -31,7 +27,6 @@ import { statuses } from './data';
 import ProductNameInput from '../invoices/ProductNameInput';
 import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
-import LineNumberField from './LineNumberField';
 import { validateUnicity } from '../utils';
 import { memoize } from '../utils';
 import { useOnFailure } from '../utils/hooks';
@@ -72,7 +67,6 @@ export const transform = (data: Record) => ({
 const CreditNoteForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
-  console.log('recreate');
 
   const {
     data: credit_notes,
@@ -140,7 +134,6 @@ const CreditNoteForm = (props: any) => {
                         reference="customers"
                         validate={requiredValidate}
                         fullWidth
-                        // helperText="Please select your customer"
                       />
                     </Box>
                     <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -171,7 +164,6 @@ const CreditNoteForm = (props: any) => {
                         source="created_from"
                         resource="credit_note"
                         fullWidth
-                        // validate={validateReference(props)}
                         disabled
                       />
                     </Box>

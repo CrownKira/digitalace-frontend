@@ -19,7 +19,6 @@ import {
   ReferenceField,
   useNotify,
   useRefresh,
-  useRedirect,
   Record,
   number,
   minValue,

@@ -8,7 +8,7 @@ import fakeServerFactory from './fakeServer';
 import App from './App';
 import { defaultServer } from './configs';
 
-// TODO: remove comment
+// TODO: remove fakeServer
 const prepareDataProvider = async () => {
   const restoreFetch = await fakeServerFactory(defaultServer);
   const dataProvider = await dataProviderFactory(defaultServer);

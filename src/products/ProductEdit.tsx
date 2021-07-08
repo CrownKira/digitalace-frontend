@@ -11,7 +11,6 @@ import {
   TextInput,
   ImageInput,
   ImageField,
-  TabbedFormTabs,
   number,
   minValue,
 } from 'react-admin';
@@ -59,13 +58,8 @@ const useStyles = makeStyles({
 const ProductForm = (props: any) => {
   const classes = useStyles();
 
-  console.log('props', props);
-
   return (
-    <TabbedForm
-      /// children have to be overwritten
-      {...props}
-    >
+    <TabbedForm {...props}>
       <FormTab
         label="resources.products.tabs.image"
         contentClassName={classes.tab}

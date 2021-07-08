@@ -14,9 +14,7 @@ import {
   FormDataConsumer,
   ReferenceInput,
   SaveButton,
-  TabbedForm,
   TabbedFormView,
-  SimpleFormIterator,
   ReferenceField,
   DateField,
   TextField,
@@ -27,21 +25,11 @@ import {
   Labeled,
   useNotify,
   useRefresh,
-  useRedirect,
   Record,
   number,
   minValue,
-  maxValue,
-  TopToolbar,
-  Button,
 } from 'react-admin';
-import {
-  Box,
-  Card,
-  CardContent,
-  InputAdornment,
-  Divider,
-} from '@material-ui/core';
+import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
 
@@ -50,7 +38,6 @@ import ProductNameInput from './ProductNameInput';
 import AmountInput from './AmountInput';
 import TotalInput from './TotalInput';
 import CreditsAppliedInput from './CreditsAppliedInput';
-import LineNumberField from './LineNumberField';
 import { memoize } from '../utils';
 import { useOnFailure } from '../utils/hooks';
 import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
@@ -58,20 +45,17 @@ import {
   transform,
   styles as createStyles,
   Wrapper,
-  validateCredits,
   validateForm,
 } from './InvoiceCreate';
 import { FormTabWithLayout } from './FormTabWithLayout';
 import PdfButton from './PdfButton';
 import PrintButton from './PrintButton';
-import PrintDeliveryOrderButton from './PrintDeliveryOrderButton';
 import LineItemsIterator from './LineItemsIterator';
 import ReferenceManyFieldWithActions from '../sales_orders/ReferenceManyFieldWithActions';
 import CustomerNameInput from './CustomerNameInput';
 import { validateUnicity } from '../utils';
 import CreditsApplicationListActions from './CreditsApplicationListActions';
 import { PriceField } from '../utils/components/PriceField';
-import TotalCredits from './TotalCredits';
 import ApplyCreditsCard from './ApplyCreditsCard';
 
 const useStyles = makeStyles({
@@ -91,12 +75,8 @@ const InvoiceEdit: FC<EditProps> = (props) => {
 };
 
 const InvoiceForm = (props: any) => {
-  // TODO: add custom onFailure
   const classes = useStyles();
   const onFailure = useOnFailure();
-
-  // somehow this is not getting reinvoked every time
-  // qn: is React caching results automatically?
 
   const [state, setState] = useState({
     // TODO: make use of formProps instead?
@@ -113,19 +93,11 @@ const InvoiceForm = (props: any) => {
     refresh();
   };
 
-  // TODO: move to InvoiceCreate
-
   /**
    * You can have tooling support which checks and enforces these rules.
    * For example, eslint-plugin-react-hooks utilizes a heuristic that assumes,
    * a function starting with "use" prefix and a capital letter after it is a Hook.
    */
-
-  /// can't use <TabbedForm> since inner layout does not have access to formProps
-  /// no access to formProps
-  /// need to make it have access to formProps
-  /// we need to saving, etc options from react admin
-  /// so we using react admin form
 
   // TODO: add wrapper card component
   // TODO: add custom toolbar
@@ -133,10 +105,8 @@ const InvoiceForm = (props: any) => {
   return (
     <FormWithRedirect
       validate={validateForm}
-      // redirect={false}
       {...props}
       render={(formProps: any) => {
-        // console.log(formProps?.form?.getFieldState('status')?.value);
         return (
           <Card>
             <Wrapper>
@@ -148,7 +118,6 @@ const InvoiceForm = (props: any) => {
                     resource="invoices"
                     record={formProps.record}
                     basePath={formProps.basePath}
-                    // undoable={true}
                     invalid={formProps.invalid}
                     handleSubmit={formProps.handleSubmit}
                     saving={formProps.saving}
@@ -173,7 +142,6 @@ const InvoiceForm = (props: any) => {
                     />
                     <PdfButton />
                     <PrintButton />
-
                     {formProps.record && formProps.record.id !== undefined && (
                       <DeleteButton
                         // props from Toolbar.tsx
@@ -186,11 +154,7 @@ const InvoiceForm = (props: any) => {
                   </Toolbar>
                 }
               >
-                <FormTabWithLayout
-                  label="resources.invoices.tabs.details"
-                  // contentClassName={classes.tab}
-                  /// just take in and not modify children
-                >
+                <FormTabWithLayout label="resources.invoices.tabs.details">
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <DateInput
@@ -199,7 +163,6 @@ const InvoiceForm = (props: any) => {
                         fullWidth
                         validate={requiredValidate}
                       />
-
                       <Box display={{ sm: 'block', md: 'flex' }}>
                         <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                           <CustomerNameInput
@@ -323,10 +286,8 @@ const InvoiceForm = (props: any) => {
                                   getSource={getSource}
                                   inputClassName={classes.lineItemInput}
                                   // FIXME: error thrown if do no pass save and saving as strings
-                                  // hint: this happened because props are injected into react element
-                                  // instead of NumberInput
-                                  // save={formProps.save.toString()}
-                                  // saving={formProps.saving.toString()}
+                                  // hint: need to sanitize the props
+
                                   {...rest}
                                 />
                               ) : null
@@ -423,17 +384,9 @@ const InvoiceForm = (props: any) => {
                             {({ formData }) => (
                               <Labeled label="resources.invoices.fields.credits_available">
                                 <ReferenceField
-                                  // TODO: use label?
                                   source="customer"
                                   reference="customers"
                                   record={formData}
-
-                                  // label="resources.invoices.fields.credits_available"
-                                  // fullWidth
-                                  // formClassName={classes.leftFormGroup}
-                                  // className={classes.lineItemInput}
-                                  // className={classes.lineItemReferenceInput}
-                                  // validate={requiredValidate}
                                 >
                                   <PriceField source="unused_credits" />
                                 </ReferenceField>
@@ -456,7 +409,6 @@ const InvoiceForm = (props: any) => {
                           </FormDataConsumer>
                         </Box>
                       </Box>
-
                       <NumberInput
                         source="balance_due"
                         resource="invoices"
@@ -466,7 +418,6 @@ const InvoiceForm = (props: any) => {
                     </Box>
                   </Box>
                 </FormTabWithLayout>
-
                 {state.isPaid ? (
                   <FormTabWithLayout
                     /**
@@ -476,7 +427,6 @@ const InvoiceForm = (props: any) => {
                      */
 
                     label="resources.invoices.tabs.record_payment"
-                    // hidden={}
                   >
                     <Box
                       display={{ sm: 'block', md: 'flex' }}
@@ -487,7 +437,6 @@ const InvoiceForm = (props: any) => {
                           source="payment_date"
                           resource="invoices"
                           fullWidth
-                          // disabled={formData && formData.status === 'UPD'}
                         />
                       </Box>
                       <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -495,22 +444,15 @@ const InvoiceForm = (props: any) => {
                           source="payment_method"
                           reference="payment_methods"
                           fullWidth
-                          // disabled={formData && formData.status === 'UPD'}
                         >
                           <SelectInput source="name" />
                         </ReferenceInput>
                       </Box>
                     </Box>
 
-                    <TextInput
-                      source="payment_note"
-                      multiline
-                      fullWidth
-                      // disabled={formData && formData.status === 'UPD'}
-                    />
+                    <TextInput source="payment_note" multiline fullWidth />
                   </FormTabWithLayout>
                 ) : null}
-
                 <FormTabWithLayout label="resources.invoices.tabs.credits_applied">
                   <FormDataConsumer>
                     {({ formData }) => (
@@ -535,12 +477,6 @@ const InvoiceForm = (props: any) => {
                           <ReferenceField
                             source="credit_note"
                             reference="credit_notes"
-                            // label="resources.credit_notes.fields.reference"
-                            // fullWidth
-                            // formClassName={classes.leftFormGroup}
-                            // className={classes.lineItemInput}
-                            // className={classes.lineItemReferenceInput}
-                            // validate={requiredValidate}
                           >
                             <TextField source="reference" />
                           </ReferenceField>
@@ -556,7 +492,6 @@ const InvoiceForm = (props: any) => {
                       </ReferenceManyFieldWithActions>
                     )}
                   </FormDataConsumer>
-
                   {state.openApplyCredits ? (
                     <ApplyCreditsCard formProps={formProps} />
                   ) : null}
@@ -586,45 +521,3 @@ const validateReference = memoize((props: any) => [
 ]);
 
 export default InvoiceEdit;
-
-/*
-<FormDataConsumer>
-{(props) => (
-  <LineNumberField
-    source="total_lines"
-    resource="invoices"
-    fullWidth
-    label="resources.invoices.fields.total_lines"
-    {...props}
-  />
-)}
-</FormDataConsumer>
-*/
-
-// <FormDataConsumer>
-// {({ formData }) => (
-//   <Labeled label="resources.invoices.fields.customer_id">
-//     <ReferenceField
-//       source="customer"
-//       reference="customers"
-//       record={formData}
-//     >
-//       <TextField source="reference" />
-//     </ReferenceField>
-//   </Labeled>
-// )}
-// </FormDataConsumer>
-
-/*
-      <FormWithRedirect /// cannot be nested
-      /// only one <form>
-        {...props}
-        render={(formProps: any) => {
-          console.log('formprops', formProps);
-
-          return (
-
-          );
-        }}
-      />
-*/

@@ -34,15 +34,13 @@ const ApplyCreditsCard: FC<Props> = ({ formProps }) => {
         <Box display="flex" justifyContent="flex-end">
           <FormDataConsumer>
             {({ formData }) => (
-              <>
-                <span className={classes.label}>
-                  Invoice Balance:{' '}
-                  {Number(formData.balance_due).toLocaleString(undefined, {
-                    style: 'currency',
-                    currency: 'SGD',
-                  })}
-                </span>
-              </>
+              <span className={classes.label}>
+                Invoice Balance:{' '}
+                {Number(formData.balance_due).toLocaleString(undefined, {
+                  style: 'currency',
+                  currency: 'SGD',
+                })}
+              </span>
             )}
           </FormDataConsumer>
         </Box>
@@ -53,13 +51,10 @@ const ApplyCreditsCard: FC<Props> = ({ formProps }) => {
           resource="credits_applications"
           label="resources.invoices.fields.creditsapplication_set"
           record={undefined}
-
-          // validate={requiredValidate}
         >
           <SimpleFormIterator
             resource="credits_applications"
             record={undefined}
-            // disabled
             disableAdd
             disableRemove
           >
@@ -70,10 +65,8 @@ const ApplyCreditsCard: FC<Props> = ({ formProps }) => {
               label="resources.credit_notes.fields.reference"
               formClassName={classes.leftFormGroup}
               className={classes.lineItemInput}
-              // validate={requiredValidate}
               disabled
             />
-
             <DateInput
               source="date"
               formClassName={classes.leftFormGroup}
@@ -88,13 +81,9 @@ const ApplyCreditsCard: FC<Props> = ({ formProps }) => {
               label="resources.credit_notes.fields.grand_total"
               formClassName={classes.leftFormGroup}
               className={classes.lineItemInput}
-              // validate={requiredValidate}
               disabled
             />
-
             <NumberInput
-              /// use number, since it makes changing the field easier
-
               source="credits_remaining"
               label="resources.credit_notes.fields.credits_remaining"
               formClassName={classes.leftFormGroup}
@@ -106,12 +95,10 @@ const ApplyCreditsCard: FC<Props> = ({ formProps }) => {
                 getSource ? (
                   <NumberInput
                     // FIXME: can't add default value
-
                     source={getSource('amount_to_credit')}
                     label="resources.credits_applications.fields.amount_to_credit"
                     className={classes.lineItemInput}
                     validate={validateCredits(scopedFormData)}
-                    // defaultValue="0.00"
                   />
                 ) : null
               }
@@ -119,7 +106,6 @@ const ApplyCreditsCard: FC<Props> = ({ formProps }) => {
           </SimpleFormIterator>
         </ArrayInput>
         <Divider />
-
         <FormDataConsumer>
           {({ formData }) => (
             <TotalCredits formData={formData} record={formProps.record} />

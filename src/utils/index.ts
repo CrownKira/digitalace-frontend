@@ -1,7 +1,7 @@
 import lodashMemoize from 'lodash/memoize';
 import { Record } from 'react-admin';
 
-import customDataProvider from '../dataProvider/backend';
+import customDataProvider from '../dataProvider/main';
 
 import QuickFilter from './QuickFilter';
 export { QuickFilter };
@@ -9,7 +9,7 @@ export { QuickFilter };
 // https://github.com/marmelab/react-admin/issues/2077
 export function formatImage(value: any) {
   if (!value || typeof value === 'string') {
-    // Value is null or the url string from the backend,
+    // Value is null or the url string from the main,
     // wrap it in an object so the form input can handle it
     return { src: value };
   } else {

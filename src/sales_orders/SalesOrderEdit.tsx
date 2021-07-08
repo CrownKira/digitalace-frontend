@@ -1,4 +1,4 @@
-import { FC, cloneElement } from 'react';
+import { FC } from 'react';
 import {
   Edit,
   EditProps,
@@ -9,16 +9,12 @@ import {
   DateInput,
   NumberInput,
   ArrayInput,
-  // SimpleFormIterator,
   SelectInput,
   FormDataConsumer,
   SaveButton,
   DeleteButton,
-  Labeled,
   TextField,
-  ReferenceField,
   TabbedFormView,
-  ReferenceManyField,
   Datagrid,
   DateField,
   SelectField,
@@ -27,10 +23,8 @@ import {
   EditButton,
   TopToolbar,
   CreateButton,
-  ExportButton,
   useNotify,
   useRefresh,
-  useRedirect,
   Record,
   number,
   minValue,
@@ -44,7 +38,6 @@ import { statuses } from './data';
 import ProductNameInput from '../invoices/ProductNameInput';
 import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
-import LineNumberField from './LineNumberField';
 import { validateUnicity } from '../utils';
 import { memoize } from '../utils';
 import { useOnFailure } from '../utils/hooks';
@@ -53,7 +46,6 @@ import { transform, styles as createStyles } from './SalesOrderCreate';
 import { FormTabWithLayout } from '../invoices/FormTabWithLayout';
 import PdfButton from '../invoices/PdfButton';
 import PrintButton from '../invoices/PrintButton';
-import PrintDeliveryOrderButton from '../invoices/PrintDeliveryOrderButton';
 import LineItemsIterator from '../invoices/LineItemsIterator';
 import { statuses as invoiceStatuses } from '../invoices/data';
 import ReferenceManyFieldWithActions from './ReferenceManyFieldWithActions';
@@ -121,7 +113,6 @@ const SalesOrderForm = (props: any) => {
     <FormWithRedirect
       {...props}
       render={(formProps: any) => {
-        // console.log(formProps?.form?.getFieldState('status')?.value);
         return (
           <Card>
             <Wrapper>
@@ -133,7 +124,6 @@ const SalesOrderForm = (props: any) => {
                     resource="sales_orders"
                     record={formProps.record}
                     basePath={formProps.basePath}
-                    // undoable={true}
                     invalid={formProps.invalid}
                     handleSubmit={formProps.handleSubmit}
                     saving={formProps.saving}
@@ -168,11 +158,7 @@ const SalesOrderForm = (props: any) => {
                   </Toolbar>
                 }
               >
-                <FormTabWithLayout
-                  label="resources.sales_orders.tabs.details"
-                  // contentClassName={classes.tab}
-                  /// just take in and not modify children
-                >
+                <FormTabWithLayout label="resources.sales_orders.tabs.details">
                   <Box display={{ sm: 'block', md: 'flex' }}>
                     <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                       <DateInput
@@ -181,7 +167,6 @@ const SalesOrderForm = (props: any) => {
                         fullWidth
                         validate={requiredValidate}
                       />
-
                       <Box display={{ sm: 'block', md: 'flex' }}>
                         <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
                           <AsyncAutocompleteInput
@@ -192,7 +177,6 @@ const SalesOrderForm = (props: any) => {
                             reference="customers"
                             validate={requiredValidate}
                             fullWidth
-                            // helperText="Please select your customer"
                           />
                         </Box>
                         <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
@@ -396,12 +380,7 @@ const SalesOrderForm = (props: any) => {
                     </Box>
                   </Box>
                 </FormTabWithLayout>
-
-                <FormTabWithLayout
-                  label="resources.sales_orders.tabs.invoices"
-                  // contentClassName={classes.tab}
-                  /// just take in and not modify children
-                >
+                <FormTabWithLayout label="resources.sales_orders.tabs.invoices">
                   <ReferenceManyFieldWithActions
                     reference="invoices"
                     target="sales_order"

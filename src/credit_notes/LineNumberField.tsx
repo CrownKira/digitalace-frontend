@@ -22,6 +22,7 @@ const LineNumberField: FC<Props> = ({
     // FIXME: label doesn't work if passed to TextField
     <Labeled label={label}>
       <TextField
+        // TODO: use Typography
         {...rest}
         className={inputClassName}
         source="total_lines"

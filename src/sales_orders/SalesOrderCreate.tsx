@@ -9,16 +9,12 @@ import {
   DateInput,
   NumberInput,
   ArrayInput,
-  SimpleFormIterator,
   SelectInput,
   FormDataConsumer,
   Loading,
   useGetList,
   SaveButton,
-  Labeled,
-  TextField,
   Record,
-  ReferenceField,
   number,
   minValue,
 } from 'react-admin';
@@ -31,7 +27,6 @@ import { statuses } from './data';
 import ProductNameInput from '../invoices/ProductNameInput';
 import AmountInput from '../invoices/AmountInput';
 import TotalInput from './TotalInput';
-import LineNumberField from './LineNumberField';
 import { validateUnicity } from '../utils';
 import { memoize } from '../utils';
 import { useOnFailure } from '../utils/hooks';

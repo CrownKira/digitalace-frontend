@@ -6,13 +6,7 @@ import ContentAdd from '@material-ui/icons/Add';
 import { CreditNote } from '../types';
 
 interface Props extends ButtonProps {
-  // onClick?: React.MouseEventHandler<HTMLButtonElement>;
   formData: any;
-
-  //   setState: React.Dispatch<React.SetStateAction<{
-  //     isPaid: boolean;
-  //     openApplyCredits: boolean;
-  // }>>
 }
 
 const CreditsApplicationListActions: FC<Props> = ({
@@ -22,15 +16,11 @@ const CreditsApplicationListActions: FC<Props> = ({
 }) => {
   const form = useForm();
   const dataProvider = useDataProvider();
-  // console.log(rest);
 
   return (
     <TopToolbar>
       <Button
         onClick={async (event) => {
-          // console.log('change data...');
-          // form.change('customer', formData.customer);
-
           const response =
             formData.customer &&
             (await dataProvider.getManyReference('credit_notes', {
@@ -40,13 +30,6 @@ const CreditsApplicationListActions: FC<Props> = ({
               sort: { field: 'id', order: 'DESC' },
               filter: {},
             }));
-
-          // const response = await dataProvider.getList('credits_applications', {
-          //   // TODO: load more button
-          //   pagination: { page: 1, perPage: 25 },
-          //   sort: { field: 'id', order: 'DESC' },
-          //   filter: { credit_note__customer: newValue.id },
-          // });
 
           form.change(
             'fake_creditsapplication_set',

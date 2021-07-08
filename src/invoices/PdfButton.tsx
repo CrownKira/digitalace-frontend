@@ -12,8 +12,6 @@ import {
   TransformData,
   Record,
   HandleSubmitWithRedirect,
-  useSaveContext,
-  useFormContext,
 } from 'react-admin';
 import { FormRenderProps } from 'react-final-form';
 
@@ -27,8 +25,7 @@ const PdfButton: FC<PdfButtonProps> = (props) => {
     label = 'resources.invoices.action.pdf',
     disabled,
     redirect,
-    // saving,
-    // submitOnEnter,
+
     variant = 'contained',
     icon = defaultIcon,
     onClick,
@@ -42,13 +39,11 @@ const PdfButton: FC<PdfButtonProps> = (props) => {
   const classes = useStyles(props);
   const notify = useNotify();
   const translate = useTranslate();
-  // const formContext = useFormContext();
 
   const handleClick = (event: any) => {
     notify('pos.message.coming_soon');
   };
 
-  // const type = submitOnEnter ? 'submit' : 'button';
   const displayedLabel = label && translate(label, { _: label });
   return (
     <Button

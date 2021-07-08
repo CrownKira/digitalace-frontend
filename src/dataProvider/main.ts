@@ -3,7 +3,7 @@ import { fetchUtils, Record } from 'react-admin';
 import drfProvider from 'ra-data-django-rest-framework';
 import HttpMethodsEnum from 'http-methods-enum';
 
-import { baseURL } from '../apis/backend';
+import { baseURL } from '../apis/main';
 import { UserProfile, UserConfig } from '../types';
 
 export const apiUrl = `${baseURL}/api`;
@@ -22,7 +22,6 @@ export const apiUrl = `${baseURL}/api`;
  * console.timeEnd("iterationTime");
  * VM255:4 iterationTime: 0.012939453125 ms
  */
-
 const fileLabels = ['image', 'thumbnail', 'resume'];
 
 // TODO: use axios

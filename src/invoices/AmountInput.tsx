@@ -56,6 +56,7 @@ const AmountInput: FC<Props> = ({
   );
 };
 
+// TODO: = NumberInput.defaultProps?
 AmountInput.defaultProps = {};
 
 export default AmountInput;
