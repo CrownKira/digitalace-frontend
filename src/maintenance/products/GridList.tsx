@@ -44,7 +44,7 @@ const getColsForWidth = (width: Breakpoint) => {
   return 6;
 };
 
-const times = (nbChildren: number, fn: () => any) =>
+const times = (nbChildren: number, fn: (key: any) => any) =>
   Array.from({ length: nbChildren }, (_, key) => fn(key));
 
 const LoadingGridList: FC<GridProps & { nbItems?: number }> = ({

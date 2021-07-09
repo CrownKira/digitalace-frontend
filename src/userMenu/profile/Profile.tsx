@@ -34,7 +34,7 @@ import { UserProfile } from "../../types";
 import { useOnFailure } from "../../utils/hooks";
 import { genders } from "../../utils/data";
 import { SectionTitle, Separator } from "../../utils/components/Divider";
-import useGetUserProfile from "./useGetUserProfile";
+import { useGetUserProfile } from "./useGetUserProfile";
 
 export const validatePasswords = ({
   password,

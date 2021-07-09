@@ -4,8 +4,8 @@ import { ReceiveList } from "./ReceiveList";
 import { ReceiveCreate } from "./ReceiveCreate";
 import { ReceiveEdit } from "./ReceiveEdit";
 
-export const invoices = {
-  codename: "invoice",
+export const receives = {
+  codename: "receive",
   list: ReceiveList,
   create: ReceiveCreate,
   edit: ReceiveEdit,

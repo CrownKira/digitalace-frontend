@@ -14,7 +14,7 @@ import { useMediaQuery, Theme } from "@material-ui/core";
 import { SupplierLinkField } from "./SupplierLinkField";
 import { ColoredNumberField } from "./ColoredNumberField";
 import { MobileGrid } from "./MobileGrid";
-import { SupplierListAside } from "./SupplierListAside";
+import { Aside as SupplierListAside } from "./SupplierListAside";
 import { ReactElement } from "react";
 
 const SupplierFilter = (props: Omit<FilterProps, "children">) => (

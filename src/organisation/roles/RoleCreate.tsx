@@ -11,7 +11,7 @@ import {
   ReferenceArrayInput,
 } from "react-admin";
 
-import permissions from "../../permissions/data";
+import { permissions } from "../../permissions/data";
 
 const postDefaultValue = () => ({
   image: "",

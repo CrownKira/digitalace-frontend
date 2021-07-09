@@ -1,8 +1,8 @@
 import SupplierIcon from "@material-ui/icons/People";
 
-import SupplierList from "./SupplierList";
-import SupplierCreate from "./SupplierCreate";
-import SupplierEdit from "./SupplierEdit";
+import { SupplierList } from "./SupplierList";
+import { SupplierCreate } from "./SupplierCreate";
+import { SupplierEdit } from "./SupplierEdit";
 
 export const suppliers = {
   codename: "supplier",

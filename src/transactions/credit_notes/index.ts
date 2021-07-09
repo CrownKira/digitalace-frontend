@@ -5,7 +5,7 @@ import { CreditNoteCreate } from "./CreditNoteCreate";
 import { CreditNoteEdit } from "./CreditNoteEdit";
 
 export const credit_notes = {
-  codename: "credit_note",
+  codename: "creditnote",
   list: CreditNoteList,
   create: CreditNoteCreate,
   edit: CreditNoteEdit,
