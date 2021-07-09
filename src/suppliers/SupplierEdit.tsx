@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from "react";
 import {
   Edit,
   EditProps,
@@ -17,21 +17,21 @@ import {
   EditButton,
   ReferenceManyField,
   Labeled,
-} from 'react-admin';
-import { Box, Card, CardContent } from '@material-ui/core';
+} from "react-admin";
+import { Box, Card, CardContent } from "@material-ui/core";
 
-import Aside from './Aside';
-import FullNameField from './FullNameField';
-import { validatePasswords } from './SupplierCreate';
-import { Supplier } from '../types';
-import { formatImage, validateUnicity } from '../utils';
-import { memoize } from '../utils';
-import { useOnFailure } from '../utils/hooks';
-import { SectionTitle, Separator } from '../utils/components/Divider';
-import NameField from '../categories/NameField';
-import ProductRefField from '../products/ProductRefField';
-import ThumbnailField from '../products/ThumbnailField';
-import { PriceField } from '../utils/components/PriceField';
+import Aside from "./Aside";
+import FullNameField from "./FullNameField";
+import { validatePasswords } from "./SupplierCreate";
+import { Supplier } from "../types";
+import { formatImage, validateUnicity } from "../utils";
+import { memoize } from "../utils";
+import { useOnFailure } from "../utils/hooks";
+import { SectionTitle, Separator } from "../utils/components/Divider";
+import NameField from "../categories/NameField";
+import ProductRefField from "../products/ProductRefField";
+import ThumbnailField from "../products/ThumbnailField";
+import { PriceField } from "../utils/components/PriceField";
 
 const SupplierEdit: FC<EditProps> = (props) => {
   const onFailure = useOnFailure();
@@ -77,8 +77,8 @@ const SupplierForm = (props: any) => {
                 source="reference"
                 validate={validateReference(props)}
               />
-              <Box display={{ xs: 'block', sm: 'flex' }}>
-                <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+              <Box display={{ xs: "block", sm: "flex" }}>
+                <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                   <TextInput
                     source="name"
                     resource="suppliers"
@@ -86,7 +86,7 @@ const SupplierForm = (props: any) => {
                     fullWidth
                   />
                 </Box>
-                <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
                   <TextInput
                     source="attention"
                     resource="suppliers"
@@ -101,8 +101,8 @@ const SupplierForm = (props: any) => {
                 validate={validateEmail}
                 fullWidth
               />
-              <Box display={{ xs: 'block', sm: 'flex' }}>
-                <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+              <Box display={{ xs: "block", sm: "flex" }}>
+                <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                   <TextInput
                     source="phone_no"
                     resource="suppliers"
@@ -110,7 +110,7 @@ const SupplierForm = (props: any) => {
                     helperText={false}
                   />
                 </Box>
-                <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
+                <Box flex={2} ml={{ xs: 0, sm: "0.5em" }} />
               </Box>
               <Separator />
               <SectionTitle label="resources.suppliers.fieldGroups.address" />
@@ -121,11 +121,11 @@ const SupplierForm = (props: any) => {
                 fullWidth
                 helperText={false}
               />
-              <Box display={{ xs: 'block', sm: 'flex' }}>
-                <Box flex={2} mr={{ xs: 0, sm: '0.5em' }}>
+              <Box display={{ xs: "block", sm: "flex" }}>
+                <Box flex={2} mr={{ xs: 0, sm: "0.5em" }}>
                   <TextInput source="city" resource="suppliers" fullWidth />
                 </Box>
-                <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                   <TextInput
                     source="state"
                     resource="suppliers"
@@ -189,10 +189,10 @@ const requiredValidate = required();
 const validateEmail = email();
 const validateReferenceUnicity = (props: any) =>
   validateUnicity({
-    reference: 'suppliers',
-    source: 'reference',
+    reference: "suppliers",
+    source: "reference",
     record: props.record,
-    message: 'resources.suppliers.validation.reference_already_used',
+    message: "resources.suppliers.validation.reference_already_used",
   });
 const validateReference = memoize((props: any) => [
   requiredValidate,

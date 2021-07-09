@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { Link, FieldProps } from 'react-admin';
+import { FC } from "react";
+import { Link, FieldProps } from "react-admin";
 
-import FullNameField from './FullNameField';
-import { Employee } from '../types';
+import FullNameField from "./FullNameField";
+import { Employee } from "../types";
 
 const EmployeeLinkField: FC<FieldProps<Employee>> = (props) =>
   props.record ? (
@@ -13,7 +13,7 @@ const EmployeeLinkField: FC<FieldProps<Employee>> = (props) =>
 
 EmployeeLinkField.defaultProps = {
   // needed so dataProvider know which column this is for ordering
-  source: 'name',
+  source: "name",
   addLabel: true,
 };
 

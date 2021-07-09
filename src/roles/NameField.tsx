@@ -1,16 +1,16 @@
-import { FC, memo } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { FC, memo } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 
-import { FieldProps } from 'react-admin';
-import AvatarField from './AvatarField';
-import { Role } from '../types';
+import { FieldProps } from "react-admin";
+import AvatarField from "./AvatarField";
+import { Role } from "../types";
 
 // react-admin
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
+    display: "flex",
+    flexWrap: "nowrap",
+    alignItems: "center",
   },
   avatar: {
     marginRight: theme.spacing(1),
@@ -34,8 +34,8 @@ const FullNameField: FC<Props> = ({ record, size }) => {
 };
 
 FullNameField.defaultProps = {
-  source: 'name',
-  label: 'resources.roles.fields.name',
+  source: "name",
+  label: "resources.roles.fields.name",
 };
 
 export default memo<Props>(FullNameField);

@@ -1,12 +1,12 @@
-import { FC } from 'react';
-import { ReferenceInput, SelectInput, InputProps } from 'react-admin';
-import { makeStyles } from '@material-ui/core/styles';
+import { FC } from "react";
+import { ReferenceInput, SelectInput, InputProps } from "react-admin";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   input: { width: 150 },
 });
 
-interface Props extends Omit<InputProps, 'source'> {
+interface Props extends Omit<InputProps, "source"> {
   // this is needed since the source might be different but still refers to agent
   source?: string;
 }
@@ -27,7 +27,7 @@ const AgentInput: FC<Props> = (props) => {
 };
 
 AgentInput.defaultProps = {
-  source: 'agents',
+  source: "agents",
 };
 
 export default AgentInput;

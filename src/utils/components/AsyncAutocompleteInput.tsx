@@ -1,10 +1,10 @@
-import { FC, useState, useMemo, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import debounce from 'lodash/debounce';
+import { FC, useState, useMemo, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
+import debounce from "lodash/debounce";
 import Autocomplete, {
   AutocompleteChangeReason,
   AutocompleteChangeDetails,
-} from '@material-ui/lab/Autocomplete';
+} from "@material-ui/lab/Autocomplete";
 import {
   useInput,
   useNotify,
@@ -17,9 +17,9 @@ import {
   linkToRecord,
   LinearProgress,
   ReferenceInputProps,
-} from 'react-admin';
-import EditIcon from '@material-ui/icons/Edit';
-import { IconButton } from '@material-ui/core';
+} from "react-admin";
+import EditIcon from "@material-ui/icons/Edit";
+import { IconButton } from "@material-ui/core";
 
 // TODO: write js doc
 // TODO: show top results if empty
@@ -45,13 +45,13 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
    */
   filter = {},
   perPage = 25,
-  sort = { field: 'id', order: 'DESC' },
+  sort = { field: "id", order: "DESC" },
   reference,
   /**
    * AutocompleteInput props
    */
-  optionText = 'name',
-  optionValue = 'id',
+  optionText = "name",
+  optionValue = "id",
   /**
    * MUIAutocomplete props
    * override props produced by useInput()
@@ -82,7 +82,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     parse,
     resource,
     source,
-    type: 'text',
+    type: "text",
     validate,
 
     ...props,
@@ -99,7 +99,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   const [
     inputValue, // input value
     setInputValue,
-  ] = useState('');
+  ] = useState("");
   const [autocompleteOptions, setAutocompleteOptions] = useState<Record[]>([]);
   const dataProvider = useDataProvider();
   const notify = useNotify();
@@ -131,8 +131,8 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
             })
             .catch((error: Error) => {
               notify(
-                'pos.async_autocomplete_input.data_provider_error',
-                'warning'
+                "pos.async_autocomplete_input.data_provider_error",
+                "warning"
               );
             });
         },
@@ -172,14 +172,14 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
         response && setValueOverride(response.data);
       })
       .catch((error: Error) => {
-        notify('pos.async_autocomplete_input.data_provider_error', 'warning');
+        notify("pos.async_autocomplete_input.data_provider_error", "warning");
       });
   }, [dataProvider, input.value, inputValue, notify, reference, valueOverride]);
 
   useEffect(() => {
     // FIXME: eliminate additional api calls after invoice update
     let active = true;
-    if (!showSuggestions && inputValue === '') {
+    if (!showSuggestions && inputValue === "") {
       setAutocompleteOptions(valueOverride ? [valueOverride] : []);
       return undefined;
     }
@@ -220,7 +220,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
           newValue ? [newValue, ...autocompleteOptions] : autocompleteOptions
         );
         onChangeOverride(event, newValue, reason, details);
-        onChange(newValue ? newValue[optionValue] : '');
+        onChange(newValue ? newValue[optionValue] : "");
         setValueOverride(newValue);
       }}
       onInputChange={(event, newInputValue) => {
@@ -239,7 +239,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
             {...input}
             onChange={onInputChangeOverride}
             label={
-              label !== '' &&
+              label !== "" &&
               label !== false && (
                 <FieldTitle
                   label={label}
@@ -285,7 +285,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
 };
 
 export interface AsyncAutocompleteInputProps
-  extends Omit<ReferenceInputProps, 'children'> {
+  extends Omit<ReferenceInputProps, "children"> {
   filter?: any;
   optionText: any;
   optionValue: any;
@@ -308,9 +308,9 @@ AsyncAutocompleteInput.defaultProps = {
   options: {},
   filter: {},
   perPage: 25,
-  sort: { field: 'id', order: 'DESC' },
-  optionText: 'name',
-  optionValue: 'id',
+  sort: { field: "id", order: "DESC" },
+  optionText: "name",
+  optionValue: "id",
   onChange: () => {},
   onInputChange: () => {},
   wait: 300,

@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { FieldProps } from 'react-admin';
-import { Product } from '../types';
+import { FC } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { FieldProps } from "react-admin";
+import { Product } from "../types";
 
 const useStyles = makeStyles({
   root: { width: 25, maxWidth: 25, maxHeight: 25 },

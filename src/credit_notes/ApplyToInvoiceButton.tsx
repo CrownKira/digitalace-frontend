@@ -1,27 +1,27 @@
-import { FC, ReactElement, memo } from 'react';
-import PropTypes from 'prop-types';
-import { Fab, useMediaQuery, Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import ContentAdd from '@material-ui/icons/Add';
-import classnames from 'classnames';
-import { Link } from 'react-router-dom';
-import { useTranslate } from 'ra-core';
-import { ButtonProps, Button, useNotify } from 'react-admin';
+import { FC, ReactElement, memo } from "react";
+import PropTypes from "prop-types";
+import { Fab, useMediaQuery, Theme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import ContentAdd from "@material-ui/icons/Add";
+import classnames from "classnames";
+import { Link } from "react-router-dom";
+import { useTranslate } from "ra-core";
+import { ButtonProps, Button, useNotify } from "react-admin";
 
-import { sanitizeButtonRestProps } from '../utils';
+import { sanitizeButtonRestProps } from "../utils";
 
 const ApplyToInvoiceButton: FC<ApplyToInvoiceButtonProps> = (props) => {
   const {
     className,
     classes: classesOverride,
     icon = defaultIcon,
-    label = 'resources.credit_notes.action.apply_to_invoice',
+    label = "resources.credit_notes.action.apply_to_invoice",
     variant,
     ...rest
   } = props;
   const classes = useStyles(props);
   const translate = useTranslate();
-  const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+  const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
   const notify = useNotify();
 
   return isSmall ? (
@@ -32,7 +32,7 @@ const ApplyToInvoiceButton: FC<ApplyToInvoiceButtonProps> = (props) => {
       to=""
       aria-label={label && translate(label)}
       onClick={() => {
-        notify('pos.message.coming_soon');
+        notify("pos.message.coming_soon");
       }}
       {...sanitizeButtonRestProps(rest)}
     >
@@ -45,7 +45,7 @@ const ApplyToInvoiceButton: FC<ApplyToInvoiceButtonProps> = (props) => {
       label={label}
       variant={variant}
       onClick={() => {
-        notify('pos.message.coming_soon');
+        notify("pos.message.coming_soon");
       }}
       {...(rest as any)}
     >
@@ -61,15 +61,15 @@ const useStyles = makeStyles(
     floating: {
       color: theme.palette.getContrastText(theme.palette.primary.main),
       margin: 0,
-      top: 'auto',
+      top: "auto",
       right: 20,
       bottom: 60,
-      left: 'auto',
-      position: 'fixed',
+      left: "auto",
+      position: "fixed",
       zIndex: 1000,
     },
   }),
-  { name: 'ApplyToInvoiceButton' }
+  { name: "ApplyToInvoiceButton" }
 );
 
 interface Props {

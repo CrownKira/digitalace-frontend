@@ -1,18 +1,18 @@
-import { FC } from 'react';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Grid from '@material-ui/core/Grid';
+import { FC } from "react";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Grid from "@material-ui/core/Grid";
 import {
   useShowController,
   FieldProps,
   ReferenceField,
   TextField,
-} from 'react-admin';
+} from "react-admin";
 
-import Basket from './Basket';
-import { PurchaseOrder, Supplier } from '../types';
+import Basket from "./Basket";
+import { PurchaseOrder, Supplier } from "../types";
 
 const SupplierField: FC<FieldProps<Supplier>> = ({ record }) =>
   record ? (
@@ -22,7 +22,7 @@ const SupplierField: FC<FieldProps<Supplier>> = ({ record }) =>
       {record.address}
       <br />
       {record.city}
-      {record.zipcode ? `, ${record.zipcode}` : ''}
+      {record.zipcode ? `, ${record.zipcode}` : ""}
     </Typography>
   ) : null;
 
@@ -65,7 +65,7 @@ const PurchaseOrderShow = (props: any) => {
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Typography variant="h6" gutterBottom align="center">
-              Date{' '}
+              Date{" "}
             </Typography>
             <Typography gutterBottom align="center">
               {new Date(record.date).toLocaleDateString()}
@@ -94,7 +94,7 @@ const PurchaseOrderShow = (props: any) => {
 export default PurchaseOrderShow;
 
 const useStyles = makeStyles({
-  root: { width: 600, margin: 'auto' },
+  root: { width: 600, margin: "auto" },
   spacer: { height: 20 },
-  receives: { margin: '10px 0' },
+  receives: { margin: "10px 0" },
 });

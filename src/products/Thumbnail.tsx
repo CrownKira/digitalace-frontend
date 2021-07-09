@@ -1,10 +1,10 @@
-import { FC } from 'react';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import ImageIcon from '@material-ui/icons/Image';
-import { FieldProps } from 'react-admin';
-import { Product } from '../types';
-import { imageStyles } from './Image';
+import { FC } from "react";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import ImageIcon from "@material-ui/icons/Image";
+import { FieldProps } from "react-admin";
+import { Product } from "../types";
+import { imageStyles } from "./Image";
 
 const Thumbnail: FC<FieldProps<Product>> = ({ record }) => {
   const classes = imageStyles();

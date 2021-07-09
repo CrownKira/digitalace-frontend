@@ -1,4 +1,4 @@
-import React, { FC, cloneElement, Children, ReactElement } from 'react';
+import React, { FC, cloneElement, Children, ReactElement } from "react";
 import {
   FilterPayload,
   SortPayload,
@@ -13,8 +13,8 @@ import {
   InjectedFieldProps,
   ListToolbar,
   ListActions,
-} from 'react-admin';
-import { useSelector } from 'react-redux';
+} from "react-admin";
+import { useSelector } from "react-redux";
 
 export const ReferenceManyFieldWithActions: FC<ReferenceManyFieldWithActionsProps> =
   (props) => {
@@ -34,12 +34,12 @@ export const ReferenceManyFieldWithActions: FC<ReferenceManyFieldWithActionsProp
 
     if (React.Children.count(children) !== 1) {
       throw new Error(
-        '<ReferenceManyFieldWithActions> only accepts a single child (like <Datagrid>)'
+        "<ReferenceManyFieldWithActions> only accepts a single child (like <Datagrid>)"
       );
     }
 
     const isReferenceDeclared = useSelector<ReduxState, boolean>(
-      (state) => typeof state.admin.resources[props.reference] !== 'undefined'
+      (state) => typeof state.admin.resources[props.reference] !== "undefined"
     );
 
     if (!isReferenceDeclared) {
@@ -87,8 +87,8 @@ export interface ReferenceManyFieldWithActionsProps
 ReferenceManyFieldWithActions.defaultProps = {
   filter: {},
   perPage: 25,
-  sort: { field: 'id', order: 'DESC' },
-  source: 'id',
+  sort: { field: "id", order: "DESC" },
+  source: "id",
   addLabel: true,
   actions: <ListActions />,
 };
@@ -113,7 +113,7 @@ export const ReferenceManyFieldWithActionsView: FC<ReferenceManyFieldWithActions
 export interface ReferenceManyFieldWithActionsViewProps
   extends Omit<
       ReferenceManyFieldWithActionsProps,
-      'basePath' | 'resource' | 'page' | 'perPage'
+      "basePath" | "resource" | "page" | "perPage"
     >,
     ListControllerProps {
   children: ReactElement;

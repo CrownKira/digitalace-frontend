@@ -1,1 +1,1 @@
-export const defaultServer = 'main';
+export const defaultServer = "main";

@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { FC } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Create,
   CreateProps,
@@ -13,21 +13,21 @@ import {
   AutocompleteArrayInput,
   required,
   Record,
-} from 'react-admin';
+} from "react-admin";
 
-import { Department } from '../types';
+import { Department } from "../types";
 
 export const styles = {
-  leftFormGroup: { display: 'inline-block', marginRight: 32 },
+  leftFormGroup: { display: "inline-block", marginRight: 32 },
   rightFormGroup: {
-    display: 'inline-block',
+    display: "inline-block",
   },
 };
 
 const useStyles = makeStyles(styles);
 
 const postDefaultValue = () => ({
-  image: '',
+  image: "",
 });
 
 const DepartmentCreate: FC<CreateProps> = (props) => {

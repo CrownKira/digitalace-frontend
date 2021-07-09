@@ -1,29 +1,29 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Field, withTypes } from 'react-final-form';
-import { useLocation } from 'react-router-dom';
+import { useState } from "react";
+import PropTypes from "prop-types";
+import { Field, withTypes } from "react-final-form";
+import { useLocation } from "react-router-dom";
 import {
   Avatar,
   Button,
   Card,
   CardActions,
   CircularProgress,
-} from '@material-ui/core';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
+} from "@material-ui/core";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import {
   Notification,
   useTranslate,
   useNotify,
   useRedirect,
   Link,
-} from 'react-admin';
+} from "react-admin";
 
-import { lightTheme } from '../layout/themes';
-import { styles as loginStyles, renderInput } from './Login';
-import { getErrorMessage } from '../utils';
-import main from '../apis/main';
+import { lightTheme } from "../layout/themes";
+import { styles as loginStyles, renderInput } from "./Login";
+import { getErrorMessage } from "../utils";
+import main from "../apis/main";
 
 const register = async ({
   company_name,
@@ -33,7 +33,7 @@ const register = async ({
   password,
   confirm_password,
 }: FormValues) => {
-  const response = await main.post('/api/user/create/', {
+  const response = await main.post("/api/user/create/", {
     company_name,
     name,
     email,
@@ -46,7 +46,7 @@ const register = async ({
   // if (response.status < 200 || response.status >= 300) throw new Error();
 
   const auth = response.data;
-  localStorage.setItem('auth', JSON.stringify(auth));
+  localStorage.setItem("auth", JSON.stringify(auth));
 };
 
 interface FormValues {
@@ -71,32 +71,32 @@ const Register = () => {
   const handleSubmit = (values: FormValues) => {
     setLoading(true);
     register(values)
-      .then(() => redirect(location.state ? location.state.nextPathname : '/'))
+      .then(() => redirect(location.state ? location.state.nextPathname : "/"))
       .catch((error: Error) => {
         setLoading(false);
-        notify(getErrorMessage(error), 'warning');
+        notify(getErrorMessage(error), "warning");
       });
   };
 
   const validate = (values: FormValues) => {
     const errors: FormValues = {};
     if (!values.company_name) {
-      errors.company_name = translate('ra.validation.required');
+      errors.company_name = translate("ra.validation.required");
     }
     if (!values.name) {
-      errors.name = translate('ra.validation.required');
+      errors.name = translate("ra.validation.required");
     }
     if (!values.email) {
-      errors.email = translate('ra.validation.required');
+      errors.email = translate("ra.validation.required");
     }
     if (!values.password) {
-      errors.password = translate('ra.validation.required');
+      errors.password = translate("ra.validation.required");
     }
     if (!values.confirm_email) {
-      errors.confirm_email = translate('ra.validation.required');
+      errors.confirm_email = translate("ra.validation.required");
     }
     if (!values.confirm_password) {
-      errors.confirm_password = translate('ra.validation.required');
+      errors.confirm_password = translate("ra.validation.required");
     }
     return errors;
   };
@@ -116,7 +116,7 @@ const Register = () => {
                 </Avatar>
               </div>
               <div className={classes.hint}>
-                {translate('pos.auth.register_title')}
+                {translate("pos.auth.register_title")}
               </div>
               <div className={classes.form}>
                 <div className={classes.input}>
@@ -125,7 +125,7 @@ const Register = () => {
                     name="company_name"
                     // @ts-ignore
                     component={renderInput}
-                    label={translate('pos.auth.company_name')}
+                    label={translate("pos.auth.company_name")}
                     disabled={loading}
                   />
                 </div>
@@ -134,7 +134,7 @@ const Register = () => {
                     name="name"
                     // @ts-ignore
                     component={renderInput}
-                    label={translate('ra.auth.username')}
+                    label={translate("ra.auth.username")}
                     disabled={loading}
                   />
                 </div>
@@ -145,7 +145,7 @@ const Register = () => {
                     // TODO: fix warning
                     // @ts-ignore
                     component={renderInput}
-                    label={translate('pos.auth.email')}
+                    label={translate("pos.auth.email")}
                     type="email"
                     disabled={loading}
                     // validate={validateReferenceUnicity}
@@ -156,7 +156,7 @@ const Register = () => {
                     name="confirm_email"
                     // @ts-ignore
                     component={renderInput}
-                    label={translate('pos.auth.confirm_email')}
+                    label={translate("pos.auth.confirm_email")}
                     type="email"
                     disabled={loading}
                   />
@@ -166,7 +166,7 @@ const Register = () => {
                     name="password"
                     // @ts-ignore
                     component={renderInput}
-                    label={translate('ra.auth.password')}
+                    label={translate("ra.auth.password")}
                     type="password"
                     disabled={loading}
                   />
@@ -176,7 +176,7 @@ const Register = () => {
                     name="confirm_password"
                     // @ts-ignore
                     component={renderInput}
-                    label={translate('pos.auth.confirm_password')}
+                    label={translate("pos.auth.confirm_password")}
                     type="password"
                     disabled={loading}
                   />
@@ -191,7 +191,7 @@ const Register = () => {
                   fullWidth
                 >
                   {loading && <CircularProgress size={25} thickness={2} />}
-                  {translate('pos.auth.register')}
+                  {translate("pos.auth.register")}
                 </Button>
               </CardActions>
               <div className={classes.footer}>

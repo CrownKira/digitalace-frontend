@@ -1,11 +1,11 @@
-import CreditNoteIcon from '@material-ui/icons/Description';
+import CreditNoteIcon from "@material-ui/icons/Description";
 
-import CreditNoteList from './CreditNoteList';
-import CreditNoteCreate from './CreditNoteCreate';
-import CreditNoteEdit from './CreditNoteEdit';
+import CreditNoteList from "./CreditNoteList";
+import CreditNoteCreate from "./CreditNoteCreate";
+import CreditNoteEdit from "./CreditNoteEdit";
 
 export default {
-  codename: 'creditnote',
+  codename: "creditnote",
   list: CreditNoteList,
   create: CreditNoteCreate,
   edit: CreditNoteEdit,

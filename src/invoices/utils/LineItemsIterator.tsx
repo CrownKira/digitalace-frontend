@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Children,
   cloneElement,
@@ -6,16 +6,16 @@ import {
   useRef,
   ReactElement,
   FC,
-} from 'react';
-import PropTypes from 'prop-types';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import get from 'lodash/get';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import { makeStyles } from '@material-ui/core/styles';
-import CloseIcon from '@material-ui/icons/RemoveCircleOutline';
-import AddIcon from '@material-ui/icons/AddCircleOutline';
+} from "react";
+import PropTypes from "prop-types";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import get from "lodash/get";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import { makeStyles } from "@material-ui/core/styles";
+import CloseIcon from "@material-ui/icons/RemoveCircleOutline";
+import AddIcon from "@material-ui/icons/AddCircleOutline";
 import {
   useTranslate,
   ValidationError,
@@ -23,9 +23,9 @@ import {
   ClassesOverride,
   FormInput,
   useNotify,
-} from 'react-admin';
-import classNames from 'classnames';
-import { FieldArrayRenderProps } from 'react-final-form-arrays';
+} from "react-admin";
+import classNames from "classnames";
+import { FieldArrayRenderProps } from "react-final-form-arrays";
 
 // FIXME: fix any
 // TODO: make row draggable
@@ -35,48 +35,48 @@ const useStyles = makeStyles(
     root: {
       padding: 0,
       marginBottom: 0,
-      '& > li:last-child': {
-        borderBottom: 'none',
+      "& > li:last-child": {
+        borderBottom: "none",
       },
     },
     line: {
-      display: 'flex',
-      listStyleType: 'none',
+      display: "flex",
+      listStyleType: "none",
       borderBottom: `solid 1px ${theme.palette.divider}`,
-      [theme.breakpoints.down('xs')]: { display: 'block' },
-      '&.fade-enter': {
+      [theme.breakpoints.down("xs")]: { display: "block" },
+      "&.fade-enter": {
         opacity: 0.01,
-        transform: 'translateX(100vw)',
+        transform: "translateX(100vw)",
       },
-      '&.fade-enter-active': {
+      "&.fade-enter-active": {
         opacity: 1,
-        transform: 'translateX(0)',
-        transition: 'all 500ms ease-in',
+        transform: "translateX(0)",
+        transition: "all 500ms ease-in",
       },
-      '&.fade-exit': {
+      "&.fade-exit": {
         opacity: 1,
-        transform: 'translateX(0)',
+        transform: "translateX(0)",
       },
-      '&.fade-exit-active': {
+      "&.fade-exit-active": {
         opacity: 0.01,
-        transform: 'translateX(100vw)',
-        transition: 'all 500ms ease-in',
+        transform: "translateX(100vw)",
+        transition: "all 500ms ease-in",
       },
     },
     index: {
-      width: '3em',
-      paddingTop: '1em',
-      [theme.breakpoints.down('sm')]: { display: 'none' },
+      width: "3em",
+      paddingTop: "1em",
+      [theme.breakpoints.down("sm")]: { display: "none" },
     },
     form: { flex: 2 },
     action: {
-      paddingTop: '0.5em',
+      paddingTop: "0.5em",
     },
     leftIcon: {
       marginRight: theme.spacing(1),
     },
   }),
-  { name: 'RaLineItemsIterator' }
+  { name: "RaLineItemsIterator" }
 );
 
 const DefaultAddButton = (props: any) => {
@@ -85,7 +85,7 @@ const DefaultAddButton = (props: any) => {
   return (
     <Button size="small" {...props}>
       <AddIcon className={classes.leftIcon} />
-      {translate('ra.action.add')}
+      {translate("ra.action.add")}
     </Button>
   );
 };
@@ -96,7 +96,7 @@ const DefaultRemoveButton = (props: any) => {
   return (
     <Button size="small" {...props}>
       <CloseIcon className={classes.leftIcon} />
-      {translate('ra.action.remove')}
+      {translate("ra.action.remove")}
     </Button>
   );
 };
@@ -107,7 +107,7 @@ const AddItemHeaderButton = (props: any) => {
   return (
     <Button size="small" {...props}>
       <AddIcon className={classes.leftIcon} />
-      {translate('resources.invoices.action.add_item_header')}
+      {translate("resources.invoices.action.add_item_header")}
     </Button>
   );
 };
@@ -164,7 +164,7 @@ const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
   // determining if the button should be disabled. Otherwise, use a boolean property that
   // enables or disables the button for all of the fields.
   const disableRemoveField = (record: any, disableRemove: any) => {
-    if (typeof disableRemove === 'boolean') {
+    if (typeof disableRemove === "boolean") {
       return disableRemove;
     }
     return disableRemove && disableRemove(record);
@@ -194,13 +194,13 @@ const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
     };
 
   const handleAddItemHeaderButtonClick = (event: any) => {
-    notify('pos.message.coming_soon');
+    notify("pos.message.coming_soon");
   };
 
   const records = get(record, source);
   return fields ? (
     <ul className={classNames(classes.root, className)}>
-      {submitFailed && typeof error !== 'object' && error && (
+      {submitFailed && typeof error !== "object" && error && (
         <FormHelperText error>
           <ValidationError error={error as string} />
         </FormHelperText>
@@ -231,7 +231,7 @@ const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
                         source: source ? `${member}.${source}` : member,
                         index: source ? undefined : index2,
                         label:
-                          typeof input.props.label === 'undefined'
+                          typeof input.props.label === "undefined"
                             ? source
                               ? `resources.${resource}.fields.${source}`
                               : undefined
@@ -259,7 +259,7 @@ const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
                         index
                       ),
                       className: classNames(
-                        'button-remove',
+                        "button-remove",
                         `button-remove-${source}-${index}`
                       ),
                     })}
@@ -274,11 +274,11 @@ const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
           <span className={classes.action}>
             {cloneElement(addButton, {
               onClick: handleAddButtonClick(addButton.props.onClick),
-              className: classNames('button-add', `button-add-${source}`),
+              className: classNames("button-add", `button-add-${source}`),
             })}
             <AddItemHeaderButton
               onClick={handleAddItemHeaderButtonClick}
-              className={classNames('button-add', `button-add-${source}`)}
+              className={classNames("button-add", `button-add-${source}`)}
             />
           </span>
         </li>
@@ -316,7 +316,7 @@ LineItemsIterator.propTypes = {
 type DisableRemoveFunction = (record: Record) => boolean;
 
 export interface LineItemsIteratorProps
-  extends Partial<Omit<FieldArrayRenderProps<any, HTMLElement>, 'meta'>> {
+  extends Partial<Omit<FieldArrayRenderProps<any, HTMLElement>, "meta">> {
   addButton?: ReactElement;
   basePath?: string;
   classes?: ClassesOverride<typeof useStyles>;
@@ -325,7 +325,7 @@ export interface LineItemsIteratorProps
   disabled?: boolean;
   disableAdd?: boolean;
   disableRemove?: boolean | DisableRemoveFunction;
-  margin?: 'none' | 'normal' | 'dense';
+  margin?: "none" | "normal" | "dense";
   meta?: {
     // the type defined in FieldArrayRenderProps says error is boolean, which is wrong.
     error?: any;
@@ -336,7 +336,7 @@ export interface LineItemsIteratorProps
   resource?: string;
   source?: string;
   TransitionProps?: any;
-  variant?: 'standard' | 'outlined' | 'filled';
+  variant?: "standard" | "outlined" | "filled";
 }
 
 export default LineItemsIterator;

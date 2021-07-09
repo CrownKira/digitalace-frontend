@@ -1,17 +1,17 @@
-import { FC } from 'react';
-import { Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { FC } from "react";
+import { Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   useInput,
   InputProps,
   useTranslate,
   useLocale,
   useSetLocale,
-} from 'react-admin';
+} from "react-admin";
 
 const useStyles = makeStyles({
-  label: { width: '10em', display: 'inline-block' },
-  button: { margin: '1em' },
+  label: { width: "10em", display: "inline-block" },
+  button: { margin: "1em" },
 });
 
 interface Props extends InputProps {}
@@ -25,14 +25,14 @@ export const LanguageSelectInput: FC<Props> = (props) => {
 
   return (
     <>
-      <div className={classes.label}>{translate('pos.language')}</div>
+      <div className={classes.label}>{translate("pos.language")}</div>
       <Button
         variant="contained"
         className={classes.button}
-        color={locale === 'en' ? 'primary' : 'default'}
+        color={locale === "en" ? "primary" : "default"}
         onClick={() => {
-          input.onChange('en');
-          setLocale('en');
+          input.onChange("en");
+          setLocale("en");
         }}
       >
         en
@@ -40,10 +40,10 @@ export const LanguageSelectInput: FC<Props> = (props) => {
       <Button
         variant="contained"
         className={classes.button}
-        color={locale === 'zh' ? 'primary' : 'default'}
+        color={locale === "zh" ? "primary" : "default"}
         onClick={() => {
-          input.onChange('zh');
-          setLocale('zh');
+          input.onChange("zh");
+          setLocale("zh");
         }}
       >
         zh

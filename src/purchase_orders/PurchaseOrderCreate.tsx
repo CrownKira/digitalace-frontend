@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from "react";
 import {
   Create,
   CreateProps,
@@ -21,32 +21,32 @@ import {
   ReferenceField,
   number,
   minValue,
-} from 'react-admin';
-import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import RichTextInput from 'ra-input-rich-text';
-import useGetUserConfig from '../configuration/useGetUserConfig';
+} from "react-admin";
+import { Box, Card, CardContent, InputAdornment } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import RichTextInput from "ra-input-rich-text";
+import useGetUserConfig from "../configuration/useGetUserConfig";
 
-import { statuses } from './data';
-import ProductNameInput from '../invoices/ProductNameInput';
-import AmountInput from '../invoices/AmountInput';
-import TotalInput from './TotalInput';
-import LineNumberField from './LineNumberField';
-import { AsyncAutocompleteInput } from '../utils/components/AsyncAutocompleteInput';
-import { PurchaseOrder } from '../types';
-import { incrementReference, dateParser, validateUnicity } from '../utils';
-import { memoize } from '../utils';
-import { useOnFailure } from '../utils/hooks';
+import { statuses } from "./data";
+import ProductNameInput from "../invoices/fields/ProductNameInput";
+import AmountInput from "../invoices/AmountInput";
+import TotalInput from "./TotalInput";
+import LineNumberField from "./LineNumberField";
+import { AsyncAutocompleteInput } from "../utils/components/AsyncAutocompleteInput";
+import { PurchaseOrder } from "../types";
+import { incrementReference, dateParser, validateUnicity } from "../utils";
+import { memoize } from "../utils";
+import { useOnFailure } from "../utils/hooks";
 
 export const styles = {
-  leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
+  leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
   rightFormGroup: {
-    display: 'inline-block',
+    display: "inline-block",
   },
   lineItemInput: { width: 150 },
   lineItemReferenceInput: { width: 300 },
   hiddenInput: {
-    display: 'none',
+    display: "none",
   },
 };
 
@@ -76,9 +76,9 @@ const PurchaseOrderForm = (props: any) => {
     ids: purchaseOrderIds,
     loading: loadingPurchaseOrders,
   } = useGetList<PurchaseOrder>(
-    'purchase_orders',
+    "purchase_orders",
     { page: 1, perPage: 1 },
-    { field: 'id', order: 'DESC' },
+    { field: "id", order: "DESC" },
     {}
   );
   const { loading: loadingUserConfig, data: userConfig } = useGetUserConfig();
@@ -90,22 +90,22 @@ const PurchaseOrderForm = (props: any) => {
       purchase_orders[purchaseOrderIds[0]].reference
         ? incrementReference(
             purchase_orders[purchaseOrderIds[0]].reference,
-            'PO',
+            "PO",
             4
           )
-        : 'PO-0000',
+        : "PO-0000",
     date: new Date(),
     receive: null,
     // FIXME: default to null date instead
     payment_date: new Date(),
-    status: 'PD',
-    total_amount: '0.00',
+    status: "PD",
+    total_amount: "0.00",
     discount_rate: userConfig?.discount_rate,
-    discount_amount: '0.00',
-    net: '0.00',
+    discount_amount: "0.00",
+    net: "0.00",
     gst_rate: userConfig?.gst_rate,
-    gst_amount: '0.00',
-    grand_total: '0.00',
+    gst_amount: "0.00",
+    grand_total: "0.00",
   });
 
   return loadingPurchaseOrders || loadingUserConfig ? (
@@ -118,10 +118,10 @@ const PurchaseOrderForm = (props: any) => {
         <Card>
           <form>
             <CardContent>
-              <Box display={{ sm: 'block', md: 'flex' }}>
-                <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
-                  <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+              <Box display={{ sm: "block", md: "flex" }}>
+                <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
+                  <Box display={{ sm: "block", md: "flex" }}>
+                    <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
                       <TextInput
                         source="reference"
                         resource="purchase_orders"
@@ -129,7 +129,7 @@ const PurchaseOrderForm = (props: any) => {
                         validate={validateReference(props)}
                       />
                     </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                    <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
                       <AsyncAutocompleteInput
                         optionText="reference"
                         optionValue="id"
@@ -140,8 +140,8 @@ const PurchaseOrderForm = (props: any) => {
                       />
                     </Box>
                   </Box>
-                  <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                  <Box display={{ sm: "block", md: "flex" }}>
+                    <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
                       <AsyncAutocompleteInput
                         optionText="name"
                         optionValue="id"
@@ -152,7 +152,7 @@ const PurchaseOrderForm = (props: any) => {
                         fullWidth
                       />
                     </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                    <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
                       <FormDataConsumer>
                         {({ formData }) => (
                           <Labeled label="resources.purchase_orders.fields.supplier_id">
@@ -170,15 +170,15 @@ const PurchaseOrderForm = (props: any) => {
                   </Box>
                   <RichTextInput source="description" label="" />
                 </Box>
-                <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
                   <DateInput
                     source="date"
                     resource="purchase_orders"
                     fullWidth
                     validate={requiredValidate}
                   />
-                  <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                  <Box display={{ sm: "block", md: "flex" }}>
+                    <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
                       <SelectInput
                         source="status"
                         choices={statuses}
@@ -186,7 +186,7 @@ const PurchaseOrderForm = (props: any) => {
                         validate={requiredValidate}
                       />
                     </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}></Box>
+                    <Box flex={1} ml={{ sm: 0, md: "0.5em" }}></Box>
                   </Box>
                 </Box>
               </Box>
@@ -203,7 +203,7 @@ const PurchaseOrderForm = (props: any) => {
                         {({ getSource, ...rest }) =>
                           getSource ? (
                             <ProductNameInput
-                              source={getSource('product')}
+                              source={getSource("product")}
                               getSource={getSource}
                               fullWidth
                               inputClassName={classes.lineItemReferenceInput}
@@ -238,7 +238,7 @@ const PurchaseOrderForm = (props: any) => {
                         {({ getSource, ...rest }) =>
                           getSource ? (
                             <AmountInput
-                              source={getSource('amount')}
+                              source={getSource("amount")}
                               getSource={getSource}
                               inputClassName={classes.lineItemInput}
                               // FIXME: error thrown if do no pass save and saving as strings
@@ -255,8 +255,8 @@ const PurchaseOrderForm = (props: any) => {
                   </ArrayInput>
                 </CardContent>
               </Card>
-              <Box display={{ sm: 'block', md: 'flex' }}>
-                <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+              <Box display={{ sm: "block", md: "flex" }}>
+                <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
                   <FormDataConsumer>
                     {(props) => (
                       <TotalInput
@@ -268,8 +268,8 @@ const PurchaseOrderForm = (props: any) => {
                       />
                     )}
                   </FormDataConsumer>
-                  <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                  <Box display={{ sm: "block", md: "flex" }}>
+                    <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
                       <NumberInput
                         source="discount_rate"
                         resource="purchase_orders"
@@ -282,7 +282,7 @@ const PurchaseOrderForm = (props: any) => {
                         }}
                       />
                     </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                    <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
                       <NumberInput
                         source="discount_amount"
                         resource="purchase_orders"
@@ -299,9 +299,9 @@ const PurchaseOrderForm = (props: any) => {
                     disabled
                   />
                 </Box>
-                <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
-                  <Box display={{ sm: 'block', md: 'flex' }}>
-                    <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
+                <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
+                  <Box display={{ sm: "block", md: "flex" }}>
+                    <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
                       <NumberInput
                         source="gst_rate"
                         resource="purchase_orders"
@@ -314,7 +314,7 @@ const PurchaseOrderForm = (props: any) => {
                         }}
                       />
                     </Box>
-                    <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+                    <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
                       <NumberInput
                         source="gst_amount"
                         resource="purchase_orders"
@@ -380,10 +380,10 @@ const requiredValidate = required();
 const validateNumber = [requiredValidate, number(), minValue(0)];
 const validateReferenceUnicity = (props: any) =>
   validateUnicity({
-    reference: 'purchase_orders',
-    source: 'reference',
+    reference: "purchase_orders",
+    source: "reference",
     record: props.record,
-    message: 'resources.purchase_orders.validation.reference_already_used',
+    message: "resources.purchase_orders.validation.reference_already_used",
   });
 const validateReference = memoize((props: any) => [
   requiredValidate,

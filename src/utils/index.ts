@@ -1,14 +1,14 @@
-import lodashMemoize from 'lodash/memoize';
-import { Record } from 'react-admin';
+import lodashMemoize from "lodash/memoize";
+import { Record } from "react-admin";
 
-import customDataProvider from '../dataProvider/main';
+import customDataProvider from "../dataProvider/main";
 
-import QuickFilter from './QuickFilter';
+import QuickFilter from "./QuickFilter";
 export { QuickFilter };
 
 // https://github.com/marmelab/react-admin/issues/2077
 export function formatImage(value: any) {
-  if (!value || typeof value === 'string') {
+  if (!value || typeof value === "string") {
     // Value is null or the url string from the main,
     // wrap it in an object so the form input can handle it
     return { src: value };
@@ -31,33 +31,33 @@ export const incrementReference = (
   defaultPrefix: string,
   defaultDigits = 4
 ): string => {
-  const parts = reference.split('-');
+  const parts = reference.split("-");
   const prefix = parts[0];
   const reference_no = parts[1];
 
   if (parts.length > 1 && !isNaN(+reference_no)) {
-    const digits = reference_no.split('');
+    const digits = reference_no.split("");
     let pointer = reference_no.length - 1;
 
     while (pointer >= 0 && +digits[pointer] >= 9) {
-      digits[pointer] = '0';
+      digits[pointer] = "0";
       pointer--;
     }
 
-    if (pointer < 0) return `${prefix}-1${digits.join('')}`;
+    if (pointer < 0) return `${prefix}-1${digits.join("")}`;
 
     digits[pointer] = String(+digits[pointer] + 1);
-    return `${prefix}-${digits.join('')}`;
+    return `${prefix}-${digits.join("")}`;
   }
 
-  return `${defaultPrefix}-${'0'.repeat(defaultDigits)}`;
+  return `${defaultPrefix}-${"0".repeat(defaultDigits)}`;
 };
 
 export const dateFormatter = (v: Date) => {
   // https://stackoverflow.com/questions/64714107/can-use-react-admin-dateinput-to-change-the-format-like-dd-mm-yyyy-to-mm-dd-yyyy
   // v is a `Date` object
   // if (!(v instanceof Date) || isNaN(v)) return;
-  const pad = '00';
+  const pad = "00";
   const yy = v.getFullYear().toString();
   const mm = (v.getMonth() + 1).toString();
   const dd = v.getDate().toString();
@@ -129,7 +129,7 @@ export const sanitizeButtonRestProps = ({
 
 export const validatePositivity = (value: number) => {
   if (value < 0) {
-    const message = 'resources.invoices.validation.negative_number';
+    const message = "resources.invoices.validation.negative_number";
     return message;
   }
 };
@@ -153,7 +153,7 @@ export const validateUnicity = ({
         target: source,
         id: value,
         pagination: { page: 1, perPage: 2 },
-        sort: { field: 'id', order: 'DESC' },
+        sort: { field: "id", order: "DESC" },
         filter: {},
       });
 

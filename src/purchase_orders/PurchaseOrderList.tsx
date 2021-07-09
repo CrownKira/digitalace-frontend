@@ -1,5 +1,5 @@
-import { Fragment } from 'react';
-import { FC } from 'react';
+import { Fragment } from "react";
+import { FC } from "react";
 import {
   List,
   ListProps,
@@ -15,15 +15,15 @@ import {
   BulkDeleteButton,
   BulkDeleteButtonProps,
   SelectField,
-} from 'react-admin';
-import { makeStyles } from '@material-ui/core/styles';
+} from "react-admin";
+import { makeStyles } from "@material-ui/core/styles";
 
-import FullNameField from '../suppliers/FullNameField';
-import AddressField from '../suppliers/AddressField';
-import PurchaseOrderShow from './PurchaseOrderShow';
-import { statuses } from './data';
+import FullNameField from "../suppliers/FullNameField";
+import AddressField from "../suppliers/AddressField";
+import PurchaseOrderShow from "./PurchaseOrderShow";
+import { statuses } from "./data";
 
-const ListFilters = (props: Omit<FilterProps, 'children'>) => (
+const ListFilters = (props: Omit<FilterProps, "children">) => (
   <Filter {...props}>
     <SearchInput source="q" alwaysOn />
     <DateInput source="date__gte" />
@@ -40,9 +40,9 @@ const PurchaseOrderBulkActionButtons: FC<BulkDeleteButtonProps> = (props) => (
 
 const useStyles = makeStyles((theme) => ({
   hiddenOnSmallScreens: {
-    display: 'table-cell',
-    [theme.breakpoints.down('md')]: {
-      display: 'none',
+    display: "table-cell",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
     },
   },
 }));
@@ -54,7 +54,7 @@ const PurchaseOrderList: FC<ListProps> = (props) => {
     <List
       filters={<ListFilters />}
       perPage={25}
-      sort={{ field: 'date', order: 'desc' }}
+      sort={{ field: "date", order: "desc" }}
       bulkActionButtons={<PurchaseOrderBulkActionButtons />}
       {...props}
     >

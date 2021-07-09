@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from "react";
 import {
   Edit,
   EditProps,
@@ -12,17 +12,17 @@ import {
   ImageField,
   ReferenceArrayInput,
   AutocompleteArrayInput,
-} from 'react-admin';
-import { Box, Card, CardContent } from '@material-ui/core';
+} from "react-admin";
+import { Box, Card, CardContent } from "@material-ui/core";
 
-import Aside from './Aside';
-import FullNameField from './FullNameField';
-import { validatePasswords } from './CustomerCreate';
-import { Customer } from '../types';
-import { formatImage, validateUnicity } from '../utils';
-import { memoize } from '../utils';
-import { useOnFailure } from '../utils/hooks';
-import { SectionTitle, Separator } from '../utils/components/Divider';
+import Aside from "./Aside";
+import FullNameField from "./FullNameField";
+import { validatePasswords } from "./CustomerCreate";
+import { Customer } from "../types";
+import { formatImage, validateUnicity } from "../utils";
+import { memoize } from "../utils";
+import { useOnFailure } from "../utils/hooks";
+import { SectionTitle, Separator } from "../utils/components/Divider";
 
 const CustomerEdit: FC<EditProps> = (props) => {
   // TODO: make a custom type for error
@@ -75,8 +75,8 @@ const CustomerForm = (props: any) => {
                 source="reference"
                 validate={validateReference(props)}
               />
-              <Box display={{ xs: 'block', sm: 'flex' }}>
-                <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+              <Box display={{ xs: "block", sm: "flex" }}>
+                <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                   <TextInput
                     source="name"
                     /**
@@ -92,7 +92,7 @@ const CustomerForm = (props: any) => {
                     fullWidth
                   />
                 </Box>
-                <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
                   <TextInput
                     source="attention"
                     resource="customers"
@@ -107,8 +107,8 @@ const CustomerForm = (props: any) => {
                 validate={validateEmail}
                 fullWidth
               />
-              <Box display={{ xs: 'block', sm: 'flex' }}>
-                <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+              <Box display={{ xs: "block", sm: "flex" }}>
+                <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                   <TextInput
                     source="phone_no"
                     resource="customers"
@@ -116,7 +116,7 @@ const CustomerForm = (props: any) => {
                     helperText={false}
                   />
                 </Box>
-                <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
+                <Box flex={2} ml={{ xs: 0, sm: "0.5em" }} />
               </Box>
               <Separator />
               <SectionTitle label="resources.customers.fieldGroups.address" />
@@ -127,11 +127,11 @@ const CustomerForm = (props: any) => {
                 fullWidth
                 helperText={false}
               />
-              <Box display={{ xs: 'block', sm: 'flex' }}>
-                <Box flex={2} mr={{ xs: 0, sm: '0.5em' }}>
+              <Box display={{ xs: "block", sm: "flex" }}>
+                <Box flex={2} mr={{ xs: 0, sm: "0.5em" }}>
                   <TextInput source="city" resource="customers" fullWidth />
                 </Box>
-                <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                   <TextInput
                     source="state"
                     resource="customers"
@@ -150,11 +150,11 @@ const CustomerForm = (props: any) => {
               </Box>
               <Separator />
               <SectionTitle label="resources.customers.fieldGroups.other_details" />
-              <Box display={{ xs: 'block', sm: 'flex' }}>
-                <Box mr={{ xs: 0, sm: '0.5em' }}>
+              <Box display={{ xs: "block", sm: "flex" }}>
+                <Box mr={{ xs: 0, sm: "0.5em" }}>
                   <TextInput source="business" resource="customers" />
                 </Box>
-                <Box mr={{ xs: 0, sm: '0.5em' }}>
+                <Box mr={{ xs: 0, sm: "0.5em" }}>
                   <TextInput source="term" resource="customers" />
                 </Box>
               </Box>
@@ -190,10 +190,10 @@ const requiredValidate = required();
 const validateEmail = email();
 const validateReferenceUnicity = (props: any) =>
   validateUnicity({
-    reference: 'customers',
-    source: 'reference',
+    reference: "customers",
+    source: "reference",
     record: props.record,
-    message: 'resources.customers.validation.reference_already_used',
+    message: "resources.customers.validation.reference_already_used",
   });
 const validateReference = memoize((props: any) => [
   requiredValidate,

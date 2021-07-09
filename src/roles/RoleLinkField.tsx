@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { Link, FieldProps } from 'react-admin';
+import { FC } from "react";
+import { Link, FieldProps } from "react-admin";
 
-import NameField from './NameField';
-import { Role } from '../types';
+import NameField from "./NameField";
+import { Role } from "../types";
 
 const RoleLinkField: FC<FieldProps<Role>> = (props) =>
   props.record ? (
@@ -12,7 +12,7 @@ const RoleLinkField: FC<FieldProps<Role>> = (props) =>
   ) : null;
 
 RoleLinkField.defaultProps = {
-  source: 'name',
+  source: "name",
   addLabel: true,
 };
 

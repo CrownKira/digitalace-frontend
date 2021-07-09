@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import { FC } from "react";
 import {
   TextField,
   TextFieldProps,
   FormDataConsumerRenderParams,
   Labeled,
-} from 'react-admin';
+} from "react-admin";
 
 interface Props extends TextFieldProps, FormDataConsumerRenderParams {
   inputClassName?: string | undefined;

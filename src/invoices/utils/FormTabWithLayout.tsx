@@ -1,10 +1,10 @@
-import React from 'react';
-import { FC, ReactElement, ReactNode } from 'react';
-import PropTypes from 'prop-types';
-import { Record } from 'ra-core';
-import { FormTabHeader } from 'react-admin';
+import React from "react";
+import { FC, ReactElement, ReactNode } from "react";
+import PropTypes from "prop-types";
+import { Record } from "ra-core";
+import { FormTabHeader } from "react-admin";
 
-const hiddenStyle = { display: 'none' };
+const hiddenStyle = { display: "none" };
 
 export const FormTabWithLayout: FC<FormTabProps> = ({
   basePath,
@@ -55,7 +55,7 @@ export const FormTabWithLayout: FC<FormTabProps> = ({
     </span>
   );
 
-  return intent === 'header' ? renderHeader() : renderContent();
+  return intent === "header" ? renderHeader() : renderContent();
 };
 
 FormTabWithLayout.propTypes = {
@@ -63,17 +63,17 @@ FormTabWithLayout.propTypes = {
   className: PropTypes.string,
   contentClassName: PropTypes.string,
   children: PropTypes.node,
-  intent: PropTypes.oneOf(['header', 'content']),
+  intent: PropTypes.oneOf(["header", "content"]),
   hidden: PropTypes.bool,
   icon: PropTypes.element,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  margin: PropTypes.oneOf(['none', 'dense', 'normal']),
+  margin: PropTypes.oneOf(["none", "dense", "normal"]),
   path: PropTypes.string,
   // @ts-ignore
   record: PropTypes.object,
   resource: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  variant: PropTypes.oneOf(['standard', 'outlined', 'filled']),
+  variant: PropTypes.oneOf(["standard", "outlined", "filled"]),
 };
 
 export interface FormTabProps {
@@ -84,18 +84,18 @@ export interface FormTabProps {
   contentClassName?: string;
   hidden?: boolean;
   icon?: ReactElement;
-  intent?: 'header' | 'content';
+  intent?: "header" | "content";
   label: string | ReactElement;
-  margin?: 'none' | 'normal' | 'dense';
+  margin?: "none" | "normal" | "dense";
   path?: string;
   record?: Record;
   resource?: string;
   syncWithLocation?: boolean;
   value?: string | number;
-  variant?: 'standard' | 'outlined' | 'filled';
+  variant?: "standard" | "outlined" | "filled";
 }
 
-FormTabWithLayout.displayName = 'FormTab';
+FormTabWithLayout.displayName = "FormTab";
 
 /*
 TODO: include formGroupContext?

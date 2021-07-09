@@ -1,6 +1,6 @@
-import { useNotify, useDataProvider, Record } from 'react-admin';
+import { useNotify, useDataProvider, Record } from "react-admin";
 
-import { memoize } from '..';
+import { memoize } from "..";
 
 interface Props {
   reference: string;
@@ -21,7 +21,7 @@ const useValidateUnicity = ({ reference, source, record, message }: Props) => {
           target: source,
           id: value,
           pagination: { page: 1, perPage: 2 },
-          sort: { field: 'id', order: 'DESC' },
+          sort: { field: "id", order: "DESC" },
           filter: {},
         });
 
@@ -32,7 +32,7 @@ const useValidateUnicity = ({ reference, source, record, message }: Props) => {
             (record !== undefined && response.data[0].id === record.id))
         );
       } catch (error) {
-        notify('pos.use_validate_unicity.data_provider_error', 'warning');
+        notify("pos.use_validate_unicity.data_provider_error", "warning");
         return false;
       }
     }

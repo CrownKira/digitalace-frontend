@@ -1,11 +1,11 @@
-import SalesOrderIcon from '@material-ui/icons/Description';
+import SalesOrderIcon from "@material-ui/icons/Description";
 
-import SalesOrderList from './SalesOrderList';
-import SalesOrderCreate from './SalesOrderCreate';
-import SalesOrderEdit from './SalesOrderEdit';
+import SalesOrderList from "./SalesOrderList";
+import SalesOrderCreate from "./SalesOrderCreate";
+import SalesOrderEdit from "./SalesOrderEdit";
 
 export default {
-  codename: 'salesorder',
+  codename: "salesorder",
   list: SalesOrderList,
   create: SalesOrderCreate,
   edit: SalesOrderEdit,

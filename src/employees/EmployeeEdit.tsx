@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from "react";
 import {
   TextInput,
   PasswordInput,
@@ -19,18 +19,18 @@ import {
   FieldProps,
   FormDataConsumer,
   ReferenceField,
-} from 'react-admin';
-import { makeStyles } from '@material-ui/core/styles';
+} from "react-admin";
+import { makeStyles } from "@material-ui/core/styles";
 
-import { genders } from '../utils/data';
-import FullNameField from './FullNameField';
-import { styles as createStyles } from './EmployeeCreate';
-import { validatePasswords } from './EmployeeCreate';
-import { Employee } from '../types';
-import { formatImage } from '../utils';
-import { SectionTitle, Separator, Break } from '../utils/components/Divider';
-import DesignationSelectInput from './DesignationSelectInput';
-import DepartmentSelectInput from './DepartmentSelectInput';
+import { genders } from "../utils/data";
+import FullNameField from "./FullNameField";
+import { styles as createStyles } from "./EmployeeCreate";
+import { validatePasswords } from "./EmployeeCreate";
+import { Employee } from "../types";
+import { formatImage } from "../utils";
+import { SectionTitle, Separator, Break } from "../utils/components/Divider";
+import DesignationSelectInput from "./DesignationSelectInput";
+import DepartmentSelectInput from "./DepartmentSelectInput";
 
 const useStyles = makeStyles({
   ...createStyles,

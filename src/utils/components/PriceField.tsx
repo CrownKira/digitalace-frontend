@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import { NumberField, NumberFieldProps } from 'react-admin';
-import get from 'lodash/get';
+import { FC } from "react";
+import { NumberField, NumberFieldProps } from "react-admin";
+import get from "lodash/get";
 
 export const PriceField: FC<NumberFieldProps> = (props: any) => {
   const { record, source } = props;
@@ -13,8 +13,8 @@ export const PriceField: FC<NumberFieldProps> = (props: any) => {
       {...props}
       record={record}
       options={{
-        style: 'currency',
-        currency: 'SGD', // TODO: make configurable
+        style: "currency",
+        currency: "SGD", // TODO: make configurable
       }}
     />
   );

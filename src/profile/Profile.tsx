@@ -4,8 +4,8 @@ import React, {
   useCallback,
   useMemo,
   useContext,
-} from 'react';
-import { Box, Card, CardContent } from '@material-ui/core';
+} from "react";
+import { Box, Card, CardContent } from "@material-ui/core";
 import {
   TextField,
   DateField,
@@ -26,15 +26,15 @@ import {
   Toolbar,
   SaveButton,
   useNotify,
-} from 'react-admin';
-import { AnyObject } from 'react-final-form';
-import { formatImage, validateUnicity } from '../utils';
-import { UserProfile } from '../types';
-import { memoize } from '../utils';
-import { useOnFailure } from '../utils/hooks';
-import { genders } from '../utils/data';
-import { SectionTitle, Separator } from '../utils/components/Divider';
-import useGetUserProfile from './useGetUserProfile';
+} from "react-admin";
+import { AnyObject } from "react-final-form";
+import { formatImage, validateUnicity } from "../utils";
+import { UserProfile } from "../types";
+import { memoize } from "../utils";
+import { useOnFailure } from "../utils/hooks";
+import { genders } from "../utils/data";
+import { SectionTitle, Separator } from "../utils/components/Divider";
+import useGetUserProfile from "./useGetUserProfile";
 
 export const validatePasswords = ({
   password,
@@ -43,7 +43,7 @@ export const validatePasswords = ({
   const errors = {} as any;
 
   if (password && confirm_password && password !== confirm_password) {
-    errors.confirm_password = ['resources.customers.errors.password_mismatch'];
+    errors.confirm_password = ["resources.customers.errors.password_mismatch"];
   }
 
   return errors;
@@ -101,12 +101,12 @@ export const ProfileEdit = () => {
         .updateUserProfile({ data: values })
         .then(() => {
           setSaving(false);
-          notify('pos.user_menu.profile.success', 'info');
+          notify("pos.user_menu.profile.success", "info");
           refreshProfile();
         })
         .catch(() => {
           setSaving(false);
-          notify('pos.user_menu.profile.failure', 'warning');
+          notify("pos.user_menu.profile.failure", "warning");
         });
     },
     [dataProvider, notify, refreshProfile]
@@ -172,8 +172,8 @@ export const ProfileEdit = () => {
                 </ImageInput>
                 <Separator />
                 <SectionTitle label="resources.users.fieldGroups.account" />
-                <Box display={{ xs: 'block', sm: 'flex' }}>
-                  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                <Box display={{ xs: "block", sm: "flex" }}>
+                  <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                     <TextInput
                       source="name"
                       // TODO: use resource instead of label?
@@ -182,13 +182,13 @@ export const ProfileEdit = () => {
                       fullWidth
                     />
                   </Box>
-                  <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
+                  <Box flex={2} ml={{ xs: 0, sm: "0.5em" }} />
                 </Box>
-                <Box display={{ xs: 'block', sm: 'flex' }}>
-                  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                <Box display={{ xs: "block", sm: "flex" }}>
+                  <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                     <TextInput source="first_name" resource="users" fullWidth />
                   </Box>
-                  <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                  <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
                     <TextInput source="last_name" resource="users" fullWidth />
                   </Box>
                 </Box>
@@ -199,15 +199,15 @@ export const ProfileEdit = () => {
                   fullWidth
                   resource="users"
                 />
-                <Box display={{ xs: 'block', sm: 'flex' }}>
-                  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                <Box display={{ xs: "block", sm: "flex" }}>
+                  <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                     <PasswordInput
                       source="password"
                       resource="users"
                       fullWidth
                     />
                   </Box>
-                  <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                  <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
                     <PasswordInput
                       source="confirm_password"
                       resource="users"
@@ -217,35 +217,35 @@ export const ProfileEdit = () => {
                 </Box>
                 <Separator />
                 <SectionTitle label="resources.users.fieldGroups.personal_details" />
-                <Box display={{ xs: 'block', sm: 'flex' }}>
-                  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                <Box display={{ xs: "block", sm: "flex" }}>
+                  <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                     <TextInput
                       source="nationality"
                       resource="users"
                       fullWidth
                     />
                   </Box>
-                  <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                  <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
                     <TextInput source="ic_no" resource="users" fullWidth />
                   </Box>
                 </Box>
-                <Box display={{ xs: 'block', sm: 'flex' }}>
-                  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                <Box display={{ xs: "block", sm: "flex" }}>
+                  <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                     <DateInput
                       source="date_of_birth"
                       resource="users"
                       fullWidth
                     />
                   </Box>
-                  <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                  <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
                     <SelectInput source="gender" choices={genders} />
                   </Box>
                 </Box>
-                <Box display={{ xs: 'block', sm: 'flex' }}>
-                  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                <Box display={{ xs: "block", sm: "flex" }}>
+                  <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                     <TextInput source="phone_no" resource="users" fullWidth />
                   </Box>
-                  <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
+                  <Box flex={2} ml={{ xs: 0, sm: "0.5em" }} />
                 </Box>
                 <TextInput
                   source="residential_address"
@@ -253,20 +253,20 @@ export const ProfileEdit = () => {
                   multiline
                   fullWidth
                 />
-                <Box display={{ xs: 'block', sm: 'flex' }}>
-                  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                <Box display={{ xs: "block", sm: "flex" }}>
+                  <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                     <TextInput
                       source="postal_code"
                       resource="users"
                       fullWidth
                     />
                   </Box>
-                  <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
+                  <Box flex={2} ml={{ xs: 0, sm: "0.5em" }} />
                 </Box>
                 <Separator />
                 <SectionTitle label="resources.users.fieldGroups.company_details" />
-                <Box display={{ xs: 'block', sm: 'flex' }}>
-                  <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                <Box display={{ xs: "block", sm: "flex" }}>
+                  <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                     <TextInput
                       source="company_name"
                       resource="users"
@@ -275,12 +275,12 @@ export const ProfileEdit = () => {
                       disabled={!identity?.is_staff}
                     />
                   </Box>
-                  <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
+                  <Box flex={2} ml={{ xs: 0, sm: "0.5em" }} />
                 </Box>
                 {!identity?.is_staff && (
                   <>
-                    <Box display={{ xs: 'block', sm: 'flex' }}>
-                      <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                    <Box display={{ xs: "block", sm: "flex" }}>
+                      <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                         <Labeled
                           // TODO: provide the resource and source props instead of the label?
                           label="resources.users.fields.department"
@@ -295,22 +295,22 @@ export const ProfileEdit = () => {
                           </ReferenceInput>
                         </Labeled>
                       </Box>
-                      <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                      <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
                         <Labeled label="resources.users.fields.designation">
                           <TextField source="designation" record={identity} />
                         </Labeled>
                       </Box>
                     </Box>
-                    <Box display={{ xs: 'block', sm: 'flex' }}>
-                      <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                    <Box display={{ xs: "block", sm: "flex" }}>
+                      <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                         <Labeled label="resources.users.fields.role">
                           <TextField source="role" record={identity} />
                         </Labeled>
                       </Box>
-                      <Box flex={2} ml={{ xs: 0, sm: '0.5em' }} />
+                      <Box flex={2} ml={{ xs: 0, sm: "0.5em" }} />
                     </Box>
-                    <Box display={{ xs: 'block', sm: 'flex' }}>
-                      <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                    <Box display={{ xs: "block", sm: "flex" }}>
+                      <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                         <Labeled label="resources.users.fields.date_of_commencement">
                           <DateField
                             // https://marmelab.com/react-admin/Fields.html
@@ -320,7 +320,7 @@ export const ProfileEdit = () => {
                           />
                         </Labeled>
                       </Box>
-                      <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                      <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
                         <Labeled label="resources.users.fields.date_of_cessation">
                           <DateField
                             source="date_of_cessation"
@@ -368,11 +368,11 @@ export const ProfileEdit = () => {
 const requiredValidate = required();
 const validateEmailUnicity = (identity: any) =>
   validateUnicity({
-    reference: 'users',
-    source: 'email',
+    reference: "users",
+    source: "email",
     // this function can only be invoked after identity is loaded
     record: identity as UserProfile,
-    message: 'pos.user_menu.profile.validation.email_already_used',
+    message: "pos.user_menu.profile.validation.email_already_used",
   });
 const validateEmail = memoize((identity: any) => [
   requiredValidate,

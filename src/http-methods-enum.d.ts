@@ -1,1 +1,1 @@
-declare module 'http-methods-enum';
+declare module "http-methods-enum";

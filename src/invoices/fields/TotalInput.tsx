@@ -1,13 +1,13 @@
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo } from "react";
 import {
   NumberInputProps,
   NumberInput,
   FormDataConsumerRenderParams,
-} from 'react-admin';
-import { useForm, useFormState } from 'react-final-form';
+} from "react-admin";
+import { useForm, useFormState } from "react-final-form";
 
-import { toFixedNumber } from '../utils';
-import { InvoiceItem } from '../types';
+import { toFixedNumber } from "../../utils";
+import { InvoiceItem } from "../../types";
 
 interface Props extends NumberInputProps, FormDataConsumerRenderParams {
   inputClassName?: string | undefined;
@@ -63,17 +63,17 @@ const TotalInput: FC<Props> = ({
 
   useEffect(() => {
     form.batch(() => {
-      'discount_rate' !== formState.active &&
-        form.change('discount_rate', discount_rate.toFixed(2));
+      "discount_rate" !== formState.active &&
+        form.change("discount_rate", discount_rate.toFixed(2));
 
-      'gst_rate' !== formState.active &&
-        form.change('gst_rate', gst_rate.toFixed(2));
+      "gst_rate" !== formState.active &&
+        form.change("gst_rate", gst_rate.toFixed(2));
 
-      'credits_applied' !== formState.active &&
-        form.change('credits_applied', credits_applied.toFixed(2));
+      "credits_applied" !== formState.active &&
+        form.change("credits_applied", credits_applied.toFixed(2));
 
       if (
-        !formState.active?.includes('invoiceitem_set') &&
+        !formState.active?.includes("invoiceitem_set") &&
         formState.active !== undefined
       )
         return;
@@ -116,12 +116,12 @@ const TotalInput: FC<Props> = ({
 
     // toFixed(2): converts '0' to '0.00'
     form.batch(() => {
-      form.change('total_amount', total_amount.toFixed(2));
-      form.change('discount_amount', discount_amount.toFixed(2));
-      form.change('gst_amount', gst_amount.toFixed(2));
-      form.change('net', net.toFixed(2));
-      form.change('grand_total', grand_total.toFixed(2));
-      form.change('balance_due', balance_due.toFixed(2));
+      form.change("total_amount", total_amount.toFixed(2));
+      form.change("discount_amount", discount_amount.toFixed(2));
+      form.change("gst_amount", gst_amount.toFixed(2));
+      form.change("net", net.toFixed(2));
+      form.change("grand_total", grand_total.toFixed(2));
+      form.change("balance_due", balance_due.toFixed(2));
     });
   }, [
     amounts,

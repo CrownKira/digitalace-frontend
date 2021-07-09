@@ -1,18 +1,18 @@
-import { FC } from 'react';
+import { FC } from "react";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Link, FieldProps, useTranslate, useQueryWithStore } from 'react-admin';
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { Link, FieldProps, useTranslate, useQueryWithStore } from "react-admin";
 
-import { AppState, Receive, Product } from '../types';
+import { AppState, Receive, Product } from "../types";
 
 const useStyles = makeStyles({
-  rightAlignedCell: { textAlign: 'right' },
+  rightAlignedCell: { textAlign: "right" },
 });
 
 const Basket: FC<FieldProps<Receive>> = ({ record }) => {
@@ -21,8 +21,8 @@ const Basket: FC<FieldProps<Receive>> = ({ record }) => {
 
   const { loaded, data: products } = useQueryWithStore<AppState>(
     {
-      type: 'getMany',
-      resource: 'products',
+      type: "getMany",
+      resource: "products",
       payload: {
         ids: record ? record.receiveitem_set.map((item) => item.product) : [],
       },
@@ -54,16 +54,16 @@ const Basket: FC<FieldProps<Receive>> = ({ record }) => {
       <TableHead>
         <TableRow>
           <TableCell>
-            {translate('resources.receive_items.fields.product')}
+            {translate("resources.receive_items.fields.product")}
           </TableCell>
           <TableCell className={classes.rightAlignedCell}>
-            {translate('resources.receive_items.fields.unit_price')}
+            {translate("resources.receive_items.fields.unit_price")}
           </TableCell>
           <TableCell className={classes.rightAlignedCell}>
-            {translate('resources.receive_items.fields.quantity')}
+            {translate("resources.receive_items.fields.quantity")}
           </TableCell>
           <TableCell className={classes.rightAlignedCell}>
-            {translate('resources.receive_items.fields.amount')}
+            {translate("resources.receive_items.fields.amount")}
           </TableCell>
         </TableRow>
       </TableHead>
@@ -79,8 +79,8 @@ const Basket: FC<FieldProps<Receive>> = ({ record }) => {
                 </TableCell>
                 <TableCell className={classes.rightAlignedCell}>
                   {Number(item.unit_price).toLocaleString(undefined, {
-                    style: 'currency',
-                    currency: 'SGD',
+                    style: "currency",
+                    currency: "SGD",
                   })}
                 </TableCell>
                 <TableCell className={classes.rightAlignedCell}>

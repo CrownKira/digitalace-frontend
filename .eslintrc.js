@@ -1,6 +1,6 @@
 module.exports = {
-  extends: 'react-app',
+  extends: "react-app",
   rules: {
-    'import/no-anonymous-default-export': 0,
+    "import/no-anonymous-default-export": 0,
   },
 };

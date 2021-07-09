@@ -1,13 +1,13 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect } from "react";
 import {
   NumberInputProps,
   NumberInput,
   FormDataConsumerRenderParams,
-} from 'react-admin';
-import { useForm, useFormState } from 'react-final-form';
+} from "react-admin";
+import { useForm, useFormState } from "react-final-form";
 
-import { toFixedNumber } from '../utils';
-import { SalesOrderItem } from '../types';
+import { toFixedNumber } from "../utils";
+import { SalesOrderItem } from "../types";
 
 interface Props extends NumberInputProps, FormDataConsumerRenderParams {
   inputClassName?: string | undefined;
@@ -42,18 +42,18 @@ const TotalInput: FC<Props> = ({
     // toFixed(2): converts '0' to '0.00'
     form.batch(() => {
       !isNaN(total_amount) &&
-        form.change('total_amount', total_amount.toFixed(2));
+        form.change("total_amount", total_amount.toFixed(2));
       !isNaN(discount_rate) &&
-        form.getFieldState('discount_rate')?.active === false &&
-        form.change('discount_rate', discount_rate.toFixed(2));
+        form.getFieldState("discount_rate")?.active === false &&
+        form.change("discount_rate", discount_rate.toFixed(2));
       !isNaN(discount_amount) &&
-        form.change('discount_amount', discount_amount.toFixed(2));
+        form.change("discount_amount", discount_amount.toFixed(2));
       !isNaN(gst_rate) &&
-        form.getFieldState('gst_rate')?.active === false &&
-        form.change('gst_rate', gst_rate.toFixed(2));
-      !isNaN(gst_amount) && form.change('gst_amount', gst_amount.toFixed(2));
-      !isNaN(net) && form.change('net', net.toFixed(2));
-      !isNaN(grand_total) && form.change('grand_total', grand_total.toFixed(2));
+        form.getFieldState("gst_rate")?.active === false &&
+        form.change("gst_rate", gst_rate.toFixed(2));
+      !isNaN(gst_amount) && form.change("gst_amount", gst_amount.toFixed(2));
+      !isNaN(net) && form.change("net", net.toFixed(2));
+      !isNaN(grand_total) && form.change("grand_total", grand_total.toFixed(2));
     });
   }, [
     form,

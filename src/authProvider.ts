@@ -1,14 +1,14 @@
-import { AuthProvider } from 'react-admin';
-import main from './apis/main';
-import { httpClient, apiUrl } from './dataProvider/main';
+import { AuthProvider } from "react-admin";
+import main from "./apis/main";
+import { httpClient, apiUrl } from "./dataProvider/main";
 
 const isPublicUrl = (url: string) => {
-  return ['#/register/'].includes(url);
+  return ["#/register/"].includes(url);
 };
 
 const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
-    const response = await main.post('/api/user/token/', {
+    const response = await main.post("/api/user/token/", {
       email,
       password,
     });
@@ -16,16 +16,16 @@ const authProvider: AuthProvider = {
     // if (response.status < 200 || response.status >= 300) throw new Error();
 
     const auth = response.data;
-    localStorage.setItem('auth', JSON.stringify(auth));
+    localStorage.setItem("auth", JSON.stringify(auth));
   },
   logout: () => {
-    localStorage.removeItem('auth');
-    return Promise.resolve('/login');
+    localStorage.removeItem("auth");
+    return Promise.resolve("/login");
   },
   checkError: (error) => {
     const status = error.status;
     if (status === 401 || status === 403) {
-      localStorage.removeItem('auth');
+      localStorage.removeItem("auth");
       return Promise.reject();
     }
     return Promise.resolve();
@@ -34,11 +34,11 @@ const authProvider: AuthProvider = {
     if (isPublicUrl(window.location.hash)) {
       return Promise.resolve();
     }
-    return localStorage.getItem('auth')
+    return localStorage.getItem("auth")
       ? Promise.resolve()
       : Promise.reject({
-          redirectTo: '/login',
-          message: 'ra.auth.auth_check_error',
+          redirectTo: "/login",
+          message: "ra.auth.auth_check_error",
         });
   },
   getPermissions: async () => {
@@ -51,6 +51,7 @@ const authProvider: AuthProvider = {
     }
     // https://stackoverflow.com/questions/54715260/typescript-json-parse-error-type-null-is-not-assignable-to-type-string
     const { permissions } = await Promise.resolve(
+      // TODO: use permissions endpoint
       httpClient(`${apiUrl}/user/me/`).then((response) => {
         return response.json;
       })
@@ -64,6 +65,7 @@ const authProvider: AuthProvider = {
       image,
       is_staff,
     } = await Promise.resolve(
+      // use identity endpoint
       httpClient(`${apiUrl}/user/me/`).then((response) => {
         return response.json;
       })

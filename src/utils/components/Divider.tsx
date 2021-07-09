@@ -1,5 +1,5 @@
-import { useTranslate } from 'react-admin';
-import { Typography, Box } from '@material-ui/core';
+import { useTranslate } from "react-admin";
+import { Typography, Box } from "@material-ui/core";
 
 export const SectionTitle = ({ label }: { label: string }) => {
   const translate = useTranslate();

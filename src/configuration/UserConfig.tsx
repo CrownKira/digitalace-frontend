@@ -1,5 +1,5 @@
-import { useState, useCallback, useMemo } from 'react';
-import { Box, Card, CardContent, InputAdornment } from '@material-ui/core';
+import { useState, useCallback, useMemo } from "react";
+import { Box, Card, CardContent, InputAdornment } from "@material-ui/core";
 import {
   TextInput,
   required,
@@ -12,16 +12,16 @@ import {
   SaveButton,
   useTranslate,
   Title,
-} from 'react-admin';
+} from "react-admin";
 
-import { SectionTitle, Separator } from '../utils/components/Divider';
-import useGetUserConfig from './useGetUserConfig';
-import { ThemeSelectInput } from './ThemeSelectInput';
-import { LanguageSelectInput } from './LanguageSelectInput';
-import { UserConfig } from '../types';
-import { refreshLocalStorage } from '../utils';
-import { memoize } from '../utils';
-import { useOnFailure } from '../utils/hooks';
+import { SectionTitle, Separator } from "../utils/components/Divider";
+import useGetUserConfig from "./useGetUserConfig";
+import { ThemeSelectInput } from "./ThemeSelectInput";
+import { LanguageSelectInput } from "./LanguageSelectInput";
+import { UserConfig } from "../types";
+import { refreshLocalStorage } from "../utils";
+import { memoize } from "../utils";
+import { useOnFailure } from "../utils/hooks";
 
 export const UserConfigEdit = () => {
   useAuthenticated();
@@ -41,11 +41,11 @@ export const UserConfigEdit = () => {
         .then(({ data: { theme, language } }: { data: UserConfig }) => {
           setSaving(false);
           refreshLocalStorage({ theme, language });
-          notify('pos.user_menu.user_config.success', 'info');
+          notify("pos.user_menu.user_config.success", "info");
         })
         .catch(() => {
           setSaving(false);
-          notify('pos.user_menu.user_config.failure', 'warning');
+          notify("pos.user_menu.user_config.failure", "warning");
         });
     },
     [dataProvider, notify]
@@ -78,7 +78,7 @@ export const UserConfigEdit = () => {
               <CardContent>
                 <SectionTitle label="resources.user_configs.fieldGroups.general" />
 
-                <Title title={translate('pos.configuration')} />
+                <Title title={translate("pos.configuration")} />
                 <Card>
                   <CardContent>
                     <ThemeSelectInput source="theme" />
@@ -91,8 +91,8 @@ export const UserConfigEdit = () => {
                 <SectionTitle label="resources.user_configs.fieldGroups.transactions" />
                 <Card>
                   <CardContent>
-                    <Box display={{ xs: 'block', sm: 'flex' }}>
-                      <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}>
+                    <Box display={{ xs: "block", sm: "flex" }}>
+                      <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                         <TextInput
                           source="gst_rate"
                           resource="user_configs"
@@ -105,7 +105,7 @@ export const UserConfigEdit = () => {
                           }}
                         />
                       </Box>
-                      <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                      <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
                         <TextInput
                           source="discount_rate"
                           resource="user_configs"

@@ -1,14 +1,14 @@
-import { FC, CSSProperties } from 'react';
-import { useMediaQuery, Theme } from '@material-ui/core';
+import { FC, CSSProperties } from "react";
+import { useMediaQuery, Theme } from "@material-ui/core";
 
-import Welcome from './Welcome';
+import Welcome from "./Welcome";
 
 const styles = {
-  flex: { display: 'flex' },
-  flexColumn: { display: 'flex', flexDirection: 'column' },
-  leftCol: { flex: 1, marginRight: '0.5em' },
-  rightCol: { flex: 1, marginLeft: '0.5em' },
-  singleCol: { marginTop: '1em', marginBottom: '1em' },
+  flex: { display: "flex" },
+  flexColumn: { display: "flex", flexDirection: "column" },
+  leftCol: { flex: 1, marginRight: "0.5em" },
+  rightCol: { flex: 1, marginLeft: "0.5em" },
+  singleCol: { marginTop: "1em", marginBottom: "1em" },
 };
 
 // interface State {}
@@ -21,9 +21,9 @@ const Dashboard: FC = () => {
   // const version = useVersion();
   // const dataProvider = useDataProvider();
   const isXSmall = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down('xs')
+    theme.breakpoints.down("xs")
   );
-  const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
+  const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
 
   // const fetchOrders = useCallback(async () => {}, [dataProvider]);
   // const fetchReviews = useCallback(async () => {}, [dataProvider]);

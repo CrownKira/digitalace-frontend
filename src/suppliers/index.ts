@@ -1,11 +1,11 @@
-import SupplierIcon from '@material-ui/icons/People';
+import SupplierIcon from "@material-ui/icons/People";
 
-import SupplierList from './SupplierList';
-import SupplierCreate from './SupplierCreate';
-import SupplierEdit from './SupplierEdit';
+import SupplierList from "./SupplierList";
+import SupplierCreate from "./SupplierCreate";
+import SupplierEdit from "./SupplierEdit";
 
 const resource = {
-  codename: 'supplier',
+  codename: "supplier",
   list: SupplierList,
   create: SupplierCreate,
   edit: SupplierEdit,
