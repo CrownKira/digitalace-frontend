@@ -43,7 +43,7 @@ import { memoize } from "../utils";
 import { useOnFailure } from "../utils/hooks";
 import { AsyncAutocompleteInput } from "../utils/components/AsyncAutocompleteInput";
 import { transform, styles as createStyles } from "./SalesOrderCreate";
-import { FormTabWithLayout } from "../invoices/utils/FormTabWithLayout";
+import { FormTabWithLayout } from "../invoices/utils/FormTabWithCustomLayout";
 import PdfButton from "../invoices/buttons/PdfButton";
 import PrintButton from "../invoices/PrintButton";
 import LineItemsIterator from "../invoices/LineItemsIterator";

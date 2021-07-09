@@ -24,7 +24,7 @@ import { Invoice } from "../types";
 import { incrementReference, dateParser, validateUnicity } from "../utils";
 import { memoize } from "../utils";
 import { useOnFailure } from "../utils/hooks";
-import { FormTabWithLayout } from "./utils/FormTabWithLayout";
+import { FormTabWithLayout } from "./utils/FormTabWithCustomLayout";
 import CreditsApplicationListActions from "./utils/CreditsApplicationListActions";
 import ApplyCreditsSection from "./sections/ApplyCreditsSection";
 import LineItemsSection from "./sections/LineItemsSection";

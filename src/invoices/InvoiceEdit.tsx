@@ -28,7 +28,7 @@ import {
   Wrapper,
   validateForm,
 } from "./InvoiceCreate";
-import { FormTabWithLayout } from "./utils/FormTabWithLayout";
+import { FormTabWithLayout } from "./utils/FormTabWithCustomLayout";
 import PdfButton from "./buttons/PdfButton";
 import PrintButton from "./buttons/PrintButton";
 import ReferenceManyFieldWithActions from "../sales_orders/ReferenceManyFieldWithActions";

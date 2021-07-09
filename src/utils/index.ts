@@ -3,7 +3,7 @@ import { Record } from "react-admin";
 
 import customDataProvider from "../dataProvider/main";
 
-import QuickFilter from "./QuickFilter";
+import QuickFilter from "./components/QuickFilter";
 export { QuickFilter };
 
 // https://github.com/marmelab/react-admin/issues/2077

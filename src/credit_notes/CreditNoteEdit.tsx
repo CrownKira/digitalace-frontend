@@ -40,7 +40,7 @@ import { memoize } from "../utils";
 import { useOnFailure } from "../utils/hooks";
 import { AsyncAutocompleteInput } from "../utils/components/AsyncAutocompleteInput";
 import { transform, styles as createStyles } from "./CreditNoteCreate";
-import { FormTabWithLayout } from "../invoices/utils/FormTabWithLayout";
+import { FormTabWithLayout } from "../invoices/utils/FormTabWithCustomLayout";
 import PdfButton from "../invoices/buttons/PdfButton";
 import LineItemsIterator from "../invoices/LineItemsIterator";
 import ReferenceManyFieldWithActions from "./ReferenceManyFieldWithActions";

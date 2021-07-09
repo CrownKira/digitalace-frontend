@@ -11,7 +11,7 @@ import {
   TextField,
 } from "react-admin";
 
-import Basket from "./Basket";
+import Basket from "./sections/Basket";
 import { Invoice, Customer } from "../types";
 
 const CustomerField: FC<FieldProps<Customer>> = ({ record }) =>

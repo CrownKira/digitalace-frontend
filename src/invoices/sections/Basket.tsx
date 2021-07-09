@@ -9,7 +9,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, FieldProps, useTranslate, useQueryWithStore } from "react-admin";
 
-import { AppState, Invoice, Product } from "../types";
+import { AppState, Invoice, Product } from "../../types";
 
 const useStyles = makeStyles({
   rightAlignedCell: { textAlign: "right" },
