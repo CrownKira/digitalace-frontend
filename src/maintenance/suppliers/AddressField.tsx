@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { FieldProps } from "react-admin";
 import { Supplier } from "../../types";
 

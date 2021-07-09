@@ -1,4 +1,4 @@
-import { FC, CSSProperties } from "react";
+import React, { FC, CSSProperties } from "react";
 import { useMediaQuery, Theme } from "@material-ui/core";
 
 import { Welcome } from "./Welcome";

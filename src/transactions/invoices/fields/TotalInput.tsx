@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo } from "react";
+import React, { FC, useEffect, useMemo } from "react";
 import {
   NumberInputProps,
   NumberInput,

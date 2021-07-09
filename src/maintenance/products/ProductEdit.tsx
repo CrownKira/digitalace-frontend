@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import {
   Edit,
   EditProps,
@@ -143,12 +143,12 @@ const ProductForm = (props: any) => {
       >
         <RichTextInput source="description" label="" />
       </FormTab>
-      <FormTab label="resources.products.tabs.reviews" path="reviews"></FormTab>
-      <FormTab label="resources.products.tabs.stock" path="stock"></FormTab>
+      <FormTab label="resources.products.tabs.reviews" path="reviews" />
+      <FormTab label="resources.products.tabs.stock" path="stock" />
       <FormTab
         label="resources.products.tabs.transactions"
         path="transactions"
-      ></FormTab>
+      />
     </TabbedForm>
   );
 };

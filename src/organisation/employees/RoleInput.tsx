@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { ReferenceInput, SelectInput, InputProps } from "react-admin";
 import { makeStyles } from "@material-ui/core/styles";
 

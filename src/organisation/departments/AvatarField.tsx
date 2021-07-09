@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import { FieldProps } from "react-admin";
 

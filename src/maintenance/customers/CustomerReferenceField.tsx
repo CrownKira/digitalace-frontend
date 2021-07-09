@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { ReferenceField, ReferenceFieldProps } from "react-admin";
 
 import { FullNameField } from "./FullNameField";

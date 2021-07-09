@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { InputProps, FormDataConsumerRenderParams } from "react-admin";
 import { useForm } from "react-final-form";
 

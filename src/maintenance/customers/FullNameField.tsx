@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import React, { FC, memo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { FieldProps } from "react-admin";

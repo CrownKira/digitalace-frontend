@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import RichTextInput from "ra-input-rich-text";
 import { Box } from "@material-ui/core";
 import { DateInput, TextInput, SelectInput } from "react-admin";

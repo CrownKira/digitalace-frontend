@@ -1,9 +1,7 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { SelectInput, InputProps, required } from "react-admin";
 
-interface Props extends Omit<InputProps, "source"> {
-  // TODO: provide default source?
-}
+type Props = Omit<InputProps, "source">;
 
 export const DesignationSelectInput: FC<Props> = ({ record }) => (
   <SelectInput

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import PropTypes from "prop-types";
 import { useTranslate, Record } from "react-admin";
 import { Typography, Card, CardContent, Box } from "@material-ui/core";

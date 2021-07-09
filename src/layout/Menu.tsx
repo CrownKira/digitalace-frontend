@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import SettingsIcon from "@material-ui/icons/Label";
 import { useMediaQuery, Theme, Box } from "@material-ui/core";

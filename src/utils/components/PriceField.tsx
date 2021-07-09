@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { NumberField, NumberFieldProps } from "react-admin";
 import get from "lodash/get";
 

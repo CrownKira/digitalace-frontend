@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import MuiGridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
