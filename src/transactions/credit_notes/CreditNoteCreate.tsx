@@ -19,7 +19,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { AnyObject } from "react-final-form";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { SalesOrder } from "../../types";
+import { CreditNote } from "../../types";
 import { incrementReference, dateParser, validateUnicity } from "../../utils";
 import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
@@ -56,10 +56,10 @@ export const Wrapper = withStyles(() => ({
   },
 }))(CardContent);
 
-export const SalesOrderCreate: FC<CreateProps> = (props) => {
+export const CreditNoteCreate: FC<CreateProps> = (props) => {
   return (
     <Create component="div" {...props}>
-      <SalesOrderForm />
+      <CreditNoteForm />
     </Create>
   );
 };
@@ -77,7 +77,7 @@ export const transform = (data: Record) => ({
   date: dateParser(data.date),
 });
 
-const SalesOrderForm = (props: any) => {
+const CreditNoteForm = (props: any) => {
   const classes = useStyles();
   const [state, setState] = useState({
     // TODO: make use of formProps instead?
@@ -86,11 +86,11 @@ const SalesOrderForm = (props: any) => {
   const onFailure = useOnFailure();
 
   const {
-    data: sales_orders,
-    ids: sales_orderIds,
-    loading: loadingSalesOrders,
-  } = useGetList<SalesOrder>(
-    "sales_orders",
+    data: credit_notes,
+    ids: credit_noteIds,
+    loading: loadingCreditNotes,
+  } = useGetList<CreditNote>(
+    "credit_notes",
     { page: 1, perPage: 1 },
     { field: "id", order: "DESC" },
     {}
@@ -99,10 +99,14 @@ const SalesOrderForm = (props: any) => {
 
   const postDefaultValue = () => ({
     reference:
-      sales_orders && sales_orderIds.length > 0
-        ? incrementReference(sales_orders[sales_orderIds[0]].reference, "SO", 4)
-        : "SO-0000",
-    sales_order: null,
+      credit_notes && credit_noteIds.length > 0
+        ? incrementReference(
+            credit_notes[credit_noteIds[0]].reference,
+            "INV",
+            4
+          )
+        : "INV-0000",
+    credit_note: null,
     date: new Date(),
     status: "UPD",
     total_amount: "0.00",
@@ -114,7 +118,7 @@ const SalesOrderForm = (props: any) => {
     grand_total: "0.00",
   });
 
-  return loadingSalesOrders || loadingUserConfig ? (
+  return loadingCreditNotes || loadingUserConfig ? (
     <Loading />
   ) : (
     <FormWithRedirect
@@ -130,7 +134,7 @@ const SalesOrderForm = (props: any) => {
                 toolbar={
                   <Toolbar
                     // props from react-admin demo VisitorEdit
-                    resource="sales_orders"
+                    resource="credit_notes"
                     record={formProps.record}
                     basePath={formProps.basePath}
                     invalid={formProps.invalid}
@@ -155,21 +159,21 @@ const SalesOrderForm = (props: any) => {
                   </Toolbar>
                 }
               >
-                <FormTabWithCustomLayout label="resources.sales_orders.tabs.details">
+                <FormTabWithCustomLayout label="resources.credit_notes.tabs.details">
                   <DetailTopSection
                     props={props}
                     state={state}
                     setState={setState}
                   />
                   <LineItemsSection
-                    source="salesorderitem_set"
-                    resource="sales_order_items"
-                    label="resources.sales_orders.fields.salesorderitem_set"
+                    source="creditnoteitem_set"
+                    resource="credit_note_items"
+                    label="resources.credit_notes.fields.creditnoteitem_set"
                     productInput={
                       <ProductNameInput
                         fullWidth
                         inputClassName={classes.lineItemReferenceInput}
-                        label="resources.sales_order_items.fields.product"
+                        label="resources.credit_note_items.fields.product"
                       />
                     }
                   />
@@ -188,10 +192,10 @@ export const requiredValidate = required();
 export const validateNumber = [requiredValidate, number(), minValue(0)];
 export const validateReferenceUnicity = (props: any) =>
   validateUnicity({
-    reference: "sales_orders",
+    reference: "credit_notes",
     source: "reference",
     record: props.record,
-    message: "resources.sales_orders.validation.reference_already_used",
+    message: "resources.credit_notes.validation.reference_already_used",
   });
 export const validateReference = memoize((props: any) => [
   requiredValidate,

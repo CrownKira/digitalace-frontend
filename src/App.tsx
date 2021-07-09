@@ -25,6 +25,7 @@ import { categories } from "./maintenance/categories";
 import { products } from "./maintenance/products";
 import { permissions } from "./permissions/data";
 
+// rafc
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
     return englishMessages;

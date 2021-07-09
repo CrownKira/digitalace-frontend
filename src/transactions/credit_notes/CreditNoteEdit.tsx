@@ -20,7 +20,7 @@ import {
   styles as createStyles,
   Wrapper,
   validateForm,
-} from "./SalesOrderCreate";
+} from "./CreditNoteCreate";
 import { FormTabWithCustomLayout } from "../../utils/components/FormTabWithCustomLayout";
 import { PdfButton } from "../components/PdfButton";
 import { PrintButton } from "../components/PrintButton";
@@ -37,15 +37,15 @@ const useStyles = makeStyles({
   },
 });
 
-export const SalesOrderEdit: FC<EditProps> = (props) => {
+export const CreditNoteEdit: FC<EditProps> = (props) => {
   return (
     <Edit component="div" mutationMode="pessimistic" {...props}>
-      <SalesOrderForm />
+      <CreditNoteForm />
     </Edit>
   );
 };
 
-const SalesOrderForm = (props: any) => {
+const CreditNoteForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
 
@@ -79,7 +79,7 @@ const SalesOrderForm = (props: any) => {
                 toolbar={
                   <Toolbar
                     // props from react-admin demo VisitorEdit
-                    resource="sales_orders"
+                    resource="credit_notes"
                     record={formProps.record}
                     basePath={formProps.basePath}
                     invalid={formProps.invalid}
@@ -118,21 +118,21 @@ const SalesOrderForm = (props: any) => {
                   </Toolbar>
                 }
               >
-                <FormTabWithCustomLayout label="resources.sales_orders.tabs.details">
+                <FormTabWithCustomLayout label="resources.credit_notes.tabs.details">
                   <DetailTopSection
                     props={props}
                     state={state}
                     setState={setState}
                   />
                   <LineItemsSection
-                    source="salesorderitem_set"
-                    resource="sales_order_items"
-                    label="resources.sales_orders.fields.salesorderitem_set"
+                    source="creditnoteitem_set"
+                    resource="credit_note_items"
+                    label="resources.credit_notes.fields.creditnoteitem_set"
                     productInput={
                       <ProductNameInput
                         fullWidth
                         inputClassName={classes.lineItemReferenceInput}
-                        label="resources.sales_order_items.fields.product"
+                        label="resources.credit_note_items.fields.product"
                       />
                     }
                   />
