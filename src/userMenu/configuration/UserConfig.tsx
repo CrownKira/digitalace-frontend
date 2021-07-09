@@ -15,7 +15,7 @@ import {
 } from "react-admin";
 
 import { SectionTitle, Separator } from "../../utils/components/Divider";
-import useGetUserConfig from "./useGetUserConfig";
+import { useGetUserConfig } from "./useGetUserConfig";
 import { ThemeSelectInput } from "./ThemeSelectInput";
 import { LanguageSelectInput } from "./LanguageSelectInput";
 import { UserConfig } from "../../types";

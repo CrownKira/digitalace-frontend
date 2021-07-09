@@ -28,9 +28,9 @@ import {
   useNotify,
 } from "react-admin";
 import { AnyObject } from "react-final-form";
-import { formatImage, validateUnicity } from "../../utils";
+
+import { formatImage, validateUnicity, memoize } from "../../utils";
 import { UserProfile } from "../../types";
-import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 import { genders } from "../../utils/data";
 import { SectionTitle, Separator } from "../../utils/components/Divider";

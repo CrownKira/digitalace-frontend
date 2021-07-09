@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from "react";
 import {
   Create,
   CreateProps,
@@ -6,10 +6,10 @@ import {
   TextInput,
   ImageInput,
   ImageField,
-} from 'react-admin';
+} from "react-admin";
 
 const postDefaultValue = () => ({
-  image: '',
+  image: "",
 });
 
 export const CategoryCreate: FC<CreateProps> = (props) => (

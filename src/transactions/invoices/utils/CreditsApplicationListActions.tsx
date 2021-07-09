@@ -1,10 +1,10 @@
-import { FC } from 'react';
-import pick from 'lodash/pick';
-import { TopToolbar, Button, useDataProvider, ButtonProps } from 'react-admin';
-import { useForm } from 'react-final-form';
-import ContentAdd from '@material-ui/icons/Add';
+import { FC } from "react";
+import pick from "lodash/pick";
+import { TopToolbar, Button, useDataProvider, ButtonProps } from "react-admin";
+import { useForm } from "react-final-form";
+import ContentAdd from "@material-ui/icons/Add";
 
-import { CreditNote } from '../../../types';
+import { CreditNote } from "../../../types";
 
 interface Props extends ButtonProps {
   formData: any;
@@ -24,26 +24,26 @@ export const CreditsApplicationListActions: FC<Props> = ({
         onClick={async (event) => {
           const response =
             formData.customer &&
-            (await dataProvider.getManyReference('credit_notes', {
-              target: 'customer',
+            (await dataProvider.getManyReference("credit_notes", {
+              target: "customer",
               id: formData.customer,
               pagination: { page: 1, perPage: 25 },
-              sort: { field: 'id', order: 'DESC' },
+              sort: { field: "id", order: "DESC" },
               filter: {},
             }));
 
           form.change(
-            'fake_creditsapplication_set',
+            "fake_creditsapplication_set",
             response
               ? response.data.map((creditNote: CreditNote) => ({
                   ...pick(creditNote, [
-                    'reference',
-                    'grand_total',
-                    'credits_remaining',
-                    'id',
+                    "reference",
+                    "grand_total",
+                    "credits_remaining",
+                    "id",
                   ]),
                   credit_note: creditNote.id,
-                  amount_to_credit: '0.00',
+                  amount_to_credit: "0.00",
                 }))
               : []
           );

@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import { SelectInput, InputProps, required } from 'react-admin';
+import { FC } from "react";
+import { SelectInput, InputProps, required } from "react-admin";
 
-interface Props extends Omit<InputProps, 'source'> {
+interface Props extends Omit<InputProps, "source"> {
   // TODO: provide default source?
 }
 

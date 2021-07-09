@@ -1,16 +1,16 @@
-import { FC, memo } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { FC, memo } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 
-import { FieldProps } from 'react-admin';
-import { AvatarField } from './AvatarField';
-import { Category } from '../../types';
+import { FieldProps } from "react-admin";
+import { AvatarField } from "./AvatarField";
+import { Category } from "../../types";
 
 // react-admin
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
+    display: "flex",
+    flexWrap: "nowrap",
+    alignItems: "center",
   },
   avatar: {
     marginRight: theme.spacing(1),
@@ -23,7 +23,7 @@ interface Props extends FieldProps<Category> {
   size?: string;
 }
 
-const _FullNameField: FC<Props> = ({ record, size }) => {
+const _NameField: FC<Props> = ({ record, size }) => {
   const classes = useStyles();
   return record ? (
     <div className={classes.root}>
@@ -33,9 +33,9 @@ const _FullNameField: FC<Props> = ({ record, size }) => {
   ) : null;
 };
 
-_FullNameField.defaultProps = {
-  source: 'name',
-  label: 'resources.categories.fields.name',
+_NameField.defaultProps = {
+  source: "name",
+  label: "resources.categories.fields.name",
 };
 
-export const FullNameField = memo<Props>(_FullNameField);
+export const NameField = memo<Props>(_NameField);

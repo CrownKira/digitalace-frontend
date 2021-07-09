@@ -1,5 +1,5 @@
-import { useMediaQuery, Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { useMediaQuery, Theme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   TextField,
   EmailField,
@@ -13,29 +13,29 @@ import {
   ReferenceArrayField,
   SingleFieldList,
   ChipField,
-} from 'react-admin';
+} from "react-admin";
 
-import { DepartmentInput } from './DepartmentInput';
-import { DesignationInput } from './DesignationInput';
-import { RoleInput } from './RoleInput';
-import { EmployeeLinkField } from './EmployeeLinkField';
-import { DepartmentNameField } from '../departments/NameField';
-import { MobileGrid } from './MobileGrid';
-import { EmployeeListAside } from './EmployeeListAside';
-import { ReactElement } from 'react';
+import { DepartmentInput } from "./DepartmentInput";
+import { DesignationInput } from "./DesignationInput";
+import { RoleInput } from "./RoleInput";
+import { EmployeeLinkField } from "./EmployeeLinkField";
+import { DepartmentNameField } from "../departments/NameField";
+import { MobileGrid } from "./MobileGrid";
+import { EmployeeListAside } from "./EmployeeListAside";
+import { ReactElement } from "react";
 
 const useStyles = makeStyles((theme) => ({
-  nb_commands: { color: 'purple' },
+  nb_commands: { color: "purple" },
   hiddenOnSmallScreens: {
-    display: 'table-cell',
+    display: "table-cell",
 
-    [theme.breakpoints.down('md')]: {
-      display: 'none',
+    [theme.breakpoints.down("md")]: {
+      display: "none",
     },
   },
 }));
 
-const EmployeeFilter = (props: Omit<FilterProps, 'children'>) => (
+const EmployeeFilter = (props: Omit<FilterProps, "children">) => (
   <Filter {...props}>
     <SearchInput source="q" alwaysOn />
     <DepartmentInput source="department" />
@@ -47,13 +47,13 @@ const EmployeeFilter = (props: Omit<FilterProps, 'children'>) => (
 export const EmployeeList = (props: ListProps): ReactElement => {
   const classes = useStyles();
   const isXsmall = useMediaQuery<Theme>((theme) =>
-    theme.breakpoints.down('xs')
+    theme.breakpoints.down("xs")
   );
-  const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('sm'));
+  const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
   return (
     <List
       filters={isSmall ? <EmployeeFilter /> : undefined}
-      sort={{ field: '-id', order: 'DESC' }}
+      sort={{ field: "-id", order: "DESC" }}
       perPage={25}
       aside={<EmployeeListAside />}
       {...props}

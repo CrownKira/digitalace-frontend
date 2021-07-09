@@ -1,11 +1,11 @@
-import InvoiceIcon from '@material-ui/icons/Description';
+import InvoiceIcon from "@material-ui/icons/Description";
 
-import { InvoiceList } from './InvoiceList';
-import { InvoiceCreate } from './InvoiceCreate';
-import { InvoiceEdit } from './InvoiceEdit';
+import { InvoiceList } from "./InvoiceList";
+import { InvoiceCreate } from "./InvoiceCreate";
+import { InvoiceEdit } from "./InvoiceEdit";
 
 export const invoices = {
-  codename: 'invoice',
+  codename: "invoice",
   list: InvoiceList,
   create: InvoiceCreate,
   edit: InvoiceEdit,

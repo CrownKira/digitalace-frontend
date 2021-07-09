@@ -1,11 +1,11 @@
-import RoleIcon from '@material-ui/icons/DirectionsWalk';
+import RoleIcon from "@material-ui/icons/DirectionsWalk";
 
-import { RoleList } from './RoleList';
-import { RoleEdit } from './RoleEdit';
-import { RoleCreate } from './RoleCreate';
+import { RoleList } from "./RoleList";
+import { RoleEdit } from "./RoleEdit";
+import { RoleCreate } from "./RoleCreate";
 
 export const roles = {
-  codename: 'role',
+  codename: "role",
   list: RoleList,
   create: RoleCreate,
   edit: RoleEdit,

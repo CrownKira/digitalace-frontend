@@ -1,5 +1,5 @@
-import { SVGProps } from 'react';
-import { useTheme } from '@material-ui/core/styles';
+import { SVGProps } from "react";
+import { useTheme } from "@material-ui/core/styles";
 
 export const Logo = (props: SVGProps<SVGSVGElement>) => {
   const theme = useTheme();

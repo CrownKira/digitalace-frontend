@@ -1,7 +1,8 @@
-import { FC } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import { FieldProps } from 'react-admin';
-import { Customer } from '../../types';
+import { FC } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import { FieldProps } from "react-admin";
+
+import { Customer } from "../../types";
 
 // react-admin
 interface Props extends FieldProps<Customer> {
@@ -9,7 +10,7 @@ interface Props extends FieldProps<Customer> {
   size?: string;
 }
 
-export const AvatarField: FC<Props> = ({ record, size = '25', className }) =>
+export const AvatarField: FC<Props> = ({ record, size = "25", className }) =>
   record ? (
     <Avatar
       src={`${record.image?.src}?size=${size}x${size}`}

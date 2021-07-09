@@ -1,28 +1,30 @@
-import { FC } from 'react';
+import { FC } from "react";
 import {
   Edit,
   EditProps,
   FormTab,
   NumberInput,
   ReferenceInput,
-  required,
   SelectInput,
   TabbedForm,
   TextInput,
   ImageInput,
   ImageField,
-  number,
-  minValue,
-} from 'react-admin';
-import { InputAdornment } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import RichTextInput from 'ra-input-rich-text';
+} from "react-admin";
+import { InputAdornment } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import RichTextInput from "ra-input-rich-text";
 
-import { styles as createStyles } from './ProductCreate';
-import { Product } from '../../types';
-import { formatImage, validateUnicity } from '../../utils';
-import { memoize } from '../../utils';
-import { useOnFailure } from '../../utils/hooks';
+import {
+  styles as createStyles,
+  requiredValidate,
+  validateNumber,
+  validateReferenceUnicity,
+  validateReference,
+} from "./ProductCreate";
+import { Product } from "../../types";
+import { formatImage } from "../../utils";
+import { useOnFailure } from "../../utils/hooks";
 
 interface ProductTitleProps {
   record?: Product;
@@ -44,14 +46,14 @@ const ProductTitle: FC<ProductTitleProps> = ({ record }) =>
 const useStyles = makeStyles({
   ...createStyles,
   comment: {
-    maxWidth: '20em',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
+    maxWidth: "20em",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   },
   tab: {
-    maxWidth: '40em',
-    display: 'block',
+    maxWidth: "40em",
+    display: "block",
   },
 });
 
@@ -150,20 +152,6 @@ const ProductForm = (props: any) => {
     </TabbedForm>
   );
 };
-
-const requiredValidate = required();
-const validateNumber = [requiredValidate, number(), minValue(0)];
-const validateReferenceUnicity = (props: any) =>
-  validateUnicity({
-    reference: 'products',
-    source: 'reference',
-    record: props.record,
-    message: 'resources.products.validation.reference_already_used',
-  });
-const validateReference = memoize((props: any) => [
-  requiredValidate,
-  validateReferenceUnicity(props),
-]);
 
 // TODO:reviews tab
 /*

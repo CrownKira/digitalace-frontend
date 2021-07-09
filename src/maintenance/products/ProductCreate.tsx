@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from "react";
 import {
   Create,
   FormTab,
@@ -15,22 +15,22 @@ import {
   Loading,
   number,
   minValue,
-} from 'react-admin';
-import { InputAdornment } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import RichTextInput from 'ra-input-rich-text';
+} from "react-admin";
+import { InputAdornment } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import RichTextInput from "ra-input-rich-text";
 
-import { Product } from '../../types';
-import { incrementReference, validateUnicity } from '../../utils';
-import { memoize } from '../../utils';
-import { useOnFailure } from '../../utils/hooks';
+import { Product } from "../../types";
+import { incrementReference, validateUnicity } from "../../utils";
+import { memoize } from "../../utils";
+import { useOnFailure } from "../../utils/hooks";
 
 export const styles = {
-  unit: { width: '7em' },
-  cost: { width: '7em' },
-  unitPrice: { width: '7em' },
-  costFormGroup: { display: 'inline-block' },
-  unitPriceFormGroup: { display: 'inline-block', marginLeft: 32 },
+  unit: { width: "7em" },
+  cost: { width: "7em" },
+  unitPrice: { width: "7em" },
+  costFormGroup: { display: "inline-block" },
+  unitPriceFormGroup: { display: "inline-block", marginLeft: 32 },
 };
 
 const useStyles = makeStyles(styles);
@@ -44,18 +44,18 @@ export const ProductCreate: FC<CreateProps> = (props) => {
     ids: productIds,
     loading: loadingProducts,
   } = useGetList<Product>(
-    'products',
+    "products",
     { page: 1, perPage: 1 },
-    { field: 'id', order: 'DESC' },
+    { field: "id", order: "DESC" },
     {}
   );
   const postDefaultValue = () => ({
-    image: '',
-    thumbnail: '',
+    image: "",
+    thumbnail: "",
     reference:
       products && productIds.length > 0
-        ? incrementReference(products[productIds[0]].reference, 'P', 4)
-        : 'P-0000',
+        ? incrementReference(products[productIds[0]].reference, "P", 4)
+        : "P-0000",
   });
 
   return loadingProducts ? (
@@ -131,16 +131,16 @@ export const ProductCreate: FC<CreateProps> = (props) => {
   );
 };
 
-const requiredValidate = required();
-const validateNumber = [requiredValidate, number(), minValue(0)];
-const validateReferenceUnicity = (props: any) =>
+export const requiredValidate = required();
+export const validateNumber = [requiredValidate, number(), minValue(0)];
+export const validateReferenceUnicity = (props: any) =>
   validateUnicity({
-    reference: 'products',
-    source: 'reference',
+    reference: "products",
+    source: "reference",
     record: props.record,
-    message: 'resources.products.validation.reference_already_used',
+    message: "resources.products.validation.reference_already_used",
   });
-const validateReference = memoize((props: any) => [
+export const validateReference = memoize((props: any) => [
   requiredValidate,
   validateReferenceUnicity(props),
 ]);

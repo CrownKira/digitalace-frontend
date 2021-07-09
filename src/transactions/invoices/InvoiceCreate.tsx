@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState } from "react";
 import {
   Create,
   CreateProps,
@@ -14,36 +14,36 @@ import {
   number,
   minValue,
   maxValue,
-} from 'react-admin';
-import { Card, CardContent } from '@material-ui/core';
-import useGetUserConfig from '../../userMenu/configuration/useGetUserConfig';
-import { withStyles } from '@material-ui/core/styles';
-import { AnyObject } from 'react-final-form';
+} from "react-admin";
+import { Card, CardContent } from "@material-ui/core";
+import useGetUserConfig from "../../userMenu/configuration/useGetUserConfig";
+import { withStyles } from "@material-ui/core/styles";
+import { AnyObject } from "react-final-form";
 
-import { Invoice } from '../../types';
-import { incrementReference, dateParser, validateUnicity } from '../../utils';
-import { memoize } from '../../utils';
-import { useOnFailure } from '../../utils/hooks';
-import { FormTabWithLayout } from './utils/FormTabWithCustomLayout';
-import { CreditsApplicationListActions } from './utils/CreditsApplicationListActions';
-import { ApplyCreditsSection } from './sections/ApplyCreditsSection';
-import { LineItemsSection } from './sections/LineItemsSection';
-import { InvoiceSectionTop } from './sections/InvoiceSectionTop';
-import { InvoiceSectionBottom } from './sections/InvoiceSectionBottom';
-import { PaymentSection } from './sections/PaymentSection';
+import { Invoice } from "../../types";
+import { incrementReference, dateParser, validateUnicity } from "../../utils";
+import { memoize } from "../../utils";
+import { useOnFailure } from "../../utils/hooks";
+import { FormTabWithLayout } from "./utils/FormTabWithCustomLayout";
+import { CreditsApplicationListActions } from "./utils/CreditsApplicationListActions";
+import { ApplyCreditsSection } from "./sections/ApplyCreditsSection";
+import { LineItemsSection } from "./sections/LineItemsSection";
+import { InvoiceSectionTop } from "./sections/InvoiceSectionTop";
+import { InvoiceSectionBottom } from "./sections/InvoiceSectionBottom";
+import { PaymentSection } from "./sections/PaymentSection";
 
 export const styles = {
-  leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
+  leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
   rightFormGroup: {
-    display: 'inline-block',
+    display: "inline-block",
   },
   lineItemInput: { width: 150 },
   lineItemReferenceInput: { width: 300 },
   hiddenInput: {
-    display: 'none',
+    display: "none",
   },
   label: {
-    padding: '1em',
+    padding: "1em",
   },
 };
 
@@ -51,7 +51,7 @@ export const styles = {
 export const Wrapper = withStyles((theme) => ({
   root: {
     padding: 0,
-    '&:last-child': {
+    "&:last-child": {
       paddingBottom: 0,
     },
   },
@@ -69,7 +69,7 @@ export const validateForm = ({ credits_applied, grand_total }: AnyObject) => {
   const errors = {} as any;
 
   if (Number(credits_applied) > Number(grand_total)) {
-    errors.credits_applied = ['resources.invoices.validation.invalid_credits'];
+    errors.credits_applied = ["resources.invoices.validation.invalid_credits"];
   }
 
   return errors;
@@ -89,7 +89,7 @@ export const transform = ({
 const InvoiceForm = (props: any) => {
   const [state, setState] = useState({
     // TODO: make use of formProps instead?
-    isPaid: props?.record?.status === 'PD',
+    isPaid: props?.record?.status === "PD",
     openApplyCredits: false,
   });
 
@@ -100,9 +100,9 @@ const InvoiceForm = (props: any) => {
     ids: invoiceIds,
     loading: loadingInvoices,
   } = useGetList<Invoice>(
-    'invoices',
+    "invoices",
     { page: 1, perPage: 1 },
-    { field: 'id', order: 'DESC' },
+    { field: "id", order: "DESC" },
     {}
   );
   const { loading: loadingUserConfig, data: userConfig } = useGetUserConfig();
@@ -110,23 +110,23 @@ const InvoiceForm = (props: any) => {
   const postDefaultValue = () => ({
     reference:
       invoices && invoiceIds.length > 0
-        ? incrementReference(invoices[invoiceIds[0]].reference, 'INV', 4)
-        : 'INV-0000',
+        ? incrementReference(invoices[invoiceIds[0]].reference, "INV", 4)
+        : "INV-0000",
     sales_order: null,
     date: new Date(),
     // FIXME: default to null date instead
     payment_date: new Date(),
-    status: 'UPD',
-    total_amount: '0.00',
+    status: "UPD",
+    total_amount: "0.00",
     discount_rate: userConfig?.discount_rate,
-    discount_amount: '0.00',
-    net: '0.00',
+    discount_amount: "0.00",
+    net: "0.00",
     gst_rate: userConfig?.gst_rate,
-    gst_amount: '0.00',
-    grand_total: '0.00',
-    credits_available: '0.00',
-    credits_applied: '0.00',
-    balance_due: '0.00',
+    gst_amount: "0.00",
+    grand_total: "0.00",
+    credits_available: "0.00",
+    credits_applied: "0.00",
+    balance_due: "0.00",
     fake_creditsapplication_set: [],
   });
 
@@ -223,10 +223,10 @@ export const requiredValidate = required();
 export const validateNumber = [requiredValidate, number(), minValue(0)];
 export const validateReferenceUnicity = (props: any) =>
   validateUnicity({
-    reference: 'invoices',
-    source: 'reference',
+    reference: "invoices",
+    source: "reference",
     record: props.record,
-    message: 'resources.invoices.validation.reference_already_used',
+    message: "resources.invoices.validation.reference_already_used",
   });
 export const validateReference = memoize((props: any) => [
   requiredValidate,

@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useDataProvider } from 'react-admin';
+import { useState, useEffect } from "react";
+import { useDataProvider } from "react-admin";
 
-import { UserProfile } from '../../types';
+import { UserProfile } from "../../types";
 
 interface State {
   loading: boolean;

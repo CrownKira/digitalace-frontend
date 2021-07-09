@@ -1,18 +1,18 @@
-import { FC } from 'react';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
-import { useTranslate, FieldProps } from 'react-admin';
-import { stringify } from 'query-string';
+import { FC } from "react";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
+import { useTranslate, FieldProps } from "react-admin";
+import { stringify } from "query-string";
 
-import { employees } from '../employees';
-import { Department } from '../../types';
+import { employees } from "../employees";
+import { Department } from "../../types";
 
 const useStyles = makeStyles({
-  icon: { paddingRight: '0.5em' },
+  icon: { paddingRight: "0.5em" },
   link: {
-    display: 'inline-flex',
-    alignItems: 'center',
+    display: "inline-flex",
+    alignItems: "center",
   },
 });
 
@@ -27,7 +27,7 @@ export const LinkToRelatedEmployees: FC<FieldProps<Department>> = ({
       color="primary"
       component={Link}
       to={{
-        pathname: '/employees',
+        pathname: "/employees",
         search: stringify({
           filter: JSON.stringify({ designation__department: record.id }),
         }),
@@ -35,7 +35,7 @@ export const LinkToRelatedEmployees: FC<FieldProps<Department>> = ({
       className={classes.link}
     >
       <employees.icon className={classes.icon} />
-      {translate('resources.departments.fields.user_set')}
+      {translate("resources.departments.fields.user_set")}
     </Button>
   ) : null;
 };

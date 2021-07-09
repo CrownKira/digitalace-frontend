@@ -1,12 +1,12 @@
-import { FC } from 'react';
-import { required } from 'react-admin';
+import { FC } from "react";
+import { required } from "react-admin";
 
 import {
   AsyncAutocompleteInput,
   AsyncAutocompleteInputProps,
-} from '../../../utils/components/AsyncAutocompleteInput';
+} from "../../../utils/components/AsyncAutocompleteInput";
 
-interface Props extends Omit<AsyncAutocompleteInputProps, 'source'> {
+interface Props extends Omit<AsyncAutocompleteInputProps, "source"> {
   // this is needed since the source might be different but still refers to agent
   source?: string;
 }
@@ -27,7 +27,7 @@ export const CustomerNameInput: FC<Props> = (props) => {
 };
 
 CustomerNameInput.defaultProps = {
-  source: 'customer',
+  source: "customer",
 };
 
 const requiredValidate = required();

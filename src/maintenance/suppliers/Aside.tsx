@@ -1,14 +1,14 @@
-import { FC } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslate, Record } from 'react-admin';
-import { Typography, Card, CardContent, Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { FC } from "react";
+import PropTypes from "prop-types";
+import { useTranslate, Record } from "react-admin";
+import { Typography, Card, CardContent, Box } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useAsideStyles = makeStyles((theme) => ({
   root: {
     width: 400,
-    [theme.breakpoints.down('md')]: {
-      display: 'none',
+    [theme.breakpoints.down("md")]: {
+      display: "none",
     },
   },
 }));
@@ -55,7 +55,7 @@ const EventList: FC<EventListProps> = ({ record, basePath }) => {
       <Card>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            {translate('resources.customers.fieldGroups.history')}
+            {translate("resources.customers.fieldGroups.history")}
           </Typography>
           <Box display="flex">Coming soon...</Box>
         </CardContent>

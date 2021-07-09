@@ -1,8 +1,8 @@
-import React, { cloneElement, FC, ReactElement, SyntheticEvent } from 'react';
-import Button, { ButtonProps } from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import PrintIcon from '@material-ui/icons/Print';
-import classnames from 'classnames';
+import React, { cloneElement, FC, ReactElement, SyntheticEvent } from "react";
+import Button, { ButtonProps } from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import PrintIcon from "@material-ui/icons/Print";
+import classnames from "classnames";
 import {
   useTranslate,
   useNotify,
@@ -12,22 +12,22 @@ import {
   TransformData,
   Record,
   HandleSubmitWithRedirect,
-} from 'react-admin';
-import { FormRenderProps } from 'react-final-form';
+} from "react-admin";
+import { FormRenderProps } from "react-final-form";
 
-import { sanitizeButtonRestProps } from '../utils';
+import { sanitizeButtonRestProps } from "../utils";
 
 export const PrintButton: FC<PrintButtonProps> = (props) => {
   const {
     className,
     classes: classesOverride,
     invalid,
-    label = 'resources.invoices.action.print',
+    label = "resources.invoices.action.print",
     disabled,
     redirect,
     // saving,
     // submitOnEnter,
-    variant = 'contained',
+    variant = "contained",
     icon = defaultIcon,
     onClick,
     handleSubmitWithRedirect,
@@ -43,7 +43,7 @@ export const PrintButton: FC<PrintButtonProps> = (props) => {
   // const formContext = useFormContext();
 
   const handleClick = (event: any) => {
-    notify('pos.message.coming_soon');
+    notify("pos.message.coming_soon");
   };
 
   // const type = submitOnEnter ? 'submit' : 'button';
@@ -72,7 +72,7 @@ const defaultIcon = <PrintIcon />;
 const useStyles = makeStyles(
   (theme) => ({
     button: {
-      position: 'relative',
+      position: "relative",
     },
     leftIcon: {
       marginRight: theme.spacing(1),
@@ -81,7 +81,7 @@ const useStyles = makeStyles(
       fontSize: 18,
     },
   }),
-  { name: 'PrintButton' }
+  { name: "PrintButton" }
 );
 
 interface Props {
@@ -89,7 +89,7 @@ interface Props {
   className?: string;
   handleSubmitWithRedirect?:
     | HandleSubmitWithRedirect
-    | FormRenderProps['handleSubmit'];
+    | FormRenderProps["handleSubmit"];
   // @deprecated
   onSave?: (values: object, redirect: RedirectionSideEffect) => void;
   onSuccess?: OnSuccess;

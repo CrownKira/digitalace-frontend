@@ -20,17 +20,22 @@ import {
 } from "react-admin";
 import { Box, Card, CardContent } from "@material-ui/core";
 
-import Aside from "./Aside";
-import FullNameField from "./FullNameField";
-import { validatePasswords } from "./SupplierCreate";
+import { Aside } from "./Aside";
+import { FullNameField } from "./FullNameField";
+import {
+  validatePasswords,
+  requiredValidate,
+  validateEmail,
+  validateReferenceUnicity,
+  validateReference,
+} from "./SupplierCreate";
 import { Supplier } from "../../types";
 import { formatImage, validateUnicity } from "../../utils";
-import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 import { SectionTitle, Separator } from "../../utils/components/Divider";
-import NameField from "../categories/NameField";
-import ProductRefField from "../products/ProductRefField";
-import ThumbnailField from "../products/ThumbnailField";
+import { NameField } from "../categories/NameField";
+import { ProductRefField } from "../products/ProductRefField";
+import { ThumbnailField } from "../products/ThumbnailField";
 import { PriceField } from "../../utils/components/PriceField";
 
 export const SupplierEdit: FC<EditProps> = (props) => {
@@ -183,20 +188,6 @@ const SupplierForm = (props: any) => {
     />
   );
 };
-
-const requiredValidate = required();
-const validateEmail = email();
-const validateReferenceUnicity = (props: any) =>
-  validateUnicity({
-    reference: "suppliers",
-    source: "reference",
-    record: props.record,
-    message: "resources.suppliers.validation.reference_already_used",
-  });
-const validateReference = memoize((props: any) => [
-  requiredValidate,
-  validateReferenceUnicity(props),
-]);
 
 // TODO: password field
 /*

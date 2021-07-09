@@ -1,8 +1,8 @@
-import React, { cloneElement, FC, ReactElement, SyntheticEvent } from 'react';
-import Button, { ButtonProps } from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
-import classnames from 'classnames';
+import React, { cloneElement, FC, ReactElement, SyntheticEvent } from "react";
+import Button, { ButtonProps } from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
+import classnames from "classnames";
 import {
   useTranslate,
   useNotify,
@@ -12,21 +12,21 @@ import {
   TransformData,
   Record,
   HandleSubmitWithRedirect,
-} from 'react-admin';
-import { FormRenderProps } from 'react-final-form';
+} from "react-admin";
+import { FormRenderProps } from "react-final-form";
 
-import { sanitizeButtonRestProps } from '../../../utils';
+import { sanitizeButtonRestProps } from "../../../utils";
 
 export const PdfButton: FC<PdfButtonProps> = (props) => {
   const {
     className,
     classes: classesOverride,
     invalid,
-    label = 'resources.invoices.action.pdf',
+    label = "resources.invoices.action.pdf",
     disabled,
     redirect,
 
-    variant = 'contained',
+    variant = "contained",
     icon = defaultIcon,
     onClick,
     handleSubmitWithRedirect,
@@ -41,7 +41,7 @@ export const PdfButton: FC<PdfButtonProps> = (props) => {
   const translate = useTranslate();
 
   const handleClick = (event: any) => {
-    notify('pos.message.coming_soon');
+    notify("pos.message.coming_soon");
   };
 
   const displayedLabel = label && translate(label, { _: label });
@@ -69,7 +69,7 @@ const defaultIcon = <PictureAsPdfIcon />;
 const useStyles = makeStyles(
   (theme) => ({
     button: {
-      position: 'relative',
+      position: "relative",
     },
     leftIcon: {
       marginRight: theme.spacing(1),
@@ -78,7 +78,7 @@ const useStyles = makeStyles(
       fontSize: 18,
     },
   }),
-  { name: 'PdfButton' }
+  { name: "PdfButton" }
 );
 
 interface Props {
@@ -86,7 +86,7 @@ interface Props {
   className?: string;
   handleSubmitWithRedirect?:
     | HandleSubmitWithRedirect
-    | FormRenderProps['handleSubmit'];
+    | FormRenderProps["handleSubmit"];
   // @deprecated
   onSave?: (values: object, redirect: RedirectionSideEffect) => void;
   onSuccess?: OnSuccess;

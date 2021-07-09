@@ -25,7 +25,6 @@ import {
 } from "./CustomerCreate";
 import { Customer } from "../../types";
 import { formatImage, validateUnicity } from "../../utils";
-import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 import { SectionTitle, Separator } from "../../utils/components/Divider";
 

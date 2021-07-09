@@ -1,49 +1,49 @@
-import { FC } from 'react';
-import inflection from 'inflection';
-import { Card as MuiCard, CardContent } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
-import Domain from '@material-ui/icons/Domain';
-import WorkOutline from '@material-ui/icons/WorkOutline';
+import { FC } from "react";
+import inflection from "inflection";
+import { Card as MuiCard, CardContent } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import DirectionsWalkIcon from "@material-ui/icons/DirectionsWalk";
+import Domain from "@material-ui/icons/Domain";
+import WorkOutline from "@material-ui/icons/WorkOutline";
 import {
   FilterList,
   FilterLiveSearch,
   FilterListItem,
   useGetList,
-} from 'react-admin';
+} from "react-admin";
 
-import { Category } from '../../types';
+import { Category } from "../../types";
 
 const Card = withStyles((theme) => ({
   root: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       order: -1,
-      width: '15em',
-      marginRight: '1em',
+      width: "15em",
+      marginRight: "1em",
     },
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
     },
   },
 }))(MuiCard);
 
 export const Aside: FC = () => {
   const { data: departments, ids: departmentIds } = useGetList<Category>(
-    'departments',
+    "departments",
     { page: 1, perPage: 100 },
-    { field: 'name', order: 'ASC' },
+    { field: "name", order: "ASC" },
     {}
   );
   const { data: designations, ids: designationIds } = useGetList<Category>(
-    'designations',
+    "designations",
     { page: 1, perPage: 100 },
-    { field: 'name', order: 'ASC' },
+    { field: "name", order: "ASC" },
     {}
   );
   const { data: roles, ids: roleIds } = useGetList<Category>(
-    'roles',
+    "roles",
     { page: 1, perPage: 100 },
-    { field: 'name', order: 'ASC' },
+    { field: "name", order: "ASC" },
     {}
   );
 

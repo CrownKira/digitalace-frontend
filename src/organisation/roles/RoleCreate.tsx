@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from "react";
 import {
   Create,
   CreateProps,
@@ -9,12 +9,12 @@ import {
   required,
   AutocompleteArrayInput,
   ReferenceArrayInput,
-} from 'react-admin';
+} from "react-admin";
 
-import permissions from '../../permissions/data';
+import permissions from "../../permissions/data";
 
 const postDefaultValue = () => ({
-  image: '',
+  image: "",
 });
 
 export const RoleCreate: FC<CreateProps> = (props) => (

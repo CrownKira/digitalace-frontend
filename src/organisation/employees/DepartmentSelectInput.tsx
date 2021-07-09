@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { SelectInput, ReferenceInput, InputProps } from 'react-admin';
-import { useForm } from 'react-final-form';
+import { FC } from "react";
+import { SelectInput, ReferenceInput, InputProps } from "react-admin";
+import { useForm } from "react-final-form";
 
-interface Props extends Omit<InputProps, 'source'> {
+interface Props extends Omit<InputProps, "source"> {
   // use InputProps to take in injected props
   source?: string;
 }
@@ -19,7 +19,7 @@ export const DepartmentSelectInput: FC<Props> = (props) => {
       reference="departments"
       allowEmpty
       onChange={() => {
-        form.change('designation', '');
+        form.change("designation", "");
       }}
       {...props}
     >
@@ -29,7 +29,7 @@ export const DepartmentSelectInput: FC<Props> = (props) => {
 };
 
 DepartmentSelectInput.defaultProps = {
-  source: 'department',
+  source: "department",
 };
 
 /*
