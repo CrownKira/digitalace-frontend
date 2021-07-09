@@ -16,6 +16,7 @@ import {
 import { Role } from "../../types";
 import { formatImage } from "../../utils";
 import { permissions } from "../../permissions/data";
+import { requiredValidate } from "./RoleCreate";
 
 const RoleTitle: FC<FieldProps<Role>> = ({ record }) => {
   const translate = useTranslate();
@@ -55,5 +56,3 @@ export const RoleEdit: FC<EditProps> = (props) => (
     </SimpleForm>
   </Edit>
 );
-
-const requiredValidate = required();

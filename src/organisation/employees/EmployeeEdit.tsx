@@ -24,7 +24,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { genders } from "../../utils/data";
 import { FullNameField } from "./FullNameField";
-import { styles as createStyles } from "./EmployeeCreate";
+import {
+  styles as createStyles,
+  requiredValidate,
+  validateEmail,
+} from "./EmployeeCreate";
 import { validatePasswords } from "./EmployeeCreate";
 import { Employee } from "../../types";
 import { formatImage } from "../../utils";
@@ -191,6 +195,3 @@ const EmployeeForm = (props: any) => {
     </TabbedForm>
   );
 };
-
-const requiredValidate = required();
-const validateEmail = email();

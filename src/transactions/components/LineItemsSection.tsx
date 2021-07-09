@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, ReactElement, cloneElement } from "react";
 import {
   NumberInput,
   TextInput,
@@ -12,41 +12,50 @@ import {
   requiredValidate,
   validateNumber,
   styles as createStyles,
-} from "../InvoiceCreate";
-import { ProductNameInput } from "../fields/ProductNameInput";
-import { LineItemsIterator } from "../utils/LineItemsIterator";
+} from "../invoices/InvoiceCreate";
+import { LineItemsIterator } from "./LineItemsIterator";
 
 const useStyles = makeStyles({
   ...createStyles,
 });
 
-export const LineItemsSection = () => {
+interface Props {
+  source: string;
+  resource: string;
+  label: string;
+  productInput: ReactElement;
+}
+
+export const LineItemsSection: FC<Props> = ({
+  source,
+  resource,
+  label,
+  productInput,
+}) => {
   const classes = useStyles();
 
   return (
     <Card>
       <CardContent>
         <ArrayInput
-          source="invoiceitem_set"
-          resource="invoice_items"
-          label="resources.invoices.fields.invoiceitem_set"
+          source={source}
+          resource={resource}
+          label={label}
           validate={requiredValidate}
         >
-          <LineItemsIterator resource="invoice_items">
+          <LineItemsIterator resource={resource}>
             <FormDataConsumer
               formClassName={classes.leftFormGroup}
               validate={requiredValidate}
             >
               {({ getSource, ...rest }) =>
-                getSource ? (
-                  <ProductNameInput
-                    source={getSource("product")}
-                    getSource={getSource}
-                    fullWidth
-                    inputClassName={classes.lineItemReferenceInput}
-                    {...rest}
-                  />
-                ) : null
+                getSource
+                  ? cloneElement(productInput, {
+                      source: getSource("product"),
+                      getSource,
+                      ...rest,
+                    })
+                  : null
               }
             </FormDataConsumer>
             <NumberInput

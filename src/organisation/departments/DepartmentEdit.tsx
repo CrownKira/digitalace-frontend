@@ -19,7 +19,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Department } from "../../types";
 import { formatImage } from "../../utils";
-import { styles as createStyles } from "./DepartmentCreate";
+import { styles as createStyles, requiredValidate } from "./DepartmentCreate";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -88,5 +88,3 @@ export const DepartmentEdit: FC<EditProps> = (props) => {
     </Edit>
   );
 };
-
-const requiredValidate = required();

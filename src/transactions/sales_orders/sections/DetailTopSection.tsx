@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import React, { FC } from "react";
 import RichTextInput from "ra-input-rich-text";
 import { Box } from "@material-ui/core";
@@ -5,42 +6,30 @@ import { DateInput, TextInput, SelectInput } from "react-admin";
 
 import { statuses } from "../data";
 import { AsyncAutocompleteInput } from "../../../utils/components/AsyncAutocompleteInput";
-import { requiredValidate, validateReference } from "../InvoiceCreate";
-import { CustomerNameInput } from "../fields/CustomerNameInput";
+import { requiredValidate, validateReference } from "../SalesOrderCreate";
+import { CustomerNameInput } from "../../components/CustomerNameInput";
 
 interface Props {
   props: any;
-  state: {
-    isPaid: boolean;
-    openApplyCredits: boolean;
-  };
-  setState: React.Dispatch<
-    React.SetStateAction<{
-      isPaid: boolean;
-      openApplyCredits: boolean;
-    }>
-  >;
+  state: {};
+  setState: React.Dispatch<React.SetStateAction<{}>>;
 }
 
-export const InvoiceTopSection: FC<Props> = ({ props, state, setState }) => {
+export const DetailTopSection: FC<Props> = ({ props, state, setState }) => {
   return (
     <Box display={{ sm: "block", md: "flex" }}>
       <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
         <DateInput
           source="date"
-          resource="invoices"
+          resource="sales_orders"
           fullWidth
           validate={requiredValidate}
         />
         <Box display={{ sm: "block", md: "flex" }}>
           <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
             <CustomerNameInput
-              onChange={() => {
-                setState({
-                  ...state,
-                  openApplyCredits: false,
-                });
-              }}
+              validate={requiredValidate}
+              resource="sales_orders"
             />
           </Box>
           <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
@@ -49,7 +38,7 @@ export const InvoiceTopSection: FC<Props> = ({ props, state, setState }) => {
               optionText="name"
               optionValue="id"
               source="salesperson"
-              resource="invoices"
+              resource="sales_orders"
               reference="employees"
               fullWidth
             />
@@ -62,7 +51,7 @@ export const InvoiceTopSection: FC<Props> = ({ props, state, setState }) => {
           <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
             <TextInput
               source="reference"
-              resource="invoices"
+              resource="sales_orders"
               fullWidth
               validate={validateReference(props)}
             />
@@ -74,7 +63,7 @@ export const InvoiceTopSection: FC<Props> = ({ props, state, setState }) => {
               optionText="reference"
               optionValue="id"
               source="sales_order"
-              resource="invoices"
+              resource="sales_orders"
               reference="sales_orders"
               fullWidth
             />

@@ -1,22 +1,15 @@
 import React, { FC } from "react";
-import {
-  NumberInput,
-  FormDataConsumer,
-  ReferenceField,
-  Labeled,
-} from "react-admin";
+import { NumberInput, FormDataConsumer } from "react-admin";
 import { Box, InputAdornment } from "@material-ui/core";
 
 import { TotalInput } from "../fields/TotalInput";
-import { CreditsAppliedInput } from "../fields/CreditsAppliedInput";
-import { validateNumber } from "../InvoiceCreate";
-import { PriceField } from "../../../utils/components/PriceField";
+import { validateNumber } from "../SalesOrderCreate";
 
 interface Props {
   formProps: any;
 }
 
-export const InvoiceBottomSection: FC<Props> = ({ formProps }) => {
+export const DetailBottomSection: FC<Props> = ({ formProps }) => {
   return (
     <Box display={{ sm: "block", md: "flex" }}>
       <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
@@ -24,7 +17,7 @@ export const InvoiceBottomSection: FC<Props> = ({ formProps }) => {
           {(props) => (
             <TotalInput
               source="total_amount"
-              resource="invoices"
+              resource="sales_orders"
               fullWidth
               disabled
               {...props}
@@ -35,7 +28,7 @@ export const InvoiceBottomSection: FC<Props> = ({ formProps }) => {
           <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
             <NumberInput
               source="discount_rate"
-              resource="invoices"
+              resource="sales_orders"
               fullWidth
               validate={validateNumber}
               InputProps={{
@@ -53,20 +46,20 @@ export const InvoiceBottomSection: FC<Props> = ({ formProps }) => {
           <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
             <NumberInput
               source="discount_amount"
-              resource="invoices"
+              resource="sales_orders"
               fullWidth
               disabled
             />
           </Box>
         </Box>
-        <NumberInput source="net" resource="invoices" fullWidth disabled />
+        <NumberInput source="net" resource="sales_orders" fullWidth disabled />
       </Box>
       <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
         <Box display={{ sm: "block", md: "flex" }}>
           <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
             <NumberInput
               source="gst_rate"
-              resource="invoices"
+              resource="sales_orders"
               fullWidth
               validate={validateNumber}
               InputProps={{
@@ -77,7 +70,7 @@ export const InvoiceBottomSection: FC<Props> = ({ formProps }) => {
           <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
             <NumberInput
               source="gst_amount"
-              resource="invoices"
+              resource="sales_orders"
               fullWidth
               disabled
             />
@@ -85,44 +78,7 @@ export const InvoiceBottomSection: FC<Props> = ({ formProps }) => {
         </Box>
         <NumberInput
           source="grand_total"
-          resource="invoices"
-          fullWidth
-          disabled
-        />
-        <Box display={{ sm: "block", md: "flex" }}>
-          <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
-            <FormDataConsumer>
-              {({ formData }) => (
-                <Labeled label="resources.invoices.fields.credits_available">
-                  <ReferenceField
-                    source="customer"
-                    reference="customers"
-                    record={formData}
-                  >
-                    <PriceField source="unused_credits" />
-                  </ReferenceField>
-                </Labeled>
-              )}
-            </FormDataConsumer>
-          </Box>
-          <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
-            <FormDataConsumer>
-              {(props) => (
-                <CreditsAppliedInput
-                  source="credits_applied"
-                  resource="invoices"
-                  fullWidth
-                  disabled
-                  record={formProps.record}
-                  {...props}
-                />
-              )}
-            </FormDataConsumer>
-          </Box>
-        </Box>
-        <NumberInput
-          source="balance_due"
-          resource="invoices"
+          resource="sales_orders"
           fullWidth
           disabled
         />

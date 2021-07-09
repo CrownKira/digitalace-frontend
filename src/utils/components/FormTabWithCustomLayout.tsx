@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import React from "react";
 import React, { FC, ReactElement, ReactNode } from "react";
 import PropTypes from "prop-types";
 import { Record } from "ra-core";
@@ -7,7 +6,7 @@ import { FormTabHeader } from "react-admin";
 
 const hiddenStyle = { display: "none" };
 
-export const FormTabWithLayout: FC<FormTabProps> = ({
+export const FormTabWithCustomLayout: FC<FormTabProps> = ({
   basePath,
   className,
   classes,
@@ -59,7 +58,7 @@ export const FormTabWithLayout: FC<FormTabProps> = ({
   return intent === "header" ? renderHeader() : renderContent();
 };
 
-FormTabWithLayout.propTypes = {
+FormTabWithCustomLayout.propTypes = {
   basePath: PropTypes.string,
   className: PropTypes.string,
   contentClassName: PropTypes.string,
@@ -96,7 +95,7 @@ export interface FormTabProps {
   variant?: "standard" | "outlined" | "filled";
 }
 
-FormTabWithLayout.displayName = "FormTab";
+FormTabWithCustomLayout.displayName = "FormTab";
 
 /*
 TODO: include formGroupContext?

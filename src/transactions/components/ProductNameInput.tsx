@@ -2,10 +2,14 @@ import React, { FC } from "react";
 import { InputProps, FormDataConsumerRenderParams } from "react-admin";
 import { useForm } from "react-final-form";
 
-import { AsyncAutocompleteInput } from "../../../utils/components/AsyncAutocompleteInput";
+import { AsyncAutocompleteInput } from "../../utils/components/AsyncAutocompleteInput";
 
-interface Props extends InputProps, FormDataConsumerRenderParams {
+interface Props
+  extends Omit<InputProps, "source">,
+    Omit<FormDataConsumerRenderParams, "formData"> {
   inputClassName?: string | undefined;
+  source?: string;
+  formData?: any;
 }
 
 export const ProductNameInput: FC<Props> = ({
@@ -32,14 +36,12 @@ export const ProductNameInput: FC<Props> = ({
             form.change(getSource("quantity"), "0");
           });
       }}
-      label="resources.invoice_items.fields.product"
       className={inputClassName}
       showSuggestions={false}
     />
   );
 };
 
-// TODO: defaultProps?
 ProductNameInput.defaultProps = {
   source: "product",
 };

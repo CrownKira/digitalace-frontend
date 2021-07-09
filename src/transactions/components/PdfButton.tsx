@@ -2,7 +2,7 @@
 import React, { cloneElement, FC, ReactElement, SyntheticEvent } from "react";
 import Button, { ButtonProps } from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import PrintIcon from "@material-ui/icons/Print";
+import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
 import classnames from "classnames";
 import {
   useTranslate,
@@ -16,18 +16,17 @@ import {
 } from "react-admin";
 import { FormRenderProps } from "react-final-form";
 
-import { sanitizeButtonRestProps } from "../../../utils";
+import { sanitizeButtonRestProps } from "../../utils";
 
-export const PrintButton: FC<PrintButtonProps> = (props) => {
+export const PdfButton: FC<PdfButtonProps> = (props) => {
   const {
     className,
     classes: classesOverride,
     invalid,
-    label = "resources.invoices.action.print",
+    label = "resources.invoices.action.pdf",
     disabled,
     redirect,
-    // saving,
-    // submitOnEnter,
+
     variant = "contained",
     icon = defaultIcon,
     onClick,
@@ -41,13 +40,11 @@ export const PrintButton: FC<PrintButtonProps> = (props) => {
   const classes = useStyles(props);
   const notify = useNotify();
   const translate = useTranslate();
-  // const formContext = useFormContext();
 
   const handleClick = (event: any) => {
     notify("pos.message.coming_soon");
   };
 
-  // const type = submitOnEnter ? 'submit' : 'button';
   const displayedLabel = label && translate(label, { _: label });
   return (
     <Button
@@ -68,7 +65,7 @@ export const PrintButton: FC<PrintButtonProps> = (props) => {
   );
 };
 
-const defaultIcon = <PrintIcon />;
+const defaultIcon = <PictureAsPdfIcon />;
 
 const useStyles = makeStyles(
   (theme) => ({
@@ -82,7 +79,7 @@ const useStyles = makeStyles(
       fontSize: 18,
     },
   }),
-  { name: "PrintButton" }
+  { name: "PdfButton" }
 );
 
 interface Props {
@@ -113,4 +110,4 @@ interface Props {
   undoable?: boolean;
 }
 
-export type PrintButtonProps = Props & ButtonProps;
+export type PdfButtonProps = Props & ButtonProps;

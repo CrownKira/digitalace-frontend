@@ -224,5 +224,5 @@ export const EmployeeCreate: FC<CreateProps> = (props) => {
   );
 };
 
-const requiredValidate = required();
-const validateEmail = email();
+export const requiredValidate = required();
+export const validateEmail = email();

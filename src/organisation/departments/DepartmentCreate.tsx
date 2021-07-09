@@ -77,4 +77,4 @@ export const DepartmentCreate: FC<CreateProps> = (props) => {
   );
 };
 
-const requiredValidate = required();
+export const requiredValidate = required();
