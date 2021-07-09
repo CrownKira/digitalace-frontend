@@ -16,7 +16,7 @@ interface Props {
   formProps: any;
 }
 
-export const InvoiceSectionBottom: FC<Props> = ({ formProps }) => {
+export const InvoiceBottomSection: FC<Props> = ({ formProps }) => {
   return (
     <Box display={{ sm: "block", md: "flex" }}>
       <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>

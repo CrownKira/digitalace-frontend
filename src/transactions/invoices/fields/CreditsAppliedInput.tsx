@@ -74,4 +74,6 @@ export const CreditsAppliedInput: FC<Props> = ({
   return <NumberInput {...rest} className={inputClassName} />;
 };
 
-CreditsAppliedInput.defaultProps = {};
+CreditsAppliedInput.defaultProps = {
+  source: "credits_applied",
+};

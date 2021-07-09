@@ -135,4 +135,6 @@ export const TotalInput: FC<Props> = ({
   return <NumberInput {...rest} className={inputClassName} />;
 };
 
-TotalInput.defaultProps = {};
+TotalInput.defaultProps = {
+  source: "total_amount",
+};

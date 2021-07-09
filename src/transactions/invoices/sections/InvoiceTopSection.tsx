@@ -22,7 +22,7 @@ interface Props {
   >;
 }
 
-export const InvoiceSectionTop: FC<Props> = ({ props, state, setState }) => {
+export const InvoiceTopSection: FC<Props> = ({ props, state, setState }) => {
   return (
     <Box display={{ sm: "block", md: "flex" }}>
       <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>

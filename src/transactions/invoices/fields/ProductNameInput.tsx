@@ -40,4 +40,6 @@ export const ProductNameInput: FC<Props> = ({
 };
 
 // TODO: defaultProps?
-ProductNameInput.defaultProps = {};
+ProductNameInput.defaultProps = {
+  source: "product",
+};

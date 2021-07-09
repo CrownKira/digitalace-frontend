@@ -28,8 +28,8 @@ import { FormTabWithLayout } from "./utils/FormTabWithCustomLayout";
 import { CreditsApplicationListActions } from "./utils/CreditsApplicationListActions";
 import { ApplyCreditsSection } from "./sections/ApplyCreditsSection";
 import { LineItemsSection } from "./sections/LineItemsSection";
-import { InvoiceSectionTop } from "./sections/InvoiceSectionTop";
-import { InvoiceSectionBottom } from "./sections/InvoiceSectionBottom";
+import { InvoiceTopSection } from "./sections/InvoiceTopSection";
+import { InvoiceBottomSection } from "./sections/InvoiceBottomSection";
 import { PaymentSection } from "./sections/PaymentSection";
 
 export const styles = {
@@ -172,13 +172,13 @@ const InvoiceForm = (props: any) => {
                 }
               >
                 <FormTabWithLayout label="resources.invoices.tabs.details">
-                  <InvoiceSectionTop
+                  <InvoiceTopSection
                     props={props}
                     state={state}
                     setState={setState}
                   />
                   <LineItemsSection />
-                  <InvoiceSectionBottom formProps={formProps} />
+                  <InvoiceBottomSection formProps={formProps} />
                 </FormTabWithLayout>
                 {state.isPaid ? (
                   <FormTabWithLayout
