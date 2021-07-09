@@ -14,6 +14,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
+      # https://github.com/marketplace/actions/prettier-action
       - name: Prettify code
         uses: creyD/prettier_action@v3.3
         with:

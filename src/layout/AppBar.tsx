@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/Settings";
 import FaceIcon from "@material-ui/icons/Face";
 import { makeStyles } from "@material-ui/core/styles";
-import { useProfile } from "../profile/Profile";
+import { useProfile } from "../userMenu/profile/Profile";
 
 import Logo from "./Logo";
 
