@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC } from 'react';
 import {
   Create,
   CreateProps,
@@ -6,13 +6,13 @@ import {
   TextInput,
   ImageInput,
   ImageField,
-} from "react-admin";
+} from 'react-admin';
 
 const postDefaultValue = () => ({
-  image: "",
+  image: '',
 });
 
-const CategoryCreate: FC<CreateProps> = (props) => (
+export const CategoryCreate: FC<CreateProps> = (props) => (
   <Create {...props}>
     <SimpleForm initialValues={postDefaultValue}>
       <ImageInput
@@ -26,5 +26,3 @@ const CategoryCreate: FC<CreateProps> = (props) => (
     </SimpleForm>
   </Create>
 );
-
-export default CategoryCreate;

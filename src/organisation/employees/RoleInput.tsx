@@ -1,16 +1,16 @@
-import { FC } from "react";
-import { ReferenceInput, SelectInput, InputProps } from "react-admin";
-import { makeStyles } from "@material-ui/core/styles";
+import { FC } from 'react';
+import { ReferenceInput, SelectInput, InputProps } from 'react-admin';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   input: { width: 150 },
 });
 
-interface Props extends Omit<InputProps, "source"> {
+interface Props extends Omit<InputProps, 'source'> {
   source?: string;
 }
 
-const RoleInput: FC<Props> = (props) => {
+export const RoleInput: FC<Props> = (props) => {
   const classes = useStyles();
   return (
     <ReferenceInput
@@ -25,7 +25,5 @@ const RoleInput: FC<Props> = (props) => {
 };
 
 RoleInput.defaultProps = {
-  source: "roles",
+  source: 'roles',
 };
-
-export default RoleInput;

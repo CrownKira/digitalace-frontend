@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState } from 'react';
 import {
   Edit,
   EditProps,
@@ -17,37 +17,37 @@ import {
   useNotify,
   useRefresh,
   Record,
-} from "react-admin";
-import { Card } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from 'react-admin';
+import { Card } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { useOnFailure } from "../../utils/hooks";
+import { useOnFailure } from '../../utils/hooks';
 import {
   transform,
   styles as createStyles,
   Wrapper,
   validateForm,
-} from "./InvoiceCreate";
-import { FormTabWithLayout } from "./utils/FormTabWithCustomLayout";
-import PdfButton from "./buttons/PdfButton";
-import PrintButton from "./buttons/PrintButton";
-import ReferenceManyFieldWithActions from "../../orders/sales_orders/ReferenceManyFieldWithActions";
-import CreditsApplicationListActions from "./utils/CreditsApplicationListActions";
-import ApplyCreditsSection from "./sections/ApplyCreditsSection";
-import LineItemsSection from "./sections/LineItemsSection";
-import InvoiceSectionTop from "./sections/InvoiceSectionTop";
-import InvoiceSectionBottom from "./sections/InvoiceSectionBottom";
-import PaymentSection from "./sections/PaymentSection";
+} from './InvoiceCreate';
+import { FormTabWithLayout } from './utils/FormTabWithCustomLayout';
+import { PdfButton } from './buttons/PdfButton';
+import { PrintButton } from './buttons/PrintButton';
+import { ReferenceManyFieldWithActions } from '../../orders/sales_orders/ReferenceManyFieldWithActions';
+import { CreditsApplicationListActions } from './utils/CreditsApplicationListActions';
+import { ApplyCreditsSection } from './sections/ApplyCreditsSection';
+import { LineItemsSection } from './sections/LineItemsSection';
+import { InvoiceSectionTop } from './sections/InvoiceSectionTop';
+import { InvoiceSectionBottom } from './sections/InvoiceSectionBottom';
+import { PaymentSection } from './sections/PaymentSection';
 
 const useStyles = makeStyles({
   ...createStyles,
   toolbar: {
-    display: "flex",
-    justifyContent: "space-between",
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 });
 
-const InvoiceEdit: FC<EditProps> = (props) => {
+export const InvoiceEdit: FC<EditProps> = (props) => {
   return (
     <Edit component="div" mutationMode="pessimistic" {...props}>
       <InvoiceForm />
@@ -61,7 +61,7 @@ const InvoiceForm = (props: any) => {
 
   const [state, setState] = useState({
     // TODO: make use of formProps instead?
-    isPaid: props?.record?.status === "PD",
+    isPaid: props?.record?.status === 'PD',
     openApplyCredits: false,
   });
 
@@ -205,5 +205,3 @@ const InvoiceForm = (props: any) => {
     />
   );
 };
-
-export default InvoiceEdit;

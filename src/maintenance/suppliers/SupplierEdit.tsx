@@ -33,7 +33,7 @@ import ProductRefField from "../products/ProductRefField";
 import ThumbnailField from "../products/ThumbnailField";
 import { PriceField } from "../../utils/components/PriceField";
 
-const SupplierEdit: FC<EditProps> = (props) => {
+export const SupplierEdit: FC<EditProps> = (props) => {
   const onFailure = useOnFailure();
 
   return (
@@ -172,7 +172,6 @@ const SupplierForm = (props: any) => {
               resource="suppliers"
               record={formProps.record}
               basePath={formProps.basePath}
-              undoable={true}
               invalid={formProps.invalid}
               handleSubmit={formProps.handleSubmit}
               saving={formProps.saving}
@@ -198,8 +197,6 @@ const validateReference = memoize((props: any) => [
   requiredValidate,
   validateReferenceUnicity(props),
 ]);
-
-export default SupplierEdit;
 
 // TODO: password field
 /*

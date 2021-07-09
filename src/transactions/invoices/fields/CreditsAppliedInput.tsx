@@ -1,20 +1,20 @@
-import { FC, useEffect, useMemo } from "react";
+import { FC, useEffect, useMemo } from 'react';
 import {
   NumberInputProps,
   NumberInput,
   FormDataConsumerRenderParams,
-} from "react-admin";
-import { useForm, useFormState } from "react-final-form";
+} from 'react-admin';
+import { useForm, useFormState } from 'react-final-form';
 
-import { toFixedNumber } from "../../../utils";
-import { InvoiceItem } from "../../../types";
+import { toFixedNumber } from '../../../utils';
+import { InvoiceItem } from '../../../types';
 
 interface Props extends NumberInputProps, FormDataConsumerRenderParams {
   inputClassName?: string | undefined;
 }
 
 // TODO: remove this after making credits application a modal
-const CreditsAppliedInput: FC<Props> = ({
+export const CreditsAppliedInput: FC<Props> = ({
   formData,
   scopedFormData,
   getSource,
@@ -37,7 +37,7 @@ const CreditsAppliedInput: FC<Props> = ({
 
   useEffect(() => {
     if (
-      !formState.active?.includes("fake_creditsapplication_set") &&
+      !formState.active?.includes('fake_creditsapplication_set') &&
       formState.active !== undefined
     )
       return;
@@ -65,9 +65,9 @@ const CreditsAppliedInput: FC<Props> = ({
 
     form.batch(() => {
       // TODO: pass down record instead of form.change()?
-      form.change("credits_applied", credits_applied.toFixed(2));
+      form.change('credits_applied', credits_applied.toFixed(2));
 
-      form.change("balance_due", balance_due.toFixed(2));
+      form.change('balance_due', balance_due.toFixed(2));
     });
   }, [amounts_to_credit, form, formData.grand_total, record?.credits_applied]);
 
@@ -75,5 +75,3 @@ const CreditsAppliedInput: FC<Props> = ({
 };
 
 CreditsAppliedInput.defaultProps = {};
-
-export default CreditsAppliedInput;

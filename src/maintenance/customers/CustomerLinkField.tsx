@@ -1,10 +1,10 @@
-import { FC } from "react";
-import { Link, FieldProps } from "react-admin";
+import { FC } from 'react';
+import { Link, FieldProps } from 'react-admin';
 
-import FullNameField from "./FullNameField";
-import { Customer } from "../../types";
+import { FullNameField } from './FullNameField';
+import { Customer } from '../../types';
 
-const CustomerLinkField: FC<FieldProps<Customer>> = (props) =>
+export const CustomerLinkField: FC<FieldProps<Customer>> = (props) =>
   props.record ? (
     <Link to={`/customers/${props.record.id}`}>
       <FullNameField {...props} />
@@ -13,8 +13,6 @@ const CustomerLinkField: FC<FieldProps<Customer>> = (props) =>
 
 CustomerLinkField.defaultProps = {
   // needed so dataProvider know which column this is for ordering
-  source: "name",
+  source: 'name',
   addLabel: true,
 };
-
-export default CustomerLinkField;

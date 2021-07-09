@@ -1,5 +1,5 @@
-import { Fragment } from "react";
-import { FC } from "react";
+import { Fragment } from 'react';
+import { FC } from 'react';
 import {
   List,
   ListProps,
@@ -15,15 +15,15 @@ import {
   BulkDeleteButton,
   BulkDeleteButtonProps,
   SelectField,
-} from "react-admin";
-import { makeStyles } from "@material-ui/core/styles";
+} from 'react-admin';
+import { makeStyles } from '@material-ui/core/styles';
 
-import FullNameField from "../../maintenance/customers/FullNameField";
-import AddressField from "../../maintenance/customers/AddressField";
-import InvoiceShow from "./InvoiceShow";
-import { statuses } from "./data";
+import { FullNameField } from '../../maintenance/customers/FullNameField';
+import { AddressField } from '../../maintenance/customers/AddressField';
+import { InvoiceShow } from './InvoiceShow';
+import { statuses } from './data';
 
-const ListFilters = (props: Omit<FilterProps, "children">) => (
+const ListFilters = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
     <SearchInput source="q" alwaysOn />
     <DateInput source="date__gte" />
@@ -40,21 +40,21 @@ const InvoiceBulkActionButtons: FC<BulkDeleteButtonProps> = (props) => (
 
 const useStyles = makeStyles((theme) => ({
   hiddenOnSmallScreens: {
-    display: "table-cell",
-    [theme.breakpoints.down("md")]: {
-      display: "none",
+    display: 'table-cell',
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
     },
   },
 }));
 
 // TODO: customizable table columns
-const InvoiceList: FC<ListProps> = (props) => {
+export const InvoiceList: FC<ListProps> = (props) => {
   const classes = useStyles();
   return (
     <List
       filters={<ListFilters />}
       perPage={25}
-      sort={{ field: "date", order: "desc" }}
+      sort={{ field: 'date', order: 'desc' }}
       bulkActionButtons={<InvoiceBulkActionButtons />}
       {...props}
     >
@@ -88,5 +88,3 @@ const InvoiceList: FC<ListProps> = (props) => {
     </List>
   );
 };
-
-export default InvoiceList;

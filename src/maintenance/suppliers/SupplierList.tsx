@@ -7,30 +7,30 @@ import {
   List,
   ListProps,
   SearchInput,
-} from "react-admin";
-import { useMediaQuery, Theme } from "@material-ui/core";
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@material-ui/core';
 
-import SupplierLinkField from "./SupplierLinkField";
-import ColoredNumberField from "./ColoredNumberField";
-import MobileGrid from "./MobileGrid";
-import SupplierListAside from "./SupplierListAside";
-import { ReactElement } from "react";
+import SupplierLinkField from './SupplierLinkField';
+import ColoredNumberField from './ColoredNumberField';
+import MobileGrid from './MobileGrid';
+import SupplierListAside from './SupplierListAside';
+import { ReactElement } from 'react';
 
-const SupplierFilter = (props: Omit<FilterProps, "children">) => (
+const SupplierFilter = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
     <SearchInput source="q" alwaysOn />
   </Filter>
 );
 
-const SupplierList = (props: ListProps): ReactElement => {
+export const SupplierList = (props: ListProps): ReactElement => {
   const isXsmall = useMediaQuery<Theme>((theme) =>
-    theme.breakpoints.down("xs")
+    theme.breakpoints.down('xs')
   );
-  const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
+  const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('sm'));
   return (
     <List
       filters={isSmall ? <SupplierFilter /> : undefined}
-      sort={{ field: "last_seen", order: "DESC" }}
+      sort={{ field: 'last_seen', order: 'DESC' }}
       perPage={25}
       aside={<SupplierListAside />}
       {...props}
@@ -49,5 +49,3 @@ const SupplierList = (props: ListProps): ReactElement => {
     </List>
   );
 };
-
-export default SupplierList;

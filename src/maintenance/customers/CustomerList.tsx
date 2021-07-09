@@ -7,28 +7,28 @@ import {
   List,
   ListProps,
   SearchInput,
-} from "react-admin";
-import { useMediaQuery, Theme } from "@material-ui/core";
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@material-ui/core';
 
-import AgentInput from "./AgentInput";
-import CustomerLinkField from "./CustomerLinkField";
-import ColoredNumberField from "./ColoredNumberField";
-import MobileGrid from "./MobileGrid";
-import CustomerListAside from "./CustomerListAside";
-import { ReactElement } from "react";
+import { AgentInput } from './AgentInput';
+import { CustomerLinkField } from './CustomerLinkField';
+import { ColoredNumberField } from './ColoredNumberField';
+import { MobileGrid } from './MobileGrid';
+import { CustomerListAside } from './CustomerListAside';
+import { ReactElement } from 'react';
 
-const CustomerFilter = (props: Omit<FilterProps, "children">) => (
+const CustomerFilter = (props: Omit<FilterProps, 'children'>) => (
   <Filter {...props}>
     <SearchInput source="q" alwaysOn />
     <AgentInput />
   </Filter>
 );
 
-const CustomerList = (props: ListProps): ReactElement => {
+export const CustomerList = (props: ListProps): ReactElement => {
   const isXsmall = useMediaQuery<Theme>((theme) =>
-    theme.breakpoints.down("xs")
+    theme.breakpoints.down('xs')
   );
-  const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
+  const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('sm'));
   return (
     <List
       /**
@@ -36,7 +36,7 @@ const CustomerList = (props: ListProps): ReactElement => {
        * the json returned by update (while waiting for getList result)
        * */
       filters={isSmall ? <CustomerFilter /> : undefined}
-      sort={{ field: "last_seen", order: "DESC" }}
+      sort={{ field: 'last_seen', order: 'DESC' }}
       perPage={25}
       aside={<CustomerListAside />}
       {...props}
@@ -55,14 +55,3 @@ const CustomerList = (props: ListProps): ReactElement => {
     </List>
   );
 };
-
-export default CustomerList;
-
-/*
-// TODO: agent field
-// https://marmelab.com/react-admin/Fields.html#referencemanyfield
-<SegmentsField
-cellClassName={classes.hiddenOnSmallScreens}
-headerClassName={classes.hiddenOnSmallScreens}
-/>
-*/

@@ -19,8 +19,7 @@ import { Styles } from "@material-ui/styles/withStyles";
 
 import { SectionTitle, Separator } from "../../utils/components/Divider";
 import { Customer } from "../../types";
-import { incrementReference, validateUnicity } from "../../utils";
-import { memoize } from "../../utils";
+import { incrementReference, validateUnicity, memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 
 export const styles: Styles<Theme, any> = {
@@ -53,7 +52,7 @@ export const validatePasswords = ({
   return errors;
 };
 
-const CustomerCreate: FC<CreateProps> = (props) => {
+export const CustomerCreate: FC<CreateProps> = (props) => {
   // qn: why need props?
   const classes = useStyles(props);
   const onFailure = useOnFailure();
@@ -154,28 +153,16 @@ const CustomerCreate: FC<CreateProps> = (props) => {
  * outside of your component, instead of defining them directly in JSX.
  * This can result in a new function or array at every render, and trigger infinite rerender.
  */
-const requiredValidate = required();
-const validateEmail = email();
-const validateReferenceUnicity = (props: any) =>
+export const requiredValidate = required();
+export const validateEmail = email();
+export const validateReferenceUnicity = (props: any) =>
   validateUnicity({
     reference: "customers",
     source: "reference",
     record: props.record,
     message: "resources.customers.validation.reference_already_used",
   });
-const validateReference = memoize((props: any) => [
+export const validateReference = memoize((props: any) => [
   requiredValidate,
   validateReferenceUnicity(props),
 ]);
-
-export default CustomerCreate;
-
-// TODO: implement password inputs after customer account is set up
-/*
-<SectionTitle label="resources.customers.fieldGroups.password" />
-<PasswordInput source="password" formClassName={classes.password} />
-<PasswordInput
-  source="confirm_password"
-  formClassName={classes.confirm_password}
-/>
-*/

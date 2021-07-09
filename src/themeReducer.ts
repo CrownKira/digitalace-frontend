@@ -1,14 +1,14 @@
-import { Reducer } from "redux";
-import { CHANGE_THEME, changeTheme } from "./userMenu/configuration/actions";
-import { ThemeName } from "./types";
+import { Reducer } from 'redux';
+import { CHANGE_THEME, changeTheme } from './userMenu/configuration/actions';
+import { ThemeName } from './types';
 
 type State = ThemeName;
 type Action =
   | ReturnType<typeof changeTheme>
-  | { type: "OTHER_ACTION"; payload?: any };
+  | { type: 'OTHER_ACTION'; payload?: any };
 
-const themeReducer: Reducer<State, Action> = (
-  previousState = "light",
+export const themeReducer: Reducer<State, Action> = (
+  previousState = 'light',
   action
 ) => {
   if (action.type === CHANGE_THEME) {
@@ -16,5 +16,3 @@ const themeReducer: Reducer<State, Action> = (
   }
   return previousState;
 };
-
-export default themeReducer;

@@ -1,10 +1,10 @@
-import { DataProvider, UpdateParams } from "ra-core";
-import { fetchUtils, Record } from "react-admin";
-import drfProvider from "ra-data-django-rest-framework";
-import HttpMethodsEnum from "http-methods-enum";
+import { DataProvider, UpdateParams } from 'ra-core';
+import { fetchUtils, Record } from 'react-admin';
+import drfProvider from 'ra-data-django-rest-framework';
+import HttpMethodsEnum from 'http-methods-enum';
 
-import { baseURL } from "../apis/main";
-import { UserProfile, UserConfig } from "../types";
+import { baseURL } from '../apis/main';
+import { UserProfile, UserConfig } from '../types';
 
 export const apiUrl = `${baseURL}/api`;
 
@@ -22,7 +22,7 @@ export const apiUrl = `${baseURL}/api`;
  * console.timeEnd("iterationTime");
  * VM255:4 iterationTime: 0.012939453125 ms
  */
-const fileLabels = ["image", "thumbnail", "resume"];
+const fileLabels = ['image', 'thumbnail', 'resume'];
 
 // TODO: use axios
 export const httpClient = (
@@ -33,8 +33,8 @@ export const httpClient = (
     options.headers = new Headers({});
   }
 
-  const { token } = JSON.parse(localStorage.getItem("auth") || "{}");
-  options.headers.set("Authorization", `Token ${token}`);
+  const { token } = JSON.parse(localStorage.getItem('auth') || '{}');
+  options.headers.set('Authorization', `Token ${token}`);
   return fetchUtils.fetchJson(url, options);
 };
 const restProvider = drfProvider(apiUrl, httpClient);
@@ -54,7 +54,7 @@ function getFormData(data: Record, method = HttpMethodsEnum.PATCH) {
       jsonData[key] = value;
     }
   }
-  formData.append("data", JSON.stringify(jsonData));
+  formData.append('data', JSON.stringify(jsonData));
   return formData;
 }
 
@@ -125,5 +125,3 @@ export const customDataProvider: DataProvider = {
     };
   },
 };
-
-export default customDataProvider;

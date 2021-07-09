@@ -3,23 +3,23 @@ import {
   TextInput,
   ArrayInput,
   FormDataConsumer,
-} from "react-admin";
-import { Card, CardContent } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from 'react-admin';
+import { Card, CardContent } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 import {
   requiredValidate,
   validateNumber,
   styles as createStyles,
-} from "../InvoiceCreate";
-import ProductNameInput from "../fields/ProductNameInput";
-import LineItemsIterator from "../utils/LineItemsIterator";
+} from '../InvoiceCreate';
+import { ProductNameInput } from '../fields/ProductNameInput';
+import { LineItemsIterator } from '../utils/LineItemsIterator';
 
 const useStyles = makeStyles({
   ...createStyles,
 });
 
-const LineItemsSection = () => {
+export const LineItemsSection = () => {
   const classes = useStyles();
 
   return (
@@ -39,7 +39,7 @@ const LineItemsSection = () => {
               {({ getSource, ...rest }) =>
                 getSource ? (
                   <ProductNameInput
-                    source={getSource("product")}
+                    source={getSource('product')}
                     getSource={getSource}
                     fullWidth
                     inputClassName={classes.lineItemReferenceInput}
@@ -77,5 +77,3 @@ const LineItemsSection = () => {
     </Card>
   );
 };
-
-export default LineItemsSection;

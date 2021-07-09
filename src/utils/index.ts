@@ -1,9 +1,10 @@
 import lodashMemoize from "lodash/memoize";
 import { Record } from "react-admin";
 
-import customDataProvider from "../dataProvider/main";
+import { customDataProvider } from "../dataProvider/main";
+import { Memoize } from "../types";
+import { QuickFilter } from "./components/QuickFilter";
 
-import QuickFilter from "./components/QuickFilter";
 export { QuickFilter };
 
 // https://github.com/marmelab/react-admin/issues/2077
@@ -12,16 +13,15 @@ export function formatImage(value: any) {
     // Value is null or the url string from the main,
     // wrap it in an object so the form input can handle it
     return { src: value };
-  } else {
-    // Else a new image is selected which results in a value
-    // object already having a preview link under the url key
-    return value;
   }
+  // Else a new image is selected which results in a value
+  // object already having a preview link under the url key
+  return value;
 }
 
 export function toFixedNumber(num: any, digits = 2, base = 10) {
-  if (isNaN(num)) return 0;
-  const pow = Math.pow(base, digits);
+  if (Number.isNaN(num)) return 0;
+  const pow = base ** digits;
   // Math.round() function returns the value of a number rounded to the nearest integer
   return Math.round(Number(num) * pow) / pow;
 }
@@ -35,13 +35,13 @@ export const incrementReference = (
   const prefix = parts[0];
   const reference_no = parts[1];
 
-  if (parts.length > 1 && !isNaN(+reference_no)) {
+  if (parts.length > 1 && !Number.isNaN(+reference_no)) {
     const digits = reference_no.split("");
     let pointer = reference_no.length - 1;
 
     while (pointer >= 0 && +digits[pointer] >= 9) {
       digits[pointer] = "0";
-      pointer--;
+      pointer -= 1;
     }
 
     if (pointer < 0) return `${prefix}-1${digits.join("")}`;
@@ -56,7 +56,7 @@ export const incrementReference = (
 export const dateFormatter = (v: Date) => {
   // https://stackoverflow.com/questions/64714107/can-use-react-admin-dateinput-to-change-the-format-like-dd-mm-yyyy-to-mm-dd-yyyy
   // v is a `Date` object
-  // if (!(v instanceof Date) || isNaN(v)) return;
+  // if (!(v instanceof Date) || Number.isNaN(v)) return;
   const pad = "00";
   const yy = v.getFullYear().toString();
   const mm = (v.getMonth() + 1).toString();
@@ -102,11 +102,6 @@ export const getErrorMessage = (error: any) => {
     : message;
 };
 
-type Memoize = <T extends (...args: any[]) => any>(
-  func: T,
-  resolver?: (...args: any[]) => any
-) => T;
-
 export const memoize: Memoize = (fn: any) =>
   lodashMemoize(fn, (...args) => JSON.stringify(args));
 
@@ -132,6 +127,7 @@ export const validatePositivity = (value: number) => {
     const message = "resources.invoices.validation.negative_number";
     return message;
   }
+  return undefined;
 };
 
 export const validateUnicity = ({
@@ -177,5 +173,6 @@ export const validateUnicity = ({
         args: { [source]: value },
       };
     }
+    return undefined;
   });
 };

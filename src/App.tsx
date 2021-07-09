@@ -1,35 +1,35 @@
 // TODO: order dependencies
-import { useEffect, ReactNode } from "react";
-import { Admin, Resource, DataProvider } from "react-admin";
-import polyglotI18nProvider from "ra-i18n-polyglot";
-import pickBy from "lodash/pickBy";
+import { useEffect, ReactNode } from 'react';
+import { Admin, Resource, DataProvider } from 'react-admin';
+import polyglotI18nProvider from 'ra-i18n-polyglot';
+import pickBy from 'lodash/pickBy';
 
-import authProvider from "./authProvider";
-import themeReducer from "./themeReducer";
-import { Layout } from "./layout";
-import { Login } from "./auth";
-import { Dashboard } from "./dashboard";
-import customRoutes from "./routes";
-import englishMessages from "./i18n/en";
-import departments from "./organisation/departments";
-import roles from "./organisation/roles";
-import employees from "./organisation/employees";
-import invoices from "./transactions/invoices";
-import receives from "./transactions/receives";
-import credit_notes from "./transactions/credit_notes";
-import sales_orders from "./orders/sales_orders";
-import purchase_orders from "./orders/purchase_orders";
-import customers from "./maintenance/customers";
-import suppliers from "./maintenance/suppliers";
-import categories from "./maintenance/categories";
-import products from "./maintenance/products";
-import permissions from "./permissions/data";
+import { authProvider } from './authProvider';
+import { themeReducer } from './themeReducer';
+import { Layout } from './layout';
+import { Login } from './auth';
+import { Dashboard } from './dashboard';
+import { routes as customRoutes } from './routes';
+import { customEnglishMessages as englishMessages } from './i18n/en';
+import departments from './organisation/departments';
+import roles from './organisation/roles';
+import employees from './organisation/employees';
+import invoices from './transactions/invoices';
+import receives from './transactions/receives';
+import credit_notes from './transactions/credit_notes';
+import sales_orders from './orders/sales_orders';
+import purchase_orders from './orders/purchase_orders';
+import customers from './maintenance/customers';
+import suppliers from './maintenance/suppliers';
+import categories from './maintenance/categories';
+import products from './maintenance/products';
+import permissions from './permissions/data';
 
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
     return englishMessages;
   },
-  "en",
+  'en',
   {
     // https://github.com/marmelab/react-admin/issues/3903
     // https://marmelab.com/react-admin/Translation.html#specific-case-in-confirm-messages-and-empty-page
@@ -43,7 +43,7 @@ interface AppProps {
   dataProvider: DataProvider;
 }
 
-const App = ({ onUnmount, dataProvider }: AppProps) => {
+export const App = ({ onUnmount, dataProvider }: AppProps) => {
   useEffect(() => onUnmount, [onUnmount]);
 
   return (
@@ -71,13 +71,13 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
           action: string
         ) => {
           switch (action) {
-            case "list":
+            case 'list':
               return permissionCodeNames.includes(`view_${codename}`);
-            case "create":
+            case 'create':
               return permissionCodeNames.includes(`add_${codename}`);
-            case "edit":
+            case 'edit':
               return permissionCodeNames.includes(`change_${codename}`);
-            case "codename":
+            case 'codename':
               // TODO: remove codename field
               return false;
             default:
@@ -90,74 +90,74 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
             name="invoices"
             // The keys are always strings. This means you can't use an object instance's identity as a key.
             {...pickBy<ReactNode>(invoices, (value, key) =>
-              hasPermission("invoice", value, key)
+              hasPermission('invoice', value, key)
             )}
           />,
           <Resource
             name="receives"
             {...pickBy<ReactNode>(receives, (value, key) =>
-              hasPermission("receive", value, key)
+              hasPermission('receive', value, key)
             )}
           />,
           <Resource
             name="credit_notes"
             {...pickBy<ReactNode>(credit_notes, (value, key) =>
-              hasPermission("creditnote", value, key)
+              hasPermission('creditnote', value, key)
             )}
           />,
           <Resource
             name="sales_orders"
             {...pickBy<ReactNode>(sales_orders, (value, key) =>
-              hasPermission("salesorder", value, key)
+              hasPermission('salesorder', value, key)
             )}
           />,
           <Resource
             name="purchase_orders"
             {...pickBy<ReactNode>(purchase_orders, (value, key) =>
-              hasPermission("purchaseorder", value, key)
+              hasPermission('purchaseorder', value, key)
             )}
           />,
           <Resource
             name="products"
             {...pickBy<ReactNode>(products, (value, key) =>
-              hasPermission("product", value, key)
+              hasPermission('product', value, key)
             )}
           />,
           <Resource
             name="customers"
             {...pickBy<ReactNode>(customers, (value, key) =>
-              hasPermission("customer", value, key)
+              hasPermission('customer', value, key)
             )}
           />,
           <Resource
             name="suppliers"
             {...pickBy<ReactNode>(suppliers, (value, key) =>
-              hasPermission("supplier", value, key)
+              hasPermission('supplier', value, key)
             )}
           />,
           <Resource
             name="categories"
             {...pickBy<ReactNode>(categories, (value, key) =>
-              hasPermission("productcategory", value, key)
+              hasPermission('productcategory', value, key)
             )}
           />,
           <Resource
             name="departments"
             {...pickBy<ReactNode>(departments, (value, key) =>
-              hasPermission("department", value, key)
+              hasPermission('department', value, key)
             )}
           />,
           <Resource
             name="roles"
             {...pickBy<ReactNode>(roles, (value, key) =>
-              hasPermission("role", value, key)
+              hasPermission('role', value, key)
             )}
           />,
           <Resource name="designations" />,
           <Resource
             name="employees"
             {...pickBy<ReactNode>(employees, (value, key) =>
-              hasPermission("user", value, key)
+              hasPermission('user', value, key)
             )}
           />,
           <Resource name="credits_applications" />,
@@ -166,5 +166,3 @@ const App = ({ onUnmount, dataProvider }: AppProps) => {
     </Admin>
   );
 };
-
-export default App;

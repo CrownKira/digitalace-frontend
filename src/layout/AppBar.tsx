@@ -1,20 +1,20 @@
-import { forwardRef } from "react";
-import { AppBar, UserMenu, MenuItemLink, useTranslate } from "react-admin";
-import Typography from "@material-ui/core/Typography";
-import SettingsIcon from "@material-ui/icons/Settings";
-import FaceIcon from "@material-ui/icons/Face";
-import { makeStyles } from "@material-ui/core/styles";
-import { useProfile } from "../userMenu/profile/Profile";
+import { forwardRef } from 'react';
+import { AppBar, UserMenu, MenuItemLink, useTranslate } from 'react-admin';
+import Typography from '@material-ui/core/Typography';
+import SettingsIcon from '@material-ui/icons/Settings';
+import FaceIcon from '@material-ui/icons/Face';
+import { makeStyles } from '@material-ui/core/styles';
+import { useProfile } from '../userMenu/profile/Profile';
 
-import Logo from "./Logo";
+import Logo from './Logo';
 
 const useStyles = makeStyles((theme) => ({
   title: {
     flex: 1,
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    [theme.breakpoints.down("xs")]: {
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    [theme.breakpoints.down('xs')]: {
       opacity: 0,
     },
   },
@@ -29,7 +29,7 @@ const ConfigurationMenu = forwardRef<any, any>((props, ref) => {
     <MenuItemLink
       ref={ref}
       to="/configuration"
-      primaryText={translate("pos.configuration")}
+      primaryText={translate('pos.configuration')}
       leftIcon={<SettingsIcon />}
       onClick={props.onClick}
       sidebarIsOpen
@@ -44,7 +44,7 @@ const ProfileMenu = forwardRef<any, any>((props, ref) => {
     <MenuItemLink
       ref={ref}
       to="/profile"
-      primaryText={translate("pos.profile")}
+      primaryText={translate('pos.profile')}
       leftIcon={<FaceIcon />}
       onClick={props.onClick}
       sidebarIsOpen
@@ -63,7 +63,7 @@ const CustomUserMenu = (props: any) => {
   );
 };
 
-const CustomAppBar = (props: any) => {
+export const CustomAppBar = (props: any) => {
   const classes = useStyles();
   return (
     <AppBar {...props} elevation={1} userMenu={<CustomUserMenu />}>
@@ -81,5 +81,3 @@ const CustomAppBar = (props: any) => {
     </AppBar>
   );
 };
-
-export default CustomAppBar;

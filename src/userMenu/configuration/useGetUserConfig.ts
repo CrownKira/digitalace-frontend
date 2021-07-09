@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { useDataProvider } from "react-admin";
-import { UserConfig } from "../../types";
+import { useState, useEffect } from 'react';
+import { useDataProvider } from 'react-admin';
+import { UserConfig } from '../../types';
 
 interface State {
   loading: boolean;
@@ -9,7 +9,7 @@ interface State {
   error?: any;
 }
 
-const useGetUserConfig = () => {
+export const useGetUserConfig = () => {
   const [state, setState] = useState<State>({
     loading: true,
     loaded: false,
@@ -37,5 +37,3 @@ const useGetUserConfig = () => {
 
   return state;
 };
-
-export default useGetUserConfig;

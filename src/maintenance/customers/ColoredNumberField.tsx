@@ -1,11 +1,11 @@
-import { NumberField, NumberFieldProps } from "react-admin";
+import { NumberField, NumberFieldProps } from 'react-admin';
 
-import { PriceField } from "../../utils/components/PriceField";
+import { PriceField } from '../../utils/components/PriceField';
 
-const ColoredNumberField = (props: NumberFieldProps) =>
+export const ColoredNumberField = (props: NumberFieldProps) =>
   props.record && props.source ? (
     props.record[props.source] > 500 ? (
-      <span style={{ color: "red" }}>
+      <span style={{ color: 'red' }}>
         <PriceField {...props} />
       </span>
     ) : (
@@ -14,5 +14,3 @@ const ColoredNumberField = (props: NumberFieldProps) =>
   ) : null;
 
 ColoredNumberField.defaultProps = NumberField.defaultProps;
-
-export default ColoredNumberField;

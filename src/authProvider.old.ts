@@ -1,25 +1,23 @@
-import { AuthProvider } from "react-admin";
+import { AuthProvider } from 'react-admin';
 
-const authProvider: AuthProvider = {
+export const authProvider: AuthProvider = {
   login: ({ username }) => {
-    localStorage.setItem("username", username);
+    localStorage.setItem('username', username);
     return Promise.resolve();
   },
   logout: () => {
-    localStorage.removeItem("username");
+    localStorage.removeItem('username');
     return Promise.resolve();
   },
   checkError: () => Promise.resolve(),
   checkAuth: () =>
-    localStorage.getItem("username") ? Promise.resolve() : Promise.reject(),
-  getPermissions: () => Promise.reject("Unknown method"),
+    localStorage.getItem('username') ? Promise.resolve() : Promise.reject(),
+  getPermissions: () => Promise.reject('Unknown method'),
   getIdentity: () =>
     Promise.resolve({
-      id: "user",
-      fullName: "Kyle Toh",
+      id: 'user',
+      fullName: 'Kyle Toh',
       avatar:
-        "https://secure.gravatar.com/avatar/854a899faca5065ac620006778d81271?size=800",
+        'https://secure.gravatar.com/avatar/854a899faca5065ac620006778d81271?size=800',
     }),
 };
-
-export default authProvider;

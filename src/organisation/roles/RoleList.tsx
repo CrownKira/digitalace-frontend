@@ -1,6 +1,6 @@
-import { FC } from "react";
-import { EditButton, List, ListProps, useListContext } from "react-admin";
-import inflection from "inflection";
+import { FC } from 'react';
+import { EditButton, List, ListProps, useListContext } from 'react-admin';
+import inflection from 'inflection';
 import {
   Grid,
   Card,
@@ -8,25 +8,25 @@ import {
   CardContent,
   CardActions,
   Typography,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-import LinkToRelatedEmployees from "./LinkToRelatedEmployees";
-import { Role } from "../../types";
+import { LinkToRelatedEmployees } from './LinkToRelatedEmployees';
+import { Role } from '../../types';
 
 const useStyles = makeStyles({
   root: {
-    marginTop: "1em",
+    marginTop: '1em',
   },
   media: {
     height: 140,
   },
   title: {
-    paddingBottom: "0.5em",
+    paddingBottom: '0.5em',
   },
   actionSpacer: {
-    display: "flex",
-    justifyContent: "space-around",
+    display: 'flex',
+    justifyContent: 'space-around',
   },
 });
 
@@ -65,15 +65,13 @@ const RoleGrid: FC = (props) => {
   ) : null;
 };
 
-const RoleList: FC<ListProps> = (props) => (
+export const RoleList: FC<ListProps> = (props) => (
   <List
     {...props}
-    sort={{ field: "name", order: "ASC" }}
+    sort={{ field: 'name', order: 'ASC' }}
     perPage={25}
     component="div"
   >
     <RoleGrid />
   </List>
 );
-
-export default RoleList;

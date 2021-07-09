@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC } from 'react';
 import {
   Datagrid,
   Edit,
@@ -14,26 +14,26 @@ import {
   useTranslate,
   ImageInput,
   ImageField,
-} from "react-admin";
+} from 'react-admin';
 
-import ThumbnailField from "../products/ThumbnailField";
-import ProductRefField from "../products/ProductRefField";
-import { Category } from "../../types";
-import FullNameField from "../suppliers/FullNameField";
-import { formatImage } from "../../utils";
-import { PriceField } from "../../utils/components/PriceField";
+import ThumbnailField from '../products/ThumbnailField';
+import ProductRefField from '../products/ProductRefField';
+import { Category } from '../../types';
+import FullNameField from '../suppliers/FullNameField';
+import { formatImage } from '../../utils';
+import { PriceField } from '../../utils/components/PriceField';
 
 const CategoryTitle: FC<FieldProps<Category>> = ({ record }) => {
   const translate = useTranslate();
   return record ? (
     <span>
-      {translate("resources.categories.name", { smart_count: 1 })} &quot;
+      {translate('resources.categories.name', { smart_count: 1 })} &quot;
       {record.name}&quot;
     </span>
   ) : null;
 };
 
-const CategoryEdit: FC<EditProps> = (props) => (
+export const CategoryEdit: FC<EditProps> = (props) => (
   <Edit title={<CategoryTitle />} {...props}>
     <SimpleForm>
       <ImageInput
@@ -69,5 +69,3 @@ const CategoryEdit: FC<EditProps> = (props) => (
     </SimpleForm>
   </Edit>
 );
-
-export default CategoryEdit;

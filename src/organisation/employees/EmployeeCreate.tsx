@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC } from 'react';
 import {
   TextInput,
   PasswordInput,
@@ -18,20 +18,20 @@ import {
   FormTab,
   FormDataConsumer,
   ReferenceField,
-} from "react-admin";
-import { AnyObject } from "react-final-form";
-import { makeStyles } from "@material-ui/core/styles";
+} from 'react-admin';
+import { AnyObject } from 'react-final-form';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { genders } from "../../utils/data";
-import { SectionTitle, Separator, Break } from "../../utils/components/Divider";
-import DesignationSelectInput from "./DesignationSelectInput";
-import DepartmentSelectInput from "./DepartmentSelectInput";
+import { genders } from '../../utils/data';
+import { SectionTitle, Separator, Break } from '../../utils/components/Divider';
+import DesignationSelectInput from './DesignationSelectInput';
+import DepartmentSelectInput from './DepartmentSelectInput';
 
 export const styles = {
-  leftFormGroup: { display: "inline-block", marginRight: 32 },
+  leftFormGroup: { display: 'inline-block', marginRight: 32 },
   rightFormGroup: {
     // TODO: line break using jss
-    display: "inline-block",
+    display: 'inline-block',
   },
 };
 
@@ -46,22 +46,22 @@ export const validatePasswords = ({
   const errors = {} as any;
 
   if (password && confirm_password && password !== confirm_password) {
-    errors.confirm_password = ["resources.employees.errors.password_mismatch"];
+    errors.confirm_password = ['resources.employees.errors.password_mismatch'];
   }
 
   if (password && confirm_email && email !== confirm_email) {
-    errors.confirm_email = ["resources.employees.errors.email_mismatch"];
+    errors.confirm_email = ['resources.employees.errors.email_mismatch'];
   }
 
   return errors;
 };
 
 const postDefaultValue = () => ({
-  image: "",
-  resume: "",
+  image: '',
+  resume: '',
 });
 
-const EmployeeCreate: FC<CreateProps> = (props) => {
+export const EmployeeCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
 
   return (
@@ -226,5 +226,3 @@ const EmployeeCreate: FC<CreateProps> = (props) => {
 
 const requiredValidate = required();
 const validateEmail = email();
-
-export default EmployeeCreate;

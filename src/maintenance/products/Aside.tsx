@@ -1,37 +1,37 @@
-import { FC } from "react";
-import inflection from "inflection";
-import { Card, CardContent } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import LocalOfferIcon from "@material-ui/icons/LocalOfferOutlined";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import { FC } from 'react';
+import inflection from 'inflection';
+import { Card, CardContent } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import LocalOfferIcon from '@material-ui/icons/LocalOfferOutlined';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import {
   FilterList,
   FilterListItem,
   FilterLiveSearch,
   useGetList,
-} from "react-admin";
+} from 'react-admin';
 
-import { Category } from "../../types";
+import { Category } from '../../types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    [theme.breakpoints.up("sm")]: {
-      width: "15em",
-      marginRight: "1em",
-      overflow: "initial",
+    [theme.breakpoints.up('sm')]: {
+      width: '15em',
+      marginRight: '1em',
+      overflow: 'initial',
     },
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
     },
   },
 }));
 
-const Aside: FC = () => {
+export const Aside: FC = () => {
   const { data, ids } = useGetList<Category>(
-    "categories",
+    'categories',
     { page: 1, perPage: 100 },
-    { field: "name", order: "ASC" },
+    { field: 'name', order: 'ASC' },
     {}
   );
   const classes = useStyles();
@@ -132,5 +132,3 @@ const Aside: FC = () => {
     </Card>
   );
 };
-
-export default Aside;

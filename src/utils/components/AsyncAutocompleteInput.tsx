@@ -161,7 +161,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       inputValue || // presence means value has already been fetched
       valueOverride || // presence means value has already been fetched
       !input.value || // undefined means initial value from record is undefined
-      isNaN(input.value) // eg. 'hello', {}, etc
+      Number.isNaN(input.value) // eg. 'hello', {}, etc
     ) {
       return;
     }

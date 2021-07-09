@@ -1,22 +1,22 @@
-import { FC } from "react";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
-import { useTranslate, FieldProps } from "react-admin";
-import { stringify } from "query-string";
+import { FC } from 'react';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
+import { useTranslate, FieldProps } from 'react-admin';
+import { stringify } from 'query-string';
 
-import products from "../products";
-import { Category } from "../../types";
+import products from '../products';
+import { Category } from '../../types';
 
 const useStyles = makeStyles({
-  icon: { paddingRight: "0.5em" },
+  icon: { paddingRight: '0.5em' },
   link: {
-    display: "inline-flex",
-    alignItems: "center",
+    display: 'inline-flex',
+    alignItems: 'center',
   },
 });
 
-const LinkToRelatedProducts: FC<FieldProps<Category>> = ({ record }) => {
+export const LinkToRelatedProducts: FC<FieldProps<Category>> = ({ record }) => {
   const translate = useTranslate();
   const classes = useStyles();
   return record ? (
@@ -25,7 +25,7 @@ const LinkToRelatedProducts: FC<FieldProps<Category>> = ({ record }) => {
       color="primary"
       component={Link}
       to={{
-        pathname: "/products",
+        pathname: '/products',
         search: stringify({
           filter: JSON.stringify({ category: record.id }),
         }),
@@ -33,9 +33,7 @@ const LinkToRelatedProducts: FC<FieldProps<Category>> = ({ record }) => {
       className={classes.link}
     >
       <products.icon className={classes.icon} />
-      {translate("resources.categories.fields.product_set")}
+      {translate('resources.categories.fields.product_set')}
     </Button>
   ) : null;
 };
-
-export default LinkToRelatedProducts;

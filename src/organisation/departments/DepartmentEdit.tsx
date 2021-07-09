@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC } from 'react';
 import {
   Edit,
   EditProps,
@@ -14,12 +14,12 @@ import {
   AutocompleteArrayInput,
   required,
   Record,
-} from "react-admin";
-import { makeStyles } from "@material-ui/core/styles";
+} from 'react-admin';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { Department } from "../../types";
-import { formatImage } from "../../utils";
-import { styles as createStyles } from "./DepartmentCreate";
+import { Department } from '../../types';
+import { formatImage } from '../../utils';
+import { styles as createStyles } from './DepartmentCreate';
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -29,7 +29,7 @@ const DepartmentTitle: FC<FieldProps<Department>> = ({ record }) => {
   const translate = useTranslate();
   return record ? (
     <span>
-      {translate("resources.departments.name", { smart_count: 1 })} &quot;
+      {translate('resources.departments.name', { smart_count: 1 })} &quot;
       {record.name}&quot;
     </span>
   ) : null;
@@ -37,7 +37,7 @@ const DepartmentTitle: FC<FieldProps<Department>> = ({ record }) => {
 
 // TODO: add section title?
 // TODO: transform to include id=-1 for new designation rows
-const DepartmentEdit: FC<EditProps> = (props) => {
+export const DepartmentEdit: FC<EditProps> = (props) => {
   const classes = useStyles();
   // TODO: better way to add default id and user_set?
   const transform = (data: Record) => {
@@ -90,5 +90,3 @@ const DepartmentEdit: FC<EditProps> = (props) => {
 };
 
 const requiredValidate = required();
-
-export default DepartmentEdit;

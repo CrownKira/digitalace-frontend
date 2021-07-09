@@ -1,10 +1,10 @@
-import { FC } from "react";
-import { Link, FieldProps } from "react-admin";
+import { FC } from 'react';
+import { Link, FieldProps } from 'react-admin';
 
-import NameField from "./NameField";
-import { Category } from "../../types";
+import NameField from './NameField';
+import { Category } from '../../types';
 
-const CategoryLinkField: FC<FieldProps<Category>> = (props) =>
+export const CategoryLinkField: FC<FieldProps<Category>> = (props) =>
   props.record ? (
     <Link to={`/categories/${props.record.id}`}>
       <NameField {...props} />
@@ -12,8 +12,6 @@ const CategoryLinkField: FC<FieldProps<Category>> = (props) =>
   ) : null;
 
 CategoryLinkField.defaultProps = {
-  source: "name",
+  source: 'name',
   addLabel: true,
 };
-
-export default CategoryLinkField;

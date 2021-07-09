@@ -1,45 +1,45 @@
-import { FC, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import SettingsIcon from "@material-ui/icons/Label";
-import { useMediaQuery, Theme, Box } from "@material-ui/core";
-import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import StorageIcon from "@material-ui/icons/Storage";
-import BusinessIcon from "@material-ui/icons/Business";
+import { FC, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import SettingsIcon from '@material-ui/icons/Label';
+import { useMediaQuery, Theme, Box } from '@material-ui/core';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import StorageIcon from '@material-ui/icons/Storage';
+import BusinessIcon from '@material-ui/icons/Business';
 import {
   useTranslate,
   DashboardMenuItem,
   MenuItemLink,
   MenuProps,
-} from "react-admin";
-import { useSetLocale, useNotify, useDataProvider } from "react-admin";
-import { useDispatch } from "react-redux";
+} from 'react-admin';
+import { useSetLocale, useNotify, useDataProvider } from 'react-admin';
+import { useDispatch } from 'react-redux';
 
-import { changeTheme } from "../userMenu/configuration/actions";
-import { UserConfig } from "../types";
-import departments from "../organisation/departments";
-import roles from "../organisation/roles";
-import employees from "../organisation/employees";
-import customers from "../maintenance/customers";
-import suppliers from "../maintenance/suppliers";
-import categories from "../maintenance/categories";
-import products from "../maintenance/products";
-import invoices from "../transactions/invoices";
-import receives from "../transactions/receives";
-import credit_notes from "../transactions/credit_notes";
-import purchase_orders from "../orders/purchase_orders";
-import sales_orders from "../orders/sales_orders";
-import SubMenu from "./SubMenu";
-import { AppState, ThemeName } from "../types";
-import { refreshLocalStorage } from "../utils";
+import { changeTheme } from '../userMenu/configuration/actions';
+import { UserConfig } from '../types';
+import departments from '../organisation/departments';
+import roles from '../organisation/roles';
+import employees from '../organisation/employees';
+import customers from '../maintenance/customers';
+import suppliers from '../maintenance/suppliers';
+import categories from '../maintenance/categories';
+import products from '../maintenance/products';
+import invoices from '../transactions/invoices';
+import receives from '../transactions/receives';
+import credit_notes from '../transactions/credit_notes';
+import purchase_orders from '../orders/purchase_orders';
+import sales_orders from '../orders/sales_orders';
+import SubMenu from './SubMenu';
+import { AppState, ThemeName } from '../types';
+import { refreshLocalStorage } from '../utils';
 
 type MenuName =
-  | "menuOrganization"
-  | "menuMaintenance"
-  | "menuTransaction"
-  | "menuOrder";
+  | 'menuOrganization'
+  | 'menuMaintenance'
+  | 'menuTransaction'
+  | 'menuOrder';
 
-const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
+export const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
   const [state, setState] = useState({
     menuOrganization: true,
     menuMaintenance: true,
@@ -48,7 +48,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
   });
   const translate = useTranslate();
   const isXSmall = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down("xs")
+    theme.breakpoints.down('xs')
   );
   const open = useSelector((state: AppState) => state.admin.ui.sidebarOpen);
   useSelector((state: AppState) => state.theme);
@@ -62,8 +62,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
 
   useEffect(() => {
     // TODO: rewrite
-    const theme = localStorage.getItem("theme");
-    const language = localStorage.getItem("language");
+    const theme = localStorage.getItem('theme');
+    const language = localStorage.getItem('language');
     const updateStores = () => {
       theme && dispatch(changeTheme(theme as ThemeName));
       language && setLocale(language);
@@ -89,16 +89,16 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         }
       })
       .catch((error: Error) => {
-        notify("pos.user_menu.user_config.data_provider_error", "warning");
+        notify('pos.user_menu.user_config.data_provider_error', 'warning');
       });
   }, [dataProvider, dispatch, notify, setLocale]);
 
   return (
     <Box mt={1}>
-      {" "}
+      {' '}
       <DashboardMenuItem onClick={onMenuClick} sidebarIsOpen={open} />
       <SubMenu
-        handleToggle={() => handleToggle("menuOrganization")}
+        handleToggle={() => handleToggle('menuOrganization')}
         isOpen={state.menuOrganization}
         sidebarIsOpen={open}
         name="pos.menu.organization"
@@ -106,8 +106,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         dense={dense}
       >
         <MenuItemLink
-          to={"/departments"}
-          primaryText={translate("resources.departments.name", {
+          to={'/departments'}
+          primaryText={translate('resources.departments.name', {
             smart_count: 2,
           })}
           leftIcon={<departments.icon />}
@@ -117,8 +117,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         />
 
         <MenuItemLink
-          to={"/roles"}
-          primaryText={translate("resources.roles.name", {
+          to={'/roles'}
+          primaryText={translate('resources.roles.name', {
             smart_count: 2,
           })}
           leftIcon={<roles.icon />}
@@ -127,8 +127,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
           dense={dense}
         />
         <MenuItemLink
-          to={"/employees"}
-          primaryText={translate("resources.employees.name", {
+          to={'/employees'}
+          primaryText={translate('resources.employees.name', {
             smart_count: 2,
           })}
           leftIcon={<employees.icon />}
@@ -138,7 +138,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         />
       </SubMenu>
       <SubMenu
-        handleToggle={() => handleToggle("menuMaintenance")}
+        handleToggle={() => handleToggle('menuMaintenance')}
         isOpen={state.menuMaintenance}
         sidebarIsOpen={open}
         name="pos.menu.maintenance"
@@ -146,8 +146,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         dense={dense}
       >
         <MenuItemLink
-          to={"/customers"}
-          primaryText={translate("resources.customers.name", {
+          to={'/customers'}
+          primaryText={translate('resources.customers.name', {
             smart_count: 2,
           })}
           leftIcon={<customers.icon />}
@@ -156,8 +156,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
           dense={dense}
         />
         <MenuItemLink
-          to={"/suppliers"}
-          primaryText={translate("resources.suppliers.name", {
+          to={'/suppliers'}
+          primaryText={translate('resources.suppliers.name', {
             smart_count: 2,
           })}
           leftIcon={<suppliers.icon />}
@@ -166,8 +166,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
           dense={dense}
         />
         <MenuItemLink
-          to={"/categories"}
-          primaryText={translate("resources.categories.name", {
+          to={'/categories'}
+          primaryText={translate('resources.categories.name', {
             smart_count: 2,
           })}
           leftIcon={<categories.icon />}
@@ -176,8 +176,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
           dense={dense}
         />
         <MenuItemLink
-          to={"/products"}
-          primaryText={translate("resources.products.name", {
+          to={'/products'}
+          primaryText={translate('resources.products.name', {
             smart_count: 2,
           })}
           leftIcon={<products.icon />}
@@ -187,7 +187,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         />
       </SubMenu>
       <SubMenu
-        handleToggle={() => handleToggle("menuTransaction")}
+        handleToggle={() => handleToggle('menuTransaction')}
         isOpen={state.menuTransaction}
         sidebarIsOpen={open}
         name="pos.menu.transactions"
@@ -195,8 +195,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         dense={dense}
       >
         <MenuItemLink
-          to={"/invoices"}
-          primaryText={translate("resources.invoices.name", {
+          to={'/invoices'}
+          primaryText={translate('resources.invoices.name', {
             smart_count: 2,
           })}
           leftIcon={<invoices.icon />}
@@ -205,8 +205,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
           dense={dense}
         />
         <MenuItemLink
-          to={"/receives"}
-          primaryText={translate("resources.receives.name", {
+          to={'/receives'}
+          primaryText={translate('resources.receives.name', {
             smart_count: 2,
           })}
           leftIcon={<receives.icon />}
@@ -215,8 +215,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
           dense={dense}
         />
         <MenuItemLink
-          to={"/credit_notes"}
-          primaryText={translate("resources.credit_notes.name", {
+          to={'/credit_notes'}
+          primaryText={translate('resources.credit_notes.name', {
             smart_count: 2,
           })}
           leftIcon={<credit_notes.icon />}
@@ -226,7 +226,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         />
       </SubMenu>
       <SubMenu
-        handleToggle={() => handleToggle("menuOrder")}
+        handleToggle={() => handleToggle('menuOrder')}
         isOpen={state.menuOrder}
         sidebarIsOpen={open}
         name="pos.menu.orders"
@@ -234,8 +234,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
         dense={dense}
       >
         <MenuItemLink
-          to={"/sales_orders"}
-          primaryText={translate("resources.sales_orders.name", {
+          to={'/sales_orders'}
+          primaryText={translate('resources.sales_orders.name', {
             smart_count: 2,
           })}
           leftIcon={<sales_orders.icon />}
@@ -244,8 +244,8 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
           dense={dense}
         />
         <MenuItemLink
-          to={"/purchase_orders"}
-          primaryText={translate("resources.purchase_orders.name", {
+          to={'/purchase_orders'}
+          primaryText={translate('resources.purchase_orders.name', {
             smart_count: 2,
           })}
           leftIcon={<purchase_orders.icon />}
@@ -257,7 +257,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
       {isXSmall && (
         <MenuItemLink
           to="/configuration"
-          primaryText={translate("pos.configuration")}
+          primaryText={translate('pos.configuration')}
           leftIcon={<SettingsIcon />}
           onClick={onMenuClick}
           sidebarIsOpen={open}
@@ -267,5 +267,3 @@ const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
     </Box>
   );
 };
-
-export default Menu;

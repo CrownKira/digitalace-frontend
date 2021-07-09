@@ -1,10 +1,10 @@
-import { FC } from "react";
-import { ReferenceField, ReferenceFieldProps } from "react-admin";
+import { FC } from 'react';
+import { ReferenceField, ReferenceFieldProps } from 'react-admin';
 
-import FullNameField from "./FullNameField";
+import { FullNameField } from './FullNameField';
 
-const CustomerReferenceField: FC<
-  Omit<ReferenceFieldProps, "reference" | "children" | "source"> & {
+export const CustomerReferenceField: FC<
+  Omit<ReferenceFieldProps, 'reference' | 'children' | 'source'> & {
     source?: string;
   }
 > = (props) => (
@@ -14,8 +14,6 @@ const CustomerReferenceField: FC<
 );
 
 CustomerReferenceField.defaultProps = {
-  source: "customer",
+  source: 'customer',
   addLabel: true,
 };
-
-export default CustomerReferenceField;

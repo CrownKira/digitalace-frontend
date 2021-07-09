@@ -1,36 +1,36 @@
-import { FC } from "react";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
-import { makeStyles } from "@material-ui/core/styles";
-import { EditButton, Identifier, EmailField, TextField } from "react-admin";
-import EmailIcon from "@material-ui/icons/Email";
-import PhoneIcon from "@material-ui/icons/Phone";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import { FC } from 'react';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import { makeStyles } from '@material-ui/core/styles';
+import { EditButton, Identifier, EmailField, TextField } from 'react-admin';
+import EmailIcon from '@material-ui/icons/Email';
+import PhoneIcon from '@material-ui/icons/Phone';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
-import { IconText } from "../../utils/components/IconText";
-import AvatarField from "./AvatarField";
-import ColoredNumberField from "./ColoredNumberField";
-import { Customer } from "../../types";
+import { IconText } from '../../utils/components/IconText';
+import { AvatarField } from './AvatarField';
+import { ColoredNumberField } from './ColoredNumberField';
+import { Customer } from '../../types';
 
 const useStyles = makeStyles((theme) => ({
-  root: { margin: "1em" },
+  root: { margin: '1em' },
   card: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    margin: "0.5rem 0",
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '0.5rem 0',
   },
   cardTitleContent: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   cardContent: {
     ...theme.typography.body1,
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
   },
 }));
 
@@ -41,7 +41,7 @@ interface Props {
 }
 
 // FIXME: [DOM] Found 2 elements with non-unique id #q
-const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
+export const MobileGrid: FC<Props> = ({ ids, data, basePath }) => {
   const classes = useStyles();
 
   if (!ids || !data) {
@@ -92,8 +92,6 @@ MobileGrid.defaultProps = {
   data: {},
   ids: [],
 };
-
-export default MobileGrid;
 
 /*
 // TODO: agent field

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC } from 'react';
 import {
   Create,
   CreateProps,
@@ -10,29 +10,29 @@ import {
   ImageField,
   useGetList,
   Loading,
-} from "react-admin";
-import { AnyObject } from "react-final-form";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Styles } from "@material-ui/styles/withStyles";
+} from 'react-admin';
+import { AnyObject } from 'react-final-form';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Styles } from '@material-ui/styles/withStyles';
 
-import { SectionTitle, Separator } from "../../utils/components/Divider";
-import { Supplier } from "../../types";
-import { incrementReference, validateUnicity } from "../../utils";
-import { memoize } from "../../utils";
-import { useOnFailure } from "../../utils/hooks";
+import { SectionTitle, Separator } from '../../utils/components/Divider';
+import { Supplier } from '../../types';
+import { incrementReference, validateUnicity } from '../../utils';
+import { memoize } from '../../utils';
+import { useOnFailure } from '../../utils/hooks';
 
 export const styles: Styles<Theme, any> = {
-  name: { display: "inline-block" },
-  attention: { display: "inline-block", marginLeft: 32 },
+  name: { display: 'inline-block' },
+  attention: { display: 'inline-block', marginLeft: 32 },
   email: { width: 544 },
   address: { maxWidth: 544 },
-  zipcode: { display: "inline-block" },
-  city: { display: "inline-block", marginLeft: 32 },
+  zipcode: { display: 'inline-block' },
+  city: { display: 'inline-block', marginLeft: 32 },
   comment: {
-    maxWidth: "20em",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
+    maxWidth: '20em',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
 };
 
@@ -44,13 +44,13 @@ export const validatePasswords = ({
   const errors = {} as any;
 
   if (password && confirm_password && password !== confirm_password) {
-    errors.confirm_password = ["resources.suppliers.errors.password_mismatch"];
+    errors.confirm_password = ['resources.suppliers.errors.password_mismatch'];
   }
 
   return errors;
 };
 
-const SupplierCreate: FC<CreateProps> = (props) => {
+export const SupplierCreate: FC<CreateProps> = (props) => {
   const classes = useStyles(props);
   const onFailure = useOnFailure();
 
@@ -59,17 +59,17 @@ const SupplierCreate: FC<CreateProps> = (props) => {
     ids: supplierIds,
     loading: loadingSuppliers,
   } = useGetList<Supplier>(
-    "suppliers",
+    'suppliers',
     { page: 1, perPage: 1 },
-    { field: "id", order: "DESC" },
+    { field: 'id', order: 'DESC' },
     {}
   );
   const postDefaultValue = () => ({
-    image: "",
+    image: '',
     reference:
       suppliers && supplierIds.length > 0
-        ? incrementReference(suppliers[supplierIds[0]].reference, "S", 4)
-        : "S-0000",
+        ? incrementReference(suppliers[supplierIds[0]].reference, 'S', 4)
+        : 'S-0000',
   });
 
   return loadingSuppliers ? (
@@ -132,17 +132,15 @@ const requiredValidate = required();
 const validateEmail = email();
 const validateReferenceUnicity = (props: any) =>
   validateUnicity({
-    reference: "suppliers",
-    source: "reference",
+    reference: 'suppliers',
+    source: 'reference',
     record: props.record,
-    message: "resources.suppliers.validation.reference_already_used",
+    message: 'resources.suppliers.validation.reference_already_used',
   });
 const validateReference = memoize((props: any) => [
   requiredValidate,
   validateReferenceUnicity(props),
 ]);
-
-export default SupplierCreate;
 
 // TODO: password field
 /*

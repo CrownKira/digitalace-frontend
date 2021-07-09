@@ -1,6 +1,8 @@
-export default async (type: string) => {
+export const dataProviderFactory = async (type: string) => {
   switch (type) {
     default:
-      return await import("./main").then((provider) => provider.default);
+      return await import('./main').then(
+        (provider) => provider.customDataProvider
+      );
   }
 };

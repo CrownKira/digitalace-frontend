@@ -1,16 +1,16 @@
-import { FC } from "react";
+import { FC } from 'react';
 import {
   SelectArrayInput,
   InputProps,
   ReferenceArrayInput,
   ChipField,
-} from "react-admin";
+} from 'react-admin';
 
-interface Props extends Omit<InputProps, "source"> {
+interface Props extends Omit<InputProps, 'source'> {
   source: string;
 }
 
-const RolesInput: FC<Props> = ({ addField, ...rest }) => (
+export const RolesInput: FC<Props> = ({ addField, ...rest }) => (
   <ReferenceArrayInput reference="roles" {...rest}>
     <SelectArrayInput>
       <ChipField source="name" />
@@ -20,8 +20,6 @@ const RolesInput: FC<Props> = ({ addField, ...rest }) => (
 
 RolesInput.defaultProps = {
   addField: true,
-  source: "roles",
-  resource: "employees",
+  source: 'roles',
+  resource: 'employees',
 };
-
-export default RolesInput;

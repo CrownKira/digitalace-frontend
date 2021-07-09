@@ -15,16 +15,22 @@ import {
 } from "react-admin";
 import { Box, Card, CardContent } from "@material-ui/core";
 
-import Aside from "./Aside";
-import FullNameField from "./FullNameField";
-import { validatePasswords } from "./CustomerCreate";
+import { Aside } from "./Aside";
+import { FullNameField } from "./FullNameField";
+import {
+  validatePasswords,
+  requiredValidate,
+  validateEmail,
+  validateReference,
+} from "./CustomerCreate";
 import { Customer } from "../../types";
 import { formatImage, validateUnicity } from "../../utils";
 import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 import { SectionTitle, Separator } from "../../utils/components/Divider";
 
-const CustomerEdit: FC<EditProps> = (props) => {
+// TODO: refactor Edit and Create: restructure files and extract shared components
+export const CustomerEdit: FC<EditProps> = (props) => {
   // TODO: make a custom type for error
   // TODO: wrap all edit and create with thisconst onFailure = useOnFailure();
   const onFailure = useOnFailure();
@@ -173,7 +179,6 @@ const CustomerForm = (props: any) => {
               resource="customers"
               record={formProps.record}
               basePath={formProps.basePath}
-              undoable={true}
               invalid={formProps.invalid}
               handleSubmit={formProps.handleSubmit}
               saving={formProps.saving}
@@ -185,33 +190,3 @@ const CustomerForm = (props: any) => {
     />
   );
 };
-
-const requiredValidate = required();
-const validateEmail = email();
-const validateReferenceUnicity = (props: any) =>
-  validateUnicity({
-    reference: "customers",
-    source: "reference",
-    record: props.record,
-    message: "resources.customers.validation.reference_already_used",
-  });
-const validateReference = memoize((props: any) => [
-  requiredValidate,
-  validateReferenceUnicity(props),
-]);
-
-export default CustomerEdit;
-
-/*
-{ basePath: "/invoices", 
-redirect: "list", 
-resource: "invoices", 
-undoable: undefined, 
-mutationMode: undefined, 
-form: {…}, 
-handleSubmit: handleSubmit(event), 
-active: undefined, 
-dirty: undefined, 
-dirtyFields: undefined, 
-… }
-*/

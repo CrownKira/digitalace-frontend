@@ -1,13 +1,13 @@
-import { FC, useMemo } from "react";
-import { Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { Record } from "react-admin";
+import { FC, useMemo } from 'react';
+import { Box } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { Record } from 'react-admin';
 
-import { toFixedNumber } from "../../../utils";
+import { toFixedNumber } from '../../../utils';
 
 const useStyles = makeStyles({
   label: {
-    padding: "1em",
+    padding: '1em',
   },
 });
 
@@ -16,7 +16,7 @@ interface Props {
   record: Record;
 }
 
-const TotalCreditsSection: FC<Props> = ({ formData, record }) => {
+export const TotalCreditsSection: FC<Props> = ({ formData, record }) => {
   const classes = useStyles();
 
   const total_amount_to_credit = useMemo(
@@ -28,8 +28,8 @@ const TotalCreditsSection: FC<Props> = ({ formData, record }) => {
       (
         toFixedNumber(formData.balance_due, 2) - total_amount_to_credit
       ).toLocaleString(undefined, {
-        style: "currency",
-        currency: "SGD",
+        style: 'currency',
+        currency: 'SGD',
       }),
     [formData.balance_due, total_amount_to_credit]
   );
@@ -38,10 +38,10 @@ const TotalCreditsSection: FC<Props> = ({ formData, record }) => {
     <>
       <Box display="flex" justifyContent="flex-end">
         <span className={classes.label}>
-          Amount to Credit:{" "}
+          Amount to Credit:{' '}
           {total_amount_to_credit.toLocaleString(undefined, {
-            style: "currency",
-            currency: "SGD",
+            style: 'currency',
+            currency: 'SGD',
           })}
         </span>
       </Box>
@@ -53,5 +53,3 @@ const TotalCreditsSection: FC<Props> = ({ formData, record }) => {
     </>
   );
 };
-
-export default TotalCreditsSection;

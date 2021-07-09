@@ -338,7 +338,6 @@ export const ProfileEdit = () => {
                 resource="user_configs"
                 record={formProps.record}
                 basePath={formProps.basePath}
-                undoable={true}
                 invalid={formProps.invalid}
                 handleSubmit={formProps.handleSubmit}
                 saving={formProps.saving}

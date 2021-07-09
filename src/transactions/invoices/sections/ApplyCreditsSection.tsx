@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC } from 'react';
 import {
   FormDataConsumer,
   ArrayInput,
@@ -6,20 +6,20 @@ import {
   TextInput,
   DateInput,
   NumberInput,
-} from "react-admin";
-import { Card, CardContent, Box, Divider } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from 'react-admin';
+import { Card, CardContent, Box, Divider } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-import TotalCreditsSection from "./TotalCreditsSection";
-import { validateCredits } from "../InvoiceCreate";
+import { TotalCreditsSection } from './TotalCreditsSection';
+import { validateCredits } from '../InvoiceCreate';
 
 const useStyles = makeStyles({
-  leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
+  leftFormGroup: { display: 'inline-block', marginRight: '0.5em' },
   rightFormGroup: {
-    display: "inline-block",
+    display: 'inline-block',
   },
   lineItemInput: { width: 200 },
-  label: { padding: "1em" },
+  label: { padding: '1em' },
 });
 
 interface Props {
@@ -27,7 +27,7 @@ interface Props {
   open: boolean;
 }
 
-const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
+export const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
   const classes = useStyles();
 
   return open ? (
@@ -37,10 +37,10 @@ const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
           <FormDataConsumer>
             {({ formData }) => (
               <span className={classes.label}>
-                Invoice Balance:{" "}
+                Invoice Balance:{' '}
                 {Number(formData.balance_due).toLocaleString(undefined, {
-                  style: "currency",
-                  currency: "SGD",
+                  style: 'currency',
+                  currency: 'SGD',
                 })}
               </span>
             )}
@@ -97,7 +97,7 @@ const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
                 getSource ? (
                   <NumberInput
                     // FIXME: can't add default value
-                    source={getSource("amount_to_credit")}
+                    source={getSource('amount_to_credit')}
                     label="resources.credits_applications.fields.amount_to_credit"
                     className={classes.lineItemInput}
                     validate={validateCredits(scopedFormData)}
@@ -120,5 +120,3 @@ const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
     </Card>
   ) : null;
 };
-
-export default ApplyCreditsSection;

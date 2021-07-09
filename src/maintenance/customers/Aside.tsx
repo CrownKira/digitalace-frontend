@@ -1,5 +1,4 @@
 import { FC } from "react";
-import PropTypes from "prop-types";
 import { useTranslate, Record } from "react-admin";
 import { Typography, Card, CardContent, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,7 +17,7 @@ interface AsideProps {
   basePath?: string;
 }
 
-const Aside: FC<AsideProps> = ({ record, basePath }) => {
+export const Aside: FC<AsideProps> = ({ record, basePath }) => {
   const classes = useAsideStyles();
   return (
     <div className={classes.root}>
@@ -27,28 +26,13 @@ const Aside: FC<AsideProps> = ({ record, basePath }) => {
   );
 };
 
-Aside.propTypes = {
-  record: PropTypes.any,
-  basePath: PropTypes.string,
-};
-
 interface EventListProps {
   record?: Record;
   basePath?: string;
 }
 
-// const useEventStyles = makeStyles({
-//   stepper: {
-//     backgroud: 'none',
-//     border: 'none',
-//     marginLeft: '0.3em',
-//   },
-// });
-
-const EventList: FC<EventListProps> = ({ record, basePath }) => {
+const EventList: FC<EventListProps> = () => {
   const translate = useTranslate();
-  // const classes = useEventStyles();
-  // const locale = useLocale();
 
   return (
     <Box m="0 0 1em 1em">
@@ -63,5 +47,3 @@ const EventList: FC<EventListProps> = ({ record, basePath }) => {
     </Box>
   );
 };
-
-export default Aside;

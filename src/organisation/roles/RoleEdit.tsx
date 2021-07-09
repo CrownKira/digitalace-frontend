@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC } from 'react';
 import {
   Edit,
   EditProps,
@@ -11,23 +11,23 @@ import {
   ReferenceArrayInput,
   AutocompleteArrayInput,
   required,
-} from "react-admin";
+} from 'react-admin';
 
-import { Role } from "../../types";
-import { formatImage } from "../../utils";
-import permissions from "../../permissions/data";
+import { Role } from '../../types';
+import { formatImage } from '../../utils';
+import { permissions } from '../../permissions/data';
 
 const RoleTitle: FC<FieldProps<Role>> = ({ record }) => {
   const translate = useTranslate();
   return record ? (
     <span>
-      {translate("resources.roles.name", { smart_count: 1 })} &quot;
+      {translate('resources.roles.name', { smart_count: 1 })} &quot;
       {record.name}&quot;
     </span>
   ) : null;
 };
 
-const RoleEdit: FC<EditProps> = (props) => (
+export const RoleEdit: FC<EditProps> = (props) => (
   <Edit title={<RoleTitle />} {...props}>
     <SimpleForm>
       <ImageInput
@@ -57,5 +57,3 @@ const RoleEdit: FC<EditProps> = (props) => (
 );
 
 const requiredValidate = required();
-
-export default RoleEdit;

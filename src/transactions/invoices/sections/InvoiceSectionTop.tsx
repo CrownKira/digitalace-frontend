@@ -1,12 +1,12 @@
-import { FC } from "react";
-import RichTextInput from "ra-input-rich-text";
-import { Box } from "@material-ui/core";
-import { DateInput, TextInput, SelectInput } from "react-admin";
+import { FC } from 'react';
+import RichTextInput from 'ra-input-rich-text';
+import { Box } from '@material-ui/core';
+import { DateInput, TextInput, SelectInput } from 'react-admin';
 
-import { statuses } from "../data";
-import { AsyncAutocompleteInput } from "../../../utils/components/AsyncAutocompleteInput";
-import { requiredValidate, validateReference } from "../InvoiceCreate";
-import CustomerNameInput from "../CustomerNameInput";
+import { statuses } from '../data';
+import { AsyncAutocompleteInput } from '../../../utils/components/AsyncAutocompleteInput';
+import { requiredValidate, validateReference } from '../InvoiceCreate';
+import CustomerNameInput from '../fields/CustomerNameInput';
 
 interface Props {
   props: any;
@@ -22,18 +22,18 @@ interface Props {
   >;
 }
 
-const InvoiceSectionTop: FC<Props> = ({ props, state, setState }) => {
+export const InvoiceSectionTop: FC<Props> = ({ props, state, setState }) => {
   return (
-    <Box display={{ sm: "block", md: "flex" }}>
-      <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
+    <Box display={{ sm: 'block', md: 'flex' }}>
+      <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
         <DateInput
           source="date"
           resource="invoices"
           fullWidth
           validate={requiredValidate}
         />
-        <Box display={{ sm: "block", md: "flex" }}>
-          <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
+        <Box display={{ sm: 'block', md: 'flex' }}>
+          <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
             <CustomerNameInput
               onChange={() => {
                 setState({
@@ -43,7 +43,7 @@ const InvoiceSectionTop: FC<Props> = ({ props, state, setState }) => {
               }}
             />
           </Box>
-          <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
+          <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
             <AsyncAutocompleteInput
               // TODO: wrap all AsyncAutocompleteInput, to be shared by other documents
               optionText="name"
@@ -57,9 +57,9 @@ const InvoiceSectionTop: FC<Props> = ({ props, state, setState }) => {
         </Box>
         <RichTextInput source="description" label="" />
       </Box>
-      <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
-        <Box display={{ sm: "block", md: "flex" }}>
-          <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
+      <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
+        <Box display={{ sm: 'block', md: 'flex' }}>
+          <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
             <TextInput
               source="reference"
               resource="invoices"
@@ -67,7 +67,7 @@ const InvoiceSectionTop: FC<Props> = ({ props, state, setState }) => {
               validate={validateReference(props)}
             />
           </Box>
-          <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
+          <Box flex={1} ml={{ sm: 0, md: '0.5em' }}>
             <AsyncAutocompleteInput
               // TODO: edit button start adornment
               // refer to ProductNameInput.tsx
@@ -80,8 +80,8 @@ const InvoiceSectionTop: FC<Props> = ({ props, state, setState }) => {
             />
           </Box>
         </Box>
-        <Box display={{ sm: "block", md: "flex" }}>
-          <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
+        <Box display={{ sm: 'block', md: 'flex' }}>
+          <Box flex={1} mr={{ sm: 0, md: '0.5em' }}>
             <SelectInput
               source="status"
               choices={statuses}
@@ -90,16 +90,14 @@ const InvoiceSectionTop: FC<Props> = ({ props, state, setState }) => {
               onChange={(event: any) => {
                 setState((state) => ({
                   ...state,
-                  isPaid: event.target.value === "PD",
+                  isPaid: event.target.value === 'PD',
                 }));
               }}
             />
           </Box>
-          <Box flex={1} ml={{ sm: 0, md: "0.5em" }}></Box>
+          <Box flex={1} ml={{ sm: 0, md: '0.5em' }}></Box>
         </Box>
       </Box>
     </Box>
   );
 };
-
-export default InvoiceSectionTop;
