@@ -1,3 +1,4 @@
+import React from "react";
 import { useMediaQuery, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -19,9 +20,9 @@ import { DepartmentInput } from "./DepartmentInput";
 import { DesignationInput } from "./DesignationInput";
 import { RoleInput } from "./RoleInput";
 import { EmployeeLinkField } from "./EmployeeLinkField";
-import { DepartmentNameField } from "../departments/NameField";
+import { NameField as DepartmentNameField } from "../departments/NameField";
 import { MobileGrid } from "./MobileGrid";
-import { EmployeeListAside } from "./EmployeeListAside";
+import { Aside as EmployeeListAside } from "./EmployeeListAside";
 import { ReactElement } from "react";
 
 const useStyles = makeStyles((theme) => ({

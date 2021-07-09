@@ -19,7 +19,6 @@ import {
   styles as createStyles,
   requiredValidate,
   validateNumber,
-  validateReferenceUnicity,
   validateReference,
 } from "./ProductCreate";
 import { Product } from "../../types";

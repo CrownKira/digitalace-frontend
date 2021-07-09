@@ -61,7 +61,11 @@ function getFormData(data: Record, method = HttpMethodsEnum.PATCH) {
 export const customDataProvider: DataProvider = {
   ...restProvider,
   create: async (resource, params) => {
-    if (fileLabels.every((x) => !params.data.hasOwnProperty(x))) {
+    if (
+      fileLabels.every(
+        (x) => !Object.prototype.hasOwnProperty.call(params.data, x)
+      )
+    ) {
       return restProvider.create(resource, params);
     }
 
@@ -74,7 +78,11 @@ export const customDataProvider: DataProvider = {
     };
   },
   update: async (resource, params) => {
-    if (fileLabels.every((x) => !params.data.hasOwnProperty(x))) {
+    if (
+      fileLabels.every(
+        (x) => !Object.prototype.hasOwnProperty.call(params.data, x)
+      )
+    ) {
       return restProvider.update(resource, params);
     }
     const { json } = await httpClient(`${apiUrl}/${resource}/${params.id}/`, {

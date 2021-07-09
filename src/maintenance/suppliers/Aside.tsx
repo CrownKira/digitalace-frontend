@@ -37,18 +37,8 @@ interface EventListProps {
   basePath?: string;
 }
 
-// const useEventStyles = makeStyles({
-//   stepper: {
-//     backgroud: 'none',
-//     border: 'none',
-//     marginLeft: '0.3em',
-//   },
-// });
-
-const EventList: FC<EventListProps> = ({ record, basePath }) => {
+const EventList: FC<EventListProps> = () => {
   const translate = useTranslate();
-  // const classes = useEventStyles();
-  // const locale = useLocale();
 
   return (
     <Box m="0 0 1em 1em">

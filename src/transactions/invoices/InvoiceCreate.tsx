@@ -16,7 +16,7 @@ import {
   maxValue,
 } from "react-admin";
 import { Card, CardContent } from "@material-ui/core";
-import useGetUserConfig from "../../userMenu/configuration/useGetUserConfig";
+import { useGetUserConfig } from "../../userMenu/configuration/useGetUserConfig";
 import { withStyles } from "@material-ui/core/styles";
 import { AnyObject } from "react-final-form";
 
@@ -48,7 +48,7 @@ export const styles = {
 };
 
 // TODO: move to utils
-export const Wrapper = withStyles((theme) => ({
+export const Wrapper = withStyles(() => ({
   root: {
     padding: 0,
     "&:last-child": {

@@ -1,3 +1,4 @@
+import React from "react";
 import { useSelector } from "react-redux";
 import { Layout, LayoutProps, Sidebar } from "react-admin";
 import { CustomAppBar as AppBar } from "./AppBar";

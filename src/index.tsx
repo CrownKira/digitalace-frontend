@@ -1,3 +1,4 @@
+import React from "react";
 import "react-app-polyfill/ie11";
 import "react-app-polyfill/stable";
 import "proxy-polyfill";

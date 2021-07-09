@@ -1,3 +1,4 @@
+import React from "react";
 import { useTranslate } from "react-admin";
 
 // https://stackoverflow.com/questions/51940157/how-to-align-horizontal-icon-and-text-in-material-ui

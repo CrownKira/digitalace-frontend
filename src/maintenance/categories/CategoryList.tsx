@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import LinkToRelatedProducts from "./LinkToRelatedProducts";
+import { LinkToRelatedProducts } from "./LinkToRelatedProducts";
 import { Category } from "../../types";
 
 const useStyles = makeStyles({

@@ -1,3 +1,4 @@
+import React from "react";
 import {
   TextField,
   EmailField,
@@ -14,7 +15,7 @@ import { AgentInput } from "./AgentInput";
 import { CustomerLinkField } from "./CustomerLinkField";
 import { ColoredNumberField } from "./ColoredNumberField";
 import { MobileGrid } from "./MobileGrid";
-import { CustomerListAside } from "./CustomerListAside";
+import { Aside as CustomerListAside } from "./CustomerListAside";
 import { ReactElement } from "react";
 
 const CustomerFilter = (props: Omit<FilterProps, "children">) => (

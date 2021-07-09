@@ -1,3 +1,4 @@
+import React from "react";
 import {
   TextField,
   EmailField,
@@ -10,10 +11,10 @@ import {
 } from "react-admin";
 import { useMediaQuery, Theme } from "@material-ui/core";
 
-import SupplierLinkField from "./SupplierLinkField";
-import ColoredNumberField from "./ColoredNumberField";
-import MobileGrid from "./MobileGrid";
-import SupplierListAside from "./SupplierListAside";
+import { SupplierLinkField } from "./SupplierLinkField";
+import { ColoredNumberField } from "./ColoredNumberField";
+import { MobileGrid } from "./MobileGrid";
+import { SupplierListAside } from "./SupplierListAside";
 import { ReactElement } from "react";
 
 const SupplierFilter = (props: Omit<FilterProps, "children">) => (

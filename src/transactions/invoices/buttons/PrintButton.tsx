@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import React, { cloneElement, FC, ReactElement, SyntheticEvent } from "react";
 import Button, { ButtonProps } from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,7 +16,7 @@ import {
 } from "react-admin";
 import { FormRenderProps } from "react-final-form";
 
-import { sanitizeButtonRestProps } from "../utils";
+import { sanitizeButtonRestProps } from "../../../utils";
 
 export const PrintButton: FC<PrintButtonProps> = (props) => {
   const {

@@ -5,8 +5,6 @@ import {
   TextInput,
   Toolbar,
   FormWithRedirect,
-  required,
-  email,
   FieldProps,
   ImageInput,
   ImageField,
@@ -26,11 +24,10 @@ import {
   validatePasswords,
   requiredValidate,
   validateEmail,
-  validateReferenceUnicity,
   validateReference,
 } from "./SupplierCreate";
 import { Supplier } from "../../types";
-import { formatImage, validateUnicity } from "../../utils";
+import { formatImage } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 import { SectionTitle, Separator } from "../../utils/components/Divider";
 import { NameField } from "../categories/NameField";

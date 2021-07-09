@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import React, { forwardRef } from "react";
 import { AppBar, UserMenu, MenuItemLink, useTranslate } from "react-admin";
 import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -6,7 +6,7 @@ import FaceIcon from "@material-ui/icons/Face";
 import { makeStyles } from "@material-ui/core/styles";
 import { useProfile } from "../userMenu/profile/Profile";
 
-import Logo from "./Logo";
+import { Logo } from "./Logo";
 
 const useStyles = makeStyles((theme) => ({
   title: {

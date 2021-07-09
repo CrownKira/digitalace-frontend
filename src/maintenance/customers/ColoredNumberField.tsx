@@ -1,3 +1,4 @@
+import React from "react";
 import { NumberField, NumberFieldProps } from "react-admin";
 
 import { PriceField } from "../../utils/components/PriceField";

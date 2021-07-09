@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   },
 });
 
-const DepartmentGrid: FC = (props) => {
+const DepartmentGrid: FC = () => {
   const classes = useStyles();
   const { data, ids } = useListContext<Department>();
   return ids ? (

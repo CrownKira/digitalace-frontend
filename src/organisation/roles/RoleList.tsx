@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   },
 });
 
-const RoleGrid: FC = (props) => {
+const RoleGrid: FC = () => {
   const classes = useStyles();
   const { data, ids } = useListContext<Role>();
 

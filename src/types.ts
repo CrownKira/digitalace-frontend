@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { ReduxState, Record, Identifier } from "react-admin";
 
 export type Memoize = <T extends (...args: any[]) => any>(

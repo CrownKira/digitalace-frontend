@@ -292,6 +292,7 @@ export interface AsyncAutocompleteInputProps
   queryParamName?: string;
   onChange?:
     | ((
+        // eslint-disable-next-line @typescript-eslint/ban-types
         event: React.ChangeEvent<{}>,
         value: Record | null,
         reason: AutocompleteChangeReason,

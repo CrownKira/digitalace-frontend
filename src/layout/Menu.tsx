@@ -17,19 +17,19 @@ import { useDispatch } from "react-redux";
 
 import { changeTheme } from "../userMenu/configuration/actions";
 import { UserConfig } from "../types";
-import departments from "../organisation/departments";
-import roles from "../organisation/roles";
-import employees from "../organisation/employees";
-import customers from "../maintenance/customers";
-import suppliers from "../maintenance/suppliers";
-import categories from "../maintenance/categories";
-import products from "../maintenance/products";
-import invoices from "../transactions/invoices";
-import receives from "../transactions/receives";
-import credit_notes from "../transactions/credit_notes";
-import purchase_orders from "../orders/purchase_orders";
-import sales_orders from "../orders/sales_orders";
-import SubMenu from "./SubMenu";
+import { departments } from "../organisation/departments";
+import { roles } from "../organisation/roles";
+import { employees } from "../organisation/employees";
+import { customers } from "../maintenance/customers";
+import { suppliers } from "../maintenance/suppliers";
+import { categories } from "../maintenance/categories";
+import { products } from "../maintenance/products";
+import { invoices } from "../transactions/invoices";
+import { receives } from "../transactions/receives";
+import { credit_notes } from "../transactions/credit_notes";
+import { purchase_orders } from "../orders/purchase_orders";
+import { sales_orders } from "../orders/sales_orders";
+import { SubMenu } from "./SubMenu";
 import { AppState, ThemeName } from "../types";
 import { refreshLocalStorage } from "../utils";
 
@@ -39,7 +39,7 @@ type MenuName =
   | "menuTransaction"
   | "menuOrder";
 
-export const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
+export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
   const [state, setState] = useState({
     menuOrganization: true,
     menuMaintenance: true,
@@ -88,7 +88,7 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, logout, dense = false }) => {
           updateStores();
         }
       })
-      .catch((error: Error) => {
+      .catch(() => {
         notify("pos.user_menu.user_config.data_provider_error", "warning");
       });
   }, [dataProvider, dispatch, notify, setLocale]);

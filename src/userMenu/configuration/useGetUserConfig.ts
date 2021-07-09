@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDataProvider } from "react-admin";
 import { UserConfig } from "../../types";
 

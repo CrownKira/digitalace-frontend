@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { Box, Card, CardContent, InputAdornment } from "@material-ui/core";
 import {
   TextInput,
@@ -20,7 +20,6 @@ import { ThemeSelectInput } from "./ThemeSelectInput";
 import { LanguageSelectInput } from "./LanguageSelectInput";
 import { UserConfig } from "../../types";
 import { refreshLocalStorage } from "../../utils";
-import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 
 export const UserConfigEdit = () => {

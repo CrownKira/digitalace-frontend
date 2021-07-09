@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import React from "react";
 import React, { FC, ReactElement, ReactNode } from "react";
 import PropTypes from "prop-types";

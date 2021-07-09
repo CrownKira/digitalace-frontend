@@ -4,7 +4,7 @@ import { CustomerList } from "./CustomerList";
 import { CustomerCreate } from "./CustomerCreate";
 import { CustomerEdit } from "./CustomerEdit";
 
-const customers = {
+export const customers = {
   codename: "customer",
   list: CustomerList,
   create: CustomerCreate,

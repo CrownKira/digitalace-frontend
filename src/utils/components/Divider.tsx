@@ -1,3 +1,4 @@
+import React from "react";
 import { useTranslate } from "react-admin";
 import { Typography, Box } from "@material-ui/core";
 

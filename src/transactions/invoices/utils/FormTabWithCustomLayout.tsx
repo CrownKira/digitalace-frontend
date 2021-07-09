@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/ban-types */
 import React, { FC, ReactElement, ReactNode } from "react";
 import PropTypes from "prop-types";
 import { Record } from "ra-core";
