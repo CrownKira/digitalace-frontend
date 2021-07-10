@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import RichTextInput from "ra-input-rich-text";
 import { Box } from "@material-ui/core";
 import { DateInput, TextInput, SelectInput } from "react-admin";
 
@@ -57,7 +56,6 @@ export const DetailTopSection: FC<Props> = ({ props, state, setState }) => {
             />
           </Box>
         </Box>
-        <RichTextInput source="description" label="" />
       </Box>
       <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
         <Box display={{ sm: "block", md: "flex" }}>

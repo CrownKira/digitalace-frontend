@@ -146,13 +146,6 @@ const InvoiceForm = (props: any) => {
                     source="invoiceitem_set"
                     resource="invoice_items"
                     label="resources.invoices.fields.invoiceitem_set"
-                    productInput={
-                      <ProductNameInput
-                        fullWidth
-                        inputClassName={classes.lineItemReferenceInput}
-                        label="resources.invoice_items.fields.product"
-                      />
-                    }
                   />
                   <DetailBottomSection formProps={formProps} />
                 </FormTabWithCustomLayout>

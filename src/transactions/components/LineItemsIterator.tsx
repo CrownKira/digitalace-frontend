@@ -10,7 +10,17 @@ import {
 import PropTypes from "prop-types";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import get from "lodash/get";
-import Typography from "@material-ui/core/Typography";
+import {
+  Box,
+  InputAdornment,
+  TableContainer,
+  Table,
+  Paper,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { makeStyles } from "@material-ui/core/styles";
@@ -44,6 +54,8 @@ const useStyles = makeStyles(
       listStyleType: "none",
       borderBottom: `solid 1px ${theme.palette.divider}`,
       [theme.breakpoints.down("xs")]: { display: "block" },
+    },
+    row: {
       "&.fade-enter": {
         opacity: 0.01,
         transform: "translateX(100vw)",
@@ -112,6 +124,8 @@ const AddItemHeaderButton = (props: any) => {
   );
 };
 
+// TODO: use Datagrid?
+// https://material-ui.com/components/data-grid/editing/
 export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
   const {
     addButton = <DefaultAddButton />,
@@ -134,6 +148,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
   } = props;
   const classes = useStyles(props);
   const nodeRef = useRef(null);
+  const translate = useTranslate();
   const notify = useNotify();
 
   // We need a unique id for each field for a proper enter/exit animation
@@ -199,13 +214,40 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
 
   const records = get(record, source);
   return fields ? (
-    <ul className={classNames(classes.root, className)}>
+    <Table
+      className={classNames(classes.root, className)}
+      aria-label="line items table"
+    >
+      <TableHead>
+        <TableRow>
+          {Children.map(children, (input: ReactElement, index2) => {
+            // TODO: refactor
+            if (!isValidElement<any>(input)) {
+              return null;
+            }
+
+            const { source } = input.props;
+            return (
+              <TableCell align="center">
+                {translate(
+                  typeof input.props.label === "undefined"
+                    ? source
+                      ? `resources.${resource}.fields.${source}`
+                      : undefined
+                    : input.props.label
+                )}
+              </TableCell>
+            );
+          })}
+        </TableRow>
+      </TableHead>
       {submitFailed && typeof error !== "object" && error && (
         <FormHelperText error>
           <ValidationError error={error as string} />
         </FormHelperText>
       )}
-      <TransitionGroup component={null}>
+
+      <TransitionGroup component={TableBody}>
         {fields.map((member: any, index: any) => (
           <CSSTransition
             nodeRef={nodeRef}
@@ -214,28 +256,20 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
             classNames="fade"
             {...TransitionProps}
           >
-            <li className={classes.line}>
-              <Typography variant="body1" className={classes.index}>
-                {index + 1}
-              </Typography>
-              <section className={classes.form}>
-                {Children.map(children, (input: ReactElement, index2) => {
-                  if (!isValidElement<any>(input)) {
-                    return null;
-                  }
-                  const { source, ...inputProps } = input.props;
-                  return (
+            <TableRow className={classes.row} key={ids.current[index]}>
+              {Children.map(children, (input: ReactElement, index2) => {
+                if (!isValidElement<any>(input)) {
+                  return null;
+                }
+                const { source, ...inputProps } = input.props;
+                return (
+                  <TableCell>
                     <FormInput
                       basePath={input.props.basePath || basePath}
                       input={cloneElement(input, {
                         source: source ? `${member}.${source}` : member,
                         index: source ? undefined : index2,
-                        label:
-                          typeof input.props.label === "undefined"
-                            ? source
-                              ? `resources.${resource}.fields.${source}`
-                              : undefined
-                            : input.props.label,
+                        label: false,
                         disabled,
                         ...inputProps,
                       })}
@@ -244,9 +278,10 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
                       variant={variant}
                       margin={margin}
                     />
-                  );
-                })}
-              </section>
+                  </TableCell>
+                );
+              })}
+
               {!disabled &&
                 !disableRemoveField(
                   (records && records[index]) || {},
@@ -265,10 +300,11 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
                     })}
                   </span>
                 )}
-            </li>
+            </TableRow>
           </CSSTransition>
         ))}
       </TransitionGroup>
+
       {!disabled && !disableAdd && (
         <li className={classes.line}>
           <span className={classes.action}>
@@ -283,7 +319,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
           </span>
         </li>
       )}
-    </ul>
+    </Table>
   ) : null;
 };
 

@@ -165,13 +165,6 @@ const SalesOrderForm = (props: any) => {
                     source="salesorderitem_set"
                     resource="sales_order_items"
                     label="resources.sales_orders.fields.salesorderitem_set"
-                    productInput={
-                      <ProductNameInput
-                        fullWidth
-                        inputClassName={classes.lineItemReferenceInput}
-                        label="resources.sales_order_items.fields.product"
-                      />
-                    }
                   />
                   <DetailBottomSection formProps={formProps} />
                 </FormTabWithCustomLayout>

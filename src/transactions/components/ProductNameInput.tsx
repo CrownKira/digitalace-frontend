@@ -21,15 +21,14 @@ export const ProductNameInput: FC<Props> = ({
 }) => {
   const form = useForm();
 
-  return (
+  return getSource ? (
     <AsyncAutocompleteInput
       {...rest} // pass injected props
       optionText="name"
       optionValue="id"
       reference="products"
       onChange={(event, newValue) => {
-        getSource &&
-          newValue &&
+        newValue &&
           form.batch(() => {
             form.change(getSource("unit"), newValue.unit);
             form.change(getSource("unit_price"), newValue.unit_price);
@@ -37,9 +36,10 @@ export const ProductNameInput: FC<Props> = ({
           });
       }}
       className={inputClassName}
-      showSuggestions={false}
+      // TODO: more generic label?
+      label="resources.invoice_items.fields.product"
     />
-  );
+  ) : null;
 };
 
 ProductNameInput.defaultProps = {

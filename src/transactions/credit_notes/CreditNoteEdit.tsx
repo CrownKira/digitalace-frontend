@@ -128,13 +128,6 @@ const CreditNoteForm = (props: any) => {
                     source="creditnoteitem_set"
                     resource="credit_note_items"
                     label="resources.credit_notes.fields.creditnoteitem_set"
-                    productInput={
-                      <ProductNameInput
-                        fullWidth
-                        inputClassName={classes.lineItemReferenceInput}
-                        label="resources.credit_note_items.fields.product"
-                      />
-                    }
                   />
                   <DetailBottomSection formProps={formProps} />
                 </FormTabWithCustomLayout>
