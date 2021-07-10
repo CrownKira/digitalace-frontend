@@ -1,5 +1,5 @@
-import { Fragment } from "react";
-import React, { FC } from "react";
+import React, { Fragment } from "react";
+import { FC } from "react";
 import {
   List,
   ListProps,
@@ -74,15 +74,10 @@ export const SalesOrderList: FC<ListProps> = (props) => {
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField source="sales_order" reference="sales_orders">
+        <ReferenceField source="invoice" reference="invoices">
           <TextField source="reference" />
         </ReferenceField>
-        <SelectField
-          // TODO: use chip
-          // https://marmelab.com/react-admin/Fields.html#choice-fields
-          source="status"
-          choices={statuses}
-        />
+        <SelectField source="status" choices={statuses} />
         <NumberField source="grand_total" />
       </Datagrid>
     </List>

@@ -8,15 +8,16 @@ import {
 import { Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import {
-  requiredValidate,
-  validateNumber,
-  styles as createStyles,
-} from "../invoices/InvoiceCreate";
+import { requiredValidate, validateNumber } from "../invoices/InvoiceCreate";
 import { LineItemsIterator } from "./LineItemsIterator";
 
 const useStyles = makeStyles({
-  ...createStyles,
+  leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
+  rightFormGroup: {
+    display: "inline-block",
+  },
+  lineItemInput: { width: 150 },
+  lineItemReferenceInput: { width: 300 },
 });
 
 interface Props {

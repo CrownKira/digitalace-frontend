@@ -1,3 +1,5 @@
+import "../../styles/transactions.scss";
+
 import React, { FC, useState } from "react";
 import {
   Edit,

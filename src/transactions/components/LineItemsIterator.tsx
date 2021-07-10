@@ -28,7 +28,7 @@ import classNames from "classnames";
 import { FieldArrayRenderProps } from "react-final-form-arrays";
 
 // FIXME: fix any
-// TODO: make row draggable
+// TODO: make row draggable / up and down arrow button
 // TODO: add item header button
 const useStyles = makeStyles(
   (theme) => ({
