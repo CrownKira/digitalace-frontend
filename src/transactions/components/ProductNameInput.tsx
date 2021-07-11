@@ -1,3 +1,4 @@
+import { FormatColorResetRounded } from "@material-ui/icons";
 import React, { FC } from "react";
 import { InputProps, FormDataConsumerRenderParams } from "react-admin";
 import { useForm } from "react-final-form";
@@ -37,7 +38,7 @@ export const ProductNameInput: FC<Props> = ({
       }}
       className={inputClassName}
       // TODO: more generic label?
-      label="resources.invoice_items.fields.product"
+      label={false}
     />
   ) : null;
 };

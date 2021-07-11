@@ -9,7 +9,6 @@ import {
   ImageInput,
   ImageField,
   ArrayInput,
-  SimpleFormIterator,
   ReferenceArrayInput,
   AutocompleteArrayInput,
   required,
@@ -20,6 +19,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Department } from "../../types";
 import { formatImage } from "../../utils";
 import { styles as createStyles, requiredValidate } from "./DepartmentCreate";
+import { LineItemsIterator } from "../../utils/components/LineItemsIterator";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -68,7 +68,7 @@ export const DepartmentEdit: FC<EditProps> = (props) => {
           resource="designations"
           label="resources.departments.fields.designation_set"
         >
-          <SimpleFormIterator resource="designations">
+          <LineItemsIterator resource="designations">
             <TextInput
               source="name"
               formClassName={classes.leftFormGroup}
@@ -82,7 +82,7 @@ export const DepartmentEdit: FC<EditProps> = (props) => {
             >
               <AutocompleteArrayInput optionText="name" />
             </ReferenceArrayInput>
-          </SimpleFormIterator>
+          </LineItemsIterator>
         </ArrayInput>
       </SimpleForm>
     </Edit>

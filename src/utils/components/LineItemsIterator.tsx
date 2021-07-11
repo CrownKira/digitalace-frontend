@@ -20,12 +20,13 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  TableFooter,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { makeStyles } from "@material-ui/core/styles";
-import CloseIcon from "@material-ui/icons/RemoveCircleOutline";
-import AddIcon from "@material-ui/icons/AddCircleOutline";
+import CloseIcon from "@material-ui/icons/RemoveOutlined";
+import AddIcon from "@material-ui/icons/AddOutlined";
 import {
   useTranslate,
   ValidationError,
@@ -33,9 +34,11 @@ import {
   ClassesOverride,
   FormInput,
   useNotify,
+  SimpleFormIterator,
 } from "react-admin";
 import classNames from "classnames";
 import { FieldArrayRenderProps } from "react-final-form-arrays";
+import { PropertyPath } from "lodash";
 
 // FIXME: fix any
 // TODO: make row draggable / up and down arrow button
@@ -55,7 +58,11 @@ const useStyles = makeStyles(
       borderBottom: `solid 1px ${theme.palette.divider}`,
       [theme.breakpoints.down("xs")]: { display: "block" },
     },
+    container: {
+      maxHeight: 440,
+    },
     row: {
+      // FIXME: animation not working
       "&.fade-enter": {
         opacity: 0.01,
         transform: "translateX(100vw)",
@@ -74,6 +81,13 @@ const useStyles = makeStyles(
         transform: "translateX(100vw)",
         transition: "all 500ms ease-in",
       },
+    },
+
+    footer: {
+      left: 0,
+      bottom: 0,
+      zIndex: 2,
+      position: "sticky",
     },
     index: {
       width: "3em",
@@ -95,7 +109,7 @@ const DefaultAddButton = (props: any) => {
   const classes = useStyles(props);
   const translate = useTranslate();
   return (
-    <Button size="small" {...props}>
+    <Button size="small" color="primary" {...props}>
       <AddIcon className={classes.leftIcon} />
       {translate("ra.action.add")}
     </Button>
@@ -106,7 +120,7 @@ const DefaultRemoveButton = (props: any) => {
   const classes = useStyles(props);
   const translate = useTranslate();
   return (
-    <Button size="small" {...props}>
+    <Button size="small" color="primary" {...props}>
       <CloseIcon className={classes.leftIcon} />
       {translate("ra.action.remove")}
     </Button>
@@ -117,7 +131,7 @@ const AddItemHeaderButton = (props: any) => {
   const classes = useStyles(props);
   const translate = useTranslate();
   return (
-    <Button size="small" {...props}>
+    <Button size="small" color="primary" {...props}>
       <AddIcon className={classes.leftIcon} />
       {translate("resources.invoices.action.add_item_header")}
     </Button>
@@ -126,7 +140,7 @@ const AddItemHeaderButton = (props: any) => {
 
 // TODO: use Datagrid?
 // https://material-ui.com/components/data-grid/editing/
-export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
+export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
   const {
     addButton = <DefaultAddButton />,
     removeButton = <DefaultRemoveButton />,
@@ -134,7 +148,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
     children,
     className,
     fields,
-    meta: { error, submitFailed },
+    meta,
     record,
     resource,
     source,
@@ -145,7 +159,10 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
     margin,
     TransitionProps,
     defaultValue,
+    labels = [],
   } = props;
+  // FIXME: fix any
+  const { error, submitFailed } = meta as any;
   const classes = useStyles(props);
   const nodeRef = useRef(null);
   const translate = useTranslate();
@@ -154,8 +171,8 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
   // We need a unique id for each field for a proper enter/exit animation
   // so we keep an internal map between the field position and an auto-increment id
   const nextId = useRef(
-    fields && fields.length
-      ? fields.length
+    fields && fields?.length
+      ? fields?.length
       : defaultValue
       ? defaultValue.length
       : 0
@@ -171,10 +188,10 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
 
   const removeField = (index: any) => () => {
     ids.current.splice(index, 1);
-    fields.remove(index);
+    fields?.remove(index);
   };
 
-  // Returns a boolean to indicate whether to disable the remove button for certain fields.
+  // Returns a boolean to indicate whether to disable the remove button for certain fields?.
   // If disableRemove is a function, then call the function with the current record to
   // determining if the button should be disabled. Otherwise, use a boolean property that
   // enables or disables the button for all of the fields.
@@ -187,7 +204,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
 
   const addField = () => {
     ids.current.push(nextId.current++);
-    fields.push(undefined);
+    fields?.push(undefined);
   };
 
   // add field and call the onClick event of the button passed as addButton prop
@@ -208,126 +225,152 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props: any) => {
       }
     };
 
-  const handleAddItemHeaderButtonClick = (event: any) => {
-    notify("pos.message.coming_soon");
-  };
+  // const handleAddItemHeaderButtonClick = (event: any) => {
+  //   notify("pos.message.coming_soon");
+  // };
 
-  const records = get(record, source);
+  const records = get(record, source as PropertyPath);
+  const childrenCount = Children.count(children as any);
   return fields ? (
-    <Table
-      className={classNames(classes.root, className)}
-      aria-label="line items table"
-    >
-      <TableHead>
-        <TableRow>
-          {Children.map(children, (input: ReactElement, index2) => {
-            // TODO: refactor
-            if (!isValidElement<any>(input)) {
-              return null;
-            }
+    <TableContainer className={classes.container}>
+      <Table
+        stickyHeader
+        className={classNames(classes.root, className)}
+        aria-label="line items table"
+      >
+        <TableHead>
+          <TableRow>
+            {labels.length === childrenCount
+              ? labels.map((label, index2) => {
+                  return (
+                    <TableCell
+                      key={label}
+                      align={index2 % 2 === 0 ? "left" : "right"}
+                    >
+                      {translate(label)}
+                    </TableCell>
+                  );
+                })
+              : Children.map(children as any, (input: ReactElement, index2) => {
+                  // TODO: refactor
+                  if (!isValidElement<any>(input)) {
+                    return null;
+                  }
 
-            const { source } = input.props;
-            return (
-              <TableCell align="center">
-                {translate(
-                  typeof input.props.label === "undefined"
-                    ? source
-                      ? `resources.${resource}.fields.${source}`
-                      : undefined
-                    : input.props.label
+                  const { source } = input.props;
+                  return (
+                    <TableCell align={index2 % 2 === 0 ? "left" : "right"}>
+                      {translate(
+                        typeof input.props.label === "undefined"
+                          ? source
+                            ? `resources.${resource}.fields.${source}`
+                            : undefined
+                          : input.props.label
+                      )}
+                    </TableCell>
+                  );
+                })}
+            <TableCell />
+          </TableRow>
+        </TableHead>
+        {submitFailed && typeof error !== "object" && error && (
+          <FormHelperText error>
+            <ValidationError error={error as string} />
+          </FormHelperText>
+        )}
+        <TransitionGroup component={TableBody}>
+          {fields?.map((member: any, index: any) => (
+            <CSSTransition
+              nodeRef={nodeRef}
+              key={ids.current[index]}
+              timeout={500}
+              classNames="fade"
+              {...TransitionProps}
+            >
+              <TableRow hover className={classes.row} key={ids.current[index]}>
+                {Children.map(
+                  children as any,
+                  (input: ReactElement, index2) => {
+                    if (!isValidElement<any>(input)) {
+                      return null;
+                    }
+                    const { source, ...inputProps } = input.props;
+                    return (
+                      <TableCell>
+                        <FormInput
+                          basePath={input.props.basePath || basePath}
+                          input={cloneElement(input, {
+                            source: source ? `${member}.${source}` : member,
+                            index: source ? undefined : index2,
+                            label: "",
+                            disabled,
+                            ...inputProps,
+                          })}
+                          record={(records && records[index]) || {}}
+                          resource={resource}
+                          variant={variant}
+                          margin={margin}
+                        />
+                      </TableCell>
+                    );
+                  }
                 )}
-              </TableCell>
-            );
-          })}
-        </TableRow>
-      </TableHead>
-      {submitFailed && typeof error !== "object" && error && (
-        <FormHelperText error>
-          <ValidationError error={error as string} />
-        </FormHelperText>
-      )}
-
-      <TransitionGroup component={TableBody}>
-        {fields.map((member: any, index: any) => (
-          <CSSTransition
-            nodeRef={nodeRef}
-            key={ids.current[index]}
-            timeout={500}
-            classNames="fade"
-            {...TransitionProps}
-          >
-            <TableRow className={classes.row} key={ids.current[index]}>
-              {Children.map(children, (input: ReactElement, index2) => {
-                if (!isValidElement<any>(input)) {
-                  return null;
-                }
-                const { source, ...inputProps } = input.props;
-                return (
-                  <TableCell>
-                    <FormInput
-                      basePath={input.props.basePath || basePath}
-                      input={cloneElement(input, {
-                        source: source ? `${member}.${source}` : member,
-                        index: source ? undefined : index2,
-                        label: false,
-                        disabled,
-                        ...inputProps,
+                {!disabled &&
+                  !disableRemoveField(
+                    (records && records[index]) || {},
+                    disableRemove
+                  ) && (
+                    <TableCell>
+                      {cloneElement(removeButton, {
+                        onClick: handleRemoveButtonClick(
+                          removeButton.props.onClick,
+                          index
+                        ),
+                        className: classNames(
+                          "button-remove",
+                          `button-remove-${source}-${index}`
+                        ),
                       })}
-                      record={(records && records[index]) || {}}
-                      resource={resource}
-                      variant={variant}
-                      margin={margin}
-                    />
-                  </TableCell>
-                );
-              })}
-
-              {!disabled &&
-                !disableRemoveField(
-                  (records && records[index]) || {},
-                  disableRemove
-                ) && (
-                  <span className={classes.action}>
-                    {cloneElement(removeButton, {
-                      onClick: handleRemoveButtonClick(
-                        removeButton.props.onClick,
-                        index
-                      ),
-                      className: classNames(
-                        "button-remove",
-                        `button-remove-${source}-${index}`
-                      ),
-                    })}
-                  </span>
-                )}
+                    </TableCell>
+                  )}
+              </TableRow>
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
+        {!disabled && !disableAdd && (
+          <TableFooter className={classes.footer}>
+            <TableRow>
+              <TableCell colSpan={childrenCount + 1}>
+                <span className={classes.action}>
+                  {cloneElement(addButton, {
+                    onClick: handleAddButtonClick(addButton.props.onClick),
+                    className: classNames("button-add", `button-add-${source}`),
+                  })}
+                </span>
+              </TableCell>
             </TableRow>
-          </CSSTransition>
-        ))}
-      </TransitionGroup>
-
-      {!disabled && !disableAdd && (
-        <li className={classes.line}>
-          <span className={classes.action}>
-            {cloneElement(addButton, {
-              onClick: handleAddButtonClick(addButton.props.onClick),
-              className: classNames("button-add", `button-add-${source}`),
-            })}
-            <AddItemHeaderButton
-              onClick={handleAddItemHeaderButtonClick}
-              className={classNames("button-add", `button-add-${source}`)}
-            />
-          </span>
-        </li>
-      )}
-    </Table>
+          </TableFooter>
+        )}
+      </Table>
+    </TableContainer>
   ) : null;
 };
+
+/*
+TODO: pass down as a prop to this component 
+<AddItemHeaderButton
+  onClick={handleAddItemHeaderButtonClick}
+  className={classNames("button-add", `button-add-${source}`)}
+/>
+*/
 
 LineItemsIterator.defaultProps = {
   disableAdd: false,
   disableRemove: false,
 };
 
+/*
+TODO: remove this?
 LineItemsIterator.propTypes = {
   defaultValue: PropTypes.any,
   addButton: PropTypes.element,
@@ -348,6 +391,7 @@ LineItemsIterator.propTypes = {
   disableRemove: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   TransitionProps: PropTypes.shape({}),
 };
+*/
 
 type DisableRemoveFunction = (record: Record) => boolean;
 
@@ -373,4 +417,5 @@ export interface LineItemsIteratorProps
   source?: string;
   TransitionProps?: any;
   variant?: "standard" | "outlined" | "filled";
+  labels?: string[];
 }

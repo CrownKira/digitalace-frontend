@@ -8,7 +8,6 @@ import {
   ImageInput,
   ImageField,
   ArrayInput,
-  SimpleFormIterator,
   ReferenceArrayInput,
   AutocompleteArrayInput,
   required,
@@ -16,6 +15,7 @@ import {
 } from "react-admin";
 
 import { Department } from "../../types";
+import { LineItemsIterator } from "../../utils/components/LineItemsIterator";
 
 export const styles = {
   leftFormGroup: { display: "inline-block", marginRight: 32 },
@@ -56,7 +56,7 @@ export const DepartmentCreate: FC<CreateProps> = (props) => {
           resource="designations"
           label="resources.departments.fields.designation_set"
         >
-          <SimpleFormIterator>
+          <LineItemsIterator>
             <TextInput
               source="name"
               formClassName={classes.leftFormGroup}
@@ -70,7 +70,7 @@ export const DepartmentCreate: FC<CreateProps> = (props) => {
             >
               <AutocompleteArrayInput optionText="name" />
             </ReferenceArrayInput>
-          </SimpleFormIterator>
+          </LineItemsIterator>
         </ArrayInput>
       </SimpleForm>
     </Create>

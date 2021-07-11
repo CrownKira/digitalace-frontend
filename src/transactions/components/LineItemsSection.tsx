@@ -9,7 +9,7 @@ import { Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { requiredValidate, validateNumber } from "../invoices/InvoiceCreate";
-import { LineItemsIterator } from "./LineItemsIterator";
+import { LineItemsIterator } from "../../utils/components/LineItemsIterator";
 import { ProductNameInput } from "./ProductNameInput";
 
 const useStyles = makeStyles({
@@ -34,7 +34,7 @@ export const LineItemsSection: FC<Props> = ({ source, resource, label }) => {
     <ArrayInput
       source={source}
       resource={resource}
-      label={false}
+      label=""
       validate={requiredValidate}
     >
       <LineItemsIterator resource={resource}>
@@ -58,26 +58,19 @@ export const LineItemsSection: FC<Props> = ({ source, resource, label }) => {
         </FormDataConsumer>
         <NumberInput
           source="quantity"
-          // formClassName={classes.leftFormGroup}
           className={classes.lineItemInput}
           validate={validateNumber}
         />
-        <TextInput
-          source="unit"
-          // formClassName={classes.leftFormGroup}
-          className={classes.lineItemInput}
-          disabled
-        />
+        <TextInput source="unit" className={classes.lineItemInput} disabled />
         <NumberInput
           source="unit_price"
-          // formClassName={classes.leftFormGroup}
           className={classes.lineItemInput}
           validate={validateNumber}
         />
         <NumberInput
           source="amount"
-          // formClassName={classes.rightFormGroup}
           className={classes.lineItemInput}
+          disabled
         />
       </LineItemsIterator>
     </ArrayInput>

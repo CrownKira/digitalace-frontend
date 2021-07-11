@@ -1,13 +1,22 @@
 import React, { FC, useMemo } from "react";
-import { Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import {
+  Box,
+  TableContainer,
+  Table,
+  Paper as MuiPaper,
+  TableRow,
+  TableCell as MuiTableCell,
+  TableBody,
+  Typography,
+} from "@material-ui/core";
+import { makeStyles, withStyles } from "@material-ui/styles";
 import { Record } from "react-admin";
 
 import { toFixedNumber } from "../../../utils";
 
 const useStyles = makeStyles({
-  label: {
-    padding: "1em",
+  table: {
+    minWidth: 300,
   },
 });
 
@@ -15,6 +24,19 @@ interface Props {
   formData: any;
   record: Record;
 }
+
+const TableCell = withStyles({
+  root: {
+    borderBottom: "none",
+  },
+})(MuiTableCell);
+
+const Paper = withStyles({
+  root: {
+    border: "none",
+    backgroundColor: "rgba(0, 0, 0, 0.04)",
+  },
+})(MuiPaper);
 
 export const TotalCreditsSection: FC<Props> = ({ formData, record }) => {
   const classes = useStyles();
@@ -35,21 +57,42 @@ export const TotalCreditsSection: FC<Props> = ({ formData, record }) => {
   );
 
   return (
-    <>
-      <Box display="flex" justifyContent="flex-end">
-        <span className={classes.label}>
-          Amount to Credit:{" "}
-          {total_amount_to_credit.toLocaleString(undefined, {
-            style: "currency",
-            currency: "SGD",
-          })}
-        </span>
-      </Box>
-      <Box display="flex" justifyContent="flex-end">
-        <span className={classes.label}>
-          Invoice Balance Due: {balance_due}
-        </span>
-      </Box>
-    </>
+    <TableContainer component={Paper}>
+      <Table className={classes.table} aria-label="summary table">
+        <TableBody>
+          <TableRow>
+            <TableCell>Invoice Balance</TableCell>
+            <TableCell align="right">
+              {Number(formData.balance_due).toLocaleString(undefined, {
+                style: "currency",
+                currency: "SGD",
+              })}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Amount to Credit</TableCell>
+            <TableCell align="right">
+              (-){" "}
+              {total_amount_to_credit.toLocaleString(undefined, {
+                style: "currency",
+                currency: "SGD",
+              })}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <Typography variant="h6" gutterBottom>
+                Invoice Balance Due (SGD)
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography variant="h6" gutterBottom>
+                {balance_due}
+              </Typography>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
