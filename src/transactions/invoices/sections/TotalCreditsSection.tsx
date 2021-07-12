@@ -40,11 +40,11 @@ const Paper = withStyles({
 })(MuiPaper);
 
 export const TotalCreditsSection: FC<Props> = () => {
-  console.log("before");
+  // console.log("before");
   const record = useRecordContext();
   const { values: formData } = useFormState();
   // useFormState();
-  console.log("after 2");
+  // console.log("after 2");
 
   const classes = useStyles();
 

@@ -29,6 +29,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/RemoveOutlined";
 import AddIcon from "@material-ui/icons/AddOutlined";
+import ReorderIcon from "@material-ui/icons/Reorder";
 import {
   useTranslate,
   ValidationError,
@@ -48,6 +49,9 @@ import {
   DropResult,
   ResponderProvided,
   DraggableId,
+  DraggableProvided,
+  DroppableProvided,
+  DraggableStateSnapshot,
 } from "react-beautiful-dnd";
 
 // FIXME: fix any
@@ -191,7 +195,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
   const translate = useTranslate();
   const notify = useNotify();
 
-  console.log("trigger");
+  // console.log("trigger");
 
   // We need a unique id for each field for a proper enter/exit animation
   // so we keep an internal map between the field position and an auto-increment id
@@ -236,12 +240,9 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
     fields?.push(undefined);
   };
 
-  const swapFields = useCallback(
-    (startIndex: number, endIndex: number) => {
-      fields?.swap(startIndex, endIndex);
-    },
-    [fields]
-  );
+  const swapFields = (startIndex: number, endIndex: number) => {
+    fields?.swap(startIndex, endIndex);
+  };
 
   // add field and call the onClick event of the button passed as addButton prop
   const handleAddButtonClick =
@@ -262,24 +263,21 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
       }
     };
 
-  const onDragEnd = useCallback(
-    (result: DropResult) => {
-      // // console.log("on drag end before");
+  const handleDragEnd = (result: DropResult) => {
+    // // console.log("on drag end before");
 
-      if (!result.destination) {
-        return;
-      }
+    if (!result.destination) {
+      return;
+    }
 
-      // // console.log("on drag end");
-      swapFields(result.source.index, result.destination.index);
-    },
-    [swapFields]
-  );
+    // // console.log("on drag end");
+    swapFields(result.source.index, result.destination.index);
+  };
 
-  const droppableComponent = useMemo(
-    () => DroppableComponent(onDragEnd),
-    [onDragEnd]
-  );
+  // const droppableComponent = useMemo(
+  //   () => DroppableComponent(onDragEnd),
+  //   [onDragEnd]
+  // );
   // const draggableComponent =
 
   // const handleAddItemHeaderButtonClick = (event: any) => {
@@ -288,7 +286,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
 
   const records = get(record, source as PropertyPath);
   const childrenCount = Children.count(children);
-  console.log("fields", fields);
+  // console.log("fields", fields);
   return fields ? (
     <TableContainer className={classes.container}>
       <Table
@@ -298,6 +296,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
       >
         <TableHead>
           <TableRow>
+            <TableCell align="left">&nbsp;</TableCell>
             {labels.length === childrenCount
               ? labels.map((label, index2) => {
                   return (
@@ -328,7 +327,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                     </TableCell>
                   );
                 })}
-            <TableCell />
+            <TableCell align="left">&nbsp;</TableCell>
           </TableRow>
         </TableHead>
         {submitFailed && typeof error !== "object" && error && (
@@ -336,75 +335,118 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
             <ValidationError error={error as string} />
           </FormHelperText>
         )}
-        {/* <TransitionGroup component={null}> */}
-        <TableBody component={draggable ? droppableComponent : "tbody"}>
-          {fields?.map((member, index) => {
-            // <CSSTransition
-            //   nodeRef={nodeRef}
-            //   key={ids.current[index]}
-            //   timeout={500}
-            //   classNames="fade"
-            //   {...TransitionProps}
-            // >
-            console.log("member", member);
+        <TransitionGroup component={null}>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="droppable" direction="vertical">
+              {(droppableProvided: DroppableProvided) => (
+                <TableBody
+                  ref={droppableProvided.innerRef}
+                  {...droppableProvided.droppableProps}
+                >
+                  {fields?.map((member, index) => {
+                    return (
+                      <CSSTransition
+                        nodeRef={nodeRef}
+                        key={ids.current[index]}
+                        timeout={500}
+                        classNames="fade"
+                        {...TransitionProps}
+                      >
+                        <Draggable
+                          key={ids.current[index]}
+                          draggableId={String(ids.current[index])}
+                          index={index}
+                        >
+                          {(
+                            draggableProvided: DraggableProvided,
+                            snapshot: DraggableStateSnapshot
+                          ) => {
+                            return (
+                              <TableRow
+                                key={ids.current[index]}
+                                className={classes.row}
+                                ref={draggableProvided.innerRef}
+                                {...draggableProvided.draggableProps}
+                                style={{
+                                  ...draggableProvided.draggableProps.style,
 
-            return (
-              <TableRow
-                key={ids.current[index]}
-                component={
-                  draggable
-                    ? DraggableComponent(String(ids.current[index]), index)
-                    : "tr"
-                }
-                hover
-                className={classes.row}
-              >
-                {Children.map(children, (input: ReactElement, index2) => {
-                  if (!isValidElement<any>(input)) {
-                    return null;
-                  }
-                  // const { source, ...inputProps } = input.props;
+                                  ...(snapshot.isDragging && {
+                                    background: "rgb(245,245,245,0.75)",
+                                  }),
+                                }}
+                                hover
+                              >
+                                <TableCell>
+                                  <div {...draggableProvided.dragHandleProps}>
+                                    <ReorderIcon />
+                                  </div>
+                                </TableCell>
+                                {Children.map(
+                                  children,
+                                  (input: ReactElement, index2) => {
+                                    if (!isValidElement<any>(input)) {
+                                      return null;
+                                    }
+                                    const { source, ...inputProps } =
+                                      input.props;
 
-                  //   <FormInput
-                  //   basePath={input.props.basePath || basePath}
-                  //   input={cloneElement(input, {
-                  //     source: source ? `${member}.${source}` : member,
-                  //     index: source ? undefined : index2,
-                  //     label: "",
-                  //     disabled,
-                  //     ...inputProps,
-                  //   })}
-                  //   record={(records && records[index]) || {}}
-                  //   resource={resource}
-                  //   variant={variant}
-                  //   margin={margin}
-                  // />
-                  return <TableCell>{input}</TableCell>;
-                })}
-                {!disabled &&
-                  !disableRemoveField(
-                    (records && records[index]) || {},
-                    disableRemove
-                  ) && (
-                    <TableCell>
-                      {cloneElement(removeButton, {
-                        onClick: handleRemoveButtonClick(
-                          removeButton.props.onClick,
-                          index
-                        ),
-                        className: classNames(
-                          "button-remove",
-                          `button-remove-${source}-${index}`
-                        ),
-                      })}
-                    </TableCell>
-                  )}
-              </TableRow>
-            );
-            // </CSSTransition>
-          })}
-        </TableBody>
-        {/* </TransitionGroup> */}
+                                    return (
+                                      <TableCell>
+                                        <FormInput
+                                          basePath={
+                                            input.props.basePath || basePath
+                                          }
+                                          input={cloneElement(input, {
+                                            source: source
+                                              ? `${member}.${source}`
+                                              : member,
+                                            index: source ? undefined : index2,
+                                            label: "",
+                                            disabled,
+                                            ...inputProps,
+                                          })}
+                                          record={
+                                            (records && records[index]) || {}
+                                          }
+                                          resource={resource}
+                                          variant={variant}
+                                          margin={margin}
+                                        />
+                                      </TableCell>
+                                    );
+                                  }
+                                )}
+                                {!disabled &&
+                                  !disableRemoveField(
+                                    (records && records[index]) || {},
+                                    disableRemove
+                                  ) && (
+                                    <TableCell>
+                                      {cloneElement(removeButton, {
+                                        onClick: handleRemoveButtonClick(
+                                          removeButton.props.onClick,
+                                          index
+                                        ),
+                                        className: classNames(
+                                          "button-remove",
+                                          `button-remove-${source}-${index}`
+                                        ),
+                                      })}
+                                    </TableCell>
+                                  )}
+                              </TableRow>
+                            );
+                          }}
+                        </Draggable>
+                      </CSSTransition>
+                    );
+                  })}
+                  {droppableProvided.placeholder}
+                </TableBody>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </TransitionGroup>
         {!disabled && !disableAdd && (
           <TableFooter className={classes.footer}>
             <TableRow>
@@ -424,56 +466,56 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
   ) : null;
 };
 
-const DraggableComponent = (id: DraggableId, index: number) => (props: any) => {
-  console.log("draggable");
-  return (
-    <Draggable draggableId={id} index={index}>
-      {(provided, snapshot) => {
-        console.log("provided", provided);
-        console.log("snapshot", snapshot);
-        console.log("props", props);
-        return (
-          <TableRow
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            style={getItemStyle(
-              snapshot.isDragging,
-              provided.draggableProps.style || {}
-            )}
-            {...props}
-          >
-            {props.children}
-          </TableRow>
-        );
-      }}
-    </Draggable>
-  );
-};
+// const DraggableComponent = (id: DraggableId, index: number) => (props: any) => {
+//   console.log("draggable");
+//   return (
+//     <Draggable draggableId={id} index={index}>
+//       {(provided, snapshot) => {
+//         console.log("provided", provided);
+//         console.log("snapshot", snapshot);
+//         console.log("props", props);
+//         return (
+//           <TableRow
+//             ref={provided.innerRef}
+//             {...provided.draggableProps}
+//             {...provided.dragHandleProps}
+//             style={getItemStyle(
+//               snapshot.isDragging,
+//               provided.draggableProps.style || {}
+//             )}
+//             {...props}
+//           >
+//             {props.children}
+//           </TableRow>
+//         );
+//       }}
+//     </Draggable>
+//   );
+// };
 
-const DroppableComponent =
-  (onDragEnd: (result: DropResult, provided: ResponderProvided) => void) =>
-  (props: any) => {
-    console.log("droppable");
-    return (
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId={"1"} direction="vertical">
-          {(provided) => {
-            return (
-              <TableBody
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                {...props}
-              >
-                {props.children}
-                {provided.placeholder}
-              </TableBody>
-            );
-          }}
-        </Droppable>
-      </DragDropContext>
-    );
-  };
+// const DroppableComponent =
+//   (onDragEnd: (result: DropResult, provided: ResponderProvided) => void) =>
+//   (props: any) => {
+//     console.log("droppable");
+//     return (
+//       <DragDropContext onDragEnd={onDragEnd}>
+//         <Droppable droppableId={"1"} direction="vertical">
+//           {(provided) => {
+//             return (
+//               <TableBody
+//                 ref={provided.innerRef}
+//                 {...provided.droppableProps}
+//                 {...props}
+//               >
+//                 {props.children}
+//                 {provided.placeholder}
+//               </TableBody>
+//             );
+//           }}
+//         </Droppable>
+//       </DragDropContext>
+//     );
+//   };
 
 LineItemsIterator.defaultProps = {
   disableAdd: false,
