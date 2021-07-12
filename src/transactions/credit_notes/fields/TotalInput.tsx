@@ -66,10 +66,11 @@ export const TotalInput: FC<Props> = ({
         form.change("gst_rate", gst_rate.toFixed(2));
 
       if (
-        !formState.active?.includes("creditnoteitem_set") &&
-        formState.active !== undefined
-      )
+        formState.active &&
+        !formState.active.includes("creditnoteitem_set")
+      ) {
         return;
+      }
 
       lineItems.forEach(({ quantity, unit_price, amount }, index) => {
         const quantitySource = `creditnoteitem_set[${index}].quantity`;

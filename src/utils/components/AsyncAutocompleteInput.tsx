@@ -71,6 +71,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   suggestionsCount = 5,
   ...props
 }) => {
+  // console.log("async ");
   const {
     input: { onChange, ...input },
     isRequired,
@@ -127,7 +128,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
               filter: { ...filterToQuery(request), ...filter },
             })
             .then((response) => {
-              response && callback(response.data);
+              if (response) {
+                callback(response.data);
+              }
             })
             .catch((error: Error) => {
               notify(
@@ -157,6 +160,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
    * since input.value will be initialized before valueOverride
    */
   useEffect(() => {
+    // console.log("use 1");
+    // https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
+    let active = true;
     if (
       inputValue || // presence means value has already been fetched
       valueOverride || // presence means value has already been fetched
@@ -169,19 +175,31 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     dataProvider
       .getOne(reference, { id: input.value })
       .then((response) => {
-        response && setValueOverride(response.data);
+        if (active && response) {
+          // console.log("set 1");
+          setValueOverride(response.data);
+        }
       })
-      .catch((error: Error) => {
-        notify("pos.async_autocomplete_input.data_provider_error", "warning");
+      .catch(() => {
+        if (active) {
+          notify("pos.async_autocomplete_input.data_provider_error", "warning");
+        }
       });
+
+    return () => {
+      // console.log("clean 1");
+      active = false;
+    };
   }, [dataProvider, input.value, inputValue, notify, reference, valueOverride]);
 
   useEffect(() => {
+    // console.log("use 2");
     // FIXME: eliminate additional api calls after invoice update
     let active = true;
     if (!showSuggestions && inputValue === "") {
+      // console.log("set 2");
+
       setAutocompleteOptions(valueOverride ? [valueOverride] : []);
-      return undefined;
     }
 
     fetch(inputValue, (results?: Record[]) => {
@@ -195,11 +213,14 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
           newOptions = [...newOptions, ...results];
         }
 
+        // console.log("set 3");
+
         setAutocompleteOptions(newOptions);
       }
     });
 
     return () => {
+      // console.log("clean 2");
       active = false;
     };
   }, [valueOverride, inputValue, fetch, showSuggestions]);
@@ -216,6 +237,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       value={valueOverride}
       inputValue={inputValue} // overrides TextField value
       onChange={(event, newValue: Record | null, reason, details) => {
+        // console.log("change 1");
         setAutocompleteOptions(
           newValue ? [newValue, ...autocompleteOptions] : autocompleteOptions
         );
@@ -224,6 +246,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
         setValueOverride(newValue);
       }}
       onInputChange={(event, newInputValue) => {
+        // console.log("change 2");
         setInputValue(newInputValue);
       }} // merged with TextField onChange, invoked before TextField onChange
       className={className}

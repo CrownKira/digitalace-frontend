@@ -1,10 +1,9 @@
-import React, { FC, useMemo, useEffect } from "react";
+import React, { FC, useMemo, useEffect, useCallback } from "react";
 import {
   NumberInput,
   FormDataConsumer,
   ReferenceField,
   Labeled,
-  FormDataConsumerRenderParams,
 } from "react-admin";
 import {
   Box,
@@ -22,7 +21,6 @@ import { makeStyles, withStyles } from "@material-ui/styles";
 import RichTextInput from "ra-input-rich-text";
 import { useForm, useFormState } from "react-final-form";
 
-import { TotalInput } from "../fields/TotalInput";
 import { CreditsAppliedInput } from "../fields/CreditsAppliedInput";
 import { validateNumber } from "../InvoiceCreate";
 import { PriceField } from "../../../utils/components/PriceField";
@@ -51,19 +49,22 @@ const Paper = withStyles({
 })(MuiPaper);
 
 interface Props {
-  formProps: any;
+  // formProps: any;
 }
 
-const ccyFormat = (num: number) => {
-  return `${num.toFixed(2)}`;
-};
+const ccyFormat = (num: number) => `${num.toFixed(2)}`;
 
-export const TotalSection: FC<FormDataConsumerRenderParams> = ({
-  formData,
-}) => {
+export const TotalSection: FC<Props> = () => {
   const classes = useStyles();
   const form = useForm();
-  const formState = useFormState();
+  const { values: formData } = useFormState();
+
+  const isBlur = useCallback(
+    (field: string) => {
+      return form.getFieldState(field)?.active === false;
+    },
+    [form]
+  );
 
   const lineItems = useMemo(
     () =>
@@ -78,9 +79,9 @@ export const TotalSection: FC<FormDataConsumerRenderParams> = ({
             const amount = quantity * unitPrice;
 
             return {
-              quantity: quantity,
+              quantity,
               unit_price: unitPrice,
-              amount: amount,
+              amount,
             };
           })
         : [],
@@ -103,43 +104,36 @@ export const TotalSection: FC<FormDataConsumerRenderParams> = ({
     [formData.credits_applied]
   );
 
+  // FIXME: amount to credit rounding
   useEffect(() => {
     form.batch(() => {
-      if (formState.active !== "discount_rate")
+      // TODO: use useField() instead?
+      if (isBlur("discount_rate")) {
         form.change("discount_rate", ccyFormat(discount_rate));
+      }
 
-      if (formState.active !== "gst_rate")
+      if (isBlur("gst_rate")) {
         form.change("gst_rate", ccyFormat(gst_rate));
-
-      if (
-        formState.active !== undefined &&
-        !formState.active.includes("invoiceitem_set")
-      )
-        return;
+      }
 
       lineItems.forEach(({ quantity, unit_price, amount }, index) => {
         const source1 = `invoiceitem_set[${index}].quantity`;
-
-        if (formState.active !== source1)
+        if (isBlur(source1)) {
           form.change(source1, quantity.toFixed());
+        }
 
         const source2 = `invoiceitem_set[${index}].unit_price`;
-        if (formState.active !== source2)
+        if (isBlur(source2)) {
           form.change(source2, ccyFormat(unit_price));
+        }
 
         const source3 = `invoiceitem_set[${index}].amount`;
-        if (formState.active !== source3)
+        if (isBlur(source3)) {
           form.change(source3, ccyFormat(amount));
+        }
       });
     });
-  }, [
-    credits_applied,
-    discount_rate,
-    form,
-    formState.active,
-    gst_rate,
-    lineItems,
-  ]);
+  }, [discount_rate, form, gst_rate, isBlur, lineItems]);
 
   const total_amount = useMemo(
     () => amounts.reduce((x: number, y: number) => x + y, 0),

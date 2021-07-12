@@ -29,6 +29,7 @@ interface Props {
 
 export const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
   const classes = useStyles();
+  // console.log("apply credits");
 
   return open ? (
     <>
@@ -37,11 +38,11 @@ export const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
         source="fake_creditsapplication_set"
         resource="credits_applications"
         label=""
-        record={undefined}
+        // record={undefined}
       >
         <LineItemsIterator
           resource="credits_applications"
-          record={undefined}
+          // record={undefined}
           disableAdd
           disableRemove
           labels={[
@@ -51,6 +52,7 @@ export const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
             "resources.credit_notes.fields.credits_remaining",
             "resources.credits_applications.fields.amount_to_credit",
           ]}
+          draggable={false}
         >
           <TextInput
             // TODO: use NumberField instead
@@ -95,14 +97,7 @@ export const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
       <Box display={{ sm: "block", md: "flex" }}>
         <Box flex={3} mr={{ sm: 0, md: "0.5em" }}></Box>
         <Box flex={2} mr={{ sm: 0, md: "0.5em" }}>
-          <FormDataConsumer>
-            {({ formData }) => (
-              <TotalCreditsSection
-                formData={formData}
-                record={formProps.record}
-              />
-            )}
-          </FormDataConsumer>
+          <TotalCreditsSection />
         </Box>
       </Box>
     </>

@@ -79,7 +79,7 @@ const useStyles = makeStyles(
       fontSize: 18,
     },
   }),
-  { name: "PdfButton" }
+  { name: "RaPdfButton" }
 );
 
 interface Props {

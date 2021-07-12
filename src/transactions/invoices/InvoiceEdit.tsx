@@ -61,6 +61,7 @@ export const InvoiceEdit: FC<EditProps> = (props) => {
 const InvoiceForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
+  // console.log("inv edit");
 
   const [state, setState] = useState({
     // TODO: make use of formProps instead?
@@ -162,44 +163,39 @@ const InvoiceForm = (props: any) => {
                   </FormTabWithCustomLayout>
                 ) : null}
                 <FormTabWithCustomLayout label="resources.invoices.tabs.credits_applied">
-                  <FormDataConsumer>
-                    {({ formData }) => (
-                      <ReferenceManyFieldWithActions
-                        reference="credits_applications"
-                        target="invoice"
-                        addLabel={false}
-                        pagination={<Pagination />}
-                        fullWidth
-                        actions={
-                          <CreditsApplicationListActions
-                            onClick={() => {
-                              setState({ ...state, openApplyCredits: true });
-                            }}
-                            formData={formData}
-                            disabled={state.openApplyCredits}
-                          />
-                        }
+                  <ReferenceManyFieldWithActions
+                    reference="credits_applications"
+                    target="invoice"
+                    addLabel={false}
+                    pagination={<Pagination />}
+                    fullWidth
+                    actions={
+                      <CreditsApplicationListActions
+                        onClick={() => {
+                          setState({ ...state, openApplyCredits: true });
+                        }}
+                        disabled={state.openApplyCredits}
+                      />
+                    }
+                  >
+                    <Datagrid>
+                      <DateField source="date" />
+                      <ReferenceField
+                        source="credit_note"
+                        reference="credit_notes"
                       >
-                        <Datagrid>
-                          <DateField source="date" />
-                          <ReferenceField
-                            source="credit_note"
-                            reference="credit_notes"
-                          >
-                            <TextField source="reference" />
-                          </ReferenceField>
-                          <NumberField
-                            label="resources.invoices.fields.credits_applied"
-                            source="amount_to_credit"
-                          />
-                          <DeleteButton
-                            mutationMode="pessimistic"
-                            redirect={false}
-                          />
-                        </Datagrid>
-                      </ReferenceManyFieldWithActions>
-                    )}
-                  </FormDataConsumer>
+                        <TextField source="reference" />
+                      </ReferenceField>
+                      <NumberField
+                        label="resources.invoices.fields.credits_applied"
+                        source="amount_to_credit"
+                      />
+                      <DeleteButton
+                        mutationMode="pessimistic"
+                        redirect={false}
+                      />
+                    </Datagrid>
+                  </ReferenceManyFieldWithActions>
                   <ApplyCreditsSection
                     formProps={formProps}
                     open={state.openApplyCredits}

@@ -20,7 +20,6 @@ import {
 import { makeStyles, withStyles } from "@material-ui/styles";
 import RichTextInput from "ra-input-rich-text";
 
-import { TotalInput } from "../fields/TotalInput";
 import { CreditsAppliedInput } from "../fields/CreditsAppliedInput";
 import { validateNumber } from "../InvoiceCreate";
 import { PriceField } from "../../../utils/components/PriceField";
@@ -96,9 +95,7 @@ export const DetailBottomSection: FC<Props> = ({ formProps }) => {
       </Box>
       <Box flex={1} mr={{ sm: 0, md: "0.5em" }}></Box>
       <Box flex={2} mr={{ sm: 0, md: "0.5em" }}>
-        <FormDataConsumer>
-          {(props) => <TotalSection {...props} />}
-        </FormDataConsumer>
+        <TotalSection />
       </Box>
     </Box>
   );

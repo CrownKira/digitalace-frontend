@@ -1,11 +1,13 @@
-import * as React from "react";
-import {
+import React, {
   Children,
   cloneElement,
   isValidElement,
   useRef,
   ReactElement,
   FC,
+  CSSProperties,
+  useMemo,
+  useCallback,
 } from "react";
 import PropTypes from "prop-types";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -39,6 +41,14 @@ import {
 import classNames from "classnames";
 import { FieldArrayRenderProps } from "react-final-form-arrays";
 import { PropertyPath } from "lodash";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+  ResponderProvided,
+  DraggableId,
+} from "react-beautiful-dnd";
 
 // FIXME: fix any
 // TODO: make row draggable / up and down arrow button
@@ -138,6 +148,15 @@ const AddItemHeaderButton = (props: any) => {
   );
 };
 
+const getItemStyle = (isDragging: boolean, draggableStyle: CSSProperties) => ({
+  // styles we need to apply on draggables
+  ...draggableStyle,
+
+  ...(isDragging && {
+    background: "rgb(235,235,235)",
+  }),
+});
+
 // TODO: use Datagrid?
 // https://material-ui.com/components/data-grid/editing/
 export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
@@ -160,13 +179,19 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
     TransitionProps,
     defaultValue,
     labels = [],
+    draggable = true,
   } = props;
   // FIXME: fix any
-  const { error, submitFailed } = meta as any;
+  const { error, submitFailed } = meta as {
+    error?: any;
+    submitFailed?: boolean;
+  };
   const classes = useStyles(props);
   const nodeRef = useRef(null);
   const translate = useTranslate();
   const notify = useNotify();
+
+  console.log("trigger");
 
   // We need a unique id for each field for a proper enter/exit animation
   // so we keep an internal map between the field position and an auto-increment id
@@ -186,7 +211,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
     nextId.current > 0 ? Array.from(Array(nextId.current).keys()) : []
   );
 
-  const removeField = (index: any) => () => {
+  const removeField = (index: number) => () => {
     ids.current.splice(index, 1);
     fields?.remove(index);
   };
@@ -195,7 +220,10 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
   // If disableRemove is a function, then call the function with the current record to
   // determining if the button should be disabled. Otherwise, use a boolean property that
   // enables or disables the button for all of the fields.
-  const disableRemoveField = (record: any, disableRemove: any) => {
+  const disableRemoveField = (
+    record: Record,
+    disableRemove: boolean | DisableRemoveFunction | undefined
+  ) => {
     if (typeof disableRemove === "boolean") {
       return disableRemove;
     }
@@ -203,13 +231,21 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
   };
 
   const addField = () => {
+    // qn: does this trigger re-render?
     ids.current.push(nextId.current++);
     fields?.push(undefined);
   };
 
+  const swapFields = useCallback(
+    (startIndex: number, endIndex: number) => {
+      fields?.swap(startIndex, endIndex);
+    },
+    [fields]
+  );
+
   // add field and call the onClick event of the button passed as addButton prop
   const handleAddButtonClick =
-    (originalOnClickHandler: any) => (event: any) => {
+    (originalOnClickHandler: (event: any) => void) => (event: any) => {
       addField();
       if (originalOnClickHandler) {
         originalOnClickHandler(event);
@@ -218,19 +254,41 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
 
   // remove field and call the onClick event of the button passed as removeButton prop
   const handleRemoveButtonClick =
-    (originalOnClickHandler: any, index: any) => (event: any) => {
+    (originalOnClickHandler: (event: any) => void, index: number) =>
+    (event: any) => {
       removeField(index)();
       if (originalOnClickHandler) {
         originalOnClickHandler(event);
       }
     };
 
+  const onDragEnd = useCallback(
+    (result: DropResult) => {
+      // // console.log("on drag end before");
+
+      if (!result.destination) {
+        return;
+      }
+
+      // // console.log("on drag end");
+      swapFields(result.source.index, result.destination.index);
+    },
+    [swapFields]
+  );
+
+  const droppableComponent = useMemo(
+    () => DroppableComponent(onDragEnd),
+    [onDragEnd]
+  );
+  // const draggableComponent =
+
   // const handleAddItemHeaderButtonClick = (event: any) => {
   //   notify("pos.message.coming_soon");
   // };
 
   const records = get(record, source as PropertyPath);
-  const childrenCount = Children.count(children as any);
+  const childrenCount = Children.count(children);
+  console.log("fields", fields);
   return fields ? (
     <TableContainer className={classes.container}>
       <Table
@@ -251,7 +309,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                     </TableCell>
                   );
                 })
-              : Children.map(children as any, (input: ReactElement, index2) => {
+              : Children.map(children, (input: ReactElement, index2) => {
                   // TODO: refactor
                   if (!isValidElement<any>(input)) {
                     return null;
@@ -278,43 +336,51 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
             <ValidationError error={error as string} />
           </FormHelperText>
         )}
-        <TransitionGroup component={TableBody}>
-          {fields?.map((member: any, index: any) => (
-            <CSSTransition
-              nodeRef={nodeRef}
-              key={ids.current[index]}
-              timeout={500}
-              classNames="fade"
-              {...TransitionProps}
-            >
-              <TableRow hover className={classes.row} key={ids.current[index]}>
-                {Children.map(
-                  children as any,
-                  (input: ReactElement, index2) => {
-                    if (!isValidElement<any>(input)) {
-                      return null;
-                    }
-                    const { source, ...inputProps } = input.props;
-                    return (
-                      <TableCell>
-                        <FormInput
-                          basePath={input.props.basePath || basePath}
-                          input={cloneElement(input, {
-                            source: source ? `${member}.${source}` : member,
-                            index: source ? undefined : index2,
-                            label: "",
-                            disabled,
-                            ...inputProps,
-                          })}
-                          record={(records && records[index]) || {}}
-                          resource={resource}
-                          variant={variant}
-                          margin={margin}
-                        />
-                      </TableCell>
-                    );
+        {/* <TransitionGroup component={null}> */}
+        <TableBody component={draggable ? droppableComponent : "tbody"}>
+          {fields?.map((member, index) => {
+            // <CSSTransition
+            //   nodeRef={nodeRef}
+            //   key={ids.current[index]}
+            //   timeout={500}
+            //   classNames="fade"
+            //   {...TransitionProps}
+            // >
+            console.log("member", member);
+
+            return (
+              <TableRow
+                key={ids.current[index]}
+                component={
+                  draggable
+                    ? DraggableComponent(String(ids.current[index]), index)
+                    : "tr"
+                }
+                hover
+                className={classes.row}
+              >
+                {Children.map(children, (input: ReactElement, index2) => {
+                  if (!isValidElement<any>(input)) {
+                    return null;
                   }
-                )}
+                  // const { source, ...inputProps } = input.props;
+
+                  //   <FormInput
+                  //   basePath={input.props.basePath || basePath}
+                  //   input={cloneElement(input, {
+                  //     source: source ? `${member}.${source}` : member,
+                  //     index: source ? undefined : index2,
+                  //     label: "",
+                  //     disabled,
+                  //     ...inputProps,
+                  //   })}
+                  //   record={(records && records[index]) || {}}
+                  //   resource={resource}
+                  //   variant={variant}
+                  //   margin={margin}
+                  // />
+                  return <TableCell>{input}</TableCell>;
+                })}
                 {!disabled &&
                   !disableRemoveField(
                     (records && records[index]) || {},
@@ -334,9 +400,11 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                     </TableCell>
                   )}
               </TableRow>
-            </CSSTransition>
-          ))}
-        </TransitionGroup>
+            );
+            // </CSSTransition>
+          })}
+        </TableBody>
+        {/* </TransitionGroup> */}
         {!disabled && !disableAdd && (
           <TableFooter className={classes.footer}>
             <TableRow>
@@ -356,6 +424,62 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
   ) : null;
 };
 
+const DraggableComponent = (id: DraggableId, index: number) => (props: any) => {
+  console.log("draggable");
+  return (
+    <Draggable draggableId={id} index={index}>
+      {(provided, snapshot) => {
+        console.log("provided", provided);
+        console.log("snapshot", snapshot);
+        console.log("props", props);
+        return (
+          <TableRow
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            style={getItemStyle(
+              snapshot.isDragging,
+              provided.draggableProps.style || {}
+            )}
+            {...props}
+          >
+            {props.children}
+          </TableRow>
+        );
+      }}
+    </Draggable>
+  );
+};
+
+const DroppableComponent =
+  (onDragEnd: (result: DropResult, provided: ResponderProvided) => void) =>
+  (props: any) => {
+    console.log("droppable");
+    return (
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId={"1"} direction="vertical">
+          {(provided) => {
+            return (
+              <TableBody
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                {...props}
+              >
+                {props.children}
+                {provided.placeholder}
+              </TableBody>
+            );
+          }}
+        </Droppable>
+      </DragDropContext>
+    );
+  };
+
+LineItemsIterator.defaultProps = {
+  disableAdd: false,
+  disableRemove: false,
+};
+
 /*
 TODO: pass down as a prop to this component 
 <AddItemHeaderButton
@@ -363,11 +487,6 @@ TODO: pass down as a prop to this component
   className={classNames("button-add", `button-add-${source}`)}
 />
 */
-
-LineItemsIterator.defaultProps = {
-  disableAdd: false,
-  disableRemove: false,
-};
 
 /*
 TODO: remove this?
@@ -396,13 +515,16 @@ LineItemsIterator.propTypes = {
 type DisableRemoveFunction = (record: Record) => boolean;
 
 export interface LineItemsIteratorProps
-  extends Partial<Omit<FieldArrayRenderProps<any, HTMLElement>, "meta">> {
+  extends Partial<
+    Omit<FieldArrayRenderProps<any, HTMLElement>, "meta" | "children">
+  > {
   addButton?: ReactElement;
   basePath?: string;
   classes?: ClassesOverride<typeof useStyles>;
   className?: string;
   defaultValue?: any;
   disabled?: boolean;
+  draggable?: boolean;
   disableAdd?: boolean;
   disableRemove?: boolean | DisableRemoveFunction;
   margin?: "none" | "normal" | "dense";
@@ -418,4 +540,5 @@ export interface LineItemsIteratorProps
   TransitionProps?: any;
   variant?: "standard" | "outlined" | "filled";
   labels?: string[];
+  children: ReactElement[];
 }

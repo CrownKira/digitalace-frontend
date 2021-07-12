@@ -10,7 +10,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/styles";
-import { Record } from "react-admin";
+import { Record, useRecordContext } from "react-admin";
+import { useFormState } from "react-final-form";
 
 import { toFixedNumber } from "../../../utils";
 
@@ -21,8 +22,8 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  formData: any;
-  record: Record;
+  // formData: any;
+  // record: Record;
 }
 
 const TableCell = withStyles({
@@ -38,23 +39,32 @@ const Paper = withStyles({
   },
 })(MuiPaper);
 
-export const TotalCreditsSection: FC<Props> = ({ formData, record }) => {
+export const TotalCreditsSection: FC<Props> = () => {
+  console.log("before");
+  const record = useRecordContext();
+  const { values: formData } = useFormState();
+  // useFormState();
+  console.log("after 2");
+
   const classes = useStyles();
 
-  const total_amount_to_credit = useMemo(
-    () => formData.credits_applied - (record?.credits_applied || 0),
-    [formData.credits_applied, record]
-  );
-  const balance_due = useMemo(
-    () =>
-      (
-        toFixedNumber(formData.balance_due, 2) - total_amount_to_credit
-      ).toLocaleString(undefined, {
-        style: "currency",
-        currency: "SGD",
-      }),
-    [formData.balance_due, total_amount_to_credit]
-  );
+  // const total_amount_to_credit = useMemo(
+  //   () => formData.credits_applied - (record?.credits_applied || 0),
+  //   [formData.credits_applied, record]
+  // );
+  // const balance_due = useMemo(
+  //   () =>
+  //     (
+  //       toFixedNumber(formData.balance_due, 2) - total_amount_to_credit
+  //     ).toLocaleString(undefined, {
+  //       style: "currency",
+  //       currency: "SGD",
+  //     }),
+  //   [formData.balance_due, total_amount_to_credit]
+  // );
+
+  const total_amount_to_credit = 0;
+  const balance_due = 0;
 
   return (
     <TableContainer component={Paper}>
@@ -63,10 +73,14 @@ export const TotalCreditsSection: FC<Props> = ({ formData, record }) => {
           <TableRow>
             <TableCell>Invoice Balance</TableCell>
             <TableCell align="right">
-              {Number(formData.balance_due).toLocaleString(undefined, {
-                style: "currency",
-                currency: "SGD",
-              })}
+              {
+                0
+
+                // Number(formData.balance_due).toLocaleString(undefined, {
+                //   style: "currency",
+                //   currency: "SGD",
+                // })
+              }
             </TableCell>
           </TableRow>
           <TableRow>

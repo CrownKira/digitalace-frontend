@@ -202,18 +202,12 @@ const InvoiceForm = (props: any) => {
                   </FormTabWithCustomLayout>
                 ) : null}
                 <FormTabWithCustomLayout label="resources.invoices.tabs.credits_applied">
-                  <FormDataConsumer>
-                    {({ formData }) => (
-                      <CreditsApplicationListActions
-                        onClick={() => {
-                          setState({ ...state, openApplyCredits: true });
-                        }}
-                        // TODO: use form.getState() instead?
-                        formData={formData}
-                        disabled={state.openApplyCredits}
-                      />
-                    )}
-                  </FormDataConsumer>
+                  <CreditsApplicationListActions
+                    onClick={() => {
+                      setState({ ...state, openApplyCredits: true });
+                    }}
+                    disabled={state.openApplyCredits}
+                  />
                   <ApplyCreditsSection
                     formProps={formProps}
                     open={state.openApplyCredits}

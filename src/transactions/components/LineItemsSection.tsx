@@ -29,6 +29,7 @@ interface Props {
 
 export const LineItemsSection: FC<Props> = ({ source, resource, label }) => {
   const classes = useStyles();
+  // console.log("line items");
 
   return (
     <ArrayInput
@@ -37,13 +38,17 @@ export const LineItemsSection: FC<Props> = ({ source, resource, label }) => {
       label=""
       validate={requiredValidate}
     >
-      <LineItemsIterator resource={resource}>
+      <LineItemsIterator
+        resource={resource}
+
+        // draggable={false}
+      >
         <FormDataConsumer
           formClassName={classes.leftFormGroup}
           validate={requiredValidate}
           label="resources.invoice_items.fields.product"
         >
-          {({ getSource, ...rest }) =>
+          {({ getSource }) =>
             getSource ? (
               <ProductNameInput
                 source={getSource("product")}
@@ -51,7 +56,7 @@ export const LineItemsSection: FC<Props> = ({ source, resource, label }) => {
                 fullWidth
                 inputClassName={classes.lineItemReferenceInput}
                 showSuggestions={false}
-                {...rest}
+                // {...rest}
               />
             ) : null
           }
@@ -76,3 +81,24 @@ export const LineItemsSection: FC<Props> = ({ source, resource, label }) => {
     </ArrayInput>
   );
 };
+
+/*
+        <FormDataConsumer
+          formClassName={classes.leftFormGroup}
+          validate={requiredValidate}
+          label="resources.invoice_items.fields.product"
+        >
+          {({ getSource, ...rest }) =>
+            getSource ? (
+              <ProductNameInput
+                source={getSource("product")}
+                getSource={getSource}
+                fullWidth
+                inputClassName={classes.lineItemReferenceInput}
+                showSuggestions={false}
+                {...rest}
+              />
+            ) : null
+          }
+        </FormDataConsumer>
+*/

@@ -82,7 +82,7 @@ const useStyles = makeStyles(
       fontSize: 18,
     },
   }),
-  { name: "PrintButton" }
+  { name: "RaPrintButton" }
 );
 
 interface Props {

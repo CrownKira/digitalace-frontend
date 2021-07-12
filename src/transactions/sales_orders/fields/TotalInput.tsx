@@ -65,10 +65,7 @@ export const TotalInput: FC<Props> = ({
       "gst_rate" !== formState.active &&
         form.change("gst_rate", gst_rate.toFixed(2));
 
-      if (
-        !formState.active?.includes("salesorderitem_set") &&
-        formState.active !== undefined
-      )
+      if (formState.active && !formState.active.includes("salesorderitem_set"))
         return;
 
       lineItems.forEach(({ quantity, unit_price, amount }, index) => {

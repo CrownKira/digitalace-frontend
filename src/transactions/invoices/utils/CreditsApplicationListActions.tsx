@@ -1,27 +1,28 @@
 import React, { FC } from "react";
 import pick from "lodash/pick";
 import { TopToolbar, Button, useDataProvider, ButtonProps } from "react-admin";
-import { useForm } from "react-final-form";
+import { useForm, useFormState } from "react-final-form";
 import ContentAdd from "@material-ui/icons/Add";
 
 import { CreditNote } from "../../../types";
 
 interface Props extends ButtonProps {
-  formData: any;
+  // formData: any;
 }
 
 export const CreditsApplicationListActions: FC<Props> = ({
   onClick,
-  formData,
   disabled,
 }) => {
   const form = useForm();
+  const { values: formData } = useFormState();
   const dataProvider = useDataProvider();
 
   return (
     <TopToolbar>
       <Button
         onClick={async (event) => {
+          // console.log("customer", formData.customer);
           const response =
             formData.customer &&
             (await dataProvider.getManyReference("credit_notes", {

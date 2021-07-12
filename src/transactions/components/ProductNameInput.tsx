@@ -14,8 +14,9 @@ interface Props
 }
 
 export const ProductNameInput: FC<Props> = ({
-  formData,
-  scopedFormData,
+  // TODO: useFormState instead?
+  // formData,
+  // scopedFormData,
   getSource,
   inputClassName,
   ...rest
@@ -29,12 +30,13 @@ export const ProductNameInput: FC<Props> = ({
       optionValue="id"
       reference="products"
       onChange={(event, newValue) => {
-        newValue &&
+        if (newValue) {
           form.batch(() => {
             form.change(getSource("unit"), newValue.unit);
             form.change(getSource("unit_price"), newValue.unit_price);
             form.change(getSource("quantity"), "0");
           });
+        }
       }}
       className={inputClassName}
       // TODO: more generic label?

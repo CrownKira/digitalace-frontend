@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from "react";
+import React, { FC, useEffect, useMemo, useCallback } from "react";
 import {
   NumberInputProps,
   NumberInput,
@@ -25,6 +25,13 @@ export const CreditsAppliedInput: FC<Props> = ({
   const form = useForm();
   const formState = useFormState();
 
+  const isBlur = useCallback(
+    (field: string) => {
+      return form.getFieldState(field)?.active === false;
+    },
+    [form]
+  );
+
   const amounts_to_credit = useMemo(
     () =>
       formData.fake_creditsapplication_set
@@ -36,19 +43,14 @@ export const CreditsAppliedInput: FC<Props> = ({
   );
 
   useEffect(() => {
-    if (
-      !formState.active?.includes("fake_creditsapplication_set") &&
-      formState.active !== undefined
-    )
-      return;
-
     amounts_to_credit.forEach((amount_to_credit, index) => {
       const source = `fake_creditsapplication_set[${index}].amount_to_credit`;
 
-      source !== formState.active &&
+      if (isBlur(source)) {
         form.change(source, amount_to_credit.toFixed(2));
+      }
     });
-  }, [amounts_to_credit, form, formState.active]);
+  }, [amounts_to_credit, form, isBlur]);
 
   useEffect(() => {
     // round amount to credit first
