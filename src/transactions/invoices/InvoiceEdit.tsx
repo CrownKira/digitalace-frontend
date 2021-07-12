@@ -66,6 +66,7 @@ const InvoiceForm = (props: any) => {
   const [state, setState] = useState({
     // TODO: make use of formProps instead?
     isPaid: props?.record?.status === "PD",
+    // TODO: loadingApplyCredits
     openApplyCredits: false,
   });
 

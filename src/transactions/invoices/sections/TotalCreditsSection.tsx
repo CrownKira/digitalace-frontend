@@ -70,7 +70,7 @@ export const TotalCreditsSection: FC<Props> = () => {
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="summary table">
         <TableBody>
-          <TableRow>
+          <TableRow hover>
             <TableCell>Invoice Balance</TableCell>
             <TableCell align="right">
               {
@@ -83,7 +83,7 @@ export const TotalCreditsSection: FC<Props> = () => {
               }
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow hover>
             <TableCell>Amount to Credit</TableCell>
             <TableCell align="right">
               (-){" "}
@@ -93,7 +93,7 @@ export const TotalCreditsSection: FC<Props> = () => {
               })}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow hover>
             <TableCell>
               <Typography variant="h6" gutterBottom>
                 Invoice Balance Due (SGD)
