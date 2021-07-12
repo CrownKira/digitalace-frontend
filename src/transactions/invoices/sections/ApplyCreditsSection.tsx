@@ -52,7 +52,7 @@ export const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
             "resources.credit_notes.fields.credits_remaining",
             "resources.credits_applications.fields.amount_to_credit",
           ]}
-          // draggable={false}
+          draggable={false}
         >
           <TextInput
             // TODO: use NumberField instead

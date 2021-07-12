@@ -296,7 +296,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
       >
         <TableHead>
           <TableRow>
-            <TableCell align="left">&nbsp;</TableCell>
+            {draggable && <TableCell align="left">&nbsp;</TableCell>}
             {labels.length === childrenCount
               ? labels.map((label, index2) => {
                   return (
@@ -327,7 +327,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                     </TableCell>
                   );
                 })}
-            <TableCell align="left">&nbsp;</TableCell>
+            {!disableRemove && <TableCell align="left">&nbsp;</TableCell>}
           </TableRow>
         </TableHead>
         {submitFailed && typeof error !== "object" && error && (
@@ -376,11 +376,13 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                                 }}
                                 hover
                               >
-                                <TableCell>
-                                  <div {...draggableProvided.dragHandleProps}>
-                                    <ReorderIcon />
-                                  </div>
-                                </TableCell>
+                                {draggable && (
+                                  <TableCell>
+                                    <div {...draggableProvided.dragHandleProps}>
+                                      <ReorderIcon />
+                                    </div>
+                                  </TableCell>
+                                )}
                                 {Children.map(
                                   children,
                                   (input: ReactElement, index2) => {
