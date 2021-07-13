@@ -10,6 +10,14 @@ import {
   useNotify,
   useRefresh,
   Record,
+  Datagrid,
+  TextField,
+  DateField,
+  SelectField,
+  NumberField,
+  EditButton,
+  Pagination,
+  TopToolbar,
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,11 +31,13 @@ import {
   getTotals,
 } from "./SalesOrderCreate";
 import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
+import { ReferenceManyFieldWithActions } from "../../utils/components/ReferenceManyFieldWithActions";
 import { PdfButton } from "../components/PdfButton";
 import { PrintButton } from "../components/PrintButton";
 import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailsTopSection } from "./sections/DetailsTopSection";
 import { DetailsBottomSection } from "./sections/DetailsBottomSection";
+import { statuses as invoiceStatuses } from "../../transactions/invoices/data";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -44,6 +54,9 @@ export const SalesOrderEdit: FC<EditProps> = (props) => {
     </Edit>
   );
 };
+
+// FIXME: fix any
+const InvoiceListActions = (props: any) => <TopToolbar></TopToolbar>;
 
 const SalesOrderForm = (props: any) => {
   const classes = useStyles();
@@ -169,6 +182,29 @@ const SalesOrderForm = (props: any) => {
                     totals={totals}
                     updateTotals={updateTotals}
                   />
+                </FormTabWithoutLayout>
+                <FormTabWithoutLayout label="resources.sales_orders.tabs.invoices">
+                  <ReferenceManyFieldWithActions
+                    reference="invoices"
+                    target="sales_order"
+                    addLabel={false}
+                    pagination={<Pagination />}
+                    fullWidth
+                    actions={<InvoiceListActions />}
+                  >
+                    <Datagrid>
+                      <TextField source="reference" />
+                      <DateField source="date" />
+                      <SelectField
+                        // TODO: use chip
+                        // https://marmelab.com/react-admin/Fields.html#choice-fields
+                        source="status"
+                        choices={invoiceStatuses}
+                      />
+                      <NumberField source="grand_total" />
+                      <EditButton />
+                    </Datagrid>
+                  </ReferenceManyFieldWithActions>
                 </FormTabWithoutLayout>
               </TabbedFormView>
             </Wrapper>
