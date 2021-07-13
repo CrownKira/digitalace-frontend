@@ -38,6 +38,7 @@ import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailsTopSection } from "./sections/DetailsTopSection";
 import { DetailsBottomSection } from "./sections/DetailsBottomSection";
 import { statuses as invoiceStatuses } from "../../transactions/invoices/data";
+import { InvoicesToolbar } from "./utils/InvoicesToolbar";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -54,9 +55,6 @@ export const SalesOrderEdit: FC<EditProps> = (props) => {
     </Edit>
   );
 };
-
-// FIXME: fix any
-const InvoiceListActions = (props: any) => <TopToolbar></TopToolbar>;
 
 const SalesOrderForm = (props: any) => {
   const classes = useStyles();
@@ -190,7 +188,7 @@ const SalesOrderForm = (props: any) => {
                     addLabel={false}
                     pagination={<Pagination />}
                     fullWidth
-                    actions={<InvoiceListActions />}
+                    actions={<InvoicesToolbar />}
                   >
                     <Datagrid>
                       <TextField source="reference" />

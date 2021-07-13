@@ -22,7 +22,6 @@ import {
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Alert from "@material-ui/lab/Alert";
 
 import { useOnFailure } from "../../utils/hooks";
 import {
@@ -45,6 +44,7 @@ import { DetailsBottomSection } from "./sections/DetailsBottomSection";
 import { PaymentSection } from "./sections/PaymentSection";
 import { DetailsAlertSection } from "./sections/DetailsAlertSection";
 import { CreditsAlertSection } from "./sections/CreditsAlertSection";
+import { CreditsToolbar } from "./sections/CreditsToolbar";
 import { Separator, SectionTitle } from "../../utils/components/Divider";
 
 const useStyles = makeStyles({
@@ -68,6 +68,9 @@ const InvoiceForm = (props: any) => {
   const onFailure = useOnFailure();
 
   const getInitialTotals = () => {
+    // TODO: rewrite using de-structure default
+    // qn: can record be undefined?
+
     if (props.record) {
       const {
         total_amount,
@@ -183,7 +186,8 @@ const InvoiceForm = (props: any) => {
               >
                 <FormTabWithoutLayout label="resources.invoices.tabs.details">
                   <DetailsAlertSection
-                    formProps={formProps}
+                    basePath={formProps.basePath}
+                    record={formProps.record}
                     creditsAvailable={creditsAvailable}
                     totals={totals}
                   />
@@ -230,15 +234,11 @@ const InvoiceForm = (props: any) => {
                     pagination={<Pagination />}
                     fullWidth
                     actions={
-                      <TopToolbar>
-                        <ApplyCreditsButton
-                          onClick={() => {
-                            setOpenApplyCredits(true);
-                          }}
-                          disabled={openApplyCredits}
-                        />
-                        <CreateCreditNoteButton />
-                      </TopToolbar>
+                      <CreditsToolbar
+                        record={formProps.record}
+                        setOpenApplyCredits={setOpenApplyCredits}
+                        openApplyCredits={openApplyCredits}
+                      />
                     }
                   >
                     <Datagrid>

@@ -10,6 +10,12 @@ import {
   useNotify,
   useRefresh,
   Record,
+  Pagination,
+  Datagrid,
+  DateField,
+  ReferenceField,
+  TextField,
+  NumberField,
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,6 +29,7 @@ import {
   getTotals,
 } from "./CreditNoteCreate";
 import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
+import { ReferenceManyFieldWithActions } from "../../utils/components/ReferenceManyFieldWithActions";
 import { PdfButton } from "../components/PdfButton";
 import { PrintButton } from "../components/PrintButton";
 import { LineItemsSection } from "../components/LineItemsSection";
@@ -175,6 +182,30 @@ const CreditNoteForm = (props: any) => {
                     totals={totals}
                     updateTotals={updateTotals}
                   />
+                </FormTabWithoutLayout>
+                <FormTabWithoutLayout label="resources.credit_notes.tabs.invoices_credited">
+                  <ReferenceManyFieldWithActions
+                    reference="credits_applications"
+                    target="credit_note"
+                    addLabel={false}
+                    pagination={<Pagination />}
+                    fullWidth
+                  >
+                    <Datagrid>
+                      <DateField source="date" />
+                      <ReferenceField
+                        source="invoice"
+                        reference="invoices"
+                        label="resources.invoices.fields.reference"
+                      >
+                        <TextField source="reference" />
+                      </ReferenceField>
+                      <NumberField
+                        source="amount_to_credit"
+                        label="resources.invoices.fields.credits_applied"
+                      />
+                    </Datagrid>
+                  </ReferenceManyFieldWithActions>
                 </FormTabWithoutLayout>
               </TabbedFormView>
             </Wrapper>

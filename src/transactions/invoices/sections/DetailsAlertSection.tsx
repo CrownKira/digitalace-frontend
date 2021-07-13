@@ -1,20 +1,22 @@
 import React, { FC } from "react";
 import Alert from "@material-ui/lab/Alert";
 import Button from "@material-ui/core/Button";
-import { useTranslate, useRedirect } from "react-admin";
+import { useTranslate, useRedirect, Record } from "react-admin";
 
 import { Totals } from "../InvoiceCreate";
 import { ccyFormat } from "../../../utils";
 import { Separator } from "../../../utils/components/Divider";
 
 interface Props {
-  formProps: any;
+  basePath: string;
+  record: Record;
   creditsAvailable: number;
   totals: Totals;
 }
 
 export const DetailsAlertSection: FC<Props> = ({
-  formProps,
+  basePath,
+  record,
   creditsAvailable,
   totals,
 }) => {
@@ -32,14 +34,14 @@ export const DetailsAlertSection: FC<Props> = ({
               size="small"
               // TODO: better way to redirect to other tab?
               onClick={() => {
-                redirect(`${formProps.basePath}/${formProps.record.id}/2`);
+                redirect(`${basePath}/${record.id}/2`);
               }}
             >
               {translate("resources.invoices.action.apply_credits")}
             </Button>
           }
         >
-          Credits Available:{" "}
+          {translate("resources.invoices.fields.credits_available")}:{" "}
           <strong>{ccyFormat(creditsAvailable, true)}</strong>
         </Alert>
       )}

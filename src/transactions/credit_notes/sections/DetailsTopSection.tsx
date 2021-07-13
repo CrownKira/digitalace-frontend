@@ -54,18 +54,7 @@ export const DetailsTopSection: FC<Props> = ({ props }) => {
               validate={validateReference(props)}
             />
           </Box>
-          <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
-            <AsyncAutocompleteInput
-              // TODO: edit button start adornment
-              // refer to ProductNameInput.tsx
-              optionText="reference"
-              optionValue="id"
-              source="credit_note"
-              resource="credit_notes"
-              reference="credit_notes"
-              fullWidth
-            />
-          </Box>
+          <Box flex={1} ml={{ sm: 0, md: "0.5em" }}></Box>
         </Box>
         <Box display={{ sm: "block", md: "flex" }}>
           <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>

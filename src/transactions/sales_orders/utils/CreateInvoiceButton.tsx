@@ -22,12 +22,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props extends ButtonProps {
-  // FIXME: fix any
   create: (query?: any, options?: any) => void | Promise<any>;
   loading: boolean;
 }
 
-export const CreateCreditNoteButton: FC<Props> = ({ create, loading }) => {
+export const CreateInvoiceButton: FC<Props> = ({ create, loading }) => {
   const classes = useStyles();
   const translate = useTranslate();
 
@@ -35,9 +34,7 @@ export const CreateCreditNoteButton: FC<Props> = ({ create, loading }) => {
     <div className={classes.wrapper}>
       <Button
         onClick={create}
-        label={translate(
-          "resources.credits_applications.action.create_credit_note"
-        )}
+        label={translate("resources.sales_orders.action.create_invoice")}
         disabled={loading}
       >
         <ContentAdd />

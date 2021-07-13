@@ -249,7 +249,8 @@ const InvoiceForm = (props: any) => {
               >
                 <FormTabWithoutLayout label="resources.invoices.tabs.details">
                   <DetailsAlertSection
-                    formProps={formProps}
+                    basePath={formProps.basePath}
+                    record={formProps.record}
                     creditsAvailable={creditsAvailable}
                     totals={totals}
                   />
@@ -298,7 +299,6 @@ const InvoiceForm = (props: any) => {
                   </TopToolbar>
                   <Separator />
                   <ApplyCreditsSection
-                    // formProps={formProps}
                     open={openApplyCredits}
                     setTotals={setTotals}
                   />

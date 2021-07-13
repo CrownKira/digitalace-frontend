@@ -487,11 +487,15 @@ export const customEnglishMessages: TranslationMessages = {
         details: "Details",
         invoices_credited: "Invoices Credited",
       },
+      notification: {
+        created_from: "Credit Note created from %{reference}",
+      },
       action: {
         print: "Print",
         pdf: "PDF",
         add_item_header: "Add Item Header",
         apply_to_invoice: "Apply to Invoice",
+        view: "View",
       },
     },
     credit_note_items: {
@@ -567,9 +571,15 @@ export const customEnglishMessages: TranslationMessages = {
         print_delivery_order: "Print Delivery Order",
         add_item_header: "Add Item Header",
         apply_credits: "Apply Now",
+        view: "View",
       },
       notification: {
+        tip: "Tip",
+        select_customer_reminder:
+          "Remember to select a customer first before applying credits.",
         amount_to_credit: "Amount to Credit",
+        created_credit_note:
+          "Credit Note %{reference} successfully created from this Invoice. Would you like to view it now?",
       },
     },
     invoice_items: {
@@ -628,6 +638,14 @@ export const customEnglishMessages: TranslationMessages = {
       tabs: {
         details: "Details",
         invoices: "Invoices",
+      },
+      action: {
+        create_invoice: "Create Invoice",
+        view: "View",
+      },
+      notification: {
+        created_invoice:
+          "Invoice %{reference} successfully created from this Sales Order. Would you like to view it now?",
       },
     },
     sales_order_items: {
