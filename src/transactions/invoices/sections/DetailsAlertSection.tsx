@@ -8,7 +8,6 @@ import { ccyFormat } from "../../../utils";
 import { Separator } from "../../../utils/components/Divider";
 
 interface Props {
-  basePath: string;
   record: Record;
   creditsAvailable: number;
   totals: Totals;
@@ -16,7 +15,6 @@ interface Props {
 }
 
 export const DetailsAlertSection: FC<Props> = ({
-  basePath,
   record,
   creditsAvailable,
   totals,
@@ -36,7 +34,7 @@ export const DetailsAlertSection: FC<Props> = ({
               size="small"
               // TODO: better way to redirect to other tab?
               onClick={() => {
-                redirect(`${basePath}/${record.id}/2`);
+                redirect(`/invoices/${record.id}/2`);
               }}
             >
               {translate("resources.invoices.action.apply_credits")}

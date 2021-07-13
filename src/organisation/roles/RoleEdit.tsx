@@ -30,7 +30,7 @@ const RoleTitle: FC<FieldProps<Role>> = ({ record }) => {
 
 export const RoleEdit: FC<EditProps> = (props) => (
   <Edit title={<RoleTitle />} {...props}>
-    <SimpleForm>
+    <SimpleForm warnWhenUnsavedChanges>
       <ImageInput
         format={formatImage}
         source="image"

@@ -35,6 +35,8 @@ import { PrintButton } from "../components/PrintButton";
 import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailsTopSection } from "./sections/DetailsTopSection";
 import { DetailsBottomSection } from "./sections/DetailsBottomSection";
+import { DetailsAlertSection } from "./sections/DetailsAlertSection";
+import { Separator } from "../../utils/components/Divider";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -120,6 +122,7 @@ const CreditNoteForm = (props: any) => {
 
   return (
     <FormWithRedirect
+      warnWhenUnsavedChanges
       validate={validateForm}
       {...props}
       render={(formProps: any) => {
@@ -171,6 +174,8 @@ const CreditNoteForm = (props: any) => {
                 }
               >
                 <FormTabWithoutLayout label="resources.credit_notes.tabs.details">
+                  <DetailsAlertSection record={formProps.record} />
+                  <Separator />
                   <DetailsTopSection props={props} />
                   <LineItemsSection
                     source="creditnoteitem_set"

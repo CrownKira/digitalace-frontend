@@ -1,12 +1,7 @@
 import React, { FC } from "react";
+import { Button } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import Button from "@material-ui/core/Button";
-import {
-  useTranslate,
-  useRedirect,
-  useQueryWithStore,
-  Record,
-} from "react-admin";
+import { useTranslate, Record, useRedirect } from "react-admin";
 
 interface Props {
   record: Record;
@@ -16,15 +11,9 @@ export const DetailsAlertSection: FC<Props> = ({ record }) => {
   const translate = useTranslate();
   const redirect = useRedirect();
 
-  const { data, loaded } = useQueryWithStore({
-    type: "getOne",
-    resource: "invoices",
-    payload: { id: record.created_from },
-  });
-
   return (
     <div>
-      {record.created_from && loaded && (
+      {record.invoice_set.length === 0 && (
         <Alert
           severity="info"
           action={
@@ -33,15 +22,15 @@ export const DetailsAlertSection: FC<Props> = ({ record }) => {
               size="small"
               // TODO: better way to redirect to other tab?
               onClick={() => {
-                redirect(`/invoices/${record.created_from}`);
+                redirect(`/sales_orders/${record.id}/1`);
               }}
             >
-              {translate("resources.credit_notes.action.view")}
+              {translate("resources.sales_orders.action.convert_to_invoice")}
             </Button>
           }
         >
-          {translate("resources.credit_notes.notification.created_from")}{" "}
-          <strong>{data.reference}</strong>
+          <strong>{translate("pos.notification.tip")}</strong> -{" "}
+          {translate("resources.sales_orders.notification.fulfill_order_tip")}
         </Alert>
       )}
     </div>

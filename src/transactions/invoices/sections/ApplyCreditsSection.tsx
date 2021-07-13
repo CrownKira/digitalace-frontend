@@ -93,7 +93,7 @@ export const ApplyCreditsSection: FC<Props> = ({ open, setTotals }) => {
             "resources.credit_notes.fields.credits_remaining",
             "resources.credits_applications.fields.amount_to_credit",
           ]}
-          draggable={false}
+          isDragDisabled={true}
         >
           <TextInput
             // TODO: use NumberField instead

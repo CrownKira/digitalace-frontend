@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import React, { FC } from "react";
-import RichTextInput from "ra-input-rich-text";
 import { Box } from "@material-ui/core";
 import { DateInput, TextInput, SelectInput } from "react-admin";
 
@@ -42,7 +41,6 @@ export const DetailsTopSection: FC<Props> = ({ props }) => {
             />
           </Box>
         </Box>
-        <RichTextInput source="description" label="" />
       </Box>
       <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
         <Box display={{ sm: "block", md: "flex" }}>

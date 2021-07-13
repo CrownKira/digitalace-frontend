@@ -42,7 +42,7 @@ export const DepartmentCreate: FC<CreateProps> = (props) => {
 
   return (
     <Create transform={transform} {...props}>
-      <SimpleForm initialValues={postDefaultValue}>
+      <SimpleForm warnWhenUnsavedChanges initialValues={postDefaultValue}>
         <ImageInput
           source="image"
           accept="image/*"

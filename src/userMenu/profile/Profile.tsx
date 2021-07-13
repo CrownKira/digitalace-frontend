@@ -153,6 +153,7 @@ export const ProfileEdit = () => {
   return (
     <SaveContextProvider value={saveContext}>
       <FormWithRedirect
+        warnWhenUnsavedChanges
         save={handleSave}
         validate={validatePasswords}
         record={identity}

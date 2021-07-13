@@ -60,7 +60,7 @@ const ProductForm = (props: any) => {
   const classes = useStyles();
 
   return (
-    <TabbedForm {...props}>
+    <TabbedForm warnWhenUnsavedChanges {...props}>
       <FormTab
         label="resources.products.tabs.image"
         contentClassName={classes.tab}

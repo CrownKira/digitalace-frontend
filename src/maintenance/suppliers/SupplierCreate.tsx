@@ -76,7 +76,11 @@ export const SupplierCreate: FC<CreateProps> = (props) => {
     <Loading />
   ) : (
     <Create {...props} onFailure={onFailure}>
-      <SimpleForm validate={validatePasswords} initialValues={postDefaultValue}>
+      <SimpleForm
+        warnWhenUnsavedChanges
+        validate={validatePasswords}
+        initialValues={postDefaultValue}
+      >
         <SectionTitle label="resources.suppliers.fieldGroups.avatar" />
         <ImageInput
           source="image"

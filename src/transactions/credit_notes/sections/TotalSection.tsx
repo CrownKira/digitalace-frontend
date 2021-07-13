@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { NumberInput } from "react-admin";
+import { NumberInput, number, minValue, maxValue } from "react-admin";
 import {
   InputAdornment,
   TableContainer,
@@ -14,7 +14,7 @@ import { makeStyles, withStyles } from "@material-ui/styles";
 import { useForm, useFormState } from "react-final-form";
 
 import { validateNumber, Totals } from "../CreditNoteCreate";
-import { ccyFormat } from "../../../utils";
+import { ccyFormat, toFixedNumber } from "../../../utils";
 
 const useStyles = makeStyles({
   table: {
@@ -152,7 +152,7 @@ export const TotalSection: FC<Props> = ({
               <NumberInput
                 source="refund"
                 resource="credit_notes"
-                validate={validateNumber}
+                validate={validateRefund(formData)}
                 onBlur={handleRefundOnBlur}
               />
             </TableCell>
@@ -174,3 +174,12 @@ export const TotalSection: FC<Props> = ({
     </TableContainer>
   );
 };
+
+const validateRefund = (formData: any) => [
+  number(),
+  minValue(0),
+  maxValue(
+    toFixedNumber(formData.grand_total, 2) -
+      toFixedNumber(formData.credits_used, 2)
+  ),
+];

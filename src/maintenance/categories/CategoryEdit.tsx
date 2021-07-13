@@ -35,7 +35,7 @@ const CategoryTitle: FC<FieldProps<Category>> = ({ record }) => {
 
 export const CategoryEdit: FC<EditProps> = (props) => (
   <Edit title={<CategoryTitle />} {...props}>
-    <SimpleForm>
+    <SimpleForm warnWhenUnsavedChanges>
       <ImageInput
         format={formatImage}
         source="image"

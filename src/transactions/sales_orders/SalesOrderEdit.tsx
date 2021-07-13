@@ -17,7 +17,6 @@ import {
   NumberField,
   EditButton,
   Pagination,
-  TopToolbar,
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -37,8 +36,10 @@ import { PrintButton } from "../components/PrintButton";
 import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailsTopSection } from "./sections/DetailsTopSection";
 import { DetailsBottomSection } from "./sections/DetailsBottomSection";
+import { DetailsAlertSection } from "./sections/DetailsAlertSection";
 import { statuses as invoiceStatuses } from "../../transactions/invoices/data";
 import { InvoicesToolbar } from "./utils/InvoicesToolbar";
+import { Separator } from "../../utils/components/Divider";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -118,6 +119,7 @@ const SalesOrderForm = (props: any) => {
 
   return (
     <FormWithRedirect
+      warnWhenUnsavedChanges
       validate={validateForm}
       {...props}
       render={(formProps: any) => {
@@ -169,6 +171,8 @@ const SalesOrderForm = (props: any) => {
                 }
               >
                 <FormTabWithoutLayout label="resources.sales_orders.tabs.details">
+                  <DetailsAlertSection record={formProps.record} />
+                  <Separator />
                   <DetailsTopSection props={props} />
                   <LineItemsSection
                     source="salesorderitem_set"

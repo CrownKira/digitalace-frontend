@@ -19,7 +19,7 @@ const postDefaultValue = () => ({
 
 export const RoleCreate: FC<CreateProps> = (props) => (
   <Create {...props}>
-    <SimpleForm initialValues={postDefaultValue}>
+    <SimpleForm warnWhenUnsavedChanges initialValues={postDefaultValue}>
       <ImageInput
         source="image"
         accept="image/*"

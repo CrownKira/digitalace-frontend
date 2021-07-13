@@ -69,6 +69,7 @@ export const UserConfigEdit = () => {
   return (
     <SaveContextProvider value={saveContext}>
       <FormWithRedirect
+        warnWhenUnsavedChanges
         save={handleSave}
         record={data}
         render={(formProps: any) => (

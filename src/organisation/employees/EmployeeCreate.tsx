@@ -67,6 +67,7 @@ export const EmployeeCreate: FC<CreateProps> = (props) => {
   return (
     <Create {...props}>
       <TabbedForm
+        warnWhenUnsavedChanges
         // TODO: make tabs scrollable
         validate={validatePasswords}
         initialValues={postDefaultValue}

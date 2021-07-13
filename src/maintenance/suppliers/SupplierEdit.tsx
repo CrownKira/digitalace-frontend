@@ -57,6 +57,7 @@ const SupplierTitle: FC<FieldProps<Supplier>> = ({ record }) =>
 const SupplierForm = (props: any) => {
   return (
     <FormWithRedirect
+      warnWhenUnsavedChanges
       validate={validatePasswords}
       {...props}
       render={(formProps: any) => (

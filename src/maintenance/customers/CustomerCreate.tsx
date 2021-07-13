@@ -83,7 +83,11 @@ export const CustomerCreate: FC<CreateProps> = (props) => {
     <Loading />
   ) : (
     <Create {...props} onFailure={onFailure}>
-      <SimpleForm validate={validatePasswords} initialValues={postDefaultValue}>
+      <SimpleForm
+        warnWhenUnsavedChanges
+        validate={validatePasswords}
+        initialValues={postDefaultValue}
+      >
         <SectionTitle label="resources.customers.fieldGroups.avatar" />
         <ImageInput
           source="image"

@@ -18,7 +18,6 @@ import {
   useNotify,
   useRefresh,
   Record,
-  TopToolbar,
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -35,8 +34,6 @@ import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayou
 import { PdfButton } from "../components/PdfButton";
 import { PrintButton } from "../components/PrintButton";
 import { ReferenceManyFieldWithActions } from "../../utils/components/ReferenceManyFieldWithActions";
-import { ApplyCreditsButton } from "./utils/ApplyCreditsButton";
-import { CreateCreditNoteButton } from "./utils/CreateCreditNoteButton";
 import { ApplyCreditsSection } from "./sections/ApplyCreditsSection";
 import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailsTopSection } from "./sections/DetailsTopSection";
@@ -132,6 +129,7 @@ const InvoiceForm = (props: any) => {
 
   return (
     <FormWithRedirect
+      warnWhenUnsavedChanges
       validate={validateForm}
       {...props}
       render={(formProps: any) => {
@@ -186,7 +184,6 @@ const InvoiceForm = (props: any) => {
               >
                 <FormTabWithoutLayout label="resources.invoices.tabs.details">
                   <DetailsAlertSection
-                    basePath={formProps.basePath}
                     record={formProps.record}
                     creditsAvailable={creditsAvailable}
                     totals={totals}

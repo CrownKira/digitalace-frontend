@@ -58,6 +58,7 @@ const EmployeeForm = (props: any) => {
 
   return (
     <TabbedForm
+      warnWhenUnsavedChanges
       // TODO: make tabs scrollable
       validate={validatePasswords}
       {...props}

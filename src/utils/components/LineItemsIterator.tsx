@@ -163,7 +163,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
     TransitionProps,
     defaultValue,
     labels = [],
-    draggable = true,
+    isDragDisabled = false,
   } = props;
   // FIXME: fix any
   const { error, submitFailed } = meta as {
@@ -311,7 +311,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                         key={ids.current[index]}
                         draggableId={String(ids.current[index])}
                         index={index}
-                        isDragDisabled={draggable}
+                        isDragDisabled={isDragDisabled}
                       >
                         {(
                           draggableProvided: DraggableProvided,
@@ -341,7 +341,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                               >
                                 <TableCell>
                                   <div {...draggableProvided.dragHandleProps}>
-                                    {draggable && <ReorderIcon />}
+                                    {!isDragDisabled && <ReorderIcon />}
                                   </div>
                                 </TableCell>
 
@@ -461,7 +461,6 @@ export interface LineItemsIteratorProps
   className?: string;
   defaultValue?: any;
   disabled?: boolean;
-  draggable?: boolean;
   disableAdd?: boolean;
   disableRemove?: boolean | DisableRemoveFunction;
   margin?: "none" | "normal" | "dense";
@@ -478,4 +477,5 @@ export interface LineItemsIteratorProps
   variant?: "standard" | "outlined" | "filled";
   labels?: string[];
   children: ReactElement[];
+  isDragDisabled?: boolean;
 }

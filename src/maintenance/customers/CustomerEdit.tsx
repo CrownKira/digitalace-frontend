@@ -56,6 +56,7 @@ const CustomerTitle: FC<FieldProps<Customer>> = ({ record }) =>
 const CustomerForm = (props: any) => {
   return (
     <FormWithRedirect
+      warnWhenUnsavedChanges
       validate={validatePasswords}
       {...props}
       render={(formProps: any) => (
@@ -87,7 +88,7 @@ const CustomerForm = (props: any) => {
                     /**
                      * https://marmelab.com/react-admin/CreateEdit.html#toolbar
                      * When Input components have a resource prop, they use it to
-                     * determine the input label. <SimpleForm> and <TabbedForm>
+                     * determine the input label. <SimpleForm warnWhenUnsavedChanges > and <TabbedForm warnWhenUnsavedChanges  >
                      * inject this resource prop to Input components automatically.
                      * When you use a custom form layout, pass the resource prop
                      * manually - unless the Input has a label prop.

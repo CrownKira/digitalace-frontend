@@ -60,6 +60,9 @@ export const customEnglishMessages: TranslationMessages = {
       coming_soon:
         "We are currently working on this feature and will launch soon!",
     },
+    notification: {
+      tip: "Tip",
+    },
     // components
     async_autocomplete_input: {
       data_provider_error:
@@ -488,7 +491,7 @@ export const customEnglishMessages: TranslationMessages = {
         invoices_credited: "Invoices Credited",
       },
       notification: {
-        created_from: "Credit Note created from %{reference}",
+        created_from: "Credit Note created from",
       },
       action: {
         print: "Print",
@@ -574,8 +577,7 @@ export const customEnglishMessages: TranslationMessages = {
         view: "View",
       },
       notification: {
-        tip: "Tip",
-        select_customer_reminder:
+        select_customer_tip:
           "Remember to select a customer first before applying credits.",
         amount_to_credit: "Amount to Credit",
         created_credit_note: "successfully created from %{reference}",
@@ -641,9 +643,12 @@ export const customEnglishMessages: TranslationMessages = {
       action: {
         create_invoice: "Create Invoice",
         view: "View",
+        convert_to_invoice: "Convert to Invoice",
       },
       notification: {
         created_invoice: "successfully created from %{reference}",
+        fulfill_order_tip:
+          "You can create invoices to complete this sales order.",
       },
     },
     sales_order_items: {

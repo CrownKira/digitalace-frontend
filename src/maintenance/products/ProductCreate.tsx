@@ -62,7 +62,7 @@ export const ProductCreate: FC<CreateProps> = (props) => {
     <Loading />
   ) : (
     <Create {...props} onFailure={onFailure}>
-      <TabbedForm initialValues={postDefaultValue}>
+      <TabbedForm warnWhenUnsavedChanges initialValues={postDefaultValue}>
         <FormTab label="resources.products.tabs.image">
           <ImageInput
             source="image"

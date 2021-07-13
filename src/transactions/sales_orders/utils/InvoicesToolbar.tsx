@@ -1,26 +1,35 @@
 import React, { FC, useEffect } from "react";
 import {
   TopToolbar,
-  useRedirect,
   useTranslate,
   useMutation,
   Record,
   useNotify,
   Link,
 } from "react-admin";
-import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { CreateInvoiceButton } from "./CreateInvoiceButton";
 import { dateFormatter, getErrorMessage } from "../../../utils";
 import { useGetIncrementedReference } from "../../hooks/useGetIncrementedReference";
+
+const useStyles = makeStyles((theme) => ({
+  alert: {
+    position: "fixed",
+    top: "5%",
+    left: "50%",
+    transform: "translate(-50%,0%)",
+    zIndex: 9999,
+  },
+}));
 
 interface Props {
   record: Record;
 }
 
 export const InvoicesToolbar: FC<Props> = ({ record, ...rest }) => {
-  const redirect = useRedirect();
+  const classes = useStyles();
   const translate = useTranslate();
   const notify = useNotify();
   const { reference, loading: loadingReference } = useGetIncrementedReference({
@@ -46,6 +55,7 @@ export const InvoicesToolbar: FC<Props> = ({ record, ...rest }) => {
           gst_rate: record.gst_rate,
           discount_rate: record.discount_rate,
           refund: 0,
+          creditsapplication_set: [],
         },
       },
     });
@@ -60,7 +70,7 @@ export const InvoicesToolbar: FC<Props> = ({ record, ...rest }) => {
   return (
     <>
       {loaded && (
-        <Alert severity="success" onClose={() => {}}>
+        <Alert severity="success" onClose={() => {}} className={classes.alert}>
           {translate("resources.invoices.name", { smart_count: 1 })}{" "}
           <Link to={`/invoices/${data.id}`}>
             <strong>{data.reference}</strong>

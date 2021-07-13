@@ -14,7 +14,7 @@ const postDefaultValue = () => ({
 
 export const CategoryCreate: FC<CreateProps> = (props) => (
   <Create {...props}>
-    <SimpleForm initialValues={postDefaultValue}>
+    <SimpleForm warnWhenUnsavedChanges initialValues={postDefaultValue}>
       <ImageInput
         source="image"
         accept="image/*"

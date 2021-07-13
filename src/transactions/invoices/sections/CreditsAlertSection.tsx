@@ -8,8 +8,8 @@ export const CreditsAlertSection = () => {
   return (
     <div>
       <Alert severity="info" onClose={() => {}}>
-        <strong>{translate("resources.invoices.notification.tip")}</strong> -{" "}
-        {translate("resources.invoices.notification.select_customer_reminder")}
+        <strong>{translate("pos.notification.tip")}</strong> -{" "}
+        {translate("resources.invoices.notification.select_customer_tip")}
       </Alert>
     </div>
   );

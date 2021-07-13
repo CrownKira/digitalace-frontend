@@ -6,7 +6,6 @@ import {
   FormWithRedirect,
   required,
   Loading,
-  useGetList,
   SaveButton,
   Record,
   TabbedFormView,
@@ -19,13 +18,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { AnyObject } from "react-final-form";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { SalesOrder, SalesOrderItem } from "../../types";
-import {
-  incrementReference,
-  dateParser,
-  validateUnicity,
-  toFixedNumber,
-} from "../../utils";
+import { SalesOrderItem } from "../../types";
+import { dateParser, validateUnicity, toFixedNumber } from "../../utils";
 import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
@@ -140,16 +134,6 @@ const SalesOrderForm = (props: any) => {
 
   const onFailure = useOnFailure();
 
-  // const {
-  //   data: sales_orders,
-  //   ids: sales_orderIds,
-  //   loading: loadingReference,
-  // } = useGetList<SalesOrder>(
-  //   "sales_orders",
-  //   { page: 1, perPage: 1 },
-  //   { field: "id", order: "DESC" },
-  //   {}
-  // );
   const { reference, loading: loadingReference } = useGetIncrementedReference({
     resource: "sales_orders",
     prefix: "SO",
@@ -174,6 +158,7 @@ const SalesOrderForm = (props: any) => {
     <Loading />
   ) : (
     <FormWithRedirect
+      warnWhenUnsavedChanges
       initialValues={postDefaultValue}
       validate={validateForm}
       {...props}

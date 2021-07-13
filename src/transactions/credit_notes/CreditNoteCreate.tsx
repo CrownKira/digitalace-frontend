@@ -6,7 +6,6 @@ import {
   FormWithRedirect,
   required,
   Loading,
-  useGetList,
   SaveButton,
   Record,
   TabbedFormView,
@@ -19,13 +18,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { AnyObject } from "react-final-form";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { CreditNote, CreditNoteItem } from "../../types";
-import {
-  incrementReference,
-  dateParser,
-  validateUnicity,
-  toFixedNumber,
-} from "../../utils";
+import { CreditNoteItem } from "../../types";
+import { dateParser, validateUnicity, toFixedNumber } from "../../utils";
 import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
@@ -117,7 +111,8 @@ export const getTotals = (
   const gst_amount = net * (gst_rate / 100);
   const grand_total = net * (1 + gst_rate / 100);
   const credits_used = toFixedNumber(formData.credits_used, 2);
-  const credits_remaining = grand_total - credits_used;
+  const refund = toFixedNumber(formData.refund, 2);
+  const credits_remaining = grand_total - credits_used - refund;
 
   return {
     total_amount,
@@ -148,17 +143,6 @@ const CreditNoteForm = (props: any) => {
 
   const onFailure = useOnFailure();
 
-  // const {
-  //   data: credit_notes,
-  //   ids: credit_noteIds,
-  //   loading: loadingReference,
-  // } = useGetList<CreditNote>(
-  //   "credit_notes",
-  //   { page: 1, perPage: 1 },
-  //   { field: "id", order: "DESC" },
-  //   {}
-  // );
-
   const { reference, loading: loadingReference } = useGetIncrementedReference({
     resource: "credit_notes",
     prefix: "CN",
@@ -183,6 +167,7 @@ const CreditNoteForm = (props: any) => {
     <Loading />
   ) : (
     <FormWithRedirect
+      warnWhenUnsavedChanges
       initialValues={postDefaultValue}
       validate={validateForm}
       {...props}

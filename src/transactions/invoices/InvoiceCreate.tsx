@@ -6,7 +6,6 @@ import {
   FormWithRedirect,
   required,
   Loading,
-  useGetList,
   SaveButton,
   Record,
   TabbedFormView,
@@ -21,13 +20,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { AnyObject } from "react-final-form";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Invoice, InvoiceItem } from "../../types";
-import {
-  incrementReference,
-  dateParser,
-  validateUnicity,
-  toFixedNumber,
-} from "../../utils";
+import { InvoiceItem } from "../../types";
+import { dateParser, validateUnicity, toFixedNumber } from "../../utils";
 import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
@@ -172,16 +166,6 @@ const InvoiceForm = (props: any) => {
 
   const onFailure = useOnFailure();
 
-  // const {
-  //   data: invoices,
-  //   ids: invoiceIds,
-  //   loading: loadingReference,
-  // } = useGetList<Invoice>(
-  //   "invoices",
-  //   { page: 1, perPage: 1 },
-  //   { field: "id", order: "DESC" },
-  //   {}
-  // );
   const { reference, loading: loadingReference } = useGetIncrementedReference({
     resource: "invoices",
     prefix: "INV",
@@ -212,6 +196,7 @@ const InvoiceForm = (props: any) => {
     <Loading />
   ) : (
     <FormWithRedirect
+      warnWhenUnsavedChanges
       initialValues={postDefaultValue}
       validate={validateForm}
       {...props}
@@ -251,7 +236,6 @@ const InvoiceForm = (props: any) => {
               >
                 <FormTabWithoutLayout label="resources.invoices.tabs.details">
                   <DetailsAlertSection
-                    basePath={formProps.basePath}
                     record={formProps.record}
                     creditsAvailable={creditsAvailable}
                     totals={totals}

@@ -52,7 +52,7 @@ export const DepartmentEdit: FC<EditProps> = (props) => {
 
   return (
     <Edit title={<DepartmentTitle />} transform={transform} {...props}>
-      <SimpleForm>
+      <SimpleForm warnWhenUnsavedChanges>
         <ImageInput
           format={formatImage}
           source="image"
