@@ -47,7 +47,17 @@ const Paper = withStyles({
 })(MuiPaper);
 
 interface Props {
-  formProps: any;
+  // formProps: any;
+  totals: {
+    total_amount: number;
+    discount_amount: number;
+    net: number;
+    gst_amount: number;
+    grand_total: number;
+    balance_due: number;
+    credits_applied: number;
+  };
+  updateTotals: (formData: any) => void;
 }
 
 // function ccyFormat(num: number) {
@@ -85,7 +95,7 @@ interface Props {
 // const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 // TODO: apply credits in show
-export const DetailBottomSection: FC<Props> = ({ formProps }) => {
+export const DetailBottomSection: FC<Props> = ({ totals, updateTotals }) => {
   const classes = useStyles();
 
   return (
@@ -95,7 +105,7 @@ export const DetailBottomSection: FC<Props> = ({ formProps }) => {
       </Box>
       <Box flex={1} mr={{ sm: 0, md: "0.5em" }}></Box>
       <Box flex={2} mr={{ sm: 0, md: "0.5em" }}>
-        <TotalSection />
+        <TotalSection totals={totals} updateTotals={updateTotals} />
       </Box>
     </Box>
   );

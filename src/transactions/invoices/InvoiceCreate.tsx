@@ -21,8 +21,13 @@ import { withStyles } from "@material-ui/core/styles";
 import { AnyObject } from "react-final-form";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Invoice } from "../../types";
-import { incrementReference, dateParser, validateUnicity } from "../../utils";
+import { Invoice, InvoiceItem } from "../../types";
+import {
+  incrementReference,
+  dateParser,
+  validateUnicity,
+  toFixedNumber,
+} from "../../utils";
 import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 import { FormTabWithCustomLayout } from "../../utils/components/FormTabWithCustomLayout";
@@ -33,6 +38,7 @@ import { DetailTopSection } from "./sections/DetailTopSection";
 import { DetailBottomSection } from "./sections/DetailBottomSection";
 import { PaymentSection } from "./sections/PaymentSection";
 import { ProductNameInput } from "../components/ProductNameInput";
+import { Separator } from "../../utils/components/Divider";
 
 export const styles = {
   leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
@@ -90,13 +96,64 @@ export const transform = ({
   creditsapplication_set: fake_creditsapplication_set, // TODO: better way to not pre-fill but send data?
 });
 
+export const getTotals = (formData: any) => {
+  const lineItems = formData.invoiceitem_set
+    ? (formData.invoiceitem_set as InvoiceItem[]).map((lineItem) => {
+        const quantity = lineItem ? toFixedNumber(lineItem.quantity, 0) : 0;
+
+        const unitPrice = lineItem ? toFixedNumber(lineItem.unit_price, 2) : 0;
+
+        const amount = quantity * unitPrice;
+
+        return {
+          quantity,
+          unit_price: unitPrice,
+          amount,
+        };
+      })
+    : [];
+  const amounts = lineItems.map((lineItem) => lineItem.amount);
+  const discount_rate = toFixedNumber(formData.discount_rate, 2);
+  const gst_rate = toFixedNumber(formData.gst_rate, 2);
+  const credits_applied = toFixedNumber(formData.credits_applied, 2);
+  const total_amount = amounts.reduce((x: number, y: number) => x + y, 0);
+  const discount_amount = total_amount * (discount_rate / 100);
+  const net = total_amount * (1 - discount_rate / 100);
+  const gst_amount = net * (gst_rate / 100);
+  const grand_total = net * (1 + gst_rate / 100);
+  const balance_due = grand_total - credits_applied;
+
+  return {
+    total_amount,
+    discount_amount,
+    net,
+    gst_amount,
+    grand_total,
+    balance_due,
+    credits_applied,
+  };
+};
+
 const InvoiceForm = (props: any) => {
   const classes = useStyles();
-  const [state, setState] = useState({
-    // TODO: make use of formProps instead?
-    isPaid: props?.record?.status === "PD",
-    openApplyCredits: false,
+  const [isPaid, setIsPaid] = useState(props?.record?.status === "PD");
+  const [openApplyCredits, setOpenApplyCredits] = useState(false);
+  // TODO: use context
+  const [totals, setTotals] = useState({
+    total_amount: 0,
+    discount_amount: 0,
+    net: 0,
+    gst_amount: 0,
+    grand_total: 0,
+    balance_due: 0,
+    credits_applied: 0,
   });
+
+  const updateTotals = (formData: any) => {
+    // TODO: better way without passing formData?
+
+    setTotals(getTotals(formData));
+  };
 
   const onFailure = useOnFailure();
 
@@ -179,17 +236,23 @@ const InvoiceForm = (props: any) => {
                 <FormTabWithCustomLayout label="resources.invoices.tabs.details">
                   <DetailTopSection
                     props={props}
-                    state={state}
-                    setState={setState}
+                    isPaid={isPaid}
+                    setIsPaid={setIsPaid}
+                    openApplyCredits={openApplyCredits}
+                    setOpenApplyCredits={setOpenApplyCredits}
                   />
                   <LineItemsSection
                     source="invoiceitem_set"
                     resource="invoice_items"
                     label="resources.invoices.fields.invoiceitem_set"
+                    updateTotals={updateTotals}
                   />
-                  <DetailBottomSection formProps={formProps} />
+                  <DetailBottomSection
+                    totals={totals}
+                    updateTotals={updateTotals}
+                  />
                 </FormTabWithCustomLayout>
-                {state.isPaid ? (
+                {isPaid ? (
                   <FormTabWithCustomLayout
                     /**
                      * TODO: hide tab when unpaid
@@ -204,13 +267,15 @@ const InvoiceForm = (props: any) => {
                 <FormTabWithCustomLayout label="resources.invoices.tabs.credits_applied">
                   <CreditsApplicationListActions
                     onClick={() => {
-                      setState({ ...state, openApplyCredits: true });
+                      // setState({ ...state, openApplyCredits: true });
+                      setOpenApplyCredits(true);
                     }}
-                    disabled={state.openApplyCredits}
+                    disabled={openApplyCredits}
                   />
+                  <Separator />
                   <ApplyCreditsSection
-                    formProps={formProps}
-                    open={state.openApplyCredits}
+                    // formProps={formProps}
+                    open={openApplyCredits}
                   />
                 </FormTabWithCustomLayout>
               </TabbedFormView>

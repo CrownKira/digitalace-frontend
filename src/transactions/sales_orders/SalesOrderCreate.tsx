@@ -161,11 +161,11 @@ const SalesOrderForm = (props: any) => {
                     state={state}
                     setState={setState}
                   />
-                  <LineItemsSection
+                  {/* <LineItemsSection
                     source="salesorderitem_set"
                     resource="sales_order_items"
                     label="resources.sales_orders.fields.salesorderitem_set"
-                  />
+                  /> */}
                   <DetailBottomSection formProps={formProps} />
                 </FormTabWithCustomLayout>
               </TabbedFormView>

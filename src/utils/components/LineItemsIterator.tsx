@@ -195,7 +195,6 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
   const translate = useTranslate();
   const notify = useNotify();
 
-  // console.log("trigger");
 
   // We need a unique id for each field for a proper enter/exit animation
   // so we keep an internal map between the field position and an auto-increment id
@@ -264,13 +263,11 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
     };
 
   const handleDragEnd = (result: DropResult) => {
-    // // console.log("on drag end before");
 
     if (!result.destination) {
       return;
     }
 
-    // // console.log("on drag end");
     swapFields(result.source.index, result.destination.index);
   };
 
@@ -286,7 +283,6 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
 
   const records = get(record, source as PropertyPath);
   const childrenCount = Children.count(children);
-  // console.log("fields", fields);
   return fields ? (
     <TableContainer className={classes.container}>
       <Table
@@ -296,7 +292,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
       >
         <TableHead>
           <TableRow>
-            {draggable && <TableCell align="left">&nbsp;</TableCell>}
+            <TableCell align="left">&nbsp;</TableCell>
             {labels.length === childrenCount
               ? labels.map((label, index2) => {
                   return (
@@ -344,27 +340,28 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                   {...droppableProvided.droppableProps}
                 >
                   {fields?.map((member, index) => {
+
                     return (
-                      <CSSTransition
-                        nodeRef={nodeRef}
+                      <Draggable
                         key={ids.current[index]}
-                        timeout={500}
-                        classNames="fade"
-                        {...TransitionProps}
+                        draggableId={String(ids.current[index])}
+                        index={index}
+                        isDragDisabled={draggable}
                       >
-                        <Draggable
-                          key={ids.current[index]}
-                          draggableId={String(ids.current[index])}
-                          index={index}
-                        >
-                          {(
-                            draggableProvided: DraggableProvided,
-                            snapshot: DraggableStateSnapshot
-                          ) => {
-                            return (
+                        {(
+                          draggableProvided: DraggableProvided,
+                          snapshot: DraggableStateSnapshot
+                        ) => {
+                          return (
+                            <CSSTransition
+                              nodeRef={nodeRef}
+                              key={ids.current[index]}
+                              timeout={500}
+                              classNames="fade"
+                              {...TransitionProps}
+                            >
                               <TableRow
                                 key={ids.current[index]}
-                                className={classes.row}
                                 ref={draggableProvided.innerRef}
                                 {...draggableProvided.draggableProps}
                                 style={{
@@ -375,17 +372,18 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                                   }),
                                 }}
                                 hover
+                                className={classes.row}
                               >
-                                {draggable && (
-                                  <TableCell>
-                                    <div {...draggableProvided.dragHandleProps}>
-                                      <ReorderIcon />
-                                    </div>
-                                  </TableCell>
-                                )}
+                                <TableCell>
+                                  <div {...draggableProvided.dragHandleProps}>
+                                    {draggable && <ReorderIcon />}
+                                  </div>
+                                </TableCell>
+
                                 {Children.map(
                                   children,
                                   (input: ReactElement, index2) => {
+
                                     if (!isValidElement<any>(input)) {
                                       return null;
                                     }
@@ -394,26 +392,30 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
 
                                     return (
                                       <TableCell>
-                                        <FormInput
-                                          basePath={
-                                            input.props.basePath || basePath
-                                          }
-                                          input={cloneElement(input, {
-                                            source: source
-                                              ? `${member}.${source}`
-                                              : member,
-                                            index: source ? undefined : index2,
-                                            label: "",
-                                            disabled,
-                                            ...inputProps,
-                                          })}
-                                          record={
-                                            (records && records[index]) || {}
-                                          }
-                                          resource={resource}
-                                          variant={variant}
-                                          margin={margin}
-                                        />
+                                        <div>
+                                          <FormInput
+                                            basePath={
+                                              input.props.basePath || basePath
+                                            }
+                                            input={cloneElement(input, {
+                                              source: source
+                                                ? `${member}.${source}`
+                                                : member,
+                                              index: source
+                                                ? undefined
+                                                : index2,
+                                              label: "",
+                                              disabled,
+                                              ...inputProps,
+                                            })}
+                                            record={
+                                              (records && records[index]) || {}
+                                            }
+                                            resource={resource}
+                                            variant={variant}
+                                            margin={margin}
+                                          />
+                                        </div>
                                       </TableCell>
                                     );
                                   }
@@ -424,23 +426,25 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                                     disableRemove
                                   ) && (
                                     <TableCell>
-                                      {cloneElement(removeButton, {
-                                        onClick: handleRemoveButtonClick(
-                                          removeButton.props.onClick,
-                                          index
-                                        ),
-                                        className: classNames(
-                                          "button-remove",
-                                          `button-remove-${source}-${index}`
-                                        ),
-                                      })}
+                                      <div>
+                                        {cloneElement(removeButton, {
+                                          onClick: handleRemoveButtonClick(
+                                            removeButton.props.onClick,
+                                            index
+                                          ),
+                                          className: classNames(
+                                            "button-remove",
+                                            `button-remove-${source}-${index}`
+                                          ),
+                                        })}
+                                      </div>
                                     </TableCell>
                                   )}
                               </TableRow>
-                            );
-                          }}
-                        </Draggable>
-                      </CSSTransition>
+                            </CSSTransition>
+                          );
+                        }}
+                      </Draggable>
                     );
                   })}
                   {droppableProvided.placeholder}
@@ -469,13 +473,9 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
 };
 
 // const DraggableComponent = (id: DraggableId, index: number) => (props: any) => {
-//   console.log("draggable");
 //   return (
 //     <Draggable draggableId={id} index={index}>
 //       {(provided, snapshot) => {
-//         console.log("provided", provided);
-//         console.log("snapshot", snapshot);
-//         console.log("props", props);
 //         return (
 //           <TableRow
 //             ref={provided.innerRef}
@@ -498,7 +498,6 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
 // const DroppableComponent =
 //   (onDragEnd: (result: DropResult, provided: ResponderProvided) => void) =>
 //   (props: any) => {
-//     console.log("droppable");
 //     return (
 //       <DragDropContext onDragEnd={onDragEnd}>
 //         <Droppable droppableId={"1"} direction="vertical">

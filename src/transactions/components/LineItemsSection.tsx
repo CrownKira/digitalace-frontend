@@ -7,10 +7,12 @@ import {
 } from "react-admin";
 import { Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useForm } from "react-final-form";
 
 import { requiredValidate, validateNumber } from "../invoices/InvoiceCreate";
 import { LineItemsIterator } from "../../utils/components/LineItemsIterator";
 import { ProductNameInput } from "./ProductNameInput";
+import { ccyFormat, toFixedNumber } from "../../utils";
 
 const useStyles = makeStyles({
   leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
@@ -25,11 +27,35 @@ interface Props {
   source: string;
   resource: string;
   label: string;
+  updateTotals: (formData: any) => void;
 }
 
-export const LineItemsSection: FC<Props> = ({ source, resource, label }) => {
+export const LineItemsSection: FC<Props> = ({
+  source,
+  resource,
+  label,
+  updateTotals,
+}) => {
   const classes = useStyles();
-  // console.log("line items");
+  const form = useForm();
+  // const amount = useField('')
+
+  const handleOnBlur = (
+    formData: any,
+    scopedFormData: any,
+    getSource: (source: string) => string
+  ) => {
+    const quantity = toFixedNumber(scopedFormData.quantity, 0);
+    const unit_price = toFixedNumber(scopedFormData.unit_price, 2);
+    const amount = quantity * unit_price;
+    // const amountChange = amount - Number(scopedFormData.amount);
+
+    form.change(getSource("quantity"), quantity);
+    form.change(getSource("unit_price"), ccyFormat(unit_price));
+
+    form.change(getSource("amount"), ccyFormat(amount));
+    updateTotals(formData);
+  };
 
   return (
     <ArrayInput
@@ -44,7 +70,6 @@ export const LineItemsSection: FC<Props> = ({ source, resource, label }) => {
         // draggable={false}
       >
         <FormDataConsumer
-          formClassName={classes.leftFormGroup}
           validate={requiredValidate}
           label="resources.invoice_items.fields.product"
         >
@@ -55,23 +80,46 @@ export const LineItemsSection: FC<Props> = ({ source, resource, label }) => {
                 getSource={getSource}
                 fullWidth
                 inputClassName={classes.lineItemReferenceInput}
+                // FIXME: showSuggestions not working
                 showSuggestions={false}
                 // {...rest}
               />
             ) : null
           }
         </FormDataConsumer>
-        <NumberInput
-          source="quantity"
-          className={classes.lineItemInput}
-          validate={validateNumber}
-        />
+        <FormDataConsumer
+          validate={requiredValidate}
+          label="resources.invoice_items.fields.quantity"
+        >
+          {({ formData, scopedFormData, getSource }) =>
+            getSource ? (
+              <NumberInput
+                source={getSource("quantity")}
+                className={classes.lineItemInput}
+                validate={validateNumber}
+                onBlur={() => handleOnBlur(formData, scopedFormData, getSource)}
+                label=""
+              />
+            ) : null
+          }
+        </FormDataConsumer>
         <TextInput source="unit" className={classes.lineItemInput} disabled />
-        <NumberInput
-          source="unit_price"
-          className={classes.lineItemInput}
-          validate={validateNumber}
-        />
+        <FormDataConsumer
+          validate={requiredValidate}
+          label="resources.invoice_items.fields.unit_price"
+        >
+          {({ formData, scopedFormData, getSource }) =>
+            getSource ? (
+              <NumberInput
+                source={getSource("unit_price")}
+                className={classes.lineItemInput}
+                validate={validateNumber}
+                onBlur={() => handleOnBlur(formData, scopedFormData, getSource)}
+                label=""
+              />
+            ) : null
+          }
+        </FormDataConsumer>
         <NumberInput
           source="amount"
           className={classes.lineItemInput}
@@ -84,7 +132,7 @@ export const LineItemsSection: FC<Props> = ({ source, resource, label }) => {
 
 /*
         <FormDataConsumer
-          formClassName={classes.leftFormGroup}
+          
           validate={requiredValidate}
           label="resources.invoice_items.fields.product"
         >

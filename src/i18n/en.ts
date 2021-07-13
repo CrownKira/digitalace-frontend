@@ -537,6 +537,9 @@ export const customEnglishMessages: TranslationMessages = {
         credits_applied: "Credits Applied",
         balance_due: "Balance Due",
       },
+      fieldGroups: {
+        apply_credits: "Apply credits for %{reference}",
+      },
       data: {
         statuses: {
           draft: "Draft",

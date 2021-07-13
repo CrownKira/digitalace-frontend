@@ -24,6 +24,10 @@ const useStyles = makeStyles({
 interface Props {
   // formData: any;
   // record: Record;
+  totalCredits: {
+    total_amount_to_credit: number;
+    balance_due: number;
+  };
 }
 
 const TableCell = withStyles({
@@ -39,12 +43,12 @@ const Paper = withStyles({
   },
 })(MuiPaper);
 
-export const TotalCreditsSection: FC<Props> = () => {
-  // console.log("before");
+export const TotalCreditsSection: FC<Props> = ({
+  totalCredits: { total_amount_to_credit, balance_due },
+}) => {
   const record = useRecordContext();
   const { values: formData } = useFormState();
   // useFormState();
-  // console.log("after 2");
 
   const classes = useStyles();
 
@@ -63,8 +67,8 @@ export const TotalCreditsSection: FC<Props> = () => {
   //   [formData.balance_due, total_amount_to_credit]
   // );
 
-  const total_amount_to_credit = 0;
-  const balance_due = 0;
+  // const total_amount_to_credit = 0;
+  // const balance_due = 0;
 
   return (
     <TableContainer component={Paper}>
@@ -73,14 +77,10 @@ export const TotalCreditsSection: FC<Props> = () => {
           <TableRow hover>
             <TableCell>Invoice Balance</TableCell>
             <TableCell align="right">
-              {
-                0
-
-                // Number(formData.balance_due).toLocaleString(undefined, {
-                //   style: "currency",
-                //   currency: "SGD",
-                // })
-              }
+              {Number(formData.balance_due).toLocaleString(undefined, {
+                style: "currency",
+                currency: "SGD",
+              })}
             </TableCell>
           </TableRow>
           <TableRow hover>
@@ -101,7 +101,10 @@ export const TotalCreditsSection: FC<Props> = () => {
             </TableCell>
             <TableCell align="right">
               <Typography variant="h6" gutterBottom>
-                {balance_due}
+                {balance_due.toLocaleString(undefined, {
+                  style: "currency",
+                  currency: "SGD",
+                })}
               </Typography>
             </TableCell>
           </TableRow>

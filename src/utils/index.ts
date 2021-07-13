@@ -20,7 +20,9 @@ export function formatImage(value: any) {
 }
 
 export function toFixedNumber(num: any, digits = 2, base = 10) {
-  if (Number.isNaN(num)) return 0;
+  if (isNaN(num)) {
+    return 0;
+  }
   const pow = base ** digits;
   // Math.round() function returns the value of a number rounded to the nearest integer
   return Math.round(Number(num) * pow) / pow;
@@ -35,7 +37,7 @@ export const incrementReference = (
   const prefix = parts[0];
   const reference_no = parts[1];
 
-  if (parts.length > 1 && !Number.isNaN(+reference_no)) {
+  if (parts.length > 1 && !isNaN(+reference_no)) {
     const digits = reference_no.split("");
     let pointer = reference_no.length - 1;
 
@@ -56,7 +58,7 @@ export const incrementReference = (
 export const dateFormatter = (v: Date) => {
   // https://stackoverflow.com/questions/64714107/can-use-react-admin-dateinput-to-change-the-format-like-dd-mm-yyyy-to-mm-dd-yyyy
   // v is a `Date` object
-  // if (!(v instanceof Date) || Number.isNaN(v)) return;
+  // if (!(v instanceof Date) || isNaN(v)) return;
   const pad = "00";
   const yy = v.getFullYear().toString();
   const mm = (v.getMonth() + 1).toString();
@@ -175,4 +177,12 @@ export const validateUnicity = ({
     }
     return undefined;
   });
+};
+
+export const ccyFormat = (num: number | string): string => {
+  if (isNaN(num as number)) {
+    return "0.00";
+  }
+
+  return Number(num).toFixed(2);
 };

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   FormDataConsumer,
   ArrayInput,
@@ -8,10 +8,14 @@ import {
 } from "react-admin";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useFormState } from "react-final-form";
 
 import { TotalCreditsSection } from "./TotalCreditsSection";
 import { validateCredits } from "../InvoiceCreate";
 import { LineItemsIterator } from "../../../utils/components/LineItemsIterator";
+import { SectionTitle } from "../../../utils/components/Divider";
+import { toFixedNumber } from "../../../utils";
+import { CreditsApplication } from "../../../types";
 
 const useStyles = makeStyles({
   leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
@@ -23,18 +27,41 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  formProps: any;
+  // formProps: any;
   open: boolean;
 }
 
-export const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
+// TODO: move to dialog form
+export const ApplyCreditsSection: FC<Props> = ({ open }) => {
   const classes = useStyles();
-  // console.log("apply credits");
+  const { values: formData } = useFormState();
+  const [totalCredits, setTotalCredits] = useState({
+    total_amount_to_credit: 0,
+    balance_due: 0,
+  });
+
+  const updateTotalCredits = () => {
+    const total_amount_to_credit = formData.fake_creditsapplication_set
+      ? (formData.fake_creditsapplication_set as CreditsApplication[])
+          .map((lineItem) => lineItem.amount_to_credit)
+          .reduce((x: number, y: number) => x + y, 0)
+      : 0;
+
+    const balance_due =
+      toFixedNumber(formData.balance_due, 2) - total_amount_to_credit;
+
+    setTotalCredits({ total_amount_to_credit, balance_due });
+  };
 
   return open ? (
     <>
+      <SectionTitle
+        label="resources.invoices.fieldGroups.apply_credits"
+        options={{ reference: formData.reference }}
+      />
       <ArrayInput
         // TODO: make this a table
+        // TODO: better way instead of using a dummy source?
         source="fake_creditsapplication_set"
         resource="credits_applications"
         label=""
@@ -88,6 +115,7 @@ export const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
                   label=""
                   className={classes.lineItemInput}
                   validate={validateCredits(scopedFormData)}
+                  onBlur={updateTotalCredits}
                 />
               ) : null
             }
@@ -97,7 +125,7 @@ export const ApplyCreditsSection: FC<Props> = ({ formProps, open }) => {
       <Box display={{ sm: "block", md: "flex" }}>
         <Box flex={3} mr={{ sm: 0, md: "0.5em" }}></Box>
         <Box flex={2} mr={{ sm: 0, md: "0.5em" }}>
-          <TotalCreditsSection />
+          <TotalCreditsSection totalCredits={totalCredits} />
         </Box>
       </Box>
     </>

@@ -29,6 +29,7 @@ import {
   styles as createStyles,
   Wrapper,
   validateForm,
+  getTotals,
 } from "./InvoiceCreate";
 import { FormTabWithCustomLayout } from "../../utils/components/FormTabWithCustomLayout";
 import { PdfButton } from "../components/PdfButton";
@@ -41,6 +42,9 @@ import { DetailTopSection } from "./sections/DetailTopSection";
 import { DetailBottomSection } from "./sections/DetailBottomSection";
 import { PaymentSection } from "./sections/PaymentSection";
 import { ProductNameInput } from "../components/ProductNameInput";
+import { ccyFormat, toFixedNumber } from "../../utils";
+import { Separator } from "../../utils/components/Divider";
+import { InvoiceItem } from "../../types";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -61,14 +65,44 @@ export const InvoiceEdit: FC<EditProps> = (props) => {
 const InvoiceForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
-  // console.log("inv edit");
 
-  const [state, setState] = useState({
-    // TODO: make use of formProps instead?
-    isPaid: props?.record?.status === "PD",
-    // TODO: loadingApplyCredits
-    openApplyCredits: false,
-  });
+  const getInitialTotals = () => {
+    if (props.record) {
+      const {
+        total_amount,
+        discount_amount,
+        net,
+        gst_amount,
+        grand_total,
+        balance_due,
+        credits_applied,
+      } = props.record;
+
+      return {
+        total_amount,
+        discount_amount,
+        net,
+        gst_amount,
+        grand_total,
+        balance_due,
+        credits_applied,
+      };
+    }
+    return {
+      total_amount: 0,
+      discount_amount: 0,
+      net: 0,
+      gst_amount: 0,
+      grand_total: 0,
+      balance_due: 0,
+      credits_applied: 0,
+    };
+  };
+
+  const [isPaid, setIsPaid] = useState(props.record?.status === "PD");
+  const [openApplyCredits, setOpenApplyCredits] = useState(false);
+  // TODO: use context
+  const [totals, setTotals] = useState(getInitialTotals());
 
   /**
    * You can have tooling support which checks and enforces these rules.
@@ -80,8 +114,15 @@ const InvoiceForm = (props: any) => {
 
   const onSuccess = ({ data }: { data: Record }) => {
     notify(`Changes to "${data.reference}" saved`);
-    setState({ ...state, openApplyCredits: false });
+    // setState({ ...state, openApplyCredits: false });
+    setOpenApplyCredits(false);
     refresh();
+  };
+
+  const updateTotals = (formData: any) => {
+    // TODO: better way without passing formData?
+
+    setTotals(getTotals(formData));
   };
 
   return (
@@ -141,17 +182,23 @@ const InvoiceForm = (props: any) => {
                 <FormTabWithCustomLayout label="resources.invoices.tabs.details">
                   <DetailTopSection
                     props={props}
-                    state={state}
-                    setState={setState}
+                    isPaid={isPaid}
+                    setIsPaid={setIsPaid}
+                    openApplyCredits={openApplyCredits}
+                    setOpenApplyCredits={setOpenApplyCredits}
                   />
                   <LineItemsSection
                     source="invoiceitem_set"
                     resource="invoice_items"
                     label="resources.invoices.fields.invoiceitem_set"
+                    updateTotals={updateTotals}
                   />
-                  <DetailBottomSection formProps={formProps} />
+                  <DetailBottomSection
+                    totals={totals}
+                    updateTotals={updateTotals}
+                  />
                 </FormTabWithCustomLayout>
-                {state.isPaid ? (
+                {isPaid ? (
                   <FormTabWithCustomLayout
                     /**
                      * TODO: hide tab when unpaid
@@ -173,9 +220,10 @@ const InvoiceForm = (props: any) => {
                     actions={
                       <CreditsApplicationListActions
                         onClick={() => {
-                          setState({ ...state, openApplyCredits: true });
+                          // setState({ ...state, openApplyCredits: true });
+                          setOpenApplyCredits(true);
                         }}
-                        disabled={state.openApplyCredits}
+                        disabled={openApplyCredits}
                       />
                     }
                   >
@@ -197,9 +245,10 @@ const InvoiceForm = (props: any) => {
                       />
                     </Datagrid>
                   </ReferenceManyFieldWithActions>
+                  <Separator />
                   <ApplyCreditsSection
-                    formProps={formProps}
-                    open={state.openApplyCredits}
+                    // formProps={formProps}
+                    open={openApplyCredits}
                   />
                 </FormTabWithCustomLayout>
               </TabbedFormView>

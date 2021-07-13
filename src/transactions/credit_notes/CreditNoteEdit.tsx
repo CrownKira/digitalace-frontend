@@ -124,11 +124,11 @@ const CreditNoteForm = (props: any) => {
                     state={state}
                     setState={setState}
                   />
-                  <LineItemsSection
+                  {/* <LineItemsSection
                     source="creditnoteitem_set"
                     resource="credit_note_items"
                     label="resources.credit_notes.fields.creditnoteitem_set"
-                  />
+                  /> */}
                   <DetailBottomSection formProps={formProps} />
                 </FormTabWithCustomLayout>
               </TabbedFormView>

@@ -9,19 +9,25 @@ import { CustomerNameInput } from "../../components/CustomerNameInput";
 
 interface Props {
   props: any;
-  state: {
-    isPaid: boolean;
-    openApplyCredits: boolean;
-  };
-  setState: React.Dispatch<
-    React.SetStateAction<{
-      isPaid: boolean;
-      openApplyCredits: boolean;
-    }>
-  >;
+  // state: {
+  //   isPaid: boolean;
+  //   openApplyCredits: boolean;
+  // };
+  isPaid: boolean;
+  openApplyCredits: boolean;
+  // TODO: split the states
+  // setState: React.Dispatch<any>;
+  setIsPaid: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenApplyCredits: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const DetailTopSection: FC<Props> = ({ props, state, setState }) => {
+export const DetailTopSection: FC<Props> = ({
+  props,
+  isPaid,
+  openApplyCredits,
+  setIsPaid,
+  setOpenApplyCredits,
+}) => {
   return (
     <Box display={{ sm: "block", md: "flex" }}>
       <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
@@ -35,10 +41,11 @@ export const DetailTopSection: FC<Props> = ({ props, state, setState }) => {
           <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
             <CustomerNameInput
               onChange={() => {
-                setState({
-                  ...state,
-                  openApplyCredits: false,
-                });
+                // setState({
+                //   ...state,
+                //   openApplyCredits: false,
+                // });
+                setOpenApplyCredits(false);
               }}
               validate={requiredValidate}
               resource="invoices"
@@ -88,10 +95,11 @@ export const DetailTopSection: FC<Props> = ({ props, state, setState }) => {
               fullWidth
               validate={requiredValidate}
               onChange={(event: any) => {
-                setState((state) => ({
-                  ...state,
-                  isPaid: event.target.value === "PD",
-                }));
+                // setState((state) => ({
+                //   ...state,
+                //   isPaid: event.target.value === "PD",
+                // }));
+                setIsPaid(event.target.value === "PD");
               }}
             />
           </Box>

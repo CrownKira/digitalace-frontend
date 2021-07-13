@@ -45,6 +45,14 @@ export const darkTheme = {
 };
 
 export const lightTheme = {
+  typography: {
+    // fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+    fontFamily: `Inter,"Source Sans Pro",Helvetica,Arial,sans-serif`,
+    fontSize: 14,
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
+  },
   palette: {
     primary: {
       main: "#4f3cc9",
@@ -92,6 +100,9 @@ export const lightTheme = {
         color: "#4f3cc9",
         boxShadow: "none",
       },
+      // containedPrimary: {
+      //   color: "fff",
+      // },
     },
     MuiButtonBase: {
       root: {
@@ -144,6 +155,7 @@ export const lightTheme = {
         border: "none",
       },
     },
+    RaDatagrid: { headerCell: { backgroundColor: "#fcfcfe" } },
   },
   props: {
     MuiButtonBase: {

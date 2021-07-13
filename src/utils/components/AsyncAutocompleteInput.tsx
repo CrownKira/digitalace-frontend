@@ -44,7 +44,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
    * ReferenceInputProps
    */
   filter = {},
-  perPage = 25,
+  perPage = 5,
   sort = { field: "id", order: "DESC" },
   reference,
   /**
@@ -71,7 +71,6 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   suggestionsCount = 5,
   ...props
 }) => {
-  // console.log("async ");
   const {
     input: { onChange, ...input },
     isRequired,
@@ -160,7 +159,6 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
    * since input.value will be initialized before valueOverride
    */
   useEffect(() => {
-    // console.log("use 1");
     // https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
     let active = true;
     if (
@@ -176,7 +174,6 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       .getOne(reference, { id: input.value })
       .then((response) => {
         if (active && response) {
-          // console.log("set 1");
           setValueOverride(response.data);
         }
       })
@@ -187,18 +184,14 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       });
 
     return () => {
-      // console.log("clean 1");
       active = false;
     };
   }, [dataProvider, input.value, inputValue, notify, reference, valueOverride]);
 
   useEffect(() => {
-    // console.log("use 2");
     // FIXME: eliminate additional api calls after invoice update
     let active = true;
     if (!showSuggestions && inputValue === "") {
-      // console.log("set 2");
-
       setAutocompleteOptions(valueOverride ? [valueOverride] : []);
     }
 
@@ -213,14 +206,11 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
           newOptions = [...newOptions, ...results];
         }
 
-        // console.log("set 3");
-
         setAutocompleteOptions(newOptions);
       }
     });
 
     return () => {
-      // console.log("clean 2");
       active = false;
     };
   }, [valueOverride, inputValue, fetch, showSuggestions]);
@@ -237,7 +227,6 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       value={valueOverride}
       inputValue={inputValue} // overrides TextField value
       onChange={(event, newValue: Record | null, reason, details) => {
-        // console.log("change 1");
         setAutocompleteOptions(
           newValue ? [newValue, ...autocompleteOptions] : autocompleteOptions
         );
@@ -246,7 +235,6 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
         setValueOverride(newValue);
       }}
       onInputChange={(event, newInputValue) => {
-        // console.log("change 2");
         setInputValue(newInputValue);
       }} // merged with TextField onChange, invoked before TextField onChange
       className={className}
@@ -331,7 +319,7 @@ export interface AsyncAutocompleteInputProps
 AsyncAutocompleteInput.defaultProps = {
   options: {},
   filter: {},
-  perPage: 25,
+  perPage: 5,
   sort: { field: "id", order: "DESC" },
   optionText: "name",
   optionValue: "id",
