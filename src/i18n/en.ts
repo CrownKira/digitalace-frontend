@@ -427,16 +427,16 @@ export const customEnglishMessages: TranslationMessages = {
       name: "Credit Applied |||| Credits Applied",
       fields: {
         id: "Credits Applied ID",
-        // reference: 'Reference',
         date: "Date",
         invoice: "Invoice",
         credit_note: "Credit Note",
-        // grand_total: 'Credit Amount',
-        // credits_remaining: 'Credits Available',
         amount_to_credit: "Amount to Credit",
       },
       errors: {
         no_customer: "Please select a customer first.",
+      },
+      action: {
+        apply_credits: "Apply Credits",
       },
     },
     credit_notes: {

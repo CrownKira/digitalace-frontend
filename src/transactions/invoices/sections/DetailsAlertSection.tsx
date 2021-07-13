@@ -13,7 +13,7 @@ interface Props {
   totals: Totals;
 }
 
-export const DetailAlertSection: FC<Props> = ({
+export const DetailsAlertSection: FC<Props> = ({
   formProps,
   creditsAvailable,
   totals,

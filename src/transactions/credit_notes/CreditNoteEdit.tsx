@@ -25,8 +25,8 @@ import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayou
 import { PdfButton } from "../components/PdfButton";
 import { PrintButton } from "../components/PrintButton";
 import { LineItemsSection } from "../components/LineItemsSection";
-import { DetailTopSection } from "./sections/DetailTopSection";
-import { DetailBottomSection } from "./sections/DetailBottomSection";
+import { DetailsTopSection } from "./sections/DetailsTopSection";
+import { DetailsBottomSection } from "./sections/DetailsBottomSection";
 import { ProductNameInput } from "../components/ProductNameInput";
 
 const useStyles = makeStyles({
@@ -119,7 +119,7 @@ const CreditNoteForm = (props: any) => {
                 }
               >
                 <FormTabWithoutLayout label="resources.credit_notes.tabs.details">
-                  <DetailTopSection
+                  <DetailsTopSection
                     props={props}
                     state={state}
                     setState={setState}
@@ -129,7 +129,7 @@ const CreditNoteForm = (props: any) => {
                     resource="credit_note_items"
                     label="resources.credit_notes.fields.creditnoteitem_set"
                   /> */}
-                  <DetailBottomSection formProps={formProps} />
+                  <DetailsBottomSection formProps={formProps} />
                 </FormTabWithoutLayout>
               </TabbedFormView>
             </Wrapper>

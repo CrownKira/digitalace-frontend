@@ -31,14 +31,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props extends ButtonProps {}
 
-export const ApplyCreditsButton: FC<Props> = ({
+export const CreateCreditNoteButton: FC<Props> = ({
   onClick: originalOnClickHandler,
   disabled,
 }) => {
   const classes = useStyles();
-  const form = useForm();
   const translate = useTranslate();
   const notify = useNotify();
+  const form = useForm();
 
   const { values: formData } = useFormState();
   const dataProvider = useDataProvider();
@@ -47,47 +47,12 @@ export const ApplyCreditsButton: FC<Props> = ({
   return (
     <div className={classes.wrapper}>
       <Button
-        onClick={async (event) => {
-          if (!formData.customer) {
-            // TODO: redirect to Details Tab
-            notify("Please select a customer first.");
-
-            return;
-          }
-
-          setLoading(true);
-
-          const response = await dataProvider.getManyReference("credit_notes", {
-            target: "customer",
-            id: formData.customer,
-            pagination: { page: 1, perPage: 25 },
-            sort: { field: "id", order: "DESC" },
-            filter: {},
-          });
-
-          setLoading(false);
-
-          form.change(
-            "creditsapplication_set",
-            response
-              ? response.data.map((creditNote) => ({
-                  ...pick(creditNote, [
-                    "reference",
-                    "grand_total",
-                    "credits_remaining",
-                    "id",
-                  ]),
-                  credit_note: creditNote.id,
-                  amount_to_credit: "0.00",
-                }))
-              : []
-          );
-
-          if (originalOnClickHandler) {
-            originalOnClickHandler(event);
-          }
+        onClick={() => {
+          notify("pos.message.coming_soon");
         }}
-        label={translate("resources.credits_applications.action.apply_credits")}
+        label={translate(
+          "resources.credits_applications.action.create_credit_note"
+        )}
         disabled={disabled}
       >
         <ContentAdd />

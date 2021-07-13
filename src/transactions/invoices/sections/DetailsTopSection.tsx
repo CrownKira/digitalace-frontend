@@ -16,7 +16,7 @@ interface Props {
   setCreditsAvailable: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const DetailTopSection: FC<Props> = ({
+export const DetailsTopSection: FC<Props> = ({
   props,
   setIsPaid,
   setOpenApplyCredits,

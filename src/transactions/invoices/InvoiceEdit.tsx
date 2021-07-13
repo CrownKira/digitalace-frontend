@@ -37,12 +37,14 @@ import { PdfButton } from "../components/PdfButton";
 import { PrintButton } from "../components/PrintButton";
 import { ReferenceManyFieldWithActions } from "../../utils/components/ReferenceManyFieldWithActions";
 import { ApplyCreditsButton } from "./utils/ApplyCreditsButton";
+import { CreateCreditNoteButton } from "./utils/CreateCreditNoteButton";
 import { ApplyCreditsSection } from "./sections/ApplyCreditsSection";
 import { LineItemsSection } from "../components/LineItemsSection";
-import { DetailTopSection } from "./sections/DetailTopSection";
-import { DetailBottomSection } from "./sections/DetailBottomSection";
+import { DetailsTopSection } from "./sections/DetailsTopSection";
+import { DetailsBottomSection } from "./sections/DetailsBottomSection";
 import { PaymentSection } from "./sections/PaymentSection";
-import { DetailAlertSection } from "./sections/DetailAlertSection";
+import { DetailsAlertSection } from "./sections/DetailsAlertSection";
+import { CreditsAlertSection } from "./sections/CreditsAlertSection";
 import { Separator, SectionTitle } from "../../utils/components/Divider";
 
 const useStyles = makeStyles({
@@ -180,13 +182,13 @@ const InvoiceForm = (props: any) => {
                 }
               >
                 <FormTabWithoutLayout label="resources.invoices.tabs.details">
-                  <DetailAlertSection
+                  <DetailsAlertSection
                     formProps={formProps}
                     creditsAvailable={creditsAvailable}
                     totals={totals}
                   />
                   <Separator />
-                  <DetailTopSection
+                  <DetailsTopSection
                     props={props}
                     isPaid={isPaid}
                     setIsPaid={setIsPaid}
@@ -200,7 +202,7 @@ const InvoiceForm = (props: any) => {
                     label="resources.invoices.fields.invoiceitem_set"
                     updateTotals={updateTotals}
                   />
-                  <DetailBottomSection
+                  <DetailsBottomSection
                     totals={totals}
                     updateTotals={updateTotals}
                   />
@@ -218,10 +220,7 @@ const InvoiceForm = (props: any) => {
                   </FormTabWithoutLayout>
                 ) : null}
                 <FormTabWithoutLayout label="resources.invoices.tabs.credits_applied">
-                  <Alert severity="info" onClose={() => {}}>
-                    <strong>Tip</strong> - Remember to select a customer first
-                    before applying credits.
-                  </Alert>
+                  <CreditsAlertSection />
                   <Separator />
                   <SectionTitle label="resources.invoices.fieldGroups.credits_applied" />
                   <ReferenceManyFieldWithActions
@@ -238,6 +237,7 @@ const InvoiceForm = (props: any) => {
                           }}
                           disabled={openApplyCredits}
                         />
+                        <CreateCreditNoteButton />
                       </TopToolbar>
                     }
                   >

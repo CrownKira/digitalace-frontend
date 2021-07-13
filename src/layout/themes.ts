@@ -100,9 +100,6 @@ export const lightTheme = {
         color: "#4f3cc9",
         boxShadow: "none",
       },
-      // containedPrimary: {
-      //   color: "fff",
-      // },
     },
     MuiButtonBase: {
       root: {

@@ -11,7 +11,7 @@ interface Props {
 }
 
 // TODO: apply credits in show
-export const DetailBottomSection: FC<Props> = ({ totals, updateTotals }) => {
+export const DetailsBottomSection: FC<Props> = ({ totals, updateTotals }) => {
   return (
     <Box display={{ sm: "block", md: "flex" }}>
       <Box flex={2} mr={{ sm: 0, md: "0.5em" }}>

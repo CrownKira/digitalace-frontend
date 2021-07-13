@@ -25,8 +25,8 @@ import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayou
 import { PdfButton } from "../components/PdfButton";
 import { PrintButton } from "../components/PrintButton";
 import { LineItemsSection } from "../components/LineItemsSection";
-import { DetailTopSection } from "./sections/DetailTopSection";
-import { DetailBottomSection } from "./sections/DetailBottomSection";
+import { DetailsTopSection } from "./sections/DetailsTopSection";
+import { DetailsBottomSection } from "./sections/DetailsBottomSection";
 import { ProductNameInput } from "../components/ProductNameInput";
 
 const useStyles = makeStyles({
@@ -119,7 +119,7 @@ const SalesOrderForm = (props: any) => {
                 }
               >
                 <FormTabWithoutLayout label="resources.sales_orders.tabs.details">
-                  <DetailTopSection
+                  <DetailsTopSection
                     props={props}
                     state={state}
                     setState={setState}
@@ -129,7 +129,7 @@ const SalesOrderForm = (props: any) => {
                     resource="sales_order_items"
                     label="resources.sales_orders.fields.salesorderitem_set"
                   /> */}
-                  <DetailBottomSection formProps={formProps} />
+                  <DetailsBottomSection formProps={formProps} />
                 </FormTabWithoutLayout>
               </TabbedFormView>
             </Wrapper>

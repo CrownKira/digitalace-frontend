@@ -15,7 +15,7 @@ interface Props {
   setState: React.Dispatch<React.SetStateAction<{}>>;
 }
 
-export const DetailTopSection: FC<Props> = ({ props, state, setState }) => {
+export const DetailsTopSection: FC<Props> = ({ props, state, setState }) => {
   return (
     <Box display={{ sm: "block", md: "flex" }}>
       <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>

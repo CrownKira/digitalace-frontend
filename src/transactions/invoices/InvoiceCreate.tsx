@@ -34,10 +34,11 @@ import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayou
 import { ApplyCreditsButton } from "./utils/ApplyCreditsButton";
 import { ApplyCreditsSection } from "./sections/ApplyCreditsSection";
 import { LineItemsSection } from "../components/LineItemsSection";
-import { DetailTopSection } from "./sections/DetailTopSection";
-import { DetailBottomSection } from "./sections/DetailBottomSection";
+import { DetailsTopSection } from "./sections/DetailsTopSection";
+import { DetailsBottomSection } from "./sections/DetailsBottomSection";
 import { PaymentSection } from "./sections/PaymentSection";
-import { DetailAlertSection } from "./sections/DetailAlertSection";
+import { DetailsAlertSection } from "./sections/DetailsAlertSection";
+import { CreditsAlertSection } from "./sections/CreditsAlertSection";
 import { Separator } from "../../utils/components/Divider";
 
 export const styles = {
@@ -247,13 +248,13 @@ const InvoiceForm = (props: any) => {
                 }
               >
                 <FormTabWithoutLayout label="resources.invoices.tabs.details">
-                  <DetailAlertSection
+                  <DetailsAlertSection
                     formProps={formProps}
                     creditsAvailable={creditsAvailable}
                     totals={totals}
                   />
                   <Separator />
-                  <DetailTopSection
+                  <DetailsTopSection
                     props={props}
                     isPaid={isPaid}
                     setIsPaid={setIsPaid}
@@ -267,7 +268,7 @@ const InvoiceForm = (props: any) => {
                     label="resources.invoices.fields.invoiceitem_set"
                     updateTotals={updateTotals}
                   />
-                  <DetailBottomSection
+                  <DetailsBottomSection
                     totals={totals}
                     updateTotals={updateTotals}
                   />
@@ -285,6 +286,7 @@ const InvoiceForm = (props: any) => {
                   </FormTabWithoutLayout>
                 ) : null}
                 <FormTabWithoutLayout label="resources.invoices.tabs.credits_applied">
+                  <CreditsAlertSection />
                   <TopToolbar>
                     <ApplyCreditsButton
                       onClick={() => {

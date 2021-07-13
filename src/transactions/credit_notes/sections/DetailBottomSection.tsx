@@ -9,7 +9,7 @@ interface Props {
   formProps: any;
 }
 
-export const DetailBottomSection: FC<Props> = ({ formProps }) => {
+export const DetailsBottomSection: FC<Props> = ({ formProps }) => {
   return (
     <Box display={{ sm: "block", md: "flex" }}>
       <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
