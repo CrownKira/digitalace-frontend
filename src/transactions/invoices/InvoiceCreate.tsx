@@ -71,15 +71,9 @@ export const InvoiceCreate: FC<CreateProps> = (props) => {
   );
 };
 
-export const validateForm = ({
-  credits_applied,
-  grand_total,
-}: AnyObject): any => {
+// eslint-disable-next-line no-empty-pattern
+export const validateForm = ({}: AnyObject): any => {
   const errors = {} as any;
-
-  if (Number(credits_applied) > Number(grand_total)) {
-    errors.credits_applied = ["resources.invoices.validation.invalid_credits"];
-  }
 
   return errors;
 };
@@ -278,7 +272,6 @@ const InvoiceForm = (props: any) => {
                   <TopToolbar>
                     <ApplyCreditsButton
                       onClick={() => {
-                        // setState({ ...state, openApplyCredits: true });
                         setOpenApplyCredits(true);
                       }}
                       disabled={openApplyCredits}
@@ -288,6 +281,8 @@ const InvoiceForm = (props: any) => {
                   <ApplyCreditsSection
                     open={openApplyCredits}
                     setTotals={setTotals}
+                    totals={totals}
+                    record={formProps.record}
                   />
                 </FormTabWithoutLayout>
               </TabbedFormView>

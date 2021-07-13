@@ -1,14 +1,15 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import {
   FormDataConsumer,
   ArrayInput,
   TextInput,
   DateInput,
   NumberInput,
+  Record,
 } from "react-admin";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useFormState, useForm } from "react-final-form";
+import { useForm } from "react-final-form";
 
 import { TotalCreditsSection } from "./TotalCreditsSection";
 import { validateCredits } from "../InvoiceCreate";
@@ -30,19 +31,39 @@ const useStyles = makeStyles({
 interface Props {
   open: boolean;
   setTotals: React.Dispatch<React.SetStateAction<Totals>>;
+  totals: Totals;
+  record: Record;
 }
 
 // TODO: move to dialog form
-export const ApplyCreditsSection: FC<Props> = ({ open, setTotals }) => {
+const _ApplyCreditsSection: FC<Props> = ({
+  open,
+  setTotals,
+  record,
+  totals,
+}) => {
   const classes = useStyles();
   const form = useForm();
-  const { values: formData } = useFormState();
+  // const { values: formData } = useFormState();
   const [totalCredits, setTotalCredits] = useState({
     total_amount_to_credit: 0,
-    balance_due: formData.balance_due,
+    balance_due: totals.balance_due,
   });
 
+  useEffect(() => {
+    setTotals((totals) => ({
+      ...totals,
+      amount_to_credit: 0,
+    }));
+
+    setTotalCredits((totals) => ({
+      total_amount_to_credit: 0,
+      balance_due: totals.balance_due,
+    }));
+  }, [open, setTotals]);
+
   const updateTotalCredits = (
+    formData: any,
     scopedFormData: any,
     getSource: (source: string) => string
   ) => {
@@ -72,7 +93,7 @@ export const ApplyCreditsSection: FC<Props> = ({ open, setTotals }) => {
     <>
       <SectionTitle
         label="resources.invoices.fieldGroups.apply_credits"
-        options={{ reference: formData.reference }}
+        options={{ reference: record.reference }}
       />
       <ArrayInput
         // TODO: make this a table
@@ -119,15 +140,19 @@ export const ApplyCreditsSection: FC<Props> = ({ open, setTotals }) => {
             disabled
           />
           <FormDataConsumer>
-            {({ scopedFormData, getSource }) =>
+            {({ formData, scopedFormData, getSource }) =>
               getSource ? (
                 <NumberInput
                   // FIXME: can't add default value
+                  // TODO: pause validation to reduce lag?
+                  // https://github.com/final-form/react-final-form/issues/336
                   source={getSource("amount_to_credit")}
                   label=""
                   className={classes.lineItemInput}
                   validate={validateCredits(scopedFormData)}
-                  onBlur={() => updateTotalCredits(scopedFormData, getSource)}
+                  onBlur={() =>
+                    updateTotalCredits(formData, scopedFormData, getSource)
+                  }
                 />
               ) : null
             }
@@ -143,3 +168,6 @@ export const ApplyCreditsSection: FC<Props> = ({ open, setTotals }) => {
     </>
   ) : null;
 };
+
+// fix input lag
+export const ApplyCreditsSection = React.memo(_ApplyCreditsSection);

@@ -261,6 +261,8 @@ const InvoiceForm = (props: any) => {
                   <ApplyCreditsSection
                     open={openApplyCredits}
                     setTotals={setTotals}
+                    totals={totals}
+                    record={formProps.record}
                   />
                 </FormTabWithoutLayout>
               </TabbedFormView>

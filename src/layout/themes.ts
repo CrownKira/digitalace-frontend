@@ -72,6 +72,7 @@ export const lightTheme = {
     borderRadius: 10,
   },
   overrides: {
+    // RaLayout: { root: { minWidth: "none" }, appFrame: { width: "100%" } },
     RaLabeled: {
       label: {
         fontSize: "1.25rem",

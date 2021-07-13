@@ -85,7 +85,6 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     source,
     type: "text",
     validate,
-
     ...props,
   });
 
@@ -162,11 +161,26 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   useEffect(() => {
     // https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
     let active = true;
+
+    if (!input.value && valueOverride) {
+      // && inputValue
+      /**
+       * clear residues from swapping inputs
+       *
+       * if valueOverride exists, then input.value must exist (see onChange below)
+       * contrapositive: if input.value doesn't exist, valueOverride must not exist
+       */
+      setInputValue("");
+      setValueOverride(null);
+      return;
+    }
+
     if (
-      inputValue || // presence means value has already been fetched
-      valueOverride || // presence means value has already been fetched
       !input.value || // undefined means initial value from record is undefined
-      Number.isNaN(input.value) // eg. 'hello', {}, etc
+      (inputValue && // presence means value has already been fetched
+        valueOverride && // presence means value has already been fetched
+        valueOverride[optionValue] === input.value) || // make sure the values are consistent
+      isNaN(input.value) // eg. 'hello', {}, etc
     ) {
       return;
     }
@@ -175,9 +189,16 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       .getOne(reference, { id: input.value })
       .then((response) => {
         if (active && response) {
-          setValueOverride(response.data);
+          const result = response.data;
+
+          setAutocompleteOptions((autocompleteOptions) => [
+            ...autocompleteOptions,
+            result,
+          ]);
+
+          setValueOverride(result);
           if (onInit) {
-            onInit(response.data);
+            onInit(result);
           }
         }
       })
@@ -190,13 +211,23 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     return () => {
       active = false;
     };
-  }, [dataProvider, input.value, inputValue, notify, reference, valueOverride]);
+  }, [
+    dataProvider,
+    input.value,
+    inputValue,
+    notify,
+    onInit,
+    optionValue,
+    reference,
+    valueOverride,
+  ]);
 
   useEffect(() => {
     // FIXME: eliminate additional api calls after invoice update
     let active = true;
     if (!showSuggestions && inputValue === "") {
       setAutocompleteOptions(valueOverride ? [valueOverride] : []);
+      return;
     }
 
     fetch(inputValue, (results?: Record[]) => {
@@ -219,7 +250,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     };
   }, [valueOverride, inputValue, fetch, showSuggestions]);
 
-  return input.value && !valueOverride ? (
+  // FIXME: temporary blink
+  return input.value &&
+    (!valueOverride || valueOverride[optionValue] !== input.value) ? (
     <LinearProgress />
   ) : (
     <Autocomplete
@@ -230,14 +263,21 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       filterSelectedOptions
       value={valueOverride}
       inputValue={inputValue} // overrides TextField value
+      // getOptionSelected={(option, value) =>
+      //   option[optionValue] === value[optionValue]
+      // }
       onChange={(event, newValue: Record | null, reason, details) => {
+        // set options
         setAutocompleteOptions(
           newValue ? [newValue, ...autocompleteOptions] : autocompleteOptions
         );
+        // original onChange handler
         if (originalOnChangeHandler) {
           originalOnChangeHandler(event, newValue, reason, details);
         }
+        // set input.value
         onChange(newValue ? newValue[optionValue] : "");
+        // set valueOverride
         setValueOverride(newValue);
       }}
       onInputChange={(event, newInputValue) => {

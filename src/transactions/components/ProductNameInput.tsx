@@ -1,4 +1,3 @@
-import { FormatColorResetRounded } from "@material-ui/icons";
 import React, { FC } from "react";
 import { InputProps, FormDataConsumerRenderParams } from "react-admin";
 import { useForm } from "react-final-form";

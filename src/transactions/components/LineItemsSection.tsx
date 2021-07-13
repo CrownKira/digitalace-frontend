@@ -81,17 +81,20 @@ export const LineItemsSection: FC<Props> = ({
           validate={requiredValidate}
           label="resources.invoice_items.fields.quantity"
         >
-          {({ formData, scopedFormData, getSource }) =>
-            getSource ? (
-              <NumberInput
-                source={getSource("quantity")}
-                className={classes.lineItemInput}
-                validate={validateNumber}
-                onBlur={() => handleOnBlur(formData, scopedFormData, getSource)}
-                label=""
-              />
-            ) : null
-          }
+          {({ formData, scopedFormData, getSource }) => {
+            if (getSource)
+              return getSource ? (
+                <NumberInput
+                  source={getSource("quantity")}
+                  className={classes.lineItemInput}
+                  validate={validateNumber}
+                  onBlur={() =>
+                    handleOnBlur(formData, scopedFormData, getSource)
+                  }
+                  label=""
+                />
+              ) : null;
+          }}
         </FormDataConsumer>
         <TextInput source="unit" className={classes.lineItemInput} disabled />
         <FormDataConsumer
