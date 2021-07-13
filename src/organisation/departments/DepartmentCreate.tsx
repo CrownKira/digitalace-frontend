@@ -57,16 +57,11 @@ export const DepartmentCreate: FC<CreateProps> = (props) => {
           label="resources.departments.fields.designation_set"
         >
           <LineItemsIterator>
-            <TextInput
-              source="name"
-              formClassName={classes.leftFormGroup}
-              validate={requiredValidate}
-            />
+            <TextInput source="name" validate={requiredValidate} />
             <ReferenceArrayInput
               reference="employees"
               source="user_set"
               suggestionLimit={5}
-              formClassName={classes.rightFormGroup}
             >
               <AutocompleteArrayInput optionText="name" />
             </ReferenceArrayInput>

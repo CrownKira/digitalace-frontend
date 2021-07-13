@@ -59,6 +59,8 @@ const CreditNoteForm = (props: any) => {
         grand_total,
         balance_due,
         credits_applied,
+        credits_used,
+        credits_remaining,
       } = props.record;
 
       return {
@@ -69,6 +71,8 @@ const CreditNoteForm = (props: any) => {
         grand_total,
         balance_due,
         credits_applied,
+        credits_used,
+        credits_remaining,
         amount_to_credit: 0,
       };
     }
@@ -80,6 +84,8 @@ const CreditNoteForm = (props: any) => {
       grand_total: 0,
       balance_due: 0,
       credits_applied: 0,
+      credits_used: 0,
+      credits_remaining: 0,
       amount_to_credit: 0,
     };
   };

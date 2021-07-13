@@ -1,11 +1,10 @@
-import React, { FC, ReactElement, cloneElement } from "react";
+import React, { FC } from "react";
 import {
   NumberInput,
   TextInput,
   ArrayInput,
   FormDataConsumer,
 } from "react-admin";
-import { Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-final-form";
 
@@ -33,12 +32,10 @@ interface Props {
 export const LineItemsSection: FC<Props> = ({
   source,
   resource,
-  label,
   updateTotals,
 }) => {
   const classes = useStyles();
   const form = useForm();
-  // const amount = useField('')
 
   const handleOnBlur = (
     formData: any,
@@ -48,11 +45,9 @@ export const LineItemsSection: FC<Props> = ({
     const quantity = toFixedNumber(scopedFormData.quantity, 0);
     const unit_price = toFixedNumber(scopedFormData.unit_price, 2);
     const amount = quantity * unit_price;
-    // const amountChange = amount - Number(scopedFormData.amount);
 
     form.change(getSource("quantity"), quantity);
     form.change(getSource("unit_price"), ccyFormat(unit_price));
-
     form.change(getSource("amount"), ccyFormat(amount));
     updateTotals(formData);
   };
@@ -64,11 +59,7 @@ export const LineItemsSection: FC<Props> = ({
       label=""
       validate={requiredValidate}
     >
-      <LineItemsIterator
-        resource={resource}
-
-        // draggable={false}
-      >
+      <LineItemsIterator resource={resource}>
         <FormDataConsumer
           validate={requiredValidate}
           label="resources.invoice_items.fields.product"
@@ -82,7 +73,6 @@ export const LineItemsSection: FC<Props> = ({
                 inputClassName={classes.lineItemReferenceInput}
                 // FIXME: showSuggestions not working
                 showSuggestions={false}
-                // {...rest}
               />
             ) : null
           }
@@ -129,24 +119,3 @@ export const LineItemsSection: FC<Props> = ({
     </ArrayInput>
   );
 };
-
-/*
-        <FormDataConsumer
-          
-          validate={requiredValidate}
-          label="resources.invoice_items.fields.product"
-        >
-          {({ getSource, ...rest }) =>
-            getSource ? (
-              <ProductNameInput
-                source={getSource("product")}
-                getSource={getSource}
-                fullWidth
-                inputClassName={classes.lineItemReferenceInput}
-                showSuggestions={false}
-                {...rest}
-              />
-            ) : null
-          }
-        </FormDataConsumer>
-*/

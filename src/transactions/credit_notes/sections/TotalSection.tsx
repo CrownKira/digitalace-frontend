@@ -42,7 +42,15 @@ interface Props {
 
 // TODO: add credits used and refund
 export const TotalSection: FC<Props> = ({
-  totals: { total_amount, discount_amount, net, gst_amount, grand_total },
+  totals: {
+    total_amount,
+    discount_amount,
+    net,
+    gst_amount,
+    grand_total,
+    credits_used,
+    credits_remaining,
+  },
   updateTotals,
 }) => {
   const classes = useStyles();
@@ -59,12 +67,22 @@ export const TotalSection: FC<Props> = ({
     form.change("gst_rate", ccyFormat(Number(formData.gst_rate)));
   };
 
+  const handleRefundOnBlur = () => {
+    updateTotals(formData);
+    form.change("refund", ccyFormat(Number(formData.refund)));
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="summary table">
         <TableBody>
           <TableRow hover>
-            <TableCell colSpan={2}>Total</TableCell>
+            <TableCell
+              // TODO: use translate
+              colSpan={2}
+            >
+              Total
+            </TableCell>
             <TableCell align="right">{ccyFormat(total_amount)}</TableCell>
           </TableRow>
           <TableRow hover>
@@ -98,7 +116,6 @@ export const TotalSection: FC<Props> = ({
           <TableRow hover>
             <TableCell>GST</TableCell>
             <TableCell align="right">
-              {" "}
               <NumberInput
                 source="gst_rate"
                 resource="credit_notes"
@@ -122,6 +139,38 @@ export const TotalSection: FC<Props> = ({
             <TableCell align="right">
               <Typography variant="h6" gutterBottom>
                 {ccyFormat(grand_total)}
+              </Typography>
+            </TableCell>
+          </TableRow>
+          <TableRow hover>
+            <TableCell colSpan={2}>Credits Used</TableCell>
+            <TableCell align="right">
+              <Typography variant="h6" gutterBottom>
+                (-) {ccyFormat(credits_used)}
+              </Typography>
+            </TableCell>
+          </TableRow>
+          <TableRow hover>
+            <TableCell colSpan={2}>Refund</TableCell>
+            <TableCell align="right">
+              (-){" "}
+              <NumberInput
+                source="refund"
+                resource="credit_notes"
+                validate={validateNumber}
+                onBlur={handleRefundOnBlur}
+              />
+            </TableCell>
+          </TableRow>
+          <TableRow hover>
+            <TableCell colSpan={2}>
+              <Typography variant="h6" gutterBottom>
+                Credits Remaining (SGD)
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography variant="h6" gutterBottom>
+                {ccyFormat(credits_remaining)}
               </Typography>
             </TableCell>
           </TableRow>

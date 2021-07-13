@@ -5,19 +5,12 @@ import React, {
   useRef,
   ReactElement,
   FC,
-  CSSProperties,
-  useMemo,
-  useCallback,
 } from "react";
-import PropTypes from "prop-types";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import get from "lodash/get";
 import {
-  Box,
-  InputAdornment,
   TableContainer,
   Table,
-  Paper,
   TableHead,
   TableRow,
   TableCell,
@@ -36,8 +29,6 @@ import {
   Record,
   ClassesOverride,
   FormInput,
-  useNotify,
-  SimpleFormIterator,
 } from "react-admin";
 import classNames from "classnames";
 import { FieldArrayRenderProps } from "react-final-form-arrays";
@@ -47,8 +38,6 @@ import {
   Droppable,
   Draggable,
   DropResult,
-  ResponderProvided,
-  DraggableId,
   DraggableProvided,
   DroppableProvided,
   DraggableStateSnapshot,
@@ -141,25 +130,16 @@ const DefaultRemoveButton = (props: any) => {
   );
 };
 
-const AddItemHeaderButton = (props: any) => {
-  const classes = useStyles(props);
-  const translate = useTranslate();
-  return (
-    <Button size="small" color="primary" {...props}>
-      <AddIcon className={classes.leftIcon} />
-      {translate("resources.invoices.action.add_item_header")}
-    </Button>
-  );
-};
-
-const getItemStyle = (isDragging: boolean, draggableStyle: CSSProperties) => ({
-  // styles we need to apply on draggables
-  ...draggableStyle,
-
-  ...(isDragging && {
-    background: "rgb(235,235,235)",
-  }),
-});
+// const AddItemHeaderButton = (props: any) => {
+//   const classes = useStyles(props);
+//   const translate = useTranslate();
+//   return (
+//     <Button size="small" color="primary" {...props}>
+//       <AddIcon className={classes.leftIcon} />
+//       {translate("resources.invoices.action.add_item_header")}
+//     </Button>
+//   );
+// };
 
 // TODO: use Datagrid?
 // https://material-ui.com/components/data-grid/editing/
@@ -193,8 +173,6 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
   const classes = useStyles(props);
   const nodeRef = useRef(null);
   const translate = useTranslate();
-  const notify = useNotify();
-
 
   // We need a unique id for each field for a proper enter/exit animation
   // so we keep an internal map between the field position and an auto-increment id
@@ -263,23 +241,11 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
     };
 
   const handleDragEnd = (result: DropResult) => {
-
     if (!result.destination) {
       return;
     }
-
     swapFields(result.source.index, result.destination.index);
   };
-
-  // const droppableComponent = useMemo(
-  //   () => DroppableComponent(onDragEnd),
-  //   [onDragEnd]
-  // );
-  // const draggableComponent =
-
-  // const handleAddItemHeaderButtonClick = (event: any) => {
-  //   notify("pos.message.coming_soon");
-  // };
 
   const records = get(record, source as PropertyPath);
   const childrenCount = Children.count(children);
@@ -340,7 +306,6 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                   {...droppableProvided.droppableProps}
                 >
                   {fields?.map((member, index) => {
-
                     return (
                       <Draggable
                         key={ids.current[index]}
@@ -383,7 +348,6 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                                 {Children.map(
                                   children,
                                   (input: ReactElement, index2) => {
-
                                     if (!isValidElement<any>(input)) {
                                       return null;
                                     }
@@ -472,52 +436,6 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
   ) : null;
 };
 
-// const DraggableComponent = (id: DraggableId, index: number) => (props: any) => {
-//   return (
-//     <Draggable draggableId={id} index={index}>
-//       {(provided, snapshot) => {
-//         return (
-//           <TableRow
-//             ref={provided.innerRef}
-//             {...provided.draggableProps}
-//             {...provided.dragHandleProps}
-//             style={getItemStyle(
-//               snapshot.isDragging,
-//               provided.draggableProps.style || {}
-//             )}
-//             {...props}
-//           >
-//             {props.children}
-//           </TableRow>
-//         );
-//       }}
-//     </Draggable>
-//   );
-// };
-
-// const DroppableComponent =
-//   (onDragEnd: (result: DropResult, provided: ResponderProvided) => void) =>
-//   (props: any) => {
-//     return (
-//       <DragDropContext onDragEnd={onDragEnd}>
-//         <Droppable droppableId={"1"} direction="vertical">
-//           {(provided) => {
-//             return (
-//               <TableBody
-//                 ref={provided.innerRef}
-//                 {...provided.droppableProps}
-//                 {...props}
-//               >
-//                 {props.children}
-//                 {provided.placeholder}
-//               </TableBody>
-//             );
-//           }}
-//         </Droppable>
-//       </DragDropContext>
-//     );
-//   };
-
 LineItemsIterator.defaultProps = {
   disableAdd: false,
   disableRemove: false,
@@ -529,30 +447,6 @@ TODO: pass down as a prop to this component
   onClick={handleAddItemHeaderButtonClick}
   className={classNames("button-add", `button-add-${source}`)}
 />
-*/
-
-/*
-TODO: remove this?
-LineItemsIterator.propTypes = {
-  defaultValue: PropTypes.any,
-  addButton: PropTypes.element,
-  removeButton: PropTypes.element,
-  basePath: PropTypes.string,
-  children: PropTypes.node,
-  classes: PropTypes.object,
-  className: PropTypes.string,
-  // @ts-ignore
-  fields: PropTypes.object,
-  meta: PropTypes.object,
-  // @ts-ignore
-  record: PropTypes.object,
-  source: PropTypes.string,
-  resource: PropTypes.string,
-  translate: PropTypes.func,
-  disableAdd: PropTypes.bool,
-  disableRemove: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
-  TransitionProps: PropTypes.shape({}),
-};
 */
 
 type DisableRemoveFunction = (record: Record) => boolean;

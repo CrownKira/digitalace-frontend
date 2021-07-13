@@ -100,8 +100,6 @@ export const ApplyCreditsSection: FC<Props> = ({ open, setTotals }) => {
             disabled
           />
           <NumberInput
-            // TODO: use NumberField instead
-            // TODO: add currency
             source="grand_total"
             className={classes.lineItemInput}
             disabled

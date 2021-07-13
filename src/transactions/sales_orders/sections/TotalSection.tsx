@@ -97,7 +97,6 @@ export const TotalSection: FC<Props> = ({
           <TableRow hover>
             <TableCell>GST</TableCell>
             <TableCell align="right">
-              {" "}
               <NumberInput
                 source="gst_rate"
                 resource="sales_orders"

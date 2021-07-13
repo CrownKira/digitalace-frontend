@@ -89,6 +89,8 @@ export const getTotals = (
   net: number;
   gst_amount: number;
   grand_total: number;
+  credits_used: number;
+  credits_remaining: number;
 } => {
   const lineItems = formData.creditnoteitem_set
     ? (formData.creditnoteitem_set as CreditNoteItem[]).map((lineItem) => {
@@ -113,6 +115,8 @@ export const getTotals = (
   const net = total_amount * (1 - discount_rate / 100);
   const gst_amount = net * (gst_rate / 100);
   const grand_total = net * (1 + gst_rate / 100);
+  const credits_used = toFixedNumber(formData.credits_used, 2);
+  const credits_remaining = grand_total - credits_used;
 
   return {
     total_amount,
@@ -120,6 +124,8 @@ export const getTotals = (
     net,
     gst_amount,
     grand_total,
+    credits_used,
+    credits_remaining,
   };
 };
 
@@ -130,6 +136,8 @@ const CreditNoteForm = (props: any) => {
     net: 0,
     gst_amount: 0,
     grand_total: 0,
+    credits_remaining: 0,
+    credits_used: 0,
   });
 
   const updateTotals = (formData: any) => {
@@ -255,4 +263,6 @@ export interface Totals {
   net: number;
   gst_amount: number;
   grand_total: number;
+  credits_used: number;
+  credits_remaining: number;
 }
