@@ -6,22 +6,20 @@ import { DateInput, TextInput, SelectInput } from "react-admin";
 
 import { statuses } from "../data";
 import { AsyncAutocompleteInput } from "../../../utils/components/AsyncAutocompleteInput";
-import { requiredValidate, validateReference } from "../CreditNoteCreate";
+import { requiredValidate, validateReference } from "../SalesOrderCreate";
 import { CustomerNameInput } from "../../components/CustomerNameInput";
 
 interface Props {
   props: any;
-  state: {};
-  setState: React.Dispatch<React.SetStateAction<{}>>;
 }
 
-export const DetailsTopSection: FC<Props> = ({ props, state, setState }) => {
+export const DetailsTopSection: FC<Props> = ({ props }) => {
   return (
     <Box display={{ sm: "block", md: "flex" }}>
       <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
         <DateInput
           source="date"
-          resource="credit_notes"
+          resource="sales_orders"
           fullWidth
           validate={requiredValidate}
         />
@@ -29,7 +27,7 @@ export const DetailsTopSection: FC<Props> = ({ props, state, setState }) => {
           <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
             <CustomerNameInput
               validate={requiredValidate}
-              resource="credit_notes"
+              resource="sales_orders"
             />
           </Box>
           <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
@@ -38,7 +36,7 @@ export const DetailsTopSection: FC<Props> = ({ props, state, setState }) => {
               optionText="name"
               optionValue="id"
               source="salesperson"
-              resource="credit_notes"
+              resource="sales_orders"
               reference="employees"
               fullWidth
             />
@@ -51,7 +49,7 @@ export const DetailsTopSection: FC<Props> = ({ props, state, setState }) => {
           <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
             <TextInput
               source="reference"
-              resource="credit_notes"
+              resource="sales_orders"
               fullWidth
               validate={validateReference(props)}
             />
@@ -62,9 +60,9 @@ export const DetailsTopSection: FC<Props> = ({ props, state, setState }) => {
               // refer to ProductNameInput.tsx
               optionText="reference"
               optionValue="id"
-              source="credit_note"
-              resource="credit_notes"
-              reference="credit_notes"
+              source="sales_order"
+              resource="sales_orders"
+              reference="sales_orders"
               fullWidth
             />
           </Box>
@@ -76,12 +74,6 @@ export const DetailsTopSection: FC<Props> = ({ props, state, setState }) => {
               choices={statuses}
               fullWidth
               validate={requiredValidate}
-              onChange={(event: any) => {
-                setState((state) => ({
-                  ...state,
-                  isPaid: event.target.value === "PD",
-                }));
-              }}
             />
           </Box>
           <Box flex={1} ml={{ sm: 0, md: "0.5em" }}></Box>

@@ -20,6 +20,7 @@ import {
   styles as createStyles,
   Wrapper,
   validateForm,
+  getTotals,
 } from "./SalesOrderCreate";
 import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
 import { PdfButton } from "../components/PdfButton";
@@ -27,7 +28,6 @@ import { PrintButton } from "../components/PrintButton";
 import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailsTopSection } from "./sections/DetailsTopSection";
 import { DetailsBottomSection } from "./sections/DetailsBottomSection";
-import { ProductNameInput } from "../components/ProductNameInput";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -49,9 +49,43 @@ const SalesOrderForm = (props: any) => {
   const classes = useStyles();
   const onFailure = useOnFailure();
 
-  const [state, setState] = useState({
-    // TODO: make use of formProps instead?
-  });
+  const getInitialTotals = () => {
+    if (props.record) {
+      const {
+        total_amount,
+        discount_amount,
+        net,
+        gst_amount,
+        grand_total,
+        balance_due,
+        credits_applied,
+      } = props.record;
+
+      return {
+        total_amount,
+        discount_amount,
+        net,
+        gst_amount,
+        grand_total,
+        balance_due,
+        credits_applied,
+        amount_to_credit: 0,
+      };
+    }
+    return {
+      total_amount: 0,
+      discount_amount: 0,
+      net: 0,
+      gst_amount: 0,
+      grand_total: 0,
+      balance_due: 0,
+      credits_applied: 0,
+      amount_to_credit: 0,
+    };
+  };
+
+  // TODO: use context
+  const [totals, setTotals] = useState(getInitialTotals());
 
   /**
    * You can have tooling support which checks and enforces these rules.
@@ -64,6 +98,11 @@ const SalesOrderForm = (props: any) => {
   const onSuccess = ({ data }: { data: Record }) => {
     notify(`Changes to "${data.reference}" saved`);
     refresh();
+  };
+
+  const updateTotals = (formData: any) => {
+    // TODO: better way without passing formData?
+    setTotals((totals) => ({ ...totals, ...getTotals(formData) }));
   };
 
   return (
@@ -119,17 +158,17 @@ const SalesOrderForm = (props: any) => {
                 }
               >
                 <FormTabWithoutLayout label="resources.sales_orders.tabs.details">
-                  <DetailsTopSection
-                    props={props}
-                    state={state}
-                    setState={setState}
-                  />
-                  {/* <LineItemsSection
+                  <DetailsTopSection props={props} />
+                  <LineItemsSection
                     source="salesorderitem_set"
                     resource="sales_order_items"
                     label="resources.sales_orders.fields.salesorderitem_set"
-                  /> */}
-                  <DetailsBottomSection formProps={formProps} />
+                    updateTotals={updateTotals}
+                  />
+                  <DetailsBottomSection
+                    totals={totals}
+                    updateTotals={updateTotals}
+                  />
                 </FormTabWithoutLayout>
               </TabbedFormView>
             </Wrapper>
