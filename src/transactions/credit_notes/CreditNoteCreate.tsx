@@ -32,6 +32,7 @@ import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayou
 import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailsTopSection } from "./sections/DetailsTopSection";
 import { DetailsBottomSection } from "./sections/DetailsBottomSection";
+import { useGetIncrementedReference } from "../hooks/useGetIncrementedReference";
 
 export const styles = {
   leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
@@ -147,27 +148,25 @@ const CreditNoteForm = (props: any) => {
 
   const onFailure = useOnFailure();
 
-  const {
-    data: credit_notes,
-    ids: credit_noteIds,
-    loading: loadingCreditNotes,
-  } = useGetList<CreditNote>(
-    "credit_notes",
-    { page: 1, perPage: 1 },
-    { field: "id", order: "DESC" },
-    {}
-  );
+  // const {
+  //   data: credit_notes,
+  //   ids: credit_noteIds,
+  //   loading: loadingReference,
+  // } = useGetList<CreditNote>(
+  //   "credit_notes",
+  //   { page: 1, perPage: 1 },
+  //   { field: "id", order: "DESC" },
+  //   {}
+  // );
+
+  const { reference, loading: loadingReference } = useGetIncrementedReference({
+    resource: "credit_notes",
+    prefix: "CN",
+  });
   const { loading: loadingUserConfig, data: userConfig } = useGetUserConfig();
 
   const postDefaultValue = () => ({
-    reference:
-      credit_notes && credit_noteIds.length > 0
-        ? incrementReference(
-            credit_notes[credit_noteIds[0]].reference,
-            "INV",
-            4
-          )
-        : "INV-0000",
+    reference,
     credit_note: null,
     date: new Date(),
     status: "UPD",
@@ -180,7 +179,7 @@ const CreditNoteForm = (props: any) => {
     grand_total: "0.00",
   });
 
-  return loadingCreditNotes || loadingUserConfig ? (
+  return loadingReference || loadingUserConfig ? (
     <Loading />
   ) : (
     <FormWithRedirect

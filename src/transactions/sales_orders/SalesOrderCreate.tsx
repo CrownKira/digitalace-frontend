@@ -32,6 +32,7 @@ import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayou
 import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailsTopSection } from "./sections/DetailsTopSection";
 import { DetailsBottomSection } from "./sections/DetailsBottomSection";
+import { useGetIncrementedReference } from "../hooks/useGetIncrementedReference";
 
 export const styles = {
   leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
@@ -139,23 +140,24 @@ const SalesOrderForm = (props: any) => {
 
   const onFailure = useOnFailure();
 
-  const {
-    data: sales_orders,
-    ids: sales_orderIds,
-    loading: loadingSalesOrders,
-  } = useGetList<SalesOrder>(
-    "sales_orders",
-    { page: 1, perPage: 1 },
-    { field: "id", order: "DESC" },
-    {}
-  );
+  // const {
+  //   data: sales_orders,
+  //   ids: sales_orderIds,
+  //   loading: loadingReference,
+  // } = useGetList<SalesOrder>(
+  //   "sales_orders",
+  //   { page: 1, perPage: 1 },
+  //   { field: "id", order: "DESC" },
+  //   {}
+  // );
+  const { reference, loading: loadingReference } = useGetIncrementedReference({
+    resource: "sales_orders",
+    prefix: "SO",
+  });
   const { loading: loadingUserConfig, data: userConfig } = useGetUserConfig();
 
   const postDefaultValue = () => ({
-    reference:
-      sales_orders && sales_orderIds.length > 0
-        ? incrementReference(sales_orders[sales_orderIds[0]].reference, "SO", 4)
-        : "SO-0000",
+    reference,
     sales_order: null,
     date: new Date(),
     status: "UPD",
@@ -168,7 +170,7 @@ const SalesOrderForm = (props: any) => {
     grand_total: "0.00",
   });
 
-  return loadingSalesOrders || loadingUserConfig ? (
+  return loadingReference || loadingUserConfig ? (
     <Loading />
   ) : (
     <FormWithRedirect

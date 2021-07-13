@@ -190,6 +190,7 @@ const InvoiceForm = (props: any) => {
                     record={formProps.record}
                     creditsAvailable={creditsAvailable}
                     totals={totals}
+                    openApplyCredits={openApplyCredits}
                   />
                   <Separator />
                   <DetailsTopSection

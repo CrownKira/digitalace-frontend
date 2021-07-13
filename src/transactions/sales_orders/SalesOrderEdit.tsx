@@ -188,7 +188,7 @@ const SalesOrderForm = (props: any) => {
                     addLabel={false}
                     pagination={<Pagination />}
                     fullWidth
-                    actions={<InvoicesToolbar />}
+                    actions={<InvoicesToolbar record={formProps.record} />}
                   >
                     <Datagrid>
                       <TextField source="reference" />

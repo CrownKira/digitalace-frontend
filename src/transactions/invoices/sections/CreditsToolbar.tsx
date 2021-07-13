@@ -1,16 +1,31 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import {
   useMutation,
   TopToolbar,
   useRedirect,
   useTranslate,
   Record,
+  useNotify,
+  Link,
 } from "react-admin";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { ApplyCreditsButton } from "../utils/ApplyCreditsButton";
 import { CreateCreditNoteButton } from "../utils/CreateCreditNoteButton";
+import { dateFormatter, getErrorMessage } from "../../../utils";
+import { useGetIncrementedReference } from "../../hooks/useGetIncrementedReference";
+
+const useStyles = makeStyles((theme) => ({
+  alert: {
+    position: "fixed",
+    top: "5%",
+    left: "50%",
+    transform: "translate(-50%,0%)",
+    zIndex: 9999,
+  },
+}));
 
 interface Props {
   record: Record;
@@ -24,41 +39,54 @@ export const CreditsToolbar: FC<Props> = ({
   setOpenApplyCredits,
   ...rest
 }) => {
+  const classes = useStyles();
   const redirect = useRedirect();
   const translate = useTranslate();
-  const [create, { loading, loaded, data }] = useMutation({
-    type: "create",
+  const notify = useNotify();
+  const { reference, loading: loadingReference } = useGetIncrementedReference({
     resource: "credit_notes",
-    payload: {
-      data: {
-        created_from: record.id,
-        customer: record.customer,
-        creditnoteitem_set: record.invoiceitem_set,
-        salesperson: record.salesperson,
-      },
-    },
+    prefix: "CN",
   });
+  const [mutate, { loading, loaded, data, error }] = useMutation();
+
+  const create = () => {
+    // TODO: better way?
+    // must ensure that reference is ready when this function is called
+    return mutate({
+      type: "create",
+      resource: "credit_notes",
+      payload: {
+        data: {
+          reference,
+          created_from: record.id,
+          customer: record.customer,
+          creditnoteitem_set: record.invoiceitem_set,
+          salesperson: record.salesperson,
+          date: dateFormatter(new Date()),
+          gst_rate: record.gst_rate,
+          discount_rate: record.discount_rate,
+          refund: 0,
+        },
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (error) {
+      notify(getErrorMessage(error), "warning");
+    }
+  }, [error, notify]);
 
   return (
     <>
       {loaded && (
-        <Alert
-          severity="success"
-          action={
-            <Button
-              color="inherit"
-              size="small"
-              // TODO: better way to redirect to other tab?
-              onClick={() => {
-                redirect(`credit_notes/${data.id}`);
-              }}
-            >
-              {translate("resources.invoices.action.view")}
-            </Button>
-          }
-        >
+        <Alert severity="success" onClose={() => {}} className={classes.alert}>
+          {translate("resources.credit_notes.name", { smart_count: 1 })}{" "}
+          <Link to={`/credit_notes/${data.id}`}>
+            <strong>{data.reference}</strong>
+          </Link>{" "}
           {translate("resources.invoices.notification.created_credit_note", {
-            reference: data.reference,
+            reference: record.reference,
           })}
         </Alert>
       )}
@@ -69,7 +97,10 @@ export const CreditsToolbar: FC<Props> = ({
           }}
           disabled={openApplyCredits}
         />
-        <CreateCreditNoteButton create={create} loading={loading} />
+        <CreateCreditNoteButton
+          create={create}
+          loading={loading || loadingReference}
+        />
       </TopToolbar>
     </>
   );

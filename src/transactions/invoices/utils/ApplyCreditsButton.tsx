@@ -51,7 +51,6 @@ export const ApplyCreditsButton: FC<Props> = ({
           if (!formData.customer) {
             // TODO: redirect to Details Tab
             notify("Please select a customer first.");
-
             return;
           }
 

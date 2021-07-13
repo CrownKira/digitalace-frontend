@@ -437,6 +437,7 @@ export const customEnglishMessages: TranslationMessages = {
       },
       action: {
         apply_credits: "Apply Credits",
+        create_credit_note: "Create Credit Note",
       },
     },
     credit_notes: {
@@ -463,7 +464,6 @@ export const customEnglishMessages: TranslationMessages = {
         date__lte: "Passed Before",
         total__gte: "Min amount",
         address: "Address",
-        sales_order: "Order",
         grand_total: "Credit Amount",
         credits_remaining: "Credits Available",
         credits_used: "Credits Used",
@@ -535,7 +535,7 @@ export const customEnglishMessages: TranslationMessages = {
         date__lte: "Passed Before",
         total__gte: "Min amount",
         address: "Address",
-        sales_order: "Order",
+        sales_order: "Sales Order",
         grand_total: "Grand Total",
         total_lines: "Total Lines",
         invoiceitem_set: "Invoice Items",
@@ -578,8 +578,7 @@ export const customEnglishMessages: TranslationMessages = {
         select_customer_reminder:
           "Remember to select a customer first before applying credits.",
         amount_to_credit: "Amount to Credit",
-        created_credit_note:
-          "Credit Note %{reference} successfully created from this Invoice. Would you like to view it now?",
+        created_credit_note: "successfully created from %{reference}",
       },
     },
     invoice_items: {
@@ -644,8 +643,7 @@ export const customEnglishMessages: TranslationMessages = {
         view: "View",
       },
       notification: {
-        created_invoice:
-          "Invoice %{reference} successfully created from this Sales Order. Would you like to view it now?",
+        created_invoice: "successfully created from %{reference}",
       },
     },
     sales_order_items: {

@@ -40,6 +40,7 @@ import { PaymentSection } from "./sections/PaymentSection";
 import { DetailsAlertSection } from "./sections/DetailsAlertSection";
 import { CreditsAlertSection } from "./sections/CreditsAlertSection";
 import { Separator } from "../../utils/components/Divider";
+import { useGetIncrementedReference } from "../hooks/useGetIncrementedReference";
 
 export const styles = {
   leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
@@ -171,23 +172,24 @@ const InvoiceForm = (props: any) => {
 
   const onFailure = useOnFailure();
 
-  const {
-    data: invoices,
-    ids: invoiceIds,
-    loading: loadingInvoices,
-  } = useGetList<Invoice>(
-    "invoices",
-    { page: 1, perPage: 1 },
-    { field: "id", order: "DESC" },
-    {}
-  );
+  // const {
+  //   data: invoices,
+  //   ids: invoiceIds,
+  //   loading: loadingReference,
+  // } = useGetList<Invoice>(
+  //   "invoices",
+  //   { page: 1, perPage: 1 },
+  //   { field: "id", order: "DESC" },
+  //   {}
+  // );
+  const { reference, loading: loadingReference } = useGetIncrementedReference({
+    resource: "invoices",
+    prefix: "INV",
+  });
   const { loading: loadingUserConfig, data: userConfig } = useGetUserConfig();
 
   const postDefaultValue = () => ({
-    reference:
-      invoices && invoiceIds.length > 0
-        ? incrementReference(invoices[invoiceIds[0]].reference, "INV", 4)
-        : "INV-0000",
+    reference,
     sales_order: null,
     date: new Date(),
     // FIXME: default to null date instead
@@ -206,7 +208,7 @@ const InvoiceForm = (props: any) => {
     creditsapplication_set: [],
   });
 
-  return loadingInvoices || loadingUserConfig ? (
+  return loadingReference || loadingUserConfig ? (
     <Loading />
   ) : (
     <FormWithRedirect
@@ -253,6 +255,7 @@ const InvoiceForm = (props: any) => {
                     record={formProps.record}
                     creditsAvailable={creditsAvailable}
                     totals={totals}
+                    openApplyCredits={openApplyCredits}
                   />
                   <Separator />
                   <DetailsTopSection

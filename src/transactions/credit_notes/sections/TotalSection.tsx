@@ -144,16 +144,11 @@ export const TotalSection: FC<Props> = ({
           </TableRow>
           <TableRow hover>
             <TableCell colSpan={2}>Credits Used</TableCell>
-            <TableCell align="right">
-              <Typography variant="h6" gutterBottom>
-                (-) {ccyFormat(credits_used)}
-              </Typography>
-            </TableCell>
+            <TableCell align="right">(-) {ccyFormat(credits_used)}</TableCell>
           </TableRow>
           <TableRow hover>
             <TableCell colSpan={2}>Refund</TableCell>
             <TableCell align="right">
-              (-){" "}
               <NumberInput
                 source="refund"
                 resource="credit_notes"

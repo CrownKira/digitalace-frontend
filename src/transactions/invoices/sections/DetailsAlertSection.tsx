@@ -12,6 +12,7 @@ interface Props {
   record: Record;
   creditsAvailable: number;
   totals: Totals;
+  openApplyCredits: boolean;
 }
 
 export const DetailsAlertSection: FC<Props> = ({
@@ -19,6 +20,7 @@ export const DetailsAlertSection: FC<Props> = ({
   record,
   creditsAvailable,
   totals,
+  openApplyCredits,
 }) => {
   const translate = useTranslate();
   const redirect = useRedirect();
@@ -46,7 +48,7 @@ export const DetailsAlertSection: FC<Props> = ({
         </Alert>
       )}
       <Separator />
-      {totals.amount_to_credit > 0 && (
+      {totals.amount_to_credit > 0 && openApplyCredits && (
         <Alert severity="warning">
           {translate("resources.invoices.notification.amount_to_credit")}:{" "}
           <strong>{ccyFormat(totals.amount_to_credit, true)}</strong>

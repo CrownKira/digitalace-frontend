@@ -8,13 +8,13 @@ import {
 } from "react-admin";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useFormState } from "react-final-form";
+import { useFormState, useForm } from "react-final-form";
 
 import { TotalCreditsSection } from "./TotalCreditsSection";
 import { validateCredits } from "../InvoiceCreate";
 import { LineItemsIterator } from "../../../utils/components/LineItemsIterator";
 import { SectionTitle } from "../../../utils/components/Divider";
-import { toFixedNumber } from "../../../utils";
+import { ccyFormat, toFixedNumber } from "../../../utils";
 import { CreditsApplication } from "../../../types";
 import { Totals } from "../InvoiceCreate";
 
@@ -35,21 +35,30 @@ interface Props {
 // TODO: move to dialog form
 export const ApplyCreditsSection: FC<Props> = ({ open, setTotals }) => {
   const classes = useStyles();
+  const form = useForm();
   const { values: formData } = useFormState();
   const [totalCredits, setTotalCredits] = useState({
     total_amount_to_credit: 0,
     balance_due: formData.balance_due,
   });
 
-  const updateTotalCredits = () => {
+  const updateTotalCredits = (
+    scopedFormData: any,
+    getSource: (source: string) => string
+  ) => {
     const total_amount_to_credit = formData.creditsapplication_set
       ? (formData.creditsapplication_set as CreditsApplication[])
-          .map((lineItem) => lineItem.amount_to_credit)
+          .map((lineItem) => toFixedNumber(lineItem.amount_to_credit, 2))
           .reduce((x: number, y: number) => x + y, 0)
       : 0;
 
     const balance_due =
       toFixedNumber(formData.balance_due, 2) - total_amount_to_credit;
+
+    form.change(
+      getSource("amount_to_credit"),
+      ccyFormat(scopedFormData.amount_to_credit)
+    );
 
     setTotals((totals) => ({
       ...totals,
@@ -118,7 +127,7 @@ export const ApplyCreditsSection: FC<Props> = ({ open, setTotals }) => {
                   label=""
                   className={classes.lineItemInput}
                   validate={validateCredits(scopedFormData)}
-                  onBlur={updateTotalCredits}
+                  onBlur={() => updateTotalCredits(scopedFormData, getSource)}
                 />
               ) : null
             }
