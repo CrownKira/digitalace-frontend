@@ -20,8 +20,9 @@ import {
   useRefresh,
   Record,
 } from "react-admin";
-import { Card } from "@material-ui/core";
+import { Card, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Alert from "@material-ui/lab/Alert";
 
 import { useOnFailure } from "../../utils/hooks";
 import {
@@ -211,6 +212,10 @@ const InvoiceForm = (props: any) => {
                   </FormTabWithCustomLayout>
                 ) : null}
                 <FormTabWithCustomLayout label="resources.invoices.tabs.credits_applied">
+                  <Alert severity="info" onClose={() => {}}>
+                    Tip - Remember to select a customer first before applying
+                    credits.
+                  </Alert>
                   <ReferenceManyFieldWithActions
                     reference="credits_applications"
                     target="invoice"

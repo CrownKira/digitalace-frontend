@@ -13,7 +13,7 @@ import { makeStyles, withStyles } from "@material-ui/styles";
 import { Record, useRecordContext } from "react-admin";
 import { useFormState } from "react-final-form";
 
-import { toFixedNumber } from "../../../utils";
+import { toFixedNumber, ccyFormat } from "../../../utils";
 
 const useStyles = makeStyles({
   table: {
@@ -77,20 +77,13 @@ export const TotalCreditsSection: FC<Props> = ({
           <TableRow hover>
             <TableCell>Invoice Balance</TableCell>
             <TableCell align="right">
-              {Number(formData.balance_due).toLocaleString(undefined, {
-                style: "currency",
-                currency: "SGD",
-              })}
+              {ccyFormat(formData.balance_due)}
             </TableCell>
           </TableRow>
           <TableRow hover>
             <TableCell>Amount to Credit</TableCell>
             <TableCell align="right">
-              (-){" "}
-              {total_amount_to_credit.toLocaleString(undefined, {
-                style: "currency",
-                currency: "SGD",
-              })}
+              (-) {ccyFormat(total_amount_to_credit)}
             </TableCell>
           </TableRow>
           <TableRow hover>
@@ -101,10 +94,7 @@ export const TotalCreditsSection: FC<Props> = ({
             </TableCell>
             <TableCell align="right">
               <Typography variant="h6" gutterBottom>
-                {balance_due.toLocaleString(undefined, {
-                  style: "currency",
-                  currency: "SGD",
-                })}
+                {ccyFormat(balance_due)}
               </Typography>
             </TableCell>
           </TableRow>

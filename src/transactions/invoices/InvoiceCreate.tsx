@@ -86,14 +86,11 @@ export const validateForm = ({ credits_applied, grand_total }: AnyObject) => {
 };
 
 // a fix for DateField parse not working
-export const transform = ({
-  fake_creditsapplication_set,
-  ...data
-}: Record) => ({
+export const transform = ({ creditsapplication_set, ...data }: Record) => ({
   ...data,
   date: dateParser(data.date),
   payment_date: dateParser(data.payment_date),
-  creditsapplication_set: fake_creditsapplication_set, // TODO: better way to not pre-fill but send data?
+  creditsapplication_set: creditsapplication_set, // TODO: better way to not pre-fill but send data?
 });
 
 export const getTotals = (formData: any) => {
@@ -189,7 +186,7 @@ const InvoiceForm = (props: any) => {
     credits_available: "0.00",
     credits_applied: "0.00",
     balance_due: "0.00",
-    fake_creditsapplication_set: [],
+    creditsapplication_set: [],
   });
 
   return loadingInvoices || loadingUserConfig ? (

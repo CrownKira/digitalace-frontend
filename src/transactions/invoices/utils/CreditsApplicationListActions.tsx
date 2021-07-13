@@ -57,7 +57,7 @@ export const CreditsApplicationListActions: FC<Props> = ({
             setLoading(false);
 
             form.change(
-              "fake_creditsapplication_set",
+              "creditsapplication_set",
               response
                 ? response.data.map((creditNote: CreditNote) => ({
                     ...pick(creditNote, [

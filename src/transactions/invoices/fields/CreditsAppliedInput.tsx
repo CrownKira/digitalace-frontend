@@ -34,17 +34,17 @@ export const CreditsAppliedInput: FC<Props> = ({
 
   const amounts_to_credit = useMemo(
     () =>
-      formData.fake_creditsapplication_set
-        ? (formData.fake_creditsapplication_set as InvoiceItem[]).map((x) =>
+      formData.creditsapplication_set
+        ? (formData.creditsapplication_set as InvoiceItem[]).map((x) =>
             x ? toFixedNumber(x.amount_to_credit, 2) : 0
           )
         : [],
-    [formData.fake_creditsapplication_set]
+    [formData.creditsapplication_set]
   );
 
   useEffect(() => {
     amounts_to_credit.forEach((amount_to_credit, index) => {
-      const source = `fake_creditsapplication_set[${index}].amount_to_credit`;
+      const source = `creditsapplication_set[${index}].amount_to_credit`;
 
       if (isBlur(source)) {
         form.change(source, amount_to_credit.toFixed(2));

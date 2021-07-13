@@ -37,12 +37,12 @@ export const ApplyCreditsSection: FC<Props> = ({ open }) => {
   const { values: formData } = useFormState();
   const [totalCredits, setTotalCredits] = useState({
     total_amount_to_credit: 0,
-    balance_due: 0,
+    balance_due: formData.balance_due,
   });
 
   const updateTotalCredits = () => {
-    const total_amount_to_credit = formData.fake_creditsapplication_set
-      ? (formData.fake_creditsapplication_set as CreditsApplication[])
+    const total_amount_to_credit = formData.creditsapplication_set
+      ? (formData.creditsapplication_set as CreditsApplication[])
           .map((lineItem) => lineItem.amount_to_credit)
           .reduce((x: number, y: number) => x + y, 0)
       : 0;
@@ -62,7 +62,8 @@ export const ApplyCreditsSection: FC<Props> = ({ open }) => {
       <ArrayInput
         // TODO: make this a table
         // TODO: better way instead of using a dummy source?
-        source="fake_creditsapplication_set"
+        source="creditsapplication_set"
+        format={() => []}
         resource="credits_applications"
         label=""
         // record={undefined}
