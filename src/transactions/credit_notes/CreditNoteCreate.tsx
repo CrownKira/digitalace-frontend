@@ -23,7 +23,7 @@ import { CreditNote } from "../../types";
 import { incrementReference, dateParser, validateUnicity } from "../../utils";
 import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
-import { FormTabWithCustomLayout } from "../../utils/components/FormTabWithCustomLayout";
+import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
 import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailTopSection } from "./sections/DetailTopSection";
 import { DetailBottomSection } from "./sections/DetailBottomSection";
@@ -159,7 +159,7 @@ const CreditNoteForm = (props: any) => {
                   </Toolbar>
                 }
               >
-                <FormTabWithCustomLayout label="resources.credit_notes.tabs.details">
+                <FormTabWithoutLayout label="resources.credit_notes.tabs.details">
                   <DetailTopSection
                     props={props}
                     state={state}
@@ -171,7 +171,7 @@ const CreditNoteForm = (props: any) => {
                     label="resources.credit_notes.fields.creditnoteitem_set"
                   /> */}
                   <DetailBottomSection formProps={formProps} />
-                </FormTabWithCustomLayout>
+                </FormTabWithoutLayout>
               </TabbedFormView>
             </Wrapper>
           </Card>

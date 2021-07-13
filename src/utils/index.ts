@@ -179,9 +179,19 @@ export const validateUnicity = ({
   });
 };
 
-export const ccyFormat = (num: number | string): string => {
+export const ccyFormat = (
+  num: number | string,
+  showCurrency = false
+): string => {
   if (isNaN(num as number)) {
     return "0.00";
+  }
+
+  if (showCurrency) {
+    return Number(num).toLocaleString(undefined, {
+      style: "currency",
+      currency: "SGD",
+    });
   }
 
   return Number(num).toFixed(2);

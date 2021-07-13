@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Box } from "@material-ui/core";
-import { DateInput, TextInput, SelectInput } from "react-admin";
+import { DateInput, TextInput, SelectInput, Record } from "react-admin";
 
 import { statuses } from "../data";
 import { AsyncAutocompleteInput } from "../../../utils/components/AsyncAutocompleteInput";
@@ -9,24 +9,18 @@ import { CustomerNameInput } from "../../components/CustomerNameInput";
 
 interface Props {
   props: any;
-  // state: {
-  //   isPaid: boolean;
-  //   openApplyCredits: boolean;
-  // };
   isPaid: boolean;
   openApplyCredits: boolean;
-  // TODO: split the states
-  // setState: React.Dispatch<any>;
   setIsPaid: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenApplyCredits: React.Dispatch<React.SetStateAction<boolean>>;
+  setCreditsAvailable: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const DetailTopSection: FC<Props> = ({
   props,
-  isPaid,
-  openApplyCredits,
   setIsPaid,
   setOpenApplyCredits,
+  setCreditsAvailable,
 }) => {
   return (
     <Box display={{ sm: "block", md: "flex" }}>
@@ -40,15 +34,16 @@ export const DetailTopSection: FC<Props> = ({
         <Box display={{ sm: "block", md: "flex" }}>
           <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
             <CustomerNameInput
-              onChange={() => {
-                // setState({
-                //   ...state,
-                //   openApplyCredits: false,
-                // });
+              onChange={(event: any, newValue: Record) => {
                 setOpenApplyCredits(false);
+                setCreditsAvailable(Number(newValue?.unused_credits || 0));
+              }}
+              onInit={(value: Record) => {
+                setCreditsAvailable(Number(value?.unused_credits || 0));
               }}
               validate={requiredValidate}
               resource="invoices"
+              fullWidth
             />
           </Box>
           <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
@@ -95,10 +90,6 @@ export const DetailTopSection: FC<Props> = ({
               fullWidth
               validate={requiredValidate}
               onChange={(event: any) => {
-                // setState((state) => ({
-                //   ...state,
-                //   isPaid: event.target.value === "PD",
-                // }));
                 setIsPaid(event.target.value === "PD");
               }}
             />

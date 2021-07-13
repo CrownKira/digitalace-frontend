@@ -1,6 +1,5 @@
-import React, { FC, useMemo } from "react";
+import React, { FC } from "react";
 import {
-  Box,
   TableContainer,
   Table,
   Paper as MuiPaper,
@@ -10,10 +9,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/styles";
-import { Record, useRecordContext } from "react-admin";
 import { useFormState } from "react-final-form";
 
-import { toFixedNumber, ccyFormat } from "../../../utils";
+import { ccyFormat } from "../../../utils";
 
 const useStyles = makeStyles({
   table: {
@@ -22,12 +20,12 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  // formData: any;
-  // record: Record;
-  totalCredits: {
-    total_amount_to_credit: number;
-    balance_due: number;
-  };
+  totalCredits: TotalCredits;
+}
+
+export interface TotalCredits {
+  total_amount_to_credit: number;
+  balance_due: number;
 }
 
 const TableCell = withStyles({
@@ -46,29 +44,9 @@ const Paper = withStyles({
 export const TotalCreditsSection: FC<Props> = ({
   totalCredits: { total_amount_to_credit, balance_due },
 }) => {
-  const record = useRecordContext();
   const { values: formData } = useFormState();
-  // useFormState();
 
   const classes = useStyles();
-
-  // const total_amount_to_credit = useMemo(
-  //   () => formData.credits_applied - (record?.credits_applied || 0),
-  //   [formData.credits_applied, record]
-  // );
-  // const balance_due = useMemo(
-  //   () =>
-  //     (
-  //       toFixedNumber(formData.balance_due, 2) - total_amount_to_credit
-  //     ).toLocaleString(undefined, {
-  //       style: "currency",
-  //       currency: "SGD",
-  //     }),
-  //   [formData.balance_due, total_amount_to_credit]
-  // );
-
-  // const total_amount_to_credit = 0;
-  // const balance_due = 0;
 
   return (
     <TableContainer component={Paper}>

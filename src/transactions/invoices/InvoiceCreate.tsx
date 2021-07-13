@@ -5,7 +5,6 @@ import {
   Toolbar,
   FormWithRedirect,
   required,
-  FormDataConsumer,
   Loading,
   useGetList,
   SaveButton,
@@ -14,6 +13,7 @@ import {
   number,
   minValue,
   maxValue,
+  TopToolbar,
 } from "react-admin";
 import { Card, CardContent } from "@material-ui/core";
 import { useGetUserConfig } from "../../userMenu/configuration/useGetUserConfig";
@@ -30,14 +30,14 @@ import {
 } from "../../utils";
 import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
-import { FormTabWithCustomLayout } from "../../utils/components/FormTabWithCustomLayout";
-import { CreditsApplicationListActions } from "./utils/CreditsApplicationListActions";
+import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
+import { ApplyCreditsButton } from "./utils/ApplyCreditsButton";
 import { ApplyCreditsSection } from "./sections/ApplyCreditsSection";
 import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailTopSection } from "./sections/DetailTopSection";
 import { DetailBottomSection } from "./sections/DetailBottomSection";
 import { PaymentSection } from "./sections/PaymentSection";
-import { ProductNameInput } from "../components/ProductNameInput";
+import { DetailAlertSection } from "./sections/DetailAlertSection";
 import { Separator } from "../../utils/components/Divider";
 
 export const styles = {
@@ -75,7 +75,10 @@ export const InvoiceCreate: FC<CreateProps> = (props) => {
   );
 };
 
-export const validateForm = ({ credits_applied, grand_total }: AnyObject) => {
+export const validateForm = ({
+  credits_applied,
+  grand_total,
+}: AnyObject): any => {
   const errors = {} as any;
 
   if (Number(credits_applied) > Number(grand_total)) {
@@ -86,14 +89,27 @@ export const validateForm = ({ credits_applied, grand_total }: AnyObject) => {
 };
 
 // a fix for DateField parse not working
-export const transform = ({ creditsapplication_set, ...data }: Record) => ({
+export const transform = ({
+  creditsapplication_set,
+  ...data
+}: Record): Record => ({
   ...data,
   date: dateParser(data.date),
   payment_date: dateParser(data.payment_date),
   creditsapplication_set: creditsapplication_set, // TODO: better way to not pre-fill but send data?
 });
 
-export const getTotals = (formData: any) => {
+export const getTotals = (
+  formData: any
+): {
+  total_amount: number;
+  discount_amount: number;
+  net: number;
+  gst_amount: number;
+  grand_total: number;
+  balance_due: number;
+  credits_applied: number;
+} => {
   const lineItems = formData.invoiceitem_set
     ? (formData.invoiceitem_set as InvoiceItem[]).map((lineItem) => {
         const quantity = lineItem ? toFixedNumber(lineItem.quantity, 0) : 0;
@@ -132,11 +148,11 @@ export const getTotals = (formData: any) => {
 };
 
 const InvoiceForm = (props: any) => {
-  const classes = useStyles();
   const [isPaid, setIsPaid] = useState(props?.record?.status === "PD");
   const [openApplyCredits, setOpenApplyCredits] = useState(false);
+  const [creditsAvailable, setCreditsAvailable] = useState(0);
   // TODO: use context
-  const [totals, setTotals] = useState({
+  const [totals, setTotals] = useState<Totals>({
     total_amount: 0,
     discount_amount: 0,
     net: 0,
@@ -144,12 +160,12 @@ const InvoiceForm = (props: any) => {
     grand_total: 0,
     balance_due: 0,
     credits_applied: 0,
+    amount_to_credit: 0,
   });
 
   const updateTotals = (formData: any) => {
     // TODO: better way without passing formData?
-
-    setTotals(getTotals(formData));
+    setTotals((totals) => ({ ...totals, ...getTotals(formData) }));
   };
 
   const onFailure = useOnFailure();
@@ -230,13 +246,20 @@ const InvoiceForm = (props: any) => {
                   </Toolbar>
                 }
               >
-                <FormTabWithCustomLayout label="resources.invoices.tabs.details">
+                <FormTabWithoutLayout label="resources.invoices.tabs.details">
+                  <DetailAlertSection
+                    formProps={formProps}
+                    creditsAvailable={creditsAvailable}
+                    totals={totals}
+                  />
+                  <Separator />
                   <DetailTopSection
                     props={props}
                     isPaid={isPaid}
                     setIsPaid={setIsPaid}
                     openApplyCredits={openApplyCredits}
                     setOpenApplyCredits={setOpenApplyCredits}
+                    setCreditsAvailable={setCreditsAvailable}
                   />
                   <LineItemsSection
                     source="invoiceitem_set"
@@ -248,9 +271,9 @@ const InvoiceForm = (props: any) => {
                     totals={totals}
                     updateTotals={updateTotals}
                   />
-                </FormTabWithCustomLayout>
+                </FormTabWithoutLayout>
                 {isPaid ? (
-                  <FormTabWithCustomLayout
+                  <FormTabWithoutLayout
                     /**
                      * TODO: hide tab when unpaid
                      * for some reason, this tab cannot be toggled using
@@ -259,22 +282,25 @@ const InvoiceForm = (props: any) => {
                     label="resources.invoices.tabs.record_payment"
                   >
                     <PaymentSection />
-                  </FormTabWithCustomLayout>
+                  </FormTabWithoutLayout>
                 ) : null}
-                <FormTabWithCustomLayout label="resources.invoices.tabs.credits_applied">
-                  <CreditsApplicationListActions
-                    onClick={() => {
-                      // setState({ ...state, openApplyCredits: true });
-                      setOpenApplyCredits(true);
-                    }}
-                    disabled={openApplyCredits}
-                  />
+                <FormTabWithoutLayout label="resources.invoices.tabs.credits_applied">
+                  <TopToolbar>
+                    <ApplyCreditsButton
+                      onClick={() => {
+                        // setState({ ...state, openApplyCredits: true });
+                        setOpenApplyCredits(true);
+                      }}
+                      disabled={openApplyCredits}
+                    />
+                  </TopToolbar>
                   <Separator />
                   <ApplyCreditsSection
                     // formProps={formProps}
                     open={openApplyCredits}
+                    setTotals={setTotals}
                   />
-                </FormTabWithCustomLayout>
+                </FormTabWithoutLayout>
               </TabbedFormView>
             </Wrapper>
           </Card>
@@ -302,3 +328,14 @@ export const validateCredits = (scopedFormData: any) => [
   minValue(0),
   maxValue(Number(scopedFormData?.credits_remaining)),
 ];
+
+export interface Totals {
+  total_amount: number;
+  discount_amount: number;
+  net: number;
+  gst_amount: number;
+  grand_total: number;
+  balance_due: number;
+  credits_applied: number;
+  amount_to_credit: number;
+}

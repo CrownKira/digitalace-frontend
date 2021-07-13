@@ -21,7 +21,7 @@ import {
   Wrapper,
   validateForm,
 } from "./CreditNoteCreate";
-import { FormTabWithCustomLayout } from "../../utils/components/FormTabWithCustomLayout";
+import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
 import { PdfButton } from "../components/PdfButton";
 import { PrintButton } from "../components/PrintButton";
 import { LineItemsSection } from "../components/LineItemsSection";
@@ -118,7 +118,7 @@ const CreditNoteForm = (props: any) => {
                   </Toolbar>
                 }
               >
-                <FormTabWithCustomLayout label="resources.credit_notes.tabs.details">
+                <FormTabWithoutLayout label="resources.credit_notes.tabs.details">
                   <DetailTopSection
                     props={props}
                     state={state}
@@ -130,7 +130,7 @@ const CreditNoteForm = (props: any) => {
                     label="resources.credit_notes.fields.creditnoteitem_set"
                   /> */}
                   <DetailBottomSection formProps={formProps} />
-                </FormTabWithCustomLayout>
+                </FormTabWithoutLayout>
               </TabbedFormView>
             </Wrapper>
           </Card>

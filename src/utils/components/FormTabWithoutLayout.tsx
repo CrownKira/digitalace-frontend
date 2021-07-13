@@ -6,7 +6,7 @@ import { FormTabHeader } from "react-admin";
 
 const hiddenStyle = { display: "none" };
 
-export const FormTabWithCustomLayout: FC<FormTabProps> = ({
+export const FormTabWithoutLayout: FC<FormTabProps> = ({
   basePath,
   className,
   classes,
@@ -58,7 +58,7 @@ export const FormTabWithCustomLayout: FC<FormTabProps> = ({
   return intent === "header" ? renderHeader() : renderContent();
 };
 
-FormTabWithCustomLayout.propTypes = {
+FormTabWithoutLayout.propTypes = {
   basePath: PropTypes.string,
   className: PropTypes.string,
   contentClassName: PropTypes.string,
@@ -95,7 +95,7 @@ export interface FormTabProps {
   variant?: "standard" | "outlined" | "filled";
 }
 
-FormTabWithCustomLayout.displayName = "FormTab";
+FormTabWithoutLayout.displayName = "FormTab";
 
 /*
 TODO: include formGroupContext?

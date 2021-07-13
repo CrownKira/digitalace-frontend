@@ -17,7 +17,7 @@ export const CustomerNameInput: FC<Props> = (props) => {
       optionValue="id"
       source="customer"
       reference="customers"
-      fullWidth
+      // fullWidth
       {...props}
     />
   );

@@ -16,6 +16,7 @@ import { LineItemsIterator } from "../../../utils/components/LineItemsIterator";
 import { SectionTitle } from "../../../utils/components/Divider";
 import { toFixedNumber } from "../../../utils";
 import { CreditsApplication } from "../../../types";
+import { Totals } from "../InvoiceCreate";
 
 const useStyles = makeStyles({
   leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
@@ -27,12 +28,12 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  // formProps: any;
   open: boolean;
+  setTotals: React.Dispatch<React.SetStateAction<Totals>>;
 }
 
 // TODO: move to dialog form
-export const ApplyCreditsSection: FC<Props> = ({ open }) => {
+export const ApplyCreditsSection: FC<Props> = ({ open, setTotals }) => {
   const classes = useStyles();
   const { values: formData } = useFormState();
   const [totalCredits, setTotalCredits] = useState({
@@ -50,6 +51,11 @@ export const ApplyCreditsSection: FC<Props> = ({ open }) => {
     const balance_due =
       toFixedNumber(formData.balance_due, 2) - total_amount_to_credit;
 
+    setTotals((totals) => ({
+      ...totals,
+      amount_to_credit: total_amount_to_credit,
+    }));
+
     setTotalCredits({ total_amount_to_credit, balance_due });
   };
 
@@ -66,11 +72,9 @@ export const ApplyCreditsSection: FC<Props> = ({ open }) => {
         format={() => []}
         resource="credits_applications"
         label=""
-        // record={undefined}
       >
         <LineItemsIterator
           resource="credits_applications"
-          // record={undefined}
           disableAdd
           disableRemove
           labels={[

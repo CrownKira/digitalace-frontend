@@ -1,33 +1,20 @@
-import React, { FC, useMemo, useEffect, useCallback } from "react";
+import React, { FC } from "react";
+import { NumberInput } from "react-admin";
 import {
-  NumberInput,
-  FormDataConsumer,
-  ReferenceField,
-  Labeled,
-} from "react-admin";
-import {
-  Box,
   InputAdornment,
   TableContainer,
   Table,
   Paper as MuiPaper,
-  TableHead,
   TableRow,
   TableCell as MuiTableCell,
   TableBody,
   Typography,
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/styles";
-import RichTextInput from "ra-input-rich-text";
 import { useForm, useFormState } from "react-final-form";
 
-import { CreditsAppliedInput } from "../fields/CreditsAppliedInput";
-import { validateNumber } from "../InvoiceCreate";
-import { PriceField } from "../../../utils/components/PriceField";
-import { toFixedNumber, ccyFormat } from "../../../utils";
-import { InvoiceItem } from "../../../types";
-
-// const TAX_RATE = 0.07;
+import { validateNumber, Totals } from "../InvoiceCreate";
+import { ccyFormat } from "../../../utils";
 
 const useStyles = makeStyles({
   table: {
@@ -49,21 +36,9 @@ const Paper = withStyles({
 })(MuiPaper);
 
 interface Props {
-  // formProps: any;
-
-  totals: {
-    total_amount: number;
-    discount_amount: number;
-    net: number;
-    gst_amount: number;
-    grand_total: number;
-    balance_due: number;
-    credits_applied: number;
-  };
+  totals: Totals;
   updateTotals: (formData: any) => void;
 }
-
-// const ccyFormat = (num: number) => `${num.toFixed(2)}`;
 
 export const TotalSection: FC<Props> = ({
   totals: {
@@ -80,17 +55,6 @@ export const TotalSection: FC<Props> = ({
   const classes = useStyles();
   const form = useForm();
   const { values: formData } = useFormState();
-
-  // const isBlur = useCallback(
-  //   (field: string) => {
-  //     return form.getFieldState(field)?.active === false;
-  //   },
-  //   [form]
-  // );
-
-  // useEffect(() => {
-  //   updateTotals(formData);
-  // }, [formData, ]);
 
   const handleDiscountRateOnBlur = () => {
     updateTotals(formData);

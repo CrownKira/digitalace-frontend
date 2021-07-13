@@ -435,6 +435,9 @@ export const customEnglishMessages: TranslationMessages = {
         // credits_remaining: 'Credits Available',
         amount_to_credit: "Amount to Credit",
       },
+      errors: {
+        no_customer: "Please select a customer first.",
+      },
     },
     credit_notes: {
       name: "Credit Note |||| Credit Notes",
@@ -539,6 +542,7 @@ export const customEnglishMessages: TranslationMessages = {
       },
       fieldGroups: {
         apply_credits: "Apply credits for %{reference}",
+        credits_applied: "Credits Applied",
       },
       data: {
         statuses: {
@@ -553,7 +557,7 @@ export const customEnglishMessages: TranslationMessages = {
       },
       tabs: {
         details: "Details",
-        credits_applied: "Credits Applied",
+        credits_applied: "Credits",
         record_payment: "Record Payment",
         delivery_order: "Delivery Order",
       },
@@ -562,6 +566,10 @@ export const customEnglishMessages: TranslationMessages = {
         pdf: "PDF",
         print_delivery_order: "Print Delivery Order",
         add_item_header: "Add Item Header",
+        apply_credits: "Apply Now",
+      },
+      notification: {
+        amount_to_credit: "Amount to Credit",
       },
     },
     invoice_items: {

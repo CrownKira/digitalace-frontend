@@ -63,12 +63,13 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
    * custom props
    */
   queryParamName,
-  onChange: onChangeOverride = () => {},
-  onInputChange: onInputChangeOverride = () => {},
+  onChange: originalOnChangeHandler,
+  onInputChange: onInputChangeOverride,
   wait = 300, // debounce timeout
   showEdit = true,
   showSuggestions = true,
   suggestionsCount = 5,
+  onInit,
   ...props
 }) => {
   const {
@@ -175,6 +176,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       .then((response) => {
         if (active && response) {
           setValueOverride(response.data);
+          if (onInit) {
+            onInit(response.data);
+          }
         }
       })
       .catch(() => {
@@ -230,7 +234,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
         setAutocompleteOptions(
           newValue ? [newValue, ...autocompleteOptions] : autocompleteOptions
         );
-        onChangeOverride(event, newValue, reason, details);
+        if (originalOnChangeHandler) {
+          originalOnChangeHandler(event, newValue, reason, details);
+        }
         onChange(newValue ? newValue[optionValue] : "");
         setValueOverride(newValue);
       }}
@@ -301,19 +307,19 @@ export interface AsyncAutocompleteInputProps
   optionText: any;
   optionValue: any;
   queryParamName?: string;
-  onChange?:
-    | ((
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        event: React.ChangeEvent<{}>,
-        value: Record | null,
-        reason: AutocompleteChangeReason,
-        details?: AutocompleteChangeDetails<Record> | undefined
-      ) => void)
-    | undefined;
+  onChange?: (
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    event: React.ChangeEvent<{}>,
+    value: Record | null,
+    reason: AutocompleteChangeReason,
+    details?: AutocompleteChangeDetails<Record> | undefined
+  ) => void;
+
   onInputChange?: (event: any) => void;
   wait?: number;
   showSuggestions?: boolean;
   suggestionsCount?: number;
+  onInit?: (value: Record | null) => void;
 }
 
 AsyncAutocompleteInput.defaultProps = {

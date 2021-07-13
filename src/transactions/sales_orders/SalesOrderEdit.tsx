@@ -21,7 +21,7 @@ import {
   Wrapper,
   validateForm,
 } from "./SalesOrderCreate";
-import { FormTabWithCustomLayout } from "../../utils/components/FormTabWithCustomLayout";
+import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
 import { PdfButton } from "../components/PdfButton";
 import { PrintButton } from "../components/PrintButton";
 import { LineItemsSection } from "../components/LineItemsSection";
@@ -118,7 +118,7 @@ const SalesOrderForm = (props: any) => {
                   </Toolbar>
                 }
               >
-                <FormTabWithCustomLayout label="resources.sales_orders.tabs.details">
+                <FormTabWithoutLayout label="resources.sales_orders.tabs.details">
                   <DetailTopSection
                     props={props}
                     state={state}
@@ -130,7 +130,7 @@ const SalesOrderForm = (props: any) => {
                     label="resources.sales_orders.fields.salesorderitem_set"
                   /> */}
                   <DetailBottomSection formProps={formProps} />
-                </FormTabWithCustomLayout>
+                </FormTabWithoutLayout>
               </TabbedFormView>
             </Wrapper>
           </Card>

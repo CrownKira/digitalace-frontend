@@ -6,7 +6,6 @@ import {
   EditProps,
   Toolbar,
   FormWithRedirect,
-  FormDataConsumer,
   SaveButton,
   TabbedFormView,
   ReferenceField,
@@ -19,8 +18,9 @@ import {
   useNotify,
   useRefresh,
   Record,
+  TopToolbar,
 } from "react-admin";
-import { Card, Box } from "@material-ui/core";
+import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
 
@@ -32,20 +32,18 @@ import {
   validateForm,
   getTotals,
 } from "./InvoiceCreate";
-import { FormTabWithCustomLayout } from "../../utils/components/FormTabWithCustomLayout";
+import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
 import { PdfButton } from "../components/PdfButton";
 import { PrintButton } from "../components/PrintButton";
 import { ReferenceManyFieldWithActions } from "../../utils/components/ReferenceManyFieldWithActions";
-import { CreditsApplicationListActions } from "./utils/CreditsApplicationListActions";
+import { ApplyCreditsButton } from "./utils/ApplyCreditsButton";
 import { ApplyCreditsSection } from "./sections/ApplyCreditsSection";
 import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailTopSection } from "./sections/DetailTopSection";
 import { DetailBottomSection } from "./sections/DetailBottomSection";
 import { PaymentSection } from "./sections/PaymentSection";
-import { ProductNameInput } from "../components/ProductNameInput";
-import { ccyFormat, toFixedNumber } from "../../utils";
-import { Separator } from "../../utils/components/Divider";
-import { InvoiceItem } from "../../types";
+import { DetailAlertSection } from "./sections/DetailAlertSection";
+import { Separator, SectionTitle } from "../../utils/components/Divider";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -87,6 +85,7 @@ const InvoiceForm = (props: any) => {
         grand_total,
         balance_due,
         credits_applied,
+        amount_to_credit: 0,
       };
     }
     return {
@@ -97,11 +96,13 @@ const InvoiceForm = (props: any) => {
       grand_total: 0,
       balance_due: 0,
       credits_applied: 0,
+      amount_to_credit: 0,
     };
   };
 
   const [isPaid, setIsPaid] = useState(props.record?.status === "PD");
   const [openApplyCredits, setOpenApplyCredits] = useState(false);
+  const [creditsAvailable, setCreditsAvailable] = useState(0);
   // TODO: use context
   const [totals, setTotals] = useState(getInitialTotals());
 
@@ -115,15 +116,13 @@ const InvoiceForm = (props: any) => {
 
   const onSuccess = ({ data }: { data: Record }) => {
     notify(`Changes to "${data.reference}" saved`);
-    // setState({ ...state, openApplyCredits: false });
     setOpenApplyCredits(false);
     refresh();
   };
 
   const updateTotals = (formData: any) => {
     // TODO: better way without passing formData?
-
-    setTotals(getTotals(formData));
+    setTotals((totals) => ({ ...totals, ...getTotals(formData) }));
   };
 
   return (
@@ -180,13 +179,20 @@ const InvoiceForm = (props: any) => {
                   </Toolbar>
                 }
               >
-                <FormTabWithCustomLayout label="resources.invoices.tabs.details">
+                <FormTabWithoutLayout label="resources.invoices.tabs.details">
+                  <DetailAlertSection
+                    formProps={formProps}
+                    creditsAvailable={creditsAvailable}
+                    totals={totals}
+                  />
+                  <Separator />
                   <DetailTopSection
                     props={props}
                     isPaid={isPaid}
                     setIsPaid={setIsPaid}
                     openApplyCredits={openApplyCredits}
                     setOpenApplyCredits={setOpenApplyCredits}
+                    setCreditsAvailable={setCreditsAvailable}
                   />
                   <LineItemsSection
                     source="invoiceitem_set"
@@ -198,9 +204,9 @@ const InvoiceForm = (props: any) => {
                     totals={totals}
                     updateTotals={updateTotals}
                   />
-                </FormTabWithCustomLayout>
+                </FormTabWithoutLayout>
                 {isPaid ? (
-                  <FormTabWithCustomLayout
+                  <FormTabWithoutLayout
                     /**
                      * TODO: hide tab when unpaid
                      * for some reason, this tab cannot be toggled using
@@ -209,13 +215,15 @@ const InvoiceForm = (props: any) => {
                     label="resources.invoices.tabs.record_payment"
                   >
                     <PaymentSection />
-                  </FormTabWithCustomLayout>
+                  </FormTabWithoutLayout>
                 ) : null}
-                <FormTabWithCustomLayout label="resources.invoices.tabs.credits_applied">
+                <FormTabWithoutLayout label="resources.invoices.tabs.credits_applied">
                   <Alert severity="info" onClose={() => {}}>
-                    Tip - Remember to select a customer first before applying
-                    credits.
+                    <strong>Tip</strong> - Remember to select a customer first
+                    before applying credits.
                   </Alert>
+                  <Separator />
+                  <SectionTitle label="resources.invoices.fieldGroups.credits_applied" />
                   <ReferenceManyFieldWithActions
                     reference="credits_applications"
                     target="invoice"
@@ -223,13 +231,14 @@ const InvoiceForm = (props: any) => {
                     pagination={<Pagination />}
                     fullWidth
                     actions={
-                      <CreditsApplicationListActions
-                        onClick={() => {
-                          // setState({ ...state, openApplyCredits: true });
-                          setOpenApplyCredits(true);
-                        }}
-                        disabled={openApplyCredits}
-                      />
+                      <TopToolbar>
+                        <ApplyCreditsButton
+                          onClick={() => {
+                            setOpenApplyCredits(true);
+                          }}
+                          disabled={openApplyCredits}
+                        />
+                      </TopToolbar>
                     }
                   >
                     <Datagrid>
@@ -252,10 +261,10 @@ const InvoiceForm = (props: any) => {
                   </ReferenceManyFieldWithActions>
                   <Separator />
                   <ApplyCreditsSection
-                    // formProps={formProps}
                     open={openApplyCredits}
+                    setTotals={setTotals}
                   />
-                </FormTabWithCustomLayout>
+                </FormTabWithoutLayout>
               </TabbedFormView>
             </Wrapper>
           </Card>
