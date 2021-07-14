@@ -42,8 +42,8 @@ export const LineItemsSection: FC<Props> = ({
     scopedFormData: any,
     getSource: (source: string) => string
   ) => {
-    const quantity = toFixedNumber(scopedFormData.quantity, 0);
-    const unit_price = toFixedNumber(scopedFormData.unit_price, 2);
+    const quantity = toFixedNumber(scopedFormData?.quantity, 0);
+    const unit_price = toFixedNumber(scopedFormData?.unit_price, 2);
     const amount = quantity * unit_price;
 
     form.change(getSource("quantity"), quantity);

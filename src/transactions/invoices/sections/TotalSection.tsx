@@ -56,6 +56,8 @@ export const TotalSection: FC<Props> = ({
   const form = useForm();
   const { values: formData } = useFormState();
 
+  // TODO: update totals on update refresh
+  // ie. update on init, don't rely on initial data
   const handleDiscountRateOnBlur = () => {
     updateTotals(formData);
     form.change("discount_rate", ccyFormat(Number(formData.discount_rate)));

@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useCallback, useEffect } from "react";
 import {
   Edit,
   EditProps,
@@ -56,69 +56,50 @@ export const CreditNoteEdit: FC<EditProps> = (props) => {
 
 const CreditNoteForm = (props: any) => {
   const classes = useStyles();
-  const onFailure = useOnFailure();
-
-  const getInitialTotals = () => {
-    if (props.record) {
-      const {
-        total_amount,
-        discount_amount,
-        net,
-        gst_amount,
-        grand_total,
-        balance_due,
-        credits_applied,
-        credits_used,
-        credits_remaining,
-      } = props.record;
-
-      return {
-        total_amount,
-        discount_amount,
-        net,
-        gst_amount,
-        grand_total,
-        balance_due,
-        credits_applied,
-        credits_used,
-        credits_remaining,
-        amount_to_credit: 0,
-      };
-    }
-    return {
-      total_amount: 0,
-      discount_amount: 0,
-      net: 0,
-      gst_amount: 0,
-      grand_total: 0,
-      balance_due: 0,
-      credits_applied: 0,
-      credits_used: 0,
-      credits_remaining: 0,
-      amount_to_credit: 0,
-    };
-  };
-
-  // TODO: use context
-  const [totals, setTotals] = useState(getInitialTotals());
-
-  /**
-   * You can have tooling support which checks and enforces these rules.
-   * For example, eslint-plugin-react-hooks utilizes a heuristic that assumes,
-   * a function starting with "use" prefix and a capital letter after it is a Hook.
-   */
   const refresh = useRefresh();
   const notify = useNotify();
-
+  const onFailure = useOnFailure();
   const onSuccess = ({ data }: { data: Record }) => {
     notify(`Changes to "${data.reference}" saved`);
     refresh();
   };
 
+  const getInitialTotals = useCallback(() => {
+    const {
+      total_amount = 0,
+      discount_amount = 0,
+      net = 0,
+      gst_amount = 0,
+      grand_total = 0,
+      balance_due = 0,
+      credits_applied = 0,
+      credits_used = 0,
+      credits_remaining = 0,
+      amount_to_credit = 0,
+    } = props.record;
+
+    return {
+      total_amount,
+      discount_amount,
+      net,
+      gst_amount,
+      grand_total,
+      balance_due,
+      credits_applied,
+      credits_used,
+      credits_remaining,
+      amount_to_credit,
+    };
+  }, [props.record]);
+  const [totals, setTotals] = useState(getInitialTotals());
   const updateTotals = (formData: any) => {
     // TODO: better way without passing formData?
     setTotals((totals) => ({ ...totals, ...getTotals(formData) }));
   };
+
+  useEffect(() => {
+    setTotals(getInitialTotals());
+  }, [getInitialTotals, props.record]);
 
   return (
     <FormWithRedirect

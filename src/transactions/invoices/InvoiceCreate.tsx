@@ -79,15 +79,15 @@ export const validateForm = ({}: AnyObject): any => {
 };
 
 // a fix for DateField parse not working
-export const transform = ({
-  creditsapplication_set,
-  ...data
-}: Record): Record => ({
-  ...data,
-  date: dateParser(data.date),
-  payment_date: dateParser(data.payment_date),
-  creditsapplication_set: creditsapplication_set, // TODO: better way to not pre-fill but send data?
-});
+// export const transform = ({
+//   creditsapplication_set,
+//   ...data
+// }: Record): Record => ({
+//   ...data,
+//   date: dateParser(data.date),
+//   payment_date: dateParser(data.payment_date),
+//   creditsapplication_set: creditsapplication_set, // TODO: better way to not pre-fill but send data?
+// });
 
 export const getTotals = (
   formData: any
@@ -153,18 +153,25 @@ const InvoiceForm = (props: any) => {
     amount_to_credit: 0,
   });
 
+  const { reference, loading: loadingReference } = useGetIncrementedReference({
+    resource: "invoices",
+    prefix: "INV",
+  });
+  const { loading: loadingUserConfig, data: userConfig } = useGetUserConfig();
+
+  const transform = (data: Record): Record => ({
+    ...data,
+    date: dateParser(data.date),
+    payment_date: dateParser(data.payment_date),
+    ...(!openApplyCredits && { creditsapplication_set: [] }),
+  });
+
   const updateTotals = (formData: any) => {
     // TODO: better way without passing formData?
     setTotals((totals) => ({ ...totals, ...getTotals(formData) }));
   };
 
   const onFailure = useOnFailure();
-
-  const { reference, loading: loadingReference } = useGetIncrementedReference({
-    resource: "invoices",
-    prefix: "INV",
-  });
-  const { loading: loadingUserConfig, data: userConfig } = useGetUserConfig();
 
   const postDefaultValue = () => ({
     reference,

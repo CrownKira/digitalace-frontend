@@ -1,6 +1,6 @@
 import "../../styles/transactions.scss";
 
-import React, { FC, useState } from "react";
+import React, { FC, useState, useCallback, useEffect } from "react";
 import {
   Edit,
   EditProps,
@@ -24,7 +24,6 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { useOnFailure } from "../../utils/hooks";
 import {
-  transform,
   styles as createStyles,
   Wrapper,
   validateForm,
@@ -43,6 +42,7 @@ import { DetailsAlertSection } from "./sections/DetailsAlertSection";
 import { CreditsAlertSection } from "./sections/CreditsAlertSection";
 import { CreditsToolbar } from "./sections/CreditsToolbar";
 import { Separator, SectionTitle } from "../../utils/components/Divider";
+import { dateParser } from "../../utils";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -62,52 +62,6 @@ export const InvoiceEdit: FC<EditProps> = (props) => {
 
 const InvoiceForm = (props: any) => {
   const classes = useStyles();
-  const onFailure = useOnFailure();
-
-  const getInitialTotals = () => {
-    // TODO: rewrite using de-structure default
-    // qn: can record be undefined?
-
-    if (props.record) {
-      const {
-        total_amount,
-        discount_amount,
-        net,
-        gst_amount,
-        grand_total,
-        balance_due,
-        credits_applied,
-      } = props.record;
-
-      return {
-        total_amount,
-        discount_amount,
-        net,
-        gst_amount,
-        grand_total,
-        balance_due,
-        credits_applied,
-        amount_to_credit: 0,
-      };
-    }
-    return {
-      total_amount: 0,
-      discount_amount: 0,
-      net: 0,
-      gst_amount: 0,
-      grand_total: 0,
-      balance_due: 0,
-      credits_applied: 0,
-      amount_to_credit: 0,
-    };
-  };
-
-  const [isPaid, setIsPaid] = useState(props.record?.status === "PD");
-  const [openApplyCredits, setOpenApplyCredits] = useState(false);
-  const [creditsAvailable, setCreditsAvailable] = useState(0);
-  // TODO: use context
-  const [totals, setTotals] = useState(getInitialTotals());
-
   /**
    * You can have tooling support which checks and enforces these rules.
    * For example, eslint-plugin-react-hooks utilizes a heuristic that assumes,
@@ -115,17 +69,59 @@ const InvoiceForm = (props: any) => {
    */
   const refresh = useRefresh();
   const notify = useNotify();
-
+  const onFailure = useOnFailure();
   const onSuccess = ({ data }: { data: Record }) => {
     notify(`Changes to "${data.reference}" saved`);
     setOpenApplyCredits(false);
     refresh();
   };
 
+  const [isPaid, setIsPaid] = useState(props.record?.status === "PD");
+  const [openApplyCredits, setOpenApplyCredits] = useState(false);
+  const [creditsAvailable, setCreditsAvailable] = useState(0);
+
+  const transform = (data: Record): Record => ({
+    ...data,
+    date: dateParser(data.date),
+    payment_date: dateParser(data.payment_date),
+    ...(!openApplyCredits && { creditsapplication_set: [] }),
+  });
+
+  const getInitialTotals = useCallback(() => {
+    const {
+      total_amount = 0,
+      discount_amount = 0,
+      net = 0,
+      gst_amount = 0,
+      grand_total = 0,
+      balance_due = 0,
+      credits_applied = 0,
+      amount_to_credit = 0,
+    } = props.record;
+
+    return {
+      total_amount,
+      discount_amount,
+      net,
+      gst_amount,
+      grand_total,
+      balance_due,
+      credits_applied,
+      amount_to_credit,
+    };
+  }, [props.record]);
+
+  // TODO: use context
+  const [totals, setTotals] = useState(getInitialTotals());
   const updateTotals = (formData: any) => {
     // TODO: better way without passing formData?
+    // formData needed since this function is not within <Form>
     setTotals((totals) => ({ ...totals, ...getTotals(formData) }));
   };
+
+  useEffect(() => {
+    setTotals(getInitialTotals());
+  }, [getInitialTotals, props.record]);
 
   return (
     <FormWithRedirect
