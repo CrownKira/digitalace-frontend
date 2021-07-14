@@ -1,5 +1,6 @@
 import React, { FC, CSSProperties } from "react";
 import { useMediaQuery, Theme } from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 import { Welcome } from "./Welcome";
 
@@ -11,6 +12,31 @@ const styles = {
   singleCol: { marginTop: "1em", marginBottom: "1em" },
 };
 
+const ProgressAlert: FC = () => {
+  return (
+    <Alert severity="warning">
+      <AlertTitle>Work in Progress</AlertTitle>
+      Here is a non-exhaustive and nonchronological list of features we will be
+      working on:
+      <ul>
+        <li>Inventory Reports</li>
+        <li>PDF/Print</li>
+        <li>Import Data</li>
+        <li>Email Verification on Account Creation</li>
+        <li>Delivery Order System</li>
+        <li>Data Visualization</li>
+        <li>Receives</li>
+        <li>Purchase Orders</li>
+        <li>Inventory adjustments</li>
+        <li>Payroll management</li>
+        <li>Attendance management</li>
+      </ul>
+      Want to suggest a feature? Feel free to drop us an email at{" "}
+      <a href="mailto:t.karwi@yahoo.com">t.karwi@yahoo.com</a>
+    </Alert>
+  );
+};
+
 export const Dashboard: FC = () => {
   const isXSmall = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("xs")
@@ -19,18 +45,23 @@ export const Dashboard: FC = () => {
 
   return isXSmall ? (
     <div>
+      <ProgressAlert />
       <div style={styles.flexColumn as CSSProperties}>
         <Welcome />
       </div>
     </div>
   ) : isSmall ? (
-    <div style={styles.flexColumn as CSSProperties}>
-      <div style={styles.flex}>
-        <Welcome />
+    <div>
+      <ProgressAlert />
+      <div style={styles.flexColumn as CSSProperties}>
+        <div style={styles.flex}>
+          <Welcome />
+        </div>
       </div>
     </div>
   ) : (
     <>
+      <ProgressAlert />
       <Welcome />
     </>
   );

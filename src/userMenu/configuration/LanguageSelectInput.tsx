@@ -7,6 +7,7 @@ import {
   useTranslate,
   useLocale,
   useSetLocale,
+  useNotify,
 } from "react-admin";
 
 const useStyles = makeStyles({
@@ -22,6 +23,7 @@ export const LanguageSelectInput: FC<Props> = (props) => {
   const translate = useTranslate();
   const locale = useLocale();
   const setLocale = useSetLocale();
+  const notify = useNotify();
 
   return (
     <>
@@ -42,8 +44,9 @@ export const LanguageSelectInput: FC<Props> = (props) => {
         className={classes.button}
         color={locale === "zh" ? "primary" : "default"}
         onClick={() => {
-          input.onChange("zh");
-          setLocale("zh");
+          // input.onChange("zh");
+          // setLocale("zh");
+          notify("pos.message.coming_soon");
         }}
       >
         zh

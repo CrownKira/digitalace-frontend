@@ -12,8 +12,7 @@ const useStyles = makeStyles((theme) => ({
     background:
       theme.palette.type === "dark"
         ? "#535353"
-        : `linear-gradient(to right, #8975fb 0%, #746be7 35%), linear-gradient(to bottom, #8975fb 0%, #6f4ceb 50%), #6f4ceb`,
-
+        : `linear-gradient(to right, #3b8d99, #6b6b83, #aa4b6b)`, // https://uigradients.com/#Memariani
     color: "#fff",
     padding: 20,
     marginTop: theme.spacing(2),

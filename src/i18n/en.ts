@@ -87,7 +87,8 @@ export const customEnglishMessages: TranslationMessages = {
     dashboard: {
       welcome: {
         title: "Site under construction",
-        subtitle: "Feel free to explore and modify the data.",
+        subtitle:
+          "Welcome to DigitaLAce, an all-in-one business management software. Feel free to explore and modify the data. Want to contribute to our project? Create a pull request on GitHub!",
         ra_button: "GitHub repo",
         demo_button: "Source for this demo",
       },
@@ -589,7 +590,7 @@ export const customEnglishMessages: TranslationMessages = {
         created_credit_note: "successfully created from %{reference}",
         no_credit_note: "No Credit Note created so far.",
         total_credit_notes:
-          "1 Credit Note is created from this Invoice. |||| %{smart_count} Credit Notes are created from this Invoice.",
+          "1 Credit Note created from this Invoice. |||| %{smart_count} Credit Notes created from this Invoice.",
       },
     },
     invoice_items: {
