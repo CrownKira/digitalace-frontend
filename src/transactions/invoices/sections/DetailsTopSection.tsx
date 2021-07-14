@@ -10,17 +10,17 @@ import { CustomerNameInput } from "../../components/CustomerNameInput";
 interface Props {
   props: any;
   isPaid: boolean;
-  openApplyCredits: boolean;
+  IsApplyCreditsOpen: boolean;
   setIsPaid: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenApplyCredits: React.Dispatch<React.SetStateAction<boolean>>;
-  setCreditsAvailable: React.Dispatch<React.SetStateAction<number>>;
+  setApplyCreditsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCreditsAvailable: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const DetailsTopSection: FC<Props> = ({
   props,
   setIsPaid,
-  setOpenApplyCredits,
-  setCreditsAvailable,
+  setApplyCreditsOpen,
+  setIsCreditsAvailable,
 }) => {
   return (
     <Box display={{ sm: "block", md: "flex" }}>
@@ -35,11 +35,11 @@ export const DetailsTopSection: FC<Props> = ({
           <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
             <CustomerNameInput
               onChange={(event: any, newValue: Record) => {
-                setOpenApplyCredits(false);
-                setCreditsAvailable(Number(newValue?.unused_credits || 0));
+                setApplyCreditsOpen(false);
+                setIsCreditsAvailable(Number(newValue?.unused_credits || 0));
               }}
               onInit={(value: Record) => {
-                setCreditsAvailable(Number(value?.unused_credits || 0));
+                setIsCreditsAvailable(Number(value?.unused_credits || 0));
               }}
               validate={requiredValidate}
               resource="invoices"

@@ -133,24 +133,28 @@ export const TotalSection: FC<Props> = ({
               </Typography>
             </TableCell>
           </TableRow>
-          <TableRow hover>
-            <TableCell colSpan={2}>Credits Applied</TableCell>
-            <TableCell align="right">
-              (-) {ccyFormat(credits_applied)}
-            </TableCell>
-          </TableRow>
-          <TableRow hover>
-            <TableCell colSpan={2}>
-              <Typography variant="h6" gutterBottom>
-                Balance Due (SGD)
-              </Typography>
-            </TableCell>
-            <TableCell align="right">
-              <Typography variant="h6" gutterBottom>
-                {ccyFormat(balance_due)}
-              </Typography>
-            </TableCell>
-          </TableRow>
+          {credits_applied > 0 && (
+            <>
+              <TableRow hover>
+                <TableCell colSpan={2}>Credits Applied</TableCell>
+                <TableCell align="right">
+                  (-) {ccyFormat(credits_applied)}
+                </TableCell>
+              </TableRow>
+              <TableRow hover>
+                <TableCell colSpan={2}>
+                  <Typography variant="h6" gutterBottom>
+                    Balance Due (SGD)
+                  </Typography>
+                </TableCell>
+                <TableCell align="right">
+                  <Typography variant="h6" gutterBottom>
+                    {ccyFormat(balance_due)}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            </>
+          )}
         </TableBody>
       </Table>
     </TableContainer>

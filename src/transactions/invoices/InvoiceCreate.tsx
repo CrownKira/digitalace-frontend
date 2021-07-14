@@ -138,9 +138,10 @@ export const getTotals = (
 };
 
 const InvoiceForm = (props: any) => {
-  const [isPaid, setIsPaid] = useState(props?.record?.status === "PD");
-  const [openApplyCredits, setOpenApplyCredits] = useState(false);
-  const [creditsAvailable, setCreditsAvailable] = useState(0);
+  const { status } = props.record;
+  const [isPaid, setIsPaid] = useState(status === "PD");
+  const [IsApplyCreditsOpen, setApplyCreditsOpen] = useState(false);
+  const [IsCreditsAvailable, setIsCreditsAvailable] = useState(0);
   // TODO: use context
   const [totals, setTotals] = useState<Totals>({
     total_amount: 0,
@@ -163,7 +164,7 @@ const InvoiceForm = (props: any) => {
     ...data,
     date: dateParser(data.date),
     payment_date: dateParser(data.payment_date),
-    ...(!openApplyCredits && { creditsapplication_set: [] }),
+    ...(!IsApplyCreditsOpen && { creditsapplication_set: [] }),
   });
 
   const updateTotals = (formData: any) => {
@@ -238,18 +239,18 @@ const InvoiceForm = (props: any) => {
                 <FormTabWithoutLayout label="resources.invoices.tabs.details">
                   <DetailsAlertSection
                     record={formProps.record}
-                    creditsAvailable={creditsAvailable}
+                    IsCreditsAvailable={IsCreditsAvailable}
                     totals={totals}
-                    openApplyCredits={openApplyCredits}
+                    IsApplyCreditsOpen={IsApplyCreditsOpen}
                   />
                   <Separator />
                   <DetailsTopSection
                     props={props}
                     isPaid={isPaid}
                     setIsPaid={setIsPaid}
-                    openApplyCredits={openApplyCredits}
-                    setOpenApplyCredits={setOpenApplyCredits}
-                    setCreditsAvailable={setCreditsAvailable}
+                    IsApplyCreditsOpen={IsApplyCreditsOpen}
+                    setApplyCreditsOpen={setApplyCreditsOpen}
+                    setIsCreditsAvailable={setIsCreditsAvailable}
                   />
                   <LineItemsSection
                     source="invoiceitem_set"
@@ -279,14 +280,14 @@ const InvoiceForm = (props: any) => {
                   <TopToolbar>
                     <ApplyCreditsButton
                       onClick={() => {
-                        setOpenApplyCredits(true);
+                        setApplyCreditsOpen(true);
                       }}
-                      disabled={openApplyCredits}
+                      disabled={IsApplyCreditsOpen}
                     />
                   </TopToolbar>
                   <Separator />
                   <ApplyCreditsSection
-                    open={openApplyCredits}
+                    isOpen={IsApplyCreditsOpen}
                     setTotals={setTotals}
                     totals={totals}
                     record={formProps.record}

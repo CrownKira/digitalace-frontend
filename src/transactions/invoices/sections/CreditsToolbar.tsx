@@ -28,14 +28,14 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   record: Record;
-  openApplyCredits: boolean;
-  setOpenApplyCredits: React.Dispatch<React.SetStateAction<boolean>>;
+  IsApplyCreditsOpen: boolean;
+  setApplyCreditsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CreditsToolbar: FC<Props> = ({
   record,
-  openApplyCredits,
-  setOpenApplyCredits,
+  IsApplyCreditsOpen,
+  setApplyCreditsOpen,
   ...rest
 }) => {
   const classes = useStyles();
@@ -92,9 +92,9 @@ export const CreditsToolbar: FC<Props> = ({
       <TopToolbar {...rest}>
         <ApplyCreditsButton
           onClick={() => {
-            setOpenApplyCredits(true);
+            setApplyCreditsOpen(true);
           }}
-          disabled={openApplyCredits}
+          disabled={IsApplyCreditsOpen}
         />
         <CreateCreditNoteButton
           create={create}

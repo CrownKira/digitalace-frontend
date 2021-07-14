@@ -9,8 +9,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/styles";
-import { useFormState } from "react-final-form";
 
+import { Totals } from "../InvoiceCreate";
 import { ccyFormat } from "../../../utils";
 
 const useStyles = makeStyles({
@@ -21,6 +21,7 @@ const useStyles = makeStyles({
 
 interface Props {
   totalCredits: TotalCredits;
+  totals: Totals;
 }
 
 export interface TotalCredits {
@@ -43,9 +44,8 @@ const Paper = withStyles({
 
 export const TotalCreditsSection: FC<Props> = ({
   totalCredits: { total_amount_to_credit, balance_due },
+  totals,
 }) => {
-  const { values: formData } = useFormState();
-
   const classes = useStyles();
 
   return (
@@ -54,9 +54,7 @@ export const TotalCreditsSection: FC<Props> = ({
         <TableBody>
           <TableRow hover>
             <TableCell>Invoice Balance</TableCell>
-            <TableCell align="right">
-              {ccyFormat(formData.balance_due)}
-            </TableCell>
+            <TableCell align="right">{ccyFormat(totals.balance_due)}</TableCell>
           </TableRow>
           <TableRow hover>
             <TableCell>Amount to Credit</TableCell>

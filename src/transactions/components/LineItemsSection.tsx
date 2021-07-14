@@ -10,8 +10,8 @@ import { useForm } from "react-final-form";
 
 import { requiredValidate, validateNumber } from "../invoices/InvoiceCreate";
 import { LineItemsIterator } from "../../utils/components/LineItemsIterator";
-import { ProductNameInput } from "./ProductNameInput";
 import { ccyFormat, toFixedNumber } from "../../utils";
+import { AsyncAutocompleteInput } from "../../utils/components/AsyncAutocompleteInput";
 
 const useStyles = makeStyles({
   leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
@@ -66,13 +66,26 @@ export const LineItemsSection: FC<Props> = ({
         >
           {({ getSource }) =>
             getSource ? (
-              <ProductNameInput
+              <AsyncAutocompleteInput
+                optionText="name"
+                optionValue="id"
+                reference="products"
+                className={classes.lineItemReferenceInput}
+                // TODO: more generic label?
+                label={false}
                 source={getSource("product")}
-                getSource={getSource}
                 fullWidth
-                inputClassName={classes.lineItemReferenceInput}
-                // FIXME: showSuggestions not working
                 showSuggestions={false}
+                onChange={(event, newValue) => {
+                  if (newValue) {
+                    form.batch(() => {
+                      form.change(getSource("unit"), newValue.unit);
+                      form.change(getSource("unit_price"), newValue.unit_price);
+                      form.change(getSource("quantity"), "0");
+                      form.change(getSource("amount"), "0.00");
+                    });
+                  }
+                }}
               />
             ) : null
           }

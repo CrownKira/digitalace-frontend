@@ -175,6 +175,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       return;
     }
 
+    /**
+     * a or b === a or (~a and b)
+     */
     if (
       !input.value || // undefined means initial value from record is undefined
       (inputValue && // presence means value has already been fetched
@@ -263,24 +266,22 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       filterSelectedOptions
       value={valueOverride}
       inputValue={inputValue} // overrides TextField value
-      // getOptionSelected={(option, value) =>
-      //   option[optionValue] === value[optionValue]
-      // }
       onChange={(event, newValue: Record | null, reason, details) => {
         // set options
         setAutocompleteOptions(
           newValue ? [newValue, ...autocompleteOptions] : autocompleteOptions
         );
+        // set input.value (registered to the formContext )
+        onChange(newValue ? newValue[optionValue] : "");
+        // set valueOverride
+        setValueOverride(newValue);
         // original onChange handler
         if (originalOnChangeHandler) {
           originalOnChangeHandler(event, newValue, reason, details);
         }
-        // set input.value
-        onChange(newValue ? newValue[optionValue] : "");
-        // set valueOverride
-        setValueOverride(newValue);
       }}
       onInputChange={(event, newInputValue) => {
+        // set inputValue
         setInputValue(newInputValue);
       }} // merged with TextField onChange, invoked before TextField onChange
       className={className}

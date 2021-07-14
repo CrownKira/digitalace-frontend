@@ -72,19 +72,21 @@ const InvoiceForm = (props: any) => {
   const onFailure = useOnFailure();
   const onSuccess = ({ data }: { data: Record }) => {
     notify(`Changes to "${data.reference}" saved`);
-    setOpenApplyCredits(false);
+    setApplyCreditsOpen(false);
     refresh();
   };
 
-  const [isPaid, setIsPaid] = useState(props.record?.status === "PD");
-  const [openApplyCredits, setOpenApplyCredits] = useState(false);
-  const [creditsAvailable, setCreditsAvailable] = useState(0);
+  const { status } = props.record;
+  const [isPaid, setIsPaid] = useState(status === "PD");
+  const [IsApplyCreditsOpen, setApplyCreditsOpen] = useState(false);
+  const [IsCreditsAvailable, setIsCreditsAvailable] = useState(0);
 
   const transform = (data: Record): Record => ({
     ...data,
     date: dateParser(data.date),
     payment_date: dateParser(data.payment_date),
-    ...(!openApplyCredits && { creditsapplication_set: [] }),
+    // TODO: use state to keep track of creditsapplication_set instead of formData?
+    ...(!IsApplyCreditsOpen && { creditsapplication_set: [] }),
   });
 
   const getInitialTotals = useCallback(() => {
@@ -111,10 +113,10 @@ const InvoiceForm = (props: any) => {
     };
   }, [props.record]);
 
-  // TODO: use context
+  // TODO: use formData instead to keep track of the values?
+  // totals contain fields outside of formData eg. amount_to_credit ie. not needed by backend
   const [totals, setTotals] = useState(getInitialTotals());
   const updateTotals = (formData: any) => {
-    // TODO: better way without passing formData?
     // formData needed since this function is not within <Form>
     setTotals((totals) => ({ ...totals, ...getTotals(formData) }));
   };
@@ -181,18 +183,18 @@ const InvoiceForm = (props: any) => {
                 <FormTabWithoutLayout label="resources.invoices.tabs.details">
                   <DetailsAlertSection
                     record={formProps.record}
-                    creditsAvailable={creditsAvailable}
+                    IsCreditsAvailable={IsCreditsAvailable}
                     totals={totals}
-                    openApplyCredits={openApplyCredits}
+                    IsApplyCreditsOpen={IsApplyCreditsOpen}
                   />
                   <Separator />
                   <DetailsTopSection
                     props={props}
                     isPaid={isPaid}
                     setIsPaid={setIsPaid}
-                    openApplyCredits={openApplyCredits}
-                    setOpenApplyCredits={setOpenApplyCredits}
-                    setCreditsAvailable={setCreditsAvailable}
+                    IsApplyCreditsOpen={IsApplyCreditsOpen}
+                    setApplyCreditsOpen={setApplyCreditsOpen}
+                    setIsCreditsAvailable={setIsCreditsAvailable}
                   />
                   <LineItemsSection
                     source="invoiceitem_set"
@@ -230,8 +232,8 @@ const InvoiceForm = (props: any) => {
                     actions={
                       <CreditsToolbar
                         record={formProps.record}
-                        setOpenApplyCredits={setOpenApplyCredits}
-                        openApplyCredits={openApplyCredits}
+                        setApplyCreditsOpen={setApplyCreditsOpen}
+                        IsApplyCreditsOpen={IsApplyCreditsOpen}
                       />
                     }
                   >
@@ -255,7 +257,7 @@ const InvoiceForm = (props: any) => {
                   </ReferenceManyFieldWithActions>
                   <Separator />
                   <ApplyCreditsSection
-                    open={openApplyCredits}
+                    isOpen={IsApplyCreditsOpen}
                     setTotals={setTotals}
                     totals={totals}
                     record={formProps.record}

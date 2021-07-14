@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  open: boolean;
+  isOpen: boolean;
   setTotals: React.Dispatch<React.SetStateAction<Totals>>;
   totals: Totals;
   record: Record;
@@ -37,14 +37,14 @@ interface Props {
 
 // TODO: move to dialog form
 const _ApplyCreditsSection: FC<Props> = ({
-  open,
+  isOpen,
   setTotals,
   record,
   totals,
 }) => {
   const classes = useStyles();
   const form = useForm();
-  // const { values: formData } = useFormState();
+
   const [totalCredits, setTotalCredits] = useState({
     total_amount_to_credit: 0,
     balance_due: totals.balance_due,
@@ -60,7 +60,7 @@ const _ApplyCreditsSection: FC<Props> = ({
       total_amount_to_credit: 0,
       balance_due: totals.balance_due,
     }));
-  }, [open, setTotals]);
+  }, [isOpen, setTotals]);
 
   const updateTotalCredits = (
     formData: any,
@@ -74,7 +74,7 @@ const _ApplyCreditsSection: FC<Props> = ({
       : 0;
 
     const balance_due =
-      toFixedNumber(formData.balance_due, 2) - total_amount_to_credit;
+      toFixedNumber(totals.balance_due, 2) - total_amount_to_credit;
 
     form.change(
       getSource("amount_to_credit"),
@@ -89,12 +89,16 @@ const _ApplyCreditsSection: FC<Props> = ({
     setTotalCredits({ total_amount_to_credit, balance_due });
   };
 
-  return open ? (
+  return isOpen ? (
     <>
-      <SectionTitle
-        label="resources.invoices.fieldGroups.apply_credits"
-        options={{ reference: record.reference }}
-      />
+      {record.reference ? (
+        <SectionTitle
+          label="resources.invoices.fieldGroups.apply_credits_for"
+          options={{ reference: record.reference }}
+        />
+      ) : (
+        <SectionTitle label="resources.invoices.fieldGroups.apply_credits" />
+      )}
       <ArrayInput
         // TODO: make this a table
         // TODO: better way instead of using a dummy source?
@@ -162,7 +166,7 @@ const _ApplyCreditsSection: FC<Props> = ({
       <Box display={{ sm: "block", md: "flex" }}>
         <Box flex={3} mr={{ sm: 0, md: "0.5em" }}></Box>
         <Box flex={2} mr={{ sm: 0, md: "0.5em" }}>
-          <TotalCreditsSection totalCredits={totalCredits} />
+          <TotalCreditsSection totalCredits={totalCredits} totals={totals} />
         </Box>
       </Box>
     </>

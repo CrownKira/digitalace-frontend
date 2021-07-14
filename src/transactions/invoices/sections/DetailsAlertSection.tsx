@@ -9,23 +9,23 @@ import { Separator } from "../../../utils/components/Divider";
 
 interface Props {
   record: Record;
-  creditsAvailable: number;
+  IsCreditsAvailable: number;
   totals: Totals;
-  openApplyCredits: boolean;
+  IsApplyCreditsOpen: boolean;
 }
 
 export const DetailsAlertSection: FC<Props> = ({
   record,
-  creditsAvailable,
+  IsCreditsAvailable,
   totals,
-  openApplyCredits,
+  IsApplyCreditsOpen,
 }) => {
   const translate = useTranslate();
   const redirect = useRedirect();
 
   return (
     <div>
-      {creditsAvailable > 0 && (
+      {IsCreditsAvailable > 0 && (
         <Alert
           severity="info"
           action={
@@ -34,7 +34,7 @@ export const DetailsAlertSection: FC<Props> = ({
               size="small"
               // TODO: better way to redirect to other tab?
               onClick={() => {
-                redirect(`/invoices/${record.id}/2`);
+                redirect(`/invoices/${record.id || "create"}/2`);
               }}
             >
               {translate("resources.invoices.action.apply_credits")}
@@ -42,11 +42,11 @@ export const DetailsAlertSection: FC<Props> = ({
           }
         >
           {translate("resources.invoices.fields.credits_available")}:{" "}
-          <strong>{ccyFormat(creditsAvailable, true)}</strong>
+          <strong>{ccyFormat(IsCreditsAvailable, true)}</strong>
         </Alert>
       )}
       <Separator />
-      {totals.amount_to_credit > 0 && openApplyCredits && (
+      {totals.amount_to_credit > 0 && IsApplyCreditsOpen && (
         <Alert severity="warning">
           {translate("resources.invoices.notification.amount_to_credit")}:{" "}
           <strong>{ccyFormat(totals.amount_to_credit, true)}</strong>
