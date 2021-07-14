@@ -68,11 +68,11 @@ export const customEnglishMessages: TranslationMessages = {
     async_autocomplete_input: {
       data_provider_error:
         // TODO: better message
-        "async_autocomplete_input: dataProvider error. Check the console for details.",
+        "async_autocomplete_input - dataProvider error. Check the console for details.",
     },
     use_validate_unicity: {
       data_provider_error:
-        "use_validate_unicity: dataProvider error. Check the console for details.",
+        "use_validate_unicity - dataProvider error. Check the console for details.",
     },
     auth: {
       // auth component
@@ -127,7 +127,7 @@ export const customEnglishMessages: TranslationMessages = {
         failure:
           "A technical error occurred while updating your configurations. Please try later.",
         data_provider_error:
-          "user_config: dataProvider error. Check the console for details.",
+          "user_config - dataProvider error. Check the console for details.",
       },
     },
   },
@@ -501,6 +501,8 @@ export const customEnglishMessages: TranslationMessages = {
         apply_to_invoice: "Apply to Invoice",
         view: "View",
       },
+      data_provider_error:
+        "details_alert_section - dataProvider error. Check the console for details.",
     },
     credit_note_items: {
       name: "Credit Note Item |||| Credit Note Items",
@@ -587,7 +589,7 @@ export const customEnglishMessages: TranslationMessages = {
         created_credit_note: "successfully created from %{reference}",
         no_credit_note: "No Credit Note created so far.",
         total_credit_notes:
-          "1 Credit Note is associated to this Invoice. |||| %{smart_count} Credit Notes are associated to this Invoice.",
+          "1 Credit Note is created from this Invoice. |||| %{smart_count} Credit Notes are created from this Invoice.",
       },
     },
     invoice_items: {

@@ -6,35 +6,19 @@ import {
   DateField,
   NumberField,
   EditButton,
-  useTranslate,
 } from "react-admin";
 import Alert from "@material-ui/lab/Alert";
 
-import { statuses } from "../../credit_notes/data";
 import { Separator } from "../../../utils/components/Divider";
 import { ColoredStatusField } from "../../components/ColoredStatusField";
+import { statuses } from "../data";
 
-export const CreditNotesDatagrid: FC<DatagridProps> = (props) => {
-  const { total } = props;
-
-  const translate = useTranslate();
-
+export const InvoicesDatagrid: FC<DatagridProps> = (props) => {
   return (
     <div>
-      {total === 0 ? (
-        <Alert severity="info">
-          {translate("resources.invoices.notification.no_credit_note")}
-        </Alert>
-      ) : (
-        total !== undefined && (
-          <Alert severity="info">
-            {translate("resources.invoices.notification.total_credit_notes", {
-              smart_count: total,
-            })}
-          </Alert>
-        )
-      )}
-
+      <Alert severity="warning">
+        <strong>Work in progress</strong> - Delivery Order feature
+      </Alert>
       <Separator />
       <Datagrid {...props}>
         <TextField source="reference" />
@@ -45,7 +29,7 @@ export const CreditNotesDatagrid: FC<DatagridProps> = (props) => {
           source="status"
           choices={statuses}
         />
-        <NumberField source="credits_remaining" />
+        <NumberField source="grand_total" />
         <EditButton />
       </Datagrid>
     </div>

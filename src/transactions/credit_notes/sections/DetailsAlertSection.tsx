@@ -1,11 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
 import Alert from "@material-ui/lab/Alert";
 import Button from "@material-ui/core/Button";
 import {
   useTranslate,
   useRedirect,
-  useQueryWithStore,
   Record,
+  useDataProvider,
+  useNotify,
 } from "react-admin";
 
 interface Props {
@@ -15,16 +16,26 @@ interface Props {
 export const DetailsAlertSection: FC<Props> = ({ record }) => {
   const translate = useTranslate();
   const redirect = useRedirect();
+  const dataProvider = useDataProvider();
+  const notify = useNotify();
+  const [invoiceData, setInvoiceData] = useState<Record>({} as Record);
 
-  const { data, loaded } = useQueryWithStore({
-    type: "getOne",
-    resource: "invoices",
-    payload: { id: record.created_from },
-  });
+  useEffect(() => {
+    if (record.created_from) {
+      dataProvider
+        .getOne("invoices", { id: record.created_from })
+        .then((response) => {
+          setInvoiceData(response.data);
+        })
+        .catch(() => {
+          notify("resources.credit_notes.data_provider_error", "warning");
+        });
+    }
+  }, [dataProvider, notify, record.created_from]);
 
   return (
     <div>
-      {record.created_from && loaded && (
+      {record.created_from && (
         <Alert
           severity="info"
           action={
@@ -41,7 +52,7 @@ export const DetailsAlertSection: FC<Props> = ({ record }) => {
           }
         >
           {translate("resources.credit_notes.notification.created_from")}{" "}
-          <strong>{data.reference}</strong>
+          <strong>{invoiceData && invoiceData.reference}</strong>
         </Alert>
       )}
     </div>

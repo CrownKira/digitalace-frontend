@@ -37,6 +37,7 @@ import { DetailsTopSection } from "./sections/DetailsTopSection";
 import { DetailsBottomSection } from "./sections/DetailsBottomSection";
 import { DetailsAlertSection } from "./sections/DetailsAlertSection";
 import { Separator } from "../../utils/components/Divider";
+import { InvoicesDatagrid } from "./sections/InvoicesDatagrid";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -177,20 +178,7 @@ const CreditNoteForm = (props: any) => {
                     pagination={<Pagination />}
                     fullWidth
                   >
-                    <Datagrid>
-                      <DateField source="date" />
-                      <ReferenceField
-                        source="invoice"
-                        reference="invoices"
-                        label="resources.invoices.fields.reference"
-                      >
-                        <TextField source="reference" />
-                      </ReferenceField>
-                      <NumberField
-                        source="amount_to_credit"
-                        label="resources.invoices.fields.credits_applied"
-                      />
-                    </Datagrid>
+                    <InvoicesDatagrid />
                   </ReferenceManyFieldWithActions>
                 </FormTabWithoutLayout>
               </TabbedFormView>

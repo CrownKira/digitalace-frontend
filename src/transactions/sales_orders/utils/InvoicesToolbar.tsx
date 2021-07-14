@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import {
   TopToolbar,
   useTranslate,
@@ -17,6 +17,7 @@ import {
   getNextReference,
 } from "../../../utils";
 import { useGetNextReference } from "../../hooks/useGetNextReference";
+import { Fade } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -42,6 +43,7 @@ export const InvoicesToolbar: FC<Props> = ({ record, ...rest }) => {
   });
   const [mutate, { loading, loaded, data, error }] = useMutation();
   const nextReference = useRef("");
+  const [isAlertOpen, setIsAlertOpen] = useState(true);
 
   const create = () => {
     if (nextReference.current) {
@@ -49,7 +51,7 @@ export const InvoicesToolbar: FC<Props> = ({ record, ...rest }) => {
     } else {
       nextReference.current = reference;
     }
-    return mutate({
+    const result = mutate({
       type: "create",
       resource: "invoices",
       payload: {
@@ -67,6 +69,9 @@ export const InvoicesToolbar: FC<Props> = ({ record, ...rest }) => {
         },
       },
     });
+
+    setIsAlertOpen(true);
+    return result;
   };
 
   useEffect(() => {
@@ -78,15 +83,23 @@ export const InvoicesToolbar: FC<Props> = ({ record, ...rest }) => {
   return (
     <>
       {loaded && (
-        <Alert severity="success" onClose={() => {}} className={classes.alert}>
-          {translate("resources.invoices.name", { smart_count: 1 })}{" "}
-          <Link to={`/invoices/${data.id}`}>
-            <strong>{data.reference}</strong>
-          </Link>{" "}
-          {translate("resources.sales_orders.notification.created_invoice", {
-            reference: record.reference,
-          })}
-        </Alert>
+        <Fade in={isAlertOpen}>
+          <Alert
+            severity="success"
+            onClose={() => {
+              setIsAlertOpen(false);
+            }}
+            className={classes.alert}
+          >
+            {translate("resources.invoices.name", { smart_count: 1 })}{" "}
+            <Link to={`/invoices/${data.id}`}>
+              <strong>{data.reference}</strong>
+            </Link>{" "}
+            {translate("resources.sales_orders.notification.created_invoice", {
+              reference: record.reference,
+            })}
+          </Alert>
+        </Fade>
       )}
       <TopToolbar {...rest}>
         <CreateInvoiceButton

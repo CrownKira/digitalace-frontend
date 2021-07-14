@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import {
   useMutation,
   TopToolbar,
@@ -17,6 +17,7 @@ import {
   getNextReference,
 } from "../../../utils";
 import { useGetNextReference } from "../../hooks/useGetNextReference";
+import { Fade } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -42,6 +43,7 @@ export const CreditNotesToolbar: FC<Props> = ({ record, ...rest }) => {
   });
   const [mutate, { loading, loaded, data, error }] = useMutation();
   const nextReference = useRef("");
+  const [isAlertOpen, setIsAlertOpen] = useState(true);
 
   const create = () => {
     // TODO: better way?
@@ -51,7 +53,7 @@ export const CreditNotesToolbar: FC<Props> = ({ record, ...rest }) => {
     } else {
       nextReference.current = reference;
     }
-    return mutate({
+    const result = mutate({
       type: "create",
       resource: "credit_notes",
       payload: {
@@ -68,6 +70,8 @@ export const CreditNotesToolbar: FC<Props> = ({ record, ...rest }) => {
         },
       },
     });
+    setIsAlertOpen(true);
+    return result;
   };
 
   useEffect(() => {
@@ -79,15 +83,23 @@ export const CreditNotesToolbar: FC<Props> = ({ record, ...rest }) => {
   return (
     <>
       {loaded && (
-        <Alert severity="success" onClose={() => {}} className={classes.alert}>
-          {translate("resources.credit_notes.name", { smart_count: 1 })}{" "}
-          <Link to={`/credit_notes/${data.id}`}>
-            <strong>{data.reference}</strong>
-          </Link>{" "}
-          {translate("resources.invoices.notification.created_credit_note", {
-            reference: record.reference,
-          })}
-        </Alert>
+        <Fade in={isAlertOpen}>
+          <Alert
+            severity="success"
+            onClose={() => {
+              setIsAlertOpen(false);
+            }}
+            className={classes.alert}
+          >
+            {translate("resources.credit_notes.name", { smart_count: 1 })}{" "}
+            <Link to={`/credit_notes/${data.id}`}>
+              <strong>{data.reference}</strong>
+            </Link>{" "}
+            {translate("resources.invoices.notification.created_credit_note", {
+              reference: record.reference,
+            })}
+          </Alert>
+        </Fade>
       )}
       <TopToolbar {...rest}>
         <CreateCreditNoteButton

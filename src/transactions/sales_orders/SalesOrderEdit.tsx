@@ -36,10 +36,9 @@ import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailsTopSection } from "./sections/DetailsTopSection";
 import { DetailsBottomSection } from "./sections/DetailsBottomSection";
 import { DetailsAlertSection } from "./sections/DetailsAlertSection";
-import { statuses as invoiceStatuses } from "../../transactions/invoices/data";
 import { InvoicesToolbar } from "./utils/InvoicesToolbar";
 import { Separator } from "../../utils/components/Divider";
-import { ColoredStatusField } from "../components/ColoredStatusField";
+import { InvoicesDatagrid } from "./sections/InvoicesDatagrid";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -177,18 +176,7 @@ const SalesOrderForm = (props: any) => {
                     fullWidth
                     actions={<InvoicesToolbar record={formProps.record} />}
                   >
-                    <Datagrid>
-                      <TextField source="reference" />
-                      <DateField source="date" />
-                      <ColoredStatusField
-                        // TODO: use chip
-                        // https://marmelab.com/react-admin/Fields.html#choice-fields
-                        source="status"
-                        choices={invoiceStatuses}
-                      />
-                      <NumberField source="grand_total" />
-                      <EditButton />
-                    </Datagrid>
+                    <InvoicesDatagrid />
                   </ReferenceManyFieldWithActions>
                 </FormTabWithoutLayout>
               </TabbedFormView>
