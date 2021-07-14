@@ -60,13 +60,11 @@ export const LineItemsSection: FC<Props> = ({
       validate={requiredValidate}
     >
       <LineItemsIterator resource={resource}>
-        <FormDataConsumer
-          validate={requiredValidate}
-          label="resources.invoice_items.fields.product"
-        >
+        <FormDataConsumer label="resources.invoice_items.fields.product">
           {({ getSource }) =>
             getSource ? (
               <AsyncAutocompleteInput
+                validate={requiredValidate}
                 optionText="name"
                 optionValue="id"
                 reference="products"
@@ -90,10 +88,7 @@ export const LineItemsSection: FC<Props> = ({
             ) : null
           }
         </FormDataConsumer>
-        <FormDataConsumer
-          validate={requiredValidate}
-          label="resources.invoice_items.fields.quantity"
-        >
+        <FormDataConsumer label="resources.invoice_items.fields.quantity">
           {({ formData, scopedFormData, getSource }) => {
             if (getSource)
               return getSource ? (
@@ -110,10 +105,7 @@ export const LineItemsSection: FC<Props> = ({
           }}
         </FormDataConsumer>
         <TextInput source="unit" className={classes.lineItemInput} disabled />
-        <FormDataConsumer
-          validate={requiredValidate}
-          label="resources.invoice_items.fields.unit_price"
-        >
+        <FormDataConsumer label="resources.invoice_items.fields.unit_price">
           {({ formData, scopedFormData, getSource }) =>
             getSource ? (
               <NumberInput
