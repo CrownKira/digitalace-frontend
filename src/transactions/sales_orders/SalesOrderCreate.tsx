@@ -26,7 +26,7 @@ import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayou
 import { LineItemsSection } from "../components/LineItemsSection";
 import { DetailsTopSection } from "./sections/DetailsTopSection";
 import { DetailsBottomSection } from "./sections/DetailsBottomSection";
-import { useGetIncrementedReference } from "../hooks/useGetIncrementedReference";
+import { useGetNextReference } from "../hooks/useGetNextReference";
 
 export const styles = {
   leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
@@ -134,7 +134,7 @@ const SalesOrderForm = (props: any) => {
 
   const onFailure = useOnFailure();
 
-  const { reference, loading: loadingReference } = useGetIncrementedReference({
+  const { reference, loading: loadingReference } = useGetNextReference({
     resource: "sales_orders",
     prefix: "SO",
   });

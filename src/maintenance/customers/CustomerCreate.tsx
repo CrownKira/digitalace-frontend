@@ -19,7 +19,7 @@ import { Styles } from "@material-ui/styles/withStyles";
 
 import { SectionTitle, Separator } from "../../utils/components/Divider";
 import { Customer } from "../../types";
-import { incrementReference, validateUnicity, memoize } from "../../utils";
+import { getNextReference, validateUnicity, memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 
 export const styles: Styles<Theme, any> = {
@@ -75,7 +75,7 @@ export const CustomerCreate: FC<CreateProps> = (props) => {
     image: "",
     reference:
       customers && customerIds.length > 0
-        ? incrementReference(customers[customerIds[0]].reference, "C", 4)
+        ? getNextReference(customers[customerIds[0]].reference, "C", 4)
         : "C-0000",
   });
 

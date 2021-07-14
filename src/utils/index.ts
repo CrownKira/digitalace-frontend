@@ -28,7 +28,7 @@ export function toFixedNumber(num: any, digits = 2, base = 10) {
   return Math.round(Number(num) * pow) / pow;
 }
 
-export const incrementReference = (
+export const getNextReference = (
   reference: string,
   defaultPrefix: string,
   defaultDigits = 4

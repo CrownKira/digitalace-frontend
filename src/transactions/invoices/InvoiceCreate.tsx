@@ -34,7 +34,7 @@ import { PaymentSection } from "./sections/PaymentSection";
 import { DetailsAlertSection } from "./sections/DetailsAlertSection";
 import { CreditsAlertSection } from "./sections/CreditsAlertSection";
 import { Separator } from "../../utils/components/Divider";
-import { useGetIncrementedReference } from "../hooks/useGetIncrementedReference";
+import { useGetNextReference } from "../hooks/useGetNextReference";
 
 export const styles = {
   leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
@@ -171,7 +171,7 @@ const InvoiceForm = (props: any) => {
     balance_due2: 0,
   });
 
-  const { reference, loading: loadingReference } = useGetIncrementedReference({
+  const { reference, loading: loadingReference } = useGetNextReference({
     resource: "invoices",
     prefix: "INV",
   });

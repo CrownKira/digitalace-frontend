@@ -45,12 +45,10 @@ const _ApplyCreditsSection: FC<Props> = ({
   const form = useForm();
 
   const handleOnBlur = (formData: any, scopedFormData: any, getSource: any) => {
-    if (scopedFormData && getSource) {
-      form.change(
-        getSource("amount_to_credit"),
-        ccyFormat(scopedFormData.amount_to_credit)
-      );
-    }
+    form.change(
+      getSource("amount_to_credit"),
+      ccyFormat(scopedFormData.amount_to_credit)
+    );
 
     updateCreditsTotals(formData);
   };

@@ -14,7 +14,6 @@ import {
   DateInput,
   BulkDeleteButton,
   BulkDeleteButtonProps,
-  SelectField,
 } from "react-admin";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -22,6 +21,7 @@ import { FullNameField } from "../../maintenance/customers/FullNameField";
 import { AddressField } from "../../maintenance/customers/AddressField";
 import { SalesOrderShow } from "./SalesOrderShow";
 import { statuses } from "./data";
+import { ColoredStatusField } from "../components/ColoredStatusField";
 
 const ListFilters = (props: Omit<FilterProps, "children">) => (
   <Filter {...props}>
@@ -77,7 +77,7 @@ export const SalesOrderList: FC<ListProps> = (props) => {
         <ReferenceField source="invoice" reference="invoices">
           <TextField source="reference" />
         </ReferenceField>
-        <SelectField source="status" choices={statuses} />
+        <ColoredStatusField source="status" choices={statuses} />
         <NumberField source="grand_total" />
       </Datagrid>
     </List>

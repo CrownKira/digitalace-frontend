@@ -41,7 +41,9 @@ import { DetailsBottomSection } from "./sections/DetailsBottomSection";
 import { PaymentSection } from "./sections/PaymentSection";
 import { DetailsAlertSection } from "./sections/DetailsAlertSection";
 import { CreditsAlertSection } from "./sections/CreditsAlertSection";
+import { CreditNotesDatagrid } from "./sections/CreditNotesDatagrid";
 import { CreditsToolbar } from "./sections/CreditsToolbar";
+import { CreditNotesToolbar } from "./sections/CreditNotesToolbar";
 import { Separator, SectionTitle } from "../../utils/components/Divider";
 import { dateParser } from "../../utils";
 
@@ -229,7 +231,10 @@ const InvoiceForm = (props: any) => {
                     <PaymentSection />
                   </FormTabWithoutLayout>
                 ) : null}
-                <FormTabWithoutLayout label="resources.invoices.tabs.credits_applied">
+                <FormTabWithoutLayout
+                  // TODO: move to show view
+                  label="resources.invoices.tabs.credits_applied"
+                >
                   <CreditsAlertSection />
                   <Separator />
                   <SectionTitle label="resources.invoices.fieldGroups.credits_applied" />
@@ -241,7 +246,6 @@ const InvoiceForm = (props: any) => {
                     fullWidth
                     actions={
                       <CreditsToolbar
-                        record={formProps.record}
                         setApplyCreditsOpen={setApplyCreditsOpen}
                         IsApplyCreditsOpen={IsApplyCreditsOpen}
                       />
@@ -272,6 +276,18 @@ const InvoiceForm = (props: any) => {
                     updateCreditsTotals={updateCreditsTotals}
                     record={formProps.record}
                   />
+                </FormTabWithoutLayout>
+                <FormTabWithoutLayout label="resources.invoices.tabs.credit_notes">
+                  <ReferenceManyFieldWithActions
+                    reference="credit_notes"
+                    target="created_from"
+                    addLabel={false}
+                    pagination={<Pagination />}
+                    fullWidth
+                    actions={<CreditNotesToolbar record={formProps.record} />}
+                  >
+                    <CreditNotesDatagrid />
+                  </ReferenceManyFieldWithActions>
                 </FormTabWithoutLayout>
               </TabbedFormView>
             </Wrapper>

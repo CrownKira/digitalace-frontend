@@ -14,7 +14,6 @@ import {
   DateInput,
   BulkDeleteButton,
   BulkDeleteButtonProps,
-  SelectField,
 } from "react-admin";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -22,6 +21,7 @@ import { FullNameField } from "../../maintenance/customers/FullNameField";
 import { AddressField } from "../../maintenance/customers/AddressField";
 import { InvoiceShow } from "./InvoiceShow";
 import { statuses } from "./data";
+import { ColoredStatusField } from "../components/ColoredStatusField";
 
 const ListFilters = (props: Omit<FilterProps, "children">) => (
   <Filter {...props}>
@@ -77,7 +77,7 @@ export const InvoiceList: FC<ListProps> = (props) => {
         <ReferenceField source="sales_order" reference="sales_orders">
           <TextField source="reference" />
         </ReferenceField>
-        <SelectField
+        <ColoredStatusField
           // TODO: use chip
           // https://marmelab.com/react-admin/Fields.html#choice-fields
           source="status"

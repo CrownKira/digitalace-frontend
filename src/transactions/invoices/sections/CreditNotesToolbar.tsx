@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useRef } from "react";
 import {
+  useMutation,
   TopToolbar,
   useTranslate,
-  useMutation,
   Record,
   useNotify,
   Link,
@@ -10,7 +10,7 @@ import {
 import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { CreateInvoiceButton } from "./CreateInvoiceButton";
+import { CreateCreditNoteButton } from "../utils/CreateCreditNoteButton";
 import {
   dateFormatter,
   getErrorMessage,
@@ -32,38 +32,39 @@ interface Props {
   record: Record;
 }
 
-export const InvoicesToolbar: FC<Props> = ({ record, ...rest }) => {
+export const CreditNotesToolbar: FC<Props> = ({ record, ...rest }) => {
   const classes = useStyles();
   const translate = useTranslate();
   const notify = useNotify();
   const { reference, loading: loadingReference } = useGetNextReference({
-    resource: "invoices",
-    prefix: "INV",
+    resource: "credit_notes",
+    prefix: "CN",
   });
   const [mutate, { loading, loaded, data, error }] = useMutation();
   const nextReference = useRef("");
 
   const create = () => {
+    // TODO: better way?
+    // must ensure that reference is ready when this function is called
     if (nextReference.current) {
-      nextReference.current = getNextReference(nextReference.current, "INV");
+      nextReference.current = getNextReference(nextReference.current, "CN");
     } else {
       nextReference.current = reference;
     }
     return mutate({
       type: "create",
-      resource: "invoices",
+      resource: "credit_notes",
       payload: {
         data: {
           reference: nextReference.current,
-          sales_order: record.id,
+          created_from: record.id,
           customer: record.customer,
-          invoiceitem_set: record.salesorderitem_set,
+          creditnoteitem_set: record.invoiceitem_set,
           salesperson: record.salesperson,
           date: dateFormatter(new Date()),
           gst_rate: record.gst_rate,
           discount_rate: record.discount_rate,
           refund: 0,
-          creditsapplication_set: [],
         },
       },
     });
@@ -79,17 +80,17 @@ export const InvoicesToolbar: FC<Props> = ({ record, ...rest }) => {
     <>
       {loaded && (
         <Alert severity="success" onClose={() => {}} className={classes.alert}>
-          {translate("resources.invoices.name", { smart_count: 1 })}{" "}
-          <Link to={`/invoices/${data.id}`}>
+          {translate("resources.credit_notes.name", { smart_count: 1 })}{" "}
+          <Link to={`/credit_notes/${data.id}`}>
             <strong>{data.reference}</strong>
           </Link>{" "}
-          {translate("resources.sales_orders.notification.created_invoice", {
+          {translate("resources.invoices.notification.created_credit_note", {
             reference: record.reference,
           })}
         </Alert>
       )}
       <TopToolbar {...rest}>
-        <CreateInvoiceButton
+        <CreateCreditNoteButton
           create={create}
           loading={loading || loadingReference}
         />

@@ -13,7 +13,6 @@ import {
   Datagrid,
   TextField,
   DateField,
-  SelectField,
   NumberField,
   EditButton,
   Pagination,
@@ -40,6 +39,7 @@ import { DetailsAlertSection } from "./sections/DetailsAlertSection";
 import { statuses as invoiceStatuses } from "../../transactions/invoices/data";
 import { InvoicesToolbar } from "./utils/InvoicesToolbar";
 import { Separator } from "../../utils/components/Divider";
+import { ColoredStatusField } from "../components/ColoredStatusField";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -180,7 +180,7 @@ const SalesOrderForm = (props: any) => {
                     <Datagrid>
                       <TextField source="reference" />
                       <DateField source="date" />
-                      <SelectField
+                      <ColoredStatusField
                         // TODO: use chip
                         // https://marmelab.com/react-admin/Fields.html#choice-fields
                         source="status"

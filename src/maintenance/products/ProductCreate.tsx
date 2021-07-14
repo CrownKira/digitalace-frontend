@@ -21,7 +21,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import RichTextInput from "ra-input-rich-text";
 
 import { Product } from "../../types";
-import { incrementReference, validateUnicity } from "../../utils";
+import { getNextReference, validateUnicity } from "../../utils";
 import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 
@@ -54,7 +54,7 @@ export const ProductCreate: FC<CreateProps> = (props) => {
     thumbnail: "",
     reference:
       products && productIds.length > 0
-        ? incrementReference(products[productIds[0]].reference, "P", 4)
+        ? getNextReference(products[productIds[0]].reference, "P", 4)
         : "P-0000",
   });
 

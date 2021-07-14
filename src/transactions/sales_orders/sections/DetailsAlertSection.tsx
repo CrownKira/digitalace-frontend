@@ -13,7 +13,7 @@ export const DetailsAlertSection: FC<Props> = ({ record }) => {
 
   return (
     <div>
-      {record.invoice_set.length === 0 && (
+      {record.invoice_set?.length === 0 && (
         <Alert
           severity="info"
           action={

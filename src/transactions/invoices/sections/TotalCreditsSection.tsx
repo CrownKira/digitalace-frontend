@@ -23,11 +23,6 @@ interface Props {
   totals: Totals;
 }
 
-export interface TotalCredits {
-  total_amount_to_credit: number;
-  balance_due: number;
-}
-
 const TableCell = withStyles({
   root: {
     borderBottom: "none",

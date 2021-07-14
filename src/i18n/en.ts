@@ -15,6 +15,7 @@ import englishMessages from "ra-language-english";
  * - Menu names and menu commands
  * - Palette titles
  * - Tab titles
+ *
  * Sentence Caps:
  * Capitalize only the first letter of the first word, and capitalize only those other words that are normally capitalized in sentences, such as proper nouns.
  * Examples: Working folder. Print to. Use PostScript driver.
@@ -568,6 +569,7 @@ export const customEnglishMessages: TranslationMessages = {
         credits_applied: "Credits",
         record_payment: "Record Payment",
         delivery_order: "Delivery Order",
+        credit_notes: "Credit Notes",
       },
       action: {
         print: "Print",
@@ -578,10 +580,14 @@ export const customEnglishMessages: TranslationMessages = {
         view: "View",
       },
       notification: {
+        // use sentence cap
         select_customer_tip:
           "Remember to select a customer first before applying credits.",
-        amount_to_credit: "Amount to Credit",
+        amount_to_credit: "Amount to credit",
         created_credit_note: "successfully created from %{reference}",
+        no_credit_note: "No Credit Note created so far.",
+        total_credit_notes:
+          "1 Credit Note is associated to this Invoice. |||| %{smart_count} Credit Notes are associated to this Invoice.",
       },
     },
     invoice_items: {

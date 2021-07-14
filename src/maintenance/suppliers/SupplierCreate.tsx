@@ -17,7 +17,7 @@ import { Styles } from "@material-ui/styles/withStyles";
 
 import { SectionTitle, Separator } from "../../utils/components/Divider";
 import { Supplier } from "../../types";
-import { incrementReference, validateUnicity } from "../../utils";
+import { getNextReference, validateUnicity } from "../../utils";
 import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 
@@ -68,7 +68,7 @@ export const SupplierCreate: FC<CreateProps> = (props) => {
     image: "",
     reference:
       suppliers && supplierIds.length > 0
-        ? incrementReference(suppliers[supplierIds[0]].reference, "S", 4)
+        ? getNextReference(suppliers[supplierIds[0]].reference, "S", 4)
         : "S-0000",
   });
 
