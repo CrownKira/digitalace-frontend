@@ -1,1 +1,1 @@
-declare module 'fakerest';
+declare module "fakerest";

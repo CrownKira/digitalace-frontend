@@ -1,6 +1,11 @@
-import { ReduxState, Record, Identifier } from 'react-admin';
+import { ReduxState, Record, Identifier } from "react-admin";
 
-export type ThemeName = 'light' | 'dark';
+export type Memoize = <T extends (...args: any[]) => any>(
+  func: T,
+  resolver?: (...args: any[]) => any
+) => T;
+
+export type ThemeName = "light" | "dark";
 
 export interface AppState extends ReduxState {
   theme: ThemeName;
@@ -124,6 +129,49 @@ export interface Supplier extends Record {
   email: string;
   payables: string;
   image: FileValue;
+}
+
+export interface CreditsApplication extends Record {
+  id: Identifier;
+  invoice: Identifier;
+  credit_note: Identifier;
+  date: Date;
+  amount_to_credit: number;
+}
+
+export interface CreditNote extends Record {
+  reference: string;
+  created_from: string;
+  company: Identifier;
+  company_name: string;
+  date: Date;
+  description: string;
+  payment_date: Date;
+  payment_method: string;
+  payment_note: string;
+  gst_rate: number;
+  discount_rate: number;
+  gst_amount: number;
+  discount_amount: number;
+  net: number;
+  total_amount: number;
+  grand_total: number;
+  status: string;
+  customer: Identifier;
+  salesperson: Identifier;
+  sales_order: Identifier;
+  creditnoteitem_set: CreditNoteItem[];
+  credits_used: number;
+  credits_remaining: number;
+}
+
+export interface CreditNoteItem extends Record {
+  product: Identifier;
+  unit: number;
+  cost: number;
+  quantity: number;
+  unit_price: number;
+  invoice: Identifier;
 }
 
 export interface Invoice extends Record {
@@ -252,7 +300,7 @@ export interface PurchaseOrderItem extends Record {
   purchase_order: Identifier;
 }
 
-export type OrderStatus = 'ordered' | 'delivered' | 'cancelled';
+export type OrderStatus = "ordered" | "delivered" | "cancelled";
 
 export interface Order extends Record {
   status: OrderStatus;
@@ -266,7 +314,7 @@ export interface BasketItem {
   quantity: number;
 }
 
-export type ReviewStatus = 'accepted' | 'pending' | 'rejected';
+export type ReviewStatus = "accepted" | "pending" | "rejected";
 
 export interface Review extends Record {
   date: Date;

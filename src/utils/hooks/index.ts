@@ -1,4 +1,3 @@
-import useOnFailure from './useOnFailure';
-import useValidateUnicity from './useValidateUnicity';
+import { useOnFailure } from "./useOnFailure";
 
-export { useOnFailure, useValidateUnicity };
+export { useOnFailure };

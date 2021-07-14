@@ -1,13 +1,12 @@
-import { FC, useState, useMemo, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import debounce from 'lodash/debounce';
+import React, { FC, useState, useMemo, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
+import debounce from "lodash/debounce";
 import Autocomplete, {
   AutocompleteChangeReason,
   AutocompleteChangeDetails,
-} from '@material-ui/lab/Autocomplete';
+} from "@material-ui/lab/Autocomplete";
 import {
   useInput,
-  TextInputProps,
   useNotify,
   useDataProvider,
   Record,
@@ -17,19 +16,20 @@ import {
   sanitizeInputRestProps,
   linkToRecord,
   LinearProgress,
-} from 'react-admin';
-import EditIcon from '@material-ui/icons/Edit';
-import { IconButton } from '@material-ui/core';
+  ReferenceInputProps,
+} from "react-admin";
+import EditIcon from "@material-ui/icons/Edit";
+import { IconButton } from "@material-ui/core";
 
-// TODO: rewrite
-// TODO: add loading icon
-// TODO: add allowEmpty
+// TODO: write js doc
+// TODO: show top results if empty
+// TODO: add renderOption
 // https://material-ui.com/components/autocomplete/#google-maps-place
-// FIXME: Cannot update a component (`ReferenceInput`) while rendering a different component (`AsyncAutocompleteInput`)
-// https://github.com/marmelab/react-admin/issues/4572
 export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
-  // TextInputProps
-  // use this instead of AutocompleteInputProps since most of them are not needed here
+  /**
+   * TextInputProps
+   * use this instead of AutocompleteInputProps since most of them are not needed here
+   */
   label,
   format,
   helperText,
@@ -37,27 +37,39 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   onFocus,
   options,
   parse,
-  // source and resource: only used for title
+  source, // source and resource: only used for title
   resource,
-  source,
   validate,
-  // ReferenceInputProps
+  /**
+   * ReferenceInputProps
+   */
   filter = {},
-  perPage = 25,
-  sort = { field: 'id', order: 'DESC' },
+  perPage = 5,
+  sort = { field: "id", order: "DESC" },
   reference,
-  // AutocompleteInput props
-  optionText = 'name',
-  optionValue = 'id',
-  // props passed to MUIAutocomplete
-  // override props produced by useInput()
+  /**
+   * AutocompleteInput props
+   */
+  optionText = "name",
+  optionValue = "id",
+  /**
+   * MUIAutocomplete props
+   * override props produced by useInput()
+   */
   className,
   fullWidth,
   InputProps: InputPropsOverride,
-  // custom props
+  /**
+   * custom props
+   */
   queryParamName,
-  onChange: onChangeOverride = () => {},
-  onInputChange: onInputChangeOverride = () => {},
+  onChange: originalOnChangeHandler,
+  onInputChange: onInputChangeOverride,
+  wait = 300, // debounce timeout
+  showEdit = true,
+  showSuggestions = true,
+  suggestionsCount = 5,
+  onInit,
   ...props
 }) => {
   const {
@@ -71,16 +83,23 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     parse,
     resource,
     source,
-    type: 'text',
+    type: "text",
     validate,
     ...props,
   });
 
-  // manage the value here instead of letting useInput do it
-  // the selected value
-  const [valueOverride, setValueOverride] = useState<Record | null>(null);
-  // the input value
-  const [inputValue, setInputValue] = useState('');
+  /**
+   * manage the value here instead of letting useInput do it
+   */
+  const [
+    valueOverride, // selected value
+    setValueOverride,
+  ] = useState<Record | null>(null);
+
+  const [
+    inputValue, // input value
+    setInputValue,
+  ] = useState("");
   const [autocompleteOptions, setAutocompleteOptions] = useState<Record[]>([]);
   const dataProvider = useDataProvider();
   const notify = useNotify();
@@ -99,33 +118,71 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
         async (request: string, callback: (results?: Record[]) => void) => {
           dataProvider
             .getList(reference, {
-              pagination: { page: 1, perPage },
+              pagination: {
+                page: 1,
+                perPage:
+                  !showSuggestions || request ? perPage : suggestionsCount,
+              },
               sort,
               filter: { ...filterToQuery(request), ...filter },
             })
             .then((response) => {
-              response && callback(response.data);
+              if (response) {
+                callback(response.data);
+              }
             })
             .catch((error: Error) => {
-              // TODO: notify more specific error
               notify(
-                'pos.async_autocomplete_input.data_provider_error',
-                'warning'
+                "pos.async_autocomplete_input.data_provider_error",
+                "warning"
               );
             });
         },
-        150
+        wait
       ),
-    [dataProvider, filter, filterToQuery, notify, perPage, reference, sort]
+    [
+      dataProvider,
+      filter,
+      filterToQuery,
+      notify,
+      perPage,
+      reference,
+      showSuggestions,
+      sort,
+      suggestionsCount,
+      wait,
+    ]
   );
 
+  /**
+   * fetch initial value for display of optionText
+   * since input.value will be initialized before valueOverride
+   */
   useEffect(() => {
-    // fetch initial value for display of optionText
-    // since input.value will be initialized before valueOverride
+    // https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
+    let active = true;
+
+    if (!input.value && valueOverride) {
+      // && inputValue
+      /**
+       * clear residues from swapping inputs
+       *
+       * if valueOverride exists, then input.value must exist (see onChange below)
+       * contrapositive: if input.value doesn't exist, valueOverride must not exist
+       */
+      setInputValue("");
+      setValueOverride(null);
+      return;
+    }
+
+    /**
+     * a or b === a or (~a and b)
+     */
     if (
-      inputValue || // presence means value has already been fetched
-      valueOverride || // presence means value has already been fetched
       !input.value || // undefined means initial value from record is undefined
+      (inputValue && // presence means value has already been fetched
+        valueOverride && // presence means value has already been fetched
+        valueOverride[optionValue] === input.value) || // make sure the values are consistent
       isNaN(input.value) // eg. 'hello', {}, etc
     ) {
       return;
@@ -134,19 +191,46 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     dataProvider
       .getOne(reference, { id: input.value })
       .then((response) => {
-        response && setValueOverride(response.data);
+        if (active && response) {
+          const result = response.data;
+
+          setAutocompleteOptions((autocompleteOptions) => [
+            ...autocompleteOptions,
+            result,
+          ]);
+
+          setValueOverride(result);
+          if (onInit) {
+            onInit(result);
+          }
+        }
       })
-      .catch((error: Error) => {
-        notify('pos.async_autocomplete_input.data_provider_error', 'warning');
+      .catch(() => {
+        if (active) {
+          notify("pos.async_autocomplete_input.data_provider_error", "warning");
+        }
       });
-  }, [dataProvider, input.value, inputValue, notify, reference, valueOverride]);
+
+    return () => {
+      active = false;
+    };
+  }, [
+    dataProvider,
+    input.value,
+    inputValue,
+    notify,
+    onInit,
+    optionValue,
+    reference,
+    valueOverride,
+  ]);
 
   useEffect(() => {
     // FIXME: eliminate additional api calls after invoice update
     let active = true;
-    if (inputValue === '') {
+    if (!showSuggestions && inputValue === "") {
       setAutocompleteOptions(valueOverride ? [valueOverride] : []);
-      return undefined;
+      return;
     }
 
     fetch(inputValue, (results?: Record[]) => {
@@ -167,9 +251,11 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     return () => {
       active = false;
     };
-  }, [valueOverride, inputValue, fetch]);
+  }, [valueOverride, inputValue, fetch, showSuggestions]);
 
-  return input.value && !valueOverride ? (
+  // FIXME: temporary blink
+  return input.value &&
+    (!valueOverride || valueOverride[optionValue] !== input.value) ? (
     <LinearProgress />
   ) : (
     <Autocomplete
@@ -179,37 +265,41 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       includeInputInList
       filterSelectedOptions
       value={valueOverride}
-      inputValue={
-        // this inputValue overrides TextField value
-        inputValue
-      }
+      inputValue={inputValue} // overrides TextField value
       onChange={(event, newValue: Record | null, reason, details) => {
+        // set options
         setAutocompleteOptions(
           newValue ? [newValue, ...autocompleteOptions] : autocompleteOptions
         );
-        onChangeOverride(event, newValue, reason, details);
-        onChange(newValue ? newValue[optionValue] : '');
+        // set input.value (registered to the formContext )
+        onChange(newValue ? newValue[optionValue] : "");
+        // set valueOverride
         setValueOverride(newValue);
+        // original onChange handler
+        if (originalOnChangeHandler) {
+          originalOnChangeHandler(event, newValue, reason, details);
+        }
       }}
       onInputChange={(event, newInputValue) => {
-        // merged with TextField onChange
-        // this is invoked before TextField onChange
+        // set inputValue
         setInputValue(newInputValue);
-      }}
+      }} // merged with TextField onChange, invoked before TextField onChange
       className={className}
       fullWidth={fullWidth}
       renderInput={(params) => {
         const { InputProps, ...rest } = params;
 
         return (
+          /**
+           * from TextInput.tsx
+           */
           <ResettableTextField
             {...input}
             onChange={onInputChangeOverride}
             label={
-              label !== '' &&
+              label !== "" &&
               label !== false && (
                 <FieldTitle
-                  // TODO: translate array input source label
                   label={label}
                   source={source}
                   resource={resource}
@@ -220,7 +310,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
             error={!!(touched && (error || submitError))}
             helperText={
               <InputHelperText
-                // qn: why need !! here but not in TextInput source code
+                // TODO: get rid of undefined from boolean | undefined
                 touched={!!touched}
                 error={error || submitError}
                 helperText={helperText}
@@ -231,16 +321,17 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
             {...rest}
             InputProps={{
               ...InputProps,
-              startAdornment: input.value ? (
-                <IconButton
-                  size="small"
-                  color="primary"
-                  component={Link}
-                  to={linkToRecord(`/${reference}`, input.value)}
-                >
-                  <EditIcon />
-                </IconButton>
-              ) : null,
+              startAdornment:
+                showEdit && input.value ? (
+                  <IconButton
+                    size="small"
+                    color="primary"
+                    component={Link}
+                    to={linkToRecord(`/${reference}`, input.value)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                ) : null,
 
               ...InputPropsOverride,
             }}
@@ -252,34 +343,39 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
 };
 
 export interface AsyncAutocompleteInputProps
-  extends Omit<TextInputProps, 'onChange'> {
+  extends Omit<ReferenceInputProps, "children"> {
   filter?: any;
-  queryParamName?: string;
-  perPage?: number;
-  reference: string;
   optionText: any;
   optionValue: any;
-  onChange?:
-    | ((
-        event: React.ChangeEvent<{}>,
-        value: Record | null,
-        reason: AutocompleteChangeReason,
-        details?: AutocompleteChangeDetails<Record> | undefined
-      ) => void)
-    | undefined;
-  [key: string]: any;
+  queryParamName?: string;
+  onChange?: (
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    event: React.ChangeEvent<{}>,
+    value: Record | null,
+    reason: AutocompleteChangeReason,
+    details?: AutocompleteChangeDetails<Record> | undefined
+  ) => void;
+
   onInputChange?: (event: any) => void;
+  wait?: number;
+  showSuggestions?: boolean;
+  suggestionsCount?: number;
+  onInit?: (value: Record | null) => void;
 }
 
 AsyncAutocompleteInput.defaultProps = {
   options: {},
   filter: {},
-  perPage: 25,
-  sort: { field: 'id', order: 'DESC' },
-  optionText: 'name',
-  optionValue: 'id',
+  perPage: 5,
+  sort: { field: "id", order: "DESC" },
+  optionText: "name",
+  optionValue: "id",
   onChange: () => {},
   onInputChange: () => {},
+  wait: 300,
+  showEdit: true,
+  showSuggestions: true,
+  suggestionsCount: 5,
 };
 
 /*

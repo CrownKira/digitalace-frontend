@@ -1,57 +1,68 @@
-import { FC, CSSProperties } from 'react';
-import { useMediaQuery, Theme } from '@material-ui/core';
+import React, { FC, CSSProperties } from "react";
+import { useMediaQuery, Theme } from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
-import Welcome from './Welcome';
+import { Welcome } from "./Welcome";
 
 const styles = {
-  flex: { display: 'flex' },
-  flexColumn: { display: 'flex', flexDirection: 'column' },
-  leftCol: { flex: 1, marginRight: '0.5em' },
-  rightCol: { flex: 1, marginLeft: '0.5em' },
-  singleCol: { marginTop: '1em', marginBottom: '1em' },
+  flex: { display: "flex" },
+  flexColumn: { display: "flex", flexDirection: "column" },
+  leftCol: { flex: 1, marginRight: "0.5em" },
+  rightCol: { flex: 1, marginLeft: "0.5em" },
+  singleCol: { marginTop: "1em", marginBottom: "1em" },
 };
 
-// interface State {}
-
-// const Spacer = () => <span style={{ width: '1em' }} />;
-// const VerticalSpacer = () => <span style={{ height: '1em' }} />;
-
-const Dashboard: FC = () => {
-  // const [state, setState] = useState<State>({});
-  // const version = useVersion();
-  // const dataProvider = useDataProvider();
-  const isXSmall = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down('xs')
+const ProgressAlert: FC = () => {
+  return (
+    <Alert severity="warning">
+      <AlertTitle>Work in Progress</AlertTitle>
+      Here is a non-exhaustive and nonchronological list of features we will be
+      working on:
+      <ul>
+        <li>Inventory Reports</li>
+        <li>PDF/Print</li>
+        <li>Import Data</li>
+        <li>Email Verification on Account Creation</li>
+        <li>Delivery Order System</li>
+        <li>Data Visualization</li>
+        <li>Receives</li>
+        <li>Purchase Orders</li>
+        <li>Inventory adjustments</li>
+        <li>Payroll management</li>
+        <li>Attendance management</li>
+      </ul>
+      Want to suggest a feature? Feel free to drop us an email at{" "}
+      <a href="mailto:t.karwi@yahoo.com">t.karwi@yahoo.com</a>
+    </Alert>
   );
-  const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
+};
 
-  // const fetchOrders = useCallback(async () => {}, [dataProvider]);
-  // const fetchReviews = useCallback(async () => {}, [dataProvider]);
+export const Dashboard: FC = () => {
+  const isXSmall = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("xs")
+  );
+  const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
 
-  // useEffect(() => {
-  //   // fetchOrders();
-  //   // fetchReviews();
-  // }, [version]);
-
-  // const {} = state;
-  // qn: why style.flex doesn't need CSSProperties
   return isXSmall ? (
     <div>
+      <ProgressAlert />
       <div style={styles.flexColumn as CSSProperties}>
         <Welcome />
       </div>
     </div>
   ) : isSmall ? (
-    <div style={styles.flexColumn as CSSProperties}>
-      <div style={styles.flex}>
-        <Welcome />
+    <div>
+      <ProgressAlert />
+      <div style={styles.flexColumn as CSSProperties}>
+        <div style={styles.flex}>
+          <Welcome />
+        </div>
       </div>
     </div>
   ) : (
     <>
+      <ProgressAlert />
       <Welcome />
     </>
   );
 };
-
-export default Dashboard;
