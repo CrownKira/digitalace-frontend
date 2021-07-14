@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  totalCredits: TotalCredits;
+  creditsTotals: TotalCredits;
   totals: Totals;
 }
 
@@ -43,8 +43,8 @@ const Paper = withStyles({
 })(MuiPaper);
 
 export const TotalCreditsSection: FC<Props> = ({
-  totalCredits: { total_amount_to_credit, balance_due },
-  totals,
+  creditsTotals: { total_amount_to_credit, balance_due: balance_due2 },
+  totals: { balance_due },
 }) => {
   const classes = useStyles();
 
@@ -54,7 +54,7 @@ export const TotalCreditsSection: FC<Props> = ({
         <TableBody>
           <TableRow hover>
             <TableCell>Invoice Balance</TableCell>
-            <TableCell align="right">{ccyFormat(totals.balance_due)}</TableCell>
+            <TableCell align="right">{ccyFormat(balance_due)}</TableCell>
           </TableRow>
           <TableRow hover>
             <TableCell>Amount to Credit</TableCell>
@@ -70,7 +70,7 @@ export const TotalCreditsSection: FC<Props> = ({
             </TableCell>
             <TableCell align="right">
               <Typography variant="h6" gutterBottom>
-                {ccyFormat(balance_due)}
+                {ccyFormat(balance_due2)}
               </Typography>
             </TableCell>
           </TableRow>
