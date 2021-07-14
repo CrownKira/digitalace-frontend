@@ -153,7 +153,7 @@ const CreditNoteForm = (props: any) => {
     reference,
     credit_note: null,
     date: new Date(),
-    status: "UPD",
+    status: "DFT",
     total_amount: "0.00",
     discount_rate: userConfig?.discount_rate,
     discount_amount: "0.00",
@@ -161,6 +161,7 @@ const CreditNoteForm = (props: any) => {
     gst_rate: userConfig?.gst_rate,
     gst_amount: "0.00",
     grand_total: "0.00",
+    refund: "0.00",
   });
 
   return loadingReference || loadingUserConfig ? (

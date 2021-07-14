@@ -144,7 +144,7 @@ const SalesOrderForm = (props: any) => {
     reference,
     sales_order: null,
     date: new Date(),
-    status: "UPD",
+    status: "DFT",
     total_amount: "0.00",
     discount_rate: userConfig?.discount_rate,
     discount_amount: "0.00",
