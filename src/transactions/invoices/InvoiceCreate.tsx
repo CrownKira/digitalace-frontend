@@ -20,7 +20,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { AnyObject } from "react-final-form";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { InvoiceItem } from "../../types";
+import { CreditsApplication, InvoiceItem } from "../../types";
 import { dateParser, validateUnicity, toFixedNumber } from "../../utils";
 import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
@@ -137,6 +137,22 @@ export const getTotals = (
   };
 };
 
+export const getCreditsTotals = (formData: any, totals: Totals) => {
+  const total_amount_to_credit = formData.creditsapplication_set
+    ? (formData.creditsapplication_set as CreditsApplication[])
+        .map((lineItem) => toFixedNumber(lineItem.amount_to_credit, 2))
+        .reduce((x: number, y: number) => x + y, 0)
+    : 0;
+
+  const balance_due2 =
+    toFixedNumber(totals.balance_due, 2) - total_amount_to_credit;
+
+  return {
+    total_amount_to_credit,
+    balance_due2,
+  };
+};
+
 const InvoiceForm = (props: any) => {
   const { status } = props.record;
   const [isPaid, setIsPaid] = useState(status === "PD");
@@ -151,7 +167,8 @@ const InvoiceForm = (props: any) => {
     grand_total: 0,
     balance_due: 0,
     credits_applied: 0,
-    amount_to_credit: 0,
+    total_amount_to_credit: 0,
+    balance_due2: 0,
   });
 
   const { reference, loading: loadingReference } = useGetIncrementedReference({
@@ -168,10 +185,17 @@ const InvoiceForm = (props: any) => {
   });
 
   const updateTotals = (formData: any) => {
-    // TODO: better way without passing formData?
+    // formData needed since this function is not within <Form>
     setTotals((totals) => ({ ...totals, ...getTotals(formData) }));
+    updateCreditsTotals(formData);
   };
 
+  const updateCreditsTotals = (formData: any) => {
+    setTotals((totals) => ({
+      ...totals,
+      ...getCreditsTotals(formData, totals),
+    }));
+  };
   const onFailure = useOnFailure();
 
   const postDefaultValue = () => ({
@@ -288,8 +312,8 @@ const InvoiceForm = (props: any) => {
                   <Separator />
                   <ApplyCreditsSection
                     isOpen={IsApplyCreditsOpen}
-                    setTotals={setTotals}
                     totals={totals}
+                    updateCreditsTotals={updateCreditsTotals}
                     record={formProps.record}
                   />
                 </FormTabWithoutLayout>
@@ -329,5 +353,6 @@ export interface Totals {
   grand_total: number;
   balance_due: number;
   credits_applied: number;
-  amount_to_credit: number;
+  total_amount_to_credit: number;
+  balance_due2: number;
 }

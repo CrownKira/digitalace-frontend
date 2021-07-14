@@ -28,6 +28,7 @@ import {
   Wrapper,
   validateForm,
   getTotals,
+  getCreditsTotals,
 } from "./InvoiceCreate";
 import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
 import { PdfButton } from "../components/PdfButton";
@@ -98,7 +99,7 @@ const InvoiceForm = (props: any) => {
       grand_total = 0,
       balance_due = 0,
       credits_applied = 0,
-      amount_to_credit = 0,
+      total_amount_to_credit = 0,
     } = props.record;
 
     return {
@@ -109,7 +110,8 @@ const InvoiceForm = (props: any) => {
       grand_total,
       balance_due,
       credits_applied,
-      amount_to_credit,
+      total_amount_to_credit,
+      balance_due2: balance_due,
     };
   }, [props.record]);
 
@@ -119,6 +121,14 @@ const InvoiceForm = (props: any) => {
   const updateTotals = (formData: any) => {
     // formData needed since this function is not within <Form>
     setTotals((totals) => ({ ...totals, ...getTotals(formData) }));
+    updateCreditsTotals(formData);
+  };
+
+  const updateCreditsTotals = (formData: any) => {
+    setTotals((totals) => ({
+      ...totals,
+      ...getCreditsTotals(formData, totals),
+    }));
   };
 
   useEffect(() => {
@@ -258,8 +268,8 @@ const InvoiceForm = (props: any) => {
                   <Separator />
                   <ApplyCreditsSection
                     isOpen={IsApplyCreditsOpen}
-                    setTotals={setTotals}
                     totals={totals}
+                    updateCreditsTotals={updateCreditsTotals}
                     record={formProps.record}
                   />
                 </FormTabWithoutLayout>

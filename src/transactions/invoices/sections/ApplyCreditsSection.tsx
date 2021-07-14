@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useCallback } from "react";
+import React, { FC } from "react";
 import {
   FormDataConsumer,
   ArrayInput,
@@ -9,14 +9,13 @@ import {
 } from "react-admin";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useForm, useFormState } from "react-final-form";
+import { useForm } from "react-final-form";
 
 import { TotalCreditsSection } from "./TotalCreditsSection";
 import { validateCredits } from "../InvoiceCreate";
 import { LineItemsIterator } from "../../../utils/components/LineItemsIterator";
 import { SectionTitle } from "../../../utils/components/Divider";
-import { ccyFormat, toFixedNumber } from "../../../utils";
-import { CreditsApplication } from "../../../types";
+import { ccyFormat } from "../../../utils";
 import { Totals } from "../InvoiceCreate";
 
 const useStyles = makeStyles({
@@ -30,75 +29,31 @@ const useStyles = makeStyles({
 
 interface Props {
   isOpen: boolean;
-  setTotals: React.Dispatch<React.SetStateAction<Totals>>;
-  totals: Totals;
   record: Record;
+  totals: Totals;
+  updateCreditsTotals: (formData: any) => void;
 }
 
 // TODO: move to dialog form
 const _ApplyCreditsSection: FC<Props> = ({
   isOpen,
-  setTotals,
   record,
   totals,
+  updateCreditsTotals,
 }) => {
   const classes = useStyles();
-  const { values } = useFormState();
   const form = useForm();
 
-  const [creditsTotals, setCreditsTotals] = useState({
-    total_amount_to_credit: 0,
-    balance_due: totals.balance_due,
-  });
-
-  const updateTotalCredits = useCallback(
-    (
-      // formData: any,
-      scopedFormData?: any,
-      getSource?: (source: string) => string
-    ) => {
-      const total_amount_to_credit = values.creditsapplication_set
-        ? (values.creditsapplication_set as CreditsApplication[])
-            .map((lineItem) => toFixedNumber(lineItem.amount_to_credit, 2))
-            .reduce((x: number, y: number) => x + y, 0)
-        : 0;
-
-      const balance_due =
-        toFixedNumber(totals.balance_due, 2) - total_amount_to_credit;
-
-      if (scopedFormData && getSource) {
-        form.change(
-          getSource("amount_to_credit"),
-          ccyFormat(scopedFormData.amount_to_credit)
-        );
-      }
-
-      setTotals((totals) => ({
-        ...totals,
-        amount_to_credit: total_amount_to_credit,
-      }));
-
-      setCreditsTotals({ total_amount_to_credit, balance_due });
-    },
-    [form, setTotals, totals.balance_due, values.creditsapplication_set]
-  );
-
-  useEffect(() => {
-    // reset totals when toggle isOpen
-    if (!isOpen) {
-      setTotals((totals) => ({
-        ...totals,
-        amount_to_credit: 0,
-      }));
-
-      setCreditsTotals({
-        total_amount_to_credit: 0,
-        balance_due: totals.balance_due,
-      });
-    } else {
-      updateTotalCredits();
+  const handleOnBlur = (formData: any, scopedFormData: any, getSource: any) => {
+    if (scopedFormData && getSource) {
+      form.change(
+        getSource("amount_to_credit"),
+        ccyFormat(scopedFormData.amount_to_credit)
+      );
     }
-  }, [setTotals, totals.balance_due, isOpen, updateTotalCredits]);
+
+    updateCreditsTotals(formData);
+  };
 
   return isOpen ? (
     <>
@@ -155,7 +110,7 @@ const _ApplyCreditsSection: FC<Props> = ({
             disabled
           />
           <FormDataConsumer>
-            {({ scopedFormData, getSource }) =>
+            {({ formData, scopedFormData, getSource }) =>
               getSource ? (
                 <NumberInput
                   // FIXME: can't add default value
@@ -165,7 +120,9 @@ const _ApplyCreditsSection: FC<Props> = ({
                   label=""
                   className={classes.lineItemInput}
                   validate={validateCredits(scopedFormData)}
-                  onBlur={() => updateTotalCredits(scopedFormData, getSource)}
+                  onBlur={() =>
+                    handleOnBlur(formData, scopedFormData, getSource)
+                  }
                 />
               ) : null
             }
@@ -175,7 +132,7 @@ const _ApplyCreditsSection: FC<Props> = ({
       <Box display={{ sm: "block", md: "flex" }}>
         <Box flex={3} mr={{ sm: 0, md: "0.5em" }}></Box>
         <Box flex={2} mr={{ sm: 0, md: "0.5em" }}>
-          <TotalCreditsSection creditsTotals={creditsTotals} totals={totals} />
+          <TotalCreditsSection totals={totals} />
         </Box>
       </Box>
     </>

@@ -46,10 +46,10 @@ export const DetailsAlertSection: FC<Props> = ({
         </Alert>
       )}
       <Separator />
-      {totals.amount_to_credit > 0 && IsApplyCreditsOpen && (
+      {totals.total_amount_to_credit > 0 && IsApplyCreditsOpen && (
         <Alert severity="warning">
           {translate("resources.invoices.notification.amount_to_credit")}:{" "}
-          <strong>{ccyFormat(totals.amount_to_credit, true)}</strong>
+          <strong>{ccyFormat(totals.total_amount_to_credit, true)}</strong>
         </Alert>
       )}
     </div>

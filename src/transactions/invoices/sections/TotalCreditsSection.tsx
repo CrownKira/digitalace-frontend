@@ -20,7 +20,6 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  creditsTotals: TotalCredits;
   totals: Totals;
 }
 
@@ -43,8 +42,7 @@ const Paper = withStyles({
 })(MuiPaper);
 
 export const TotalCreditsSection: FC<Props> = ({
-  creditsTotals: { total_amount_to_credit, balance_due: balance_due2 },
-  totals: { balance_due },
+  totals: { balance_due, total_amount_to_credit, balance_due2 },
 }) => {
   const classes = useStyles();
 
