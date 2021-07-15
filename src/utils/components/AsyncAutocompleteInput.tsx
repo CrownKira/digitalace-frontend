@@ -51,7 +51,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
    * AutocompleteInput props
    */
   optionText = "name",
-  optionValue = "id",
+  optionValue = "id", // this value is used to fetch data
   /**
    * MUIAutocomplete props
    * override props produced by useInput()
@@ -70,6 +70,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   showSuggestions = true,
   suggestionsCount = 5,
   onInit,
+  cache,
   ...props
 }) => {
   const {
@@ -153,6 +154,59 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     ]
   );
 
+  const valueIsConsistent = useCallback(() => {
+    return !(
+      (
+        input.value &&
+        autocompleteValue &&
+        autocompleteValue[optionValue] !== input.value
+      ) // unequal values indicate components being swapped
+    );
+  }, [autocompleteValue, input.value, optionValue]);
+
+  const dataIsFetched = useCallback(() => {
+    return !(
+      (input.value && !autocompleteValue) // autocompleteValue not set then data is not fetched
+    );
+  }, [autocompleteValue, input.value]);
+  const valueIsCorrupted = useCallback(() => {
+    /**
+     * if autocompleteValue exists, then input.value must exist (see onChange below)
+     * contrapositive: if input.value doesn't exist, autocompleteValue must not exist
+     * a -> b
+     * ~b -> ~a
+     * not corrupted: b or ~a
+     * corrupted: ~b and a
+     */
+    return !input.value && autocompleteValue;
+  }, [autocompleteValue, input.value]);
+  const fetchFromCache = useCallback(() => {
+    if (input.value === undefined) {
+      return;
+    }
+
+    if (cache) {
+      const option = cache.get(input.value);
+      if (option) {
+        setAutocompleteOptions((autocompleteOptions) => [
+          ...autocompleteOptions,
+          option,
+        ]);
+
+        setInputValue(option[optionText]);
+        setAutocompleteValue(option);
+      }
+    }
+  }, [cache, input.value, optionText]);
+  const pushToCache = useCallback(
+    (option: Record | null) => {
+      if (option && cache) {
+        cache.set(option[optionValue], option);
+      }
+    },
+    [cache, optionValue]
+  );
+
   /**
    * fetch initial value for display of optionText
    * since input.value will be initialized before autocompleteValue
@@ -161,31 +215,26 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
     // https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
     let active = true;
 
-    if (!input.value && autocompleteValue) {
-      // && inputValue
-      /**
-       * clear residues from swapping inputs
-       *
-       * if autocompleteValue exists, then input.value must exist (see onChange below)
-       * contrapositive: if input.value doesn't exist, autocompleteValue must not exist
-       */
+    if (valueIsCorrupted()) {
+      // reset if corrupted
+      // may be caused by dnd
       setInputValue("");
       setAutocompleteValue(null);
       return;
     }
 
-    /**
-     * a or b === a or (~a and b)
-     */
-    if (
-      !input.value || // undefined means initial value from record is undefined
-      (inputValue && // presence means value has already been fetched
-        autocompleteValue && // presence means value has already been fetched
-        autocompleteValue[optionValue] === input.value) || // make sure the values are consistent
-      isNaN(input.value) // eg. 'hello', {}, etc
-    ) {
+    if (!valueIsConsistent()) {
+      if (cache) {
+        fetchFromCache();
+        return;
+      }
+    }
+
+    if (dataIsFetched()) {
       return;
     }
+
+    fetchFromCache(); // fetch from cache first to eliminate blink
 
     dataProvider
       .getOne(reference, { id: input.value })
@@ -199,6 +248,8 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
           ]);
 
           setAutocompleteValue(result);
+          pushToCache(result);
+
           if (onInit) {
             onInit(result);
           }
@@ -214,14 +265,17 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       active = false;
     };
   }, [
+    cache,
+    dataIsFetched,
     dataProvider,
+    fetchFromCache,
     input.value,
-    inputValue,
     notify,
     onInit,
-    optionValue,
+    pushToCache,
     reference,
-    autocompleteValue,
+    valueIsConsistent,
+    valueIsCorrupted,
   ]);
 
   useEffect(() => {
@@ -253,8 +307,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   }, [autocompleteValue, inputValue, fetch, showSuggestions]);
 
   // FIXME: temporary blink
-  return input.value &&
-    (!autocompleteValue || autocompleteValue[optionValue] !== input.value) ? (
+  return !(dataIsFetched() && valueIsConsistent()) ? (
     <LinearProgress />
   ) : (
     <Autocomplete
@@ -274,6 +327,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
         onChange(newValue ? newValue[optionValue] : "");
         // set autocompleteValue
         setAutocompleteValue(newValue);
+        pushToCache(newValue);
         // original onChange handler
         if (originalOnChangeHandler) {
           originalOnChangeHandler(event, newValue, reason, details);
@@ -360,6 +414,7 @@ export interface AsyncAutocompleteInputProps
   showSuggestions?: boolean;
   suggestionsCount?: number;
   onInit?: (value: Record | null) => void;
+  cache?: Map<number, Record>;
 }
 
 AsyncAutocompleteInput.defaultProps = {

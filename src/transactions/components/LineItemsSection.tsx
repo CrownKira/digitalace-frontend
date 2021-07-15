@@ -1,9 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, useRef } from "react";
 import {
   NumberInput,
   TextInput,
   ArrayInput,
   FormDataConsumer,
+  Record,
 } from "react-admin";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-final-form";
@@ -36,6 +37,7 @@ export const LineItemsSection: FC<Props> = ({
 }) => {
   const classes = useStyles();
   const form = useForm();
+  const cache = useRef(new Map<number, Record>());
 
   const handleOnBlur = (
     formData: any,
@@ -74,6 +76,7 @@ export const LineItemsSection: FC<Props> = ({
                 source={getSource("product")}
                 fullWidth
                 showSuggestions={false}
+                cache={cache.current}
                 onChange={(event, newValue) => {
                   if (newValue) {
                     form.batch(() => {
