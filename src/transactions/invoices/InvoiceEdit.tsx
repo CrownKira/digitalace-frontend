@@ -18,9 +18,13 @@ import {
   useNotify,
   useRefresh,
   Record,
+  TopToolbar,
+  ListButton,
+  EditActionsProps,
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import ChevronLeft from "@material-ui/icons/ChevronLeft";
 
 import { useOnFailure } from "../../utils/hooks";
 import {
@@ -55,9 +59,23 @@ const useStyles = makeStyles({
   },
 });
 
+const PostEditActions: FC<EditActionsProps> = ({ basePath }) => (
+  // https://github.com/marmelab/react-admin/issues/2741
+  <TopToolbar>
+    <ListButton basePath={basePath} label="Back" icon={<ChevronLeft />} />
+    <PdfButton />
+    <PrintButton />
+  </TopToolbar>
+);
+
 export const InvoiceEdit: FC<EditProps> = (props) => {
   return (
-    <Edit component="div" mutationMode="pessimistic" {...props}>
+    <Edit
+      actions={<PostEditActions />}
+      component="div"
+      mutationMode="pessimistic"
+      {...props}
+    >
       <InvoiceForm />
     </Edit>
   );
@@ -176,10 +194,6 @@ const InvoiceForm = (props: any) => {
                       onFailure={onFailure}
                       onSuccess={onSuccess}
                     />
-                    <PdfButton
-                    // TODO: just use normal button
-                    />
-                    <PrintButton />
                     {formProps.record && formProps.record.id !== undefined && (
                       <DeleteButton
                         // props from Toolbar.tsx

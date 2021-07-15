@@ -10,15 +10,11 @@ import {
   useNotify,
   useRefresh,
   Record,
-  Datagrid,
-  TextField,
-  DateField,
-  NumberField,
-  EditButton,
   Pagination,
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import ChevronLeft from "@material-ui/icons/ChevronLeft";
 
 import { useOnFailure } from "../../utils/hooks";
 import {
@@ -27,6 +23,9 @@ import {
   Wrapper,
   validateForm,
   getTotals,
+  EditActionsProps,
+  TopToolbar,
+  ListButton,
 } from "./SalesOrderCreate";
 import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
 import { ReferenceManyFieldWithActions } from "../../utils/components/ReferenceManyFieldWithActions";
@@ -48,9 +47,23 @@ const useStyles = makeStyles({
   },
 });
 
+const PostEditActions: FC<EditActionsProps> = ({ basePath }) => (
+  // https://github.com/marmelab/react-admin/issues/2741
+  <TopToolbar>
+    <ListButton basePath={basePath} label="Back" icon={<ChevronLeft />} />
+    <PdfButton />
+    <PrintButton />
+  </TopToolbar>
+);
+
 export const SalesOrderEdit: FC<EditProps> = (props) => {
   return (
-    <Edit component="div" mutationMode="pessimistic" {...props}>
+    <Edit
+      actions={<PostEditActions />}
+      component="div"
+      mutationMode="pessimistic"
+      {...props}
+    >
       <SalesOrderForm />
     </Edit>
   );

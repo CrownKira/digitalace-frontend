@@ -43,7 +43,7 @@ export const CreditNoteShow = (props: any) => {
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h6" gutterBottom align="right">
-              CreditNote {record.reference}
+              Credit Note {record.reference}
             </Typography>
           </Grid>
         </Grid>
@@ -73,7 +73,7 @@ export const CreditNoteShow = (props: any) => {
           </Grid>
           <Grid item xs={5}>
             <Typography variant="h6" gutterBottom align="center">
-              Sales Order
+              {/* Sales Order */}
             </Typography>
             <TextField
               source="credit_note"

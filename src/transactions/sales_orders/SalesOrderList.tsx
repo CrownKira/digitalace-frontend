@@ -22,6 +22,7 @@ import { AddressField } from "../../maintenance/customers/AddressField";
 import { SalesOrderShow } from "./SalesOrderShow";
 import { statuses } from "./data";
 import { ColoredStatusField } from "../components/ColoredStatusField";
+import { ListActionsWithImport } from "../../utils/components/ListActionsWithImport";
 
 const ListFilters = (props: Omit<FilterProps, "children">) => (
   <Filter {...props}>
@@ -56,6 +57,7 @@ export const SalesOrderList: FC<ListProps> = (props) => {
       perPage={25}
       sort={{ field: "date", order: "desc" }}
       bulkActionButtons={<SalesOrderBulkActionButtons />}
+      actions={<ListActionsWithImport />}
       {...props}
     >
       <Datagrid rowClick="edit" expand={<SalesOrderShow />}>

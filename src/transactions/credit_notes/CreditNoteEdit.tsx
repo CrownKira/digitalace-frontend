@@ -11,14 +11,13 @@ import {
   useRefresh,
   Record,
   Pagination,
-  Datagrid,
-  DateField,
-  ReferenceField,
-  TextField,
-  NumberField,
+  EditActionsProps,
+  TopToolbar,
+  ListButton,
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import ChevronLeft from "@material-ui/icons/ChevronLeft";
 
 import { useOnFailure } from "../../utils/hooks";
 import {
@@ -47,9 +46,22 @@ const useStyles = makeStyles({
   },
 });
 
+const PostEditActions: FC<EditActionsProps> = ({ basePath }) => (
+  <TopToolbar>
+    <ListButton basePath={basePath} label="Back" icon={<ChevronLeft />} />
+    <PdfButton />
+    <PrintButton />
+  </TopToolbar>
+);
+
 export const CreditNoteEdit: FC<EditProps> = (props) => {
   return (
-    <Edit component="div" mutationMode="pessimistic" {...props}>
+    <Edit
+      actions={<PostEditActions />}
+      component="div"
+      mutationMode="pessimistic"
+      {...props}
+    >
       <CreditNoteForm />
     </Edit>
   );

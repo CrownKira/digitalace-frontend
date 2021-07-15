@@ -64,6 +64,10 @@ export const customEnglishMessages: TranslationMessages = {
     notification: {
       tip: "Tip",
     },
+    action: {
+      pdf: "PDF",
+      print: "Print",
+    },
     // components
     async_autocomplete_input: {
       data_provider_error:

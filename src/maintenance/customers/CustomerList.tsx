@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import {
   TextField,
   EmailField,
@@ -16,7 +16,7 @@ import { CustomerLinkField } from "./CustomerLinkField";
 import { ColoredNumberField } from "./ColoredNumberField";
 import { MobileGrid } from "./MobileGrid";
 import { Aside as CustomerListAside } from "./CustomerListAside";
-import { ReactElement } from "react";
+import { ListActionsWithImport } from "../../utils/components/ListActionsWithImport";
 
 const CustomerFilter = (props: Omit<FilterProps, "children">) => (
   <Filter {...props}>
@@ -40,6 +40,7 @@ export const CustomerList = (props: ListProps): ReactElement => {
       sort={{ field: "last_seen", order: "DESC" }}
       perPage={25}
       aside={<CustomerListAside />}
+      actions={<ListActionsWithImport />}
       {...props}
     >
       {isXsmall ? (

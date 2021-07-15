@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import React, { FC, ReactElement, ReactNode } from "react";
-import PropTypes from "prop-types";
-import { Record } from "ra-core";
-import { FormTabHeader } from "react-admin";
+import { FormTabHeader, Record } from "react-admin";
 
 const hiddenStyle = { display: "none" };
 
 export const FormTabWithoutLayout: FC<FormTabProps> = ({
-  basePath,
+  // basePath,
   className,
   classes,
   contentClassName,
@@ -16,11 +14,11 @@ export const FormTabWithoutLayout: FC<FormTabProps> = ({
   icon,
   intent,
   label,
-  margin,
-  path,
-  record,
-  resource,
-  variant,
+  // margin,
+  // path,
+  // record,
+  // resource,
+  // variant,
   value,
   ...rest
 }) => {
@@ -56,24 +54,6 @@ export const FormTabWithoutLayout: FC<FormTabProps> = ({
   );
 
   return intent === "header" ? renderHeader() : renderContent();
-};
-
-FormTabWithoutLayout.propTypes = {
-  basePath: PropTypes.string,
-  className: PropTypes.string,
-  contentClassName: PropTypes.string,
-  children: PropTypes.node,
-  intent: PropTypes.oneOf(["header", "content"]),
-  hidden: PropTypes.bool,
-  icon: PropTypes.element,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  margin: PropTypes.oneOf(["none", "dense", "normal"]),
-  path: PropTypes.string,
-  // @ts-ignore
-  record: PropTypes.object,
-  resource: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  variant: PropTypes.oneOf(["standard", "outlined", "filled"]),
 };
 
 export interface FormTabProps {

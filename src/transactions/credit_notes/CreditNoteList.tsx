@@ -22,6 +22,7 @@ import { AddressField } from "../../maintenance/customers/AddressField";
 import { CreditNoteShow } from "./CreditNoteShow";
 import { statuses } from "./data";
 import { ColoredStatusField } from "../components/ColoredStatusField";
+import { ListActionsWithImport } from "../../utils/components/ListActionsWithImport";
 
 const ListFilters = (props: Omit<FilterProps, "children">) => (
   <Filter {...props}>
@@ -56,6 +57,7 @@ export const CreditNoteList: FC<ListProps> = (props) => {
       perPage={25}
       sort={{ field: "date", order: "desc" }}
       bulkActionButtons={<CreditNoteBulkActionButtons />}
+      actions={<ListActionsWithImport />}
       {...props}
     >
       <Datagrid rowClick="edit" expand={<CreditNoteShow />}>

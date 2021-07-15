@@ -74,6 +74,7 @@ export const DepartmentEdit: FC<EditProps> = (props) => {
               reference="employees"
               source="user_set"
               suggestionLimit={5}
+              fullWidth
             >
               <AutocompleteArrayInput optionText="name" />
             </ReferenceArrayInput>

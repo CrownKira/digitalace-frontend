@@ -43,7 +43,7 @@ export const SalesOrderShow = (props: any) => {
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h6" gutterBottom align="right">
-              SalesOrder {record.reference}
+              Sales Order {record.reference}
             </Typography>
           </Grid>
         </Grid>
@@ -73,7 +73,7 @@ export const SalesOrderShow = (props: any) => {
           </Grid>
           <Grid item xs={5}>
             <Typography variant="h6" gutterBottom align="center">
-              Sales Order
+              {/* Sales Order */}
             </Typography>
             <TextField
               source="sales_order"
