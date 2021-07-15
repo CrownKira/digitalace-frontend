@@ -2,9 +2,9 @@ import React, { FC } from "react";
 import inflection from "inflection";
 import { Card as MuiCard, CardContent } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import DirectionsWalkIcon from "@material-ui/icons/DirectionsWalk";
-import Domain from "@material-ui/icons/Domain";
-import WorkOutline from "@material-ui/icons/WorkOutline";
+import DirectionsWalkIcon from "@material-ui/icons/DirectionsWalkTwoTone";
+import Domain from "@material-ui/icons/DomainTwoTone";
+import WorkTwoTone from "@material-ui/icons/WorkTwoTone";
 import {
   FilterList,
   FilterLiveSearch,
@@ -67,7 +67,7 @@ export const Aside: FC = () => {
         </FilterList>
         <FilterList
           label="resources.employees.filters.designation"
-          icon={<WorkOutline />}
+          icon={<WorkTwoTone />}
         >
           {designationIds &&
             designations &&

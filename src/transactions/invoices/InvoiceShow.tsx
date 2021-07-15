@@ -75,12 +75,20 @@ export const InvoiceShow = (props: any) => {
             <Typography variant="h6" gutterBottom align="center">
               Sales Order
             </Typography>
-            <TextField
+            <ReferenceField
+              reference="sales_orders"
+              resource="sales_orders"
               source="sales_order"
-              align="center"
-              component="p"
-              gutterBottom
-            />
+              basePath="/sales_orders"
+              record={record}
+            >
+              <TextField
+                source="reference"
+                align="center"
+                component="p"
+                gutterBottom
+              />
+            </ReferenceField>
           </Grid>
         </Grid>
         <div className={classes.invoices}>

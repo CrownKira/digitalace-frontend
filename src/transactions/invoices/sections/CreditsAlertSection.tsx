@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Alert from "@material-ui/lab/Alert";
+import { Alert } from "@material-ui/lab";
 import { useTranslate } from "react-admin";
 import { Fade } from "@material-ui/core";
 

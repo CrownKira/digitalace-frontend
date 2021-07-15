@@ -1,4 +1,4 @@
-import CustomerIcon from "@material-ui/icons/People";
+import CustomerIcon from "@material-ui/icons/PeopleTwoTone";
 
 import { CustomerList } from "./CustomerList";
 import { CustomerCreate } from "./CustomerCreate";

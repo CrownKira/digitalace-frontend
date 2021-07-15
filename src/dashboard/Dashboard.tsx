@@ -1,5 +1,5 @@
 import React, { FC, CSSProperties } from "react";
-import { useMediaQuery, Theme } from "@material-ui/core";
+import { useMediaQuery, Theme, Link } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
 
 import { Welcome } from "./Welcome";
@@ -12,11 +12,14 @@ const styles = {
   singleCol: { marginTop: "1em", marginBottom: "1em" },
 };
 
+const stopPropagation = (e: any) => e.stopPropagation();
+const email = "t.karwi@yahoo.com";
+
 const ProgressAlert: FC = () => {
   return (
     <Alert severity="warning">
       <AlertTitle>Work in Progress</AlertTitle>
-      Here is a non-exhaustive and nonchronological list of features we will be
+      Here is a non-exhaustive and nonchronological list of features we are
       working on:
       <ul>
         <li>Inventory Reports</li>
@@ -30,9 +33,16 @@ const ProgressAlert: FC = () => {
         <li>Inventory adjustments</li>
         <li>Payroll management</li>
         <li>Attendance management</li>
+        <li>Show view for all tabs</li>
       </ul>
       Want to suggest a feature? Feel free to drop us an email at{" "}
-      <a href="mailto:t.karwi@yahoo.com">t.karwi@yahoo.com</a>
+      <Link
+        className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+        href={`mailto:${email}`}
+        onClick={stopPropagation}
+      >
+        {email}
+      </Link>
     </Alert>
   );
 };

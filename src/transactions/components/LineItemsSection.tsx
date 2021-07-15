@@ -1,15 +1,16 @@
-import React, { FC } from "react";
+import React, { FC, useRef } from "react";
 import {
   NumberInput,
   TextInput,
   ArrayInput,
   FormDataConsumer,
+  Record,
 } from "react-admin";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-final-form";
 
 import { requiredValidate, validateNumber } from "../invoices/InvoiceCreate";
-import { LineItemsIterator } from "../../utils/components/LineItemsIterator";
+import { TableFormIterator } from "../../utils/components/TableFormIterator";
 import { ccyFormat, toFixedNumber } from "../../utils";
 import { AsyncAutocompleteInput } from "../../utils/components/AsyncAutocompleteInput";
 
@@ -36,6 +37,7 @@ export const LineItemsSection: FC<Props> = ({
 }) => {
   const classes = useStyles();
   const form = useForm();
+  const cache = useRef(new Map<number, Record>());
 
   const handleOnBlur = (
     formData: any,
@@ -59,7 +61,7 @@ export const LineItemsSection: FC<Props> = ({
       label=""
       validate={requiredValidate}
     >
-      <LineItemsIterator resource={resource}>
+      <TableFormIterator resource={resource}>
         <FormDataConsumer label="resources.invoice_items.fields.product">
           {({ getSource }) =>
             getSource ? (
@@ -73,7 +75,7 @@ export const LineItemsSection: FC<Props> = ({
                 label={false}
                 source={getSource("product")}
                 fullWidth
-                showSuggestions={false}
+                cache={cache.current}
                 onChange={(event, newValue) => {
                   if (newValue) {
                     form.batch(() => {
@@ -123,7 +125,7 @@ export const LineItemsSection: FC<Props> = ({
           className={classes.lineItemInput}
           disabled
         />
-      </LineItemsIterator>
+      </TableFormIterator>
     </ArrayInput>
   );
 };

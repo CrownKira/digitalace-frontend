@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import Alert from "@material-ui/lab/Alert";
+import { Alert } from "@material-ui/lab";
 import Button from "@material-ui/core/Button";
 import { useTranslate, useRedirect, Record } from "react-admin";
 
@@ -9,23 +9,23 @@ import { Separator } from "../../../utils/components/Divider";
 
 interface Props {
   record: Record;
-  IsCreditsAvailable: number;
+  creditsAvailable: number;
   totals: Totals;
-  IsApplyCreditsOpen: boolean;
+  applyCreditsIsOpen: boolean;
 }
 
 export const DetailsAlertSection: FC<Props> = ({
   record,
-  IsCreditsAvailable,
+  creditsAvailable,
   totals,
-  IsApplyCreditsOpen,
+  applyCreditsIsOpen,
 }) => {
   const translate = useTranslate();
   const redirect = useRedirect();
 
   return (
     <div>
-      {IsCreditsAvailable > 0 && (
+      {creditsAvailable > 0 && (
         <Alert
           severity="info"
           action={
@@ -42,11 +42,11 @@ export const DetailsAlertSection: FC<Props> = ({
           }
         >
           {translate("resources.invoices.fields.credits_available")}:{" "}
-          <strong>{ccyFormat(IsCreditsAvailable, true)}</strong>
+          <strong>{ccyFormat(creditsAvailable, true)}</strong>
         </Alert>
       )}
       <Separator />
-      {totals.total_amount_to_credit > 0 && IsApplyCreditsOpen && (
+      {totals.total_amount_to_credit > 0 && applyCreditsIsOpen && (
         <Alert severity="warning">
           {translate("resources.invoices.notification.amount_to_credit")}:{" "}
           <strong>{ccyFormat(totals.total_amount_to_credit, true)}</strong>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import {
   TextField,
   EmailField,
@@ -15,7 +15,7 @@ import { SupplierLinkField } from "./SupplierLinkField";
 import { ColoredNumberField } from "./ColoredNumberField";
 import { MobileGrid } from "./MobileGrid";
 import { Aside as SupplierListAside } from "./SupplierListAside";
-import { ReactElement } from "react";
+import { ListActionsWithImport } from "../../utils/components/ListActionsWithImport";
 
 const SupplierFilter = (props: Omit<FilterProps, "children">) => (
   <Filter {...props}>
@@ -34,6 +34,7 @@ export const SupplierList = (props: ListProps): ReactElement => {
       sort={{ field: "last_seen", order: "DESC" }}
       perPage={25}
       aside={<SupplierListAside />}
+      actions={<ListActionsWithImport />}
       {...props}
     >
       {isXsmall ? (

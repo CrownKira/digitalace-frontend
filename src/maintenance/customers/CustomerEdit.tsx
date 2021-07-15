@@ -5,8 +5,6 @@ import {
   TextInput,
   Toolbar,
   FormWithRedirect,
-  required,
-  email,
   FieldProps,
   ImageInput,
   ImageField,
@@ -24,7 +22,7 @@ import {
   validateReference,
 } from "./CustomerCreate";
 import { Customer } from "../../types";
-import { formatImage, validateUnicity } from "../../utils";
+import { formatImage } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 import { SectionTitle, Separator } from "../../utils/components/Divider";
 
@@ -171,6 +169,7 @@ const CustomerForm = (props: any) => {
                 reference="employees"
                 source="agents"
                 suggestionLimit={5}
+                fullWidth
               >
                 <AutocompleteArrayInput optionText="name" />
               </ReferenceArrayInput>

@@ -18,9 +18,13 @@ import {
   useNotify,
   useRefresh,
   Record,
+  TopToolbar,
+  ListButton,
+  EditActionsProps,
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import ChevronLeft from "@material-ui/icons/ChevronLeftTwoTone";
 
 import { useOnFailure } from "../../utils/hooks";
 import {
@@ -55,9 +59,23 @@ const useStyles = makeStyles({
   },
 });
 
+const PostEditActions: FC<EditActionsProps> = ({ basePath }) => (
+  // https://github.com/marmelab/react-admin/issues/2741
+  <TopToolbar>
+    <ListButton basePath={basePath} label="Back" icon={<ChevronLeft />} />
+    <PdfButton />
+    <PrintButton />
+  </TopToolbar>
+);
+
 export const InvoiceEdit: FC<EditProps> = (props) => {
   return (
-    <Edit component="div" mutationMode="pessimistic" {...props}>
+    <Edit
+      actions={<PostEditActions />}
+      component="div"
+      mutationMode="pessimistic"
+      {...props}
+    >
       <InvoiceForm />
     </Edit>
   );
@@ -75,21 +93,21 @@ const InvoiceForm = (props: any) => {
   const onFailure = useOnFailure();
   const onSuccess = ({ data }: { data: Record }) => {
     notify(`Changes to "${data.reference}" saved`);
-    setApplyCreditsOpen(false);
+    setApplyCreditsIsOpen(false);
     refresh();
   };
 
   const { status } = props.record;
   const [isPaid, setIsPaid] = useState(status === "PD");
-  const [IsApplyCreditsOpen, setApplyCreditsOpen] = useState(false);
-  const [IsCreditsAvailable, setIsCreditsAvailable] = useState(0);
+  const [applyCreditsIsOpen, setApplyCreditsIsOpen] = useState(false);
+  const [creditsAvailable, setCreditsAvailable] = useState(0);
 
   const transform = (data: Record): Record => ({
     ...data,
     date: dateParser(data.date),
     payment_date: dateParser(data.payment_date),
     // TODO: use state to keep track of creditsapplication_set instead of formData?
-    ...(!IsApplyCreditsOpen && { creditsapplication_set: [] }),
+    ...(!applyCreditsIsOpen && { creditsapplication_set: [] }),
   });
 
   const getInitialTotals = useCallback(() => {
@@ -176,10 +194,6 @@ const InvoiceForm = (props: any) => {
                       onFailure={onFailure}
                       onSuccess={onSuccess}
                     />
-                    <PdfButton
-                    // TODO: just use normal button
-                    />
-                    <PrintButton />
                     {formProps.record && formProps.record.id !== undefined && (
                       <DeleteButton
                         // props from Toolbar.tsx
@@ -195,18 +209,18 @@ const InvoiceForm = (props: any) => {
                 <FormTabWithoutLayout label="resources.invoices.tabs.details">
                   <DetailsAlertSection
                     record={formProps.record}
-                    IsCreditsAvailable={IsCreditsAvailable}
+                    creditsAvailable={creditsAvailable}
                     totals={totals}
-                    IsApplyCreditsOpen={IsApplyCreditsOpen}
+                    applyCreditsIsOpen={applyCreditsIsOpen}
                   />
                   <Separator />
                   <DetailsTopSection
                     props={props}
                     isPaid={isPaid}
                     setIsPaid={setIsPaid}
-                    IsApplyCreditsOpen={IsApplyCreditsOpen}
-                    setApplyCreditsOpen={setApplyCreditsOpen}
-                    setIsCreditsAvailable={setIsCreditsAvailable}
+                    applyCreditsIsOpen={applyCreditsIsOpen}
+                    setApplyCreditsIsOpen={setApplyCreditsIsOpen}
+                    setCreditsAvailable={setCreditsAvailable}
                   />
                   <LineItemsSection
                     source="invoiceitem_set"
@@ -246,8 +260,8 @@ const InvoiceForm = (props: any) => {
                     fullWidth
                     actions={
                       <CreditsToolbar
-                        setApplyCreditsOpen={setApplyCreditsOpen}
-                        IsApplyCreditsOpen={IsApplyCreditsOpen}
+                        setApplyCreditsIsOpen={setApplyCreditsIsOpen}
+                        applyCreditsIsOpen={applyCreditsIsOpen}
                       />
                     }
                   >
@@ -271,7 +285,7 @@ const InvoiceForm = (props: any) => {
                   </ReferenceManyFieldWithActions>
                   <Separator />
                   <ApplyCreditsSection
-                    isOpen={IsApplyCreditsOpen}
+                    isOpen={applyCreditsIsOpen}
                     totals={totals}
                     updateCreditsTotals={updateCreditsTotals}
                     record={formProps.record}

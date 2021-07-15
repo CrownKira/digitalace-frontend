@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Button } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
+import { Alert } from "@material-ui/lab";
 import { useTranslate, Record, useRedirect } from "react-admin";
 
 interface Props {

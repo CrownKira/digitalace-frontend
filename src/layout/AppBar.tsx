@@ -1,8 +1,8 @@
 import React, { forwardRef } from "react";
 import { AppBar, UserMenu, MenuItemLink, useTranslate } from "react-admin";
 import Typography from "@material-ui/core/Typography";
-import SettingsIcon from "@material-ui/icons/Settings";
-import FaceIcon from "@material-ui/icons/Face";
+import SettingsIcon from "@material-ui/icons/SettingsTwoTone";
+import FaceIcon from "@material-ui/icons/FaceTwoTone";
 import { makeStyles } from "@material-ui/core/styles";
 import { useProfile } from "../userMenu/profile/Profile";
 

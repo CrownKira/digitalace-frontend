@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import ImageIcon from "@material-ui/icons/Image";
+import ImageIcon from "@material-ui/icons/ImageTwoTone";
 import { FieldProps } from "react-admin";
 import { Product } from "../../types";
 import { imageStyles } from "./Image";

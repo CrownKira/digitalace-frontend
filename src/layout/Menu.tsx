@@ -1,11 +1,11 @@
 import React, { FC, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import SettingsIcon from "@material-ui/icons/Label";
 import { useMediaQuery, Theme, Box } from "@material-ui/core";
-import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import StorageIcon from "@material-ui/icons/Storage";
-import BusinessIcon from "@material-ui/icons/Business";
+import SettingsIcon from "@material-ui/icons/LabelTwoTone";
+import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWalletTwoTone";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCartTwoTone";
+import StorageIcon from "@material-ui/icons/StorageTwoTone";
+import BusinessIcon from "@material-ui/icons/BusinessTwoTone";
 import {
   useTranslate,
   DashboardMenuItem,

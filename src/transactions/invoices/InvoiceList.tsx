@@ -22,6 +22,16 @@ import { AddressField } from "../../maintenance/customers/AddressField";
 import { InvoiceShow } from "./InvoiceShow";
 import { statuses } from "./data";
 import { ColoredStatusField } from "../components/ColoredStatusField";
+import { ListActionsWithImport } from "../../utils/components/ListActionsWithImport";
+
+const useStyles = makeStyles((theme) => ({
+  hiddenOnSmallScreens: {
+    display: "table-cell",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
+  },
+}));
 
 const ListFilters = (props: Omit<FilterProps, "children">) => (
   <Filter {...props}>
@@ -38,15 +48,6 @@ const InvoiceBulkActionButtons: FC<BulkDeleteButtonProps> = (props) => (
   </Fragment>
 );
 
-const useStyles = makeStyles((theme) => ({
-  hiddenOnSmallScreens: {
-    display: "table-cell",
-    [theme.breakpoints.down("md")]: {
-      display: "none",
-    },
-  },
-}));
-
 // TODO: customizable table columns
 export const InvoiceList: FC<ListProps> = (props) => {
   const classes = useStyles();
@@ -56,6 +57,7 @@ export const InvoiceList: FC<ListProps> = (props) => {
       perPage={25}
       sort={{ field: "date", order: "desc" }}
       bulkActionButtons={<InvoiceBulkActionButtons />}
+      actions={<ListActionsWithImport />}
       {...props}
     >
       <Datagrid rowClick="edit" expand={<InvoiceShow />}>

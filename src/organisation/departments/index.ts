@@ -1,4 +1,4 @@
-import DepartmentIcon from "@material-ui/icons/Domain";
+import DepartmentIcon from "@material-ui/icons/DomainTwoTone";
 
 import { DepartmentList } from "./DepartmentList";
 import { DepartmentEdit } from "./DepartmentEdit";

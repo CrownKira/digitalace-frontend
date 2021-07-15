@@ -15,7 +15,7 @@ import {
 } from "react-admin";
 
 import { Department } from "../../types";
-import { LineItemsIterator } from "../../utils/components/LineItemsIterator";
+import { TableFormIterator } from "../../utils/components/TableFormIterator";
 
 export const styles = {
   leftFormGroup: { display: "inline-block", marginRight: 32 },
@@ -56,7 +56,7 @@ export const DepartmentCreate: FC<CreateProps> = (props) => {
           resource="designations"
           label="resources.departments.fields.designation_set"
         >
-          <LineItemsIterator>
+          <TableFormIterator>
             <TextInput source="name" validate={requiredValidate} />
             <ReferenceArrayInput
               reference="employees"
@@ -65,7 +65,7 @@ export const DepartmentCreate: FC<CreateProps> = (props) => {
             >
               <AutocompleteArrayInput optionText="name" />
             </ReferenceArrayInput>
-          </LineItemsIterator>
+          </TableFormIterator>
         </ArrayInput>
       </SimpleForm>
     </Create>

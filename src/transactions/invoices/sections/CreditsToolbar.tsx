@@ -4,22 +4,22 @@ import { TopToolbar, Record } from "react-admin";
 import { ApplyCreditsButton } from "../utils/ApplyCreditsButton";
 
 interface Props {
-  IsApplyCreditsOpen: boolean;
-  setApplyCreditsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  applyCreditsIsOpen: boolean;
+  setApplyCreditsIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CreditsToolbar: FC<Props> = ({
-  IsApplyCreditsOpen,
-  setApplyCreditsOpen,
+  applyCreditsIsOpen,
+  setApplyCreditsIsOpen,
   ...rest
 }) => {
   return (
     <TopToolbar {...rest}>
       <ApplyCreditsButton
         onClick={() => {
-          setApplyCreditsOpen(true);
+          setApplyCreditsIsOpen(true);
         }}
-        disabled={IsApplyCreditsOpen}
+        disabled={applyCreditsIsOpen}
       />
     </TopToolbar>
   );

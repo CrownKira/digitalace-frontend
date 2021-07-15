@@ -1,4 +1,4 @@
-import RoleIcon from "@material-ui/icons/DirectionsWalk";
+import RoleIcon from "@material-ui/icons/DirectionsWalkTwoTone";
 
 import { RoleList } from "./RoleList";
 import { RoleEdit } from "./RoleEdit";

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import inflection from "inflection";
 import { Card as MuiCard, CardContent } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import DirectionsWalkIcon from "@material-ui/icons/DirectionsWalk";
+import DirectionsWalkIcon from "@material-ui/icons/DirectionsWalkTwoTone";
 import {
   FilterList,
   FilterLiveSearch,

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Box, Card, CardActions, Button, Typography } from "@material-ui/core";
-import HomeIcon from "@material-ui/icons/Home";
-import CodeIcon from "@material-ui/icons/Code";
+import HomeIcon from "@material-ui/icons/HomeTwoTone";
+import CodeIcon from "@material-ui/icons/CodeTwoTone";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslate } from "react-admin";
 

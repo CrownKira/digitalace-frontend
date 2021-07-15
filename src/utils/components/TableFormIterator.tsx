@@ -20,8 +20,8 @@ import {
 import Button from "@material-ui/core/Button";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { makeStyles } from "@material-ui/core/styles";
-import CloseIcon from "@material-ui/icons/RemoveOutlined";
-import AddIcon from "@material-ui/icons/AddOutlined";
+import CloseIcon from "@material-ui/icons/RemoveTwoTone";
+import AddIcon from "@material-ui/icons/AddTwoTone";
 import ReorderIcon from "@material-ui/icons/Reorder";
 import {
   useTranslate,
@@ -105,7 +105,7 @@ const useStyles = makeStyles(
       marginRight: theme.spacing(1),
     },
   }),
-  { name: "RaLineItemsIterator" }
+  { name: "RaTableFormIterator" }
 );
 
 const DefaultAddButton = (props: any) => {
@@ -143,7 +143,7 @@ const DefaultRemoveButton = (props: any) => {
 
 // TODO: use Datagrid?
 // https://material-ui.com/components/data-grid/editing/
-export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
+export const TableFormIterator: FC<TableFormIteratorProps> = (props) => {
   const {
     addButton = <DefaultAddButton />,
     removeButton = <DefaultRemoveButton />,
@@ -217,8 +217,8 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
     fields?.push(undefined);
   };
 
-  const swapFields = (startIndex: number, endIndex: number) => {
-    fields?.swap(startIndex, endIndex);
+  const moveFields = (startIndex: number, endIndex: number) => {
+    fields?.move(startIndex, endIndex);
   };
 
   // add field and call the onClick event of the button passed as addButton prop
@@ -244,7 +244,8 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
     if (!result.destination) {
       return;
     }
-    swapFields(result.source.index, result.destination.index);
+
+    moveFields(result.source.index, result.destination.index);
   };
 
   const records = get(record, source as PropertyPath);
@@ -331,7 +332,6 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                                 {...draggableProvided.draggableProps}
                                 style={{
                                   ...draggableProvided.draggableProps.style,
-
                                   ...(snapshot.isDragging && {
                                     background: "rgb(245,245,245,0.75)",
                                   }),
@@ -344,7 +344,6 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                                     {!isDragDisabled && <ReorderIcon />}
                                   </div>
                                 </TableCell>
-
                                 {Children.map(
                                   children,
                                   (input: ReactElement, index2) => {
@@ -436,7 +435,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
   ) : null;
 };
 
-LineItemsIterator.defaultProps = {
+TableFormIterator.defaultProps = {
   disableAdd: false,
   disableRemove: false,
 };
@@ -451,7 +450,7 @@ TODO: pass down as a prop to this component
 
 type DisableRemoveFunction = (record: Record) => boolean;
 
-export interface LineItemsIteratorProps
+export interface TableFormIteratorProps
   extends Partial<
     Omit<FieldArrayRenderProps<any, HTMLElement>, "meta" | "children">
   > {

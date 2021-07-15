@@ -1,5 +1,5 @@
 import React, { FC, Fragment, ReactElement } from "react";
-import ExpandMore from "@material-ui/icons/ExpandMore";
+import ExpandMore from "@material-ui/icons/ExpandMoreTwoTone";
 import List from "@material-ui/core/List";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";

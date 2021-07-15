@@ -10,15 +10,14 @@ import {
   useNotify,
   useRefresh,
   Record,
-  Datagrid,
-  TextField,
-  DateField,
-  NumberField,
-  EditButton,
   Pagination,
+  EditActionsProps,
+  TopToolbar,
+  ListButton,
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import ChevronLeft from "@material-ui/icons/ChevronLeftTwoTone";
 
 import { useOnFailure } from "../../utils/hooks";
 import {
@@ -48,9 +47,23 @@ const useStyles = makeStyles({
   },
 });
 
+const PostEditActions: FC<EditActionsProps> = ({ basePath }) => (
+  // https://github.com/marmelab/react-admin/issues/2741
+  <TopToolbar>
+    <ListButton basePath={basePath} label="Back" icon={<ChevronLeft />} />
+    <PdfButton />
+    <PrintButton />
+  </TopToolbar>
+);
+
 export const SalesOrderEdit: FC<EditProps> = (props) => {
   return (
-    <Edit component="div" mutationMode="pessimistic" {...props}>
+    <Edit
+      actions={<PostEditActions />}
+      component="div"
+      mutationMode="pessimistic"
+      {...props}
+    >
       <SalesOrderForm />
     </Edit>
   );

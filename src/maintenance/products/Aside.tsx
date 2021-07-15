@@ -2,9 +2,9 @@ import React, { FC } from "react";
 import inflection from "inflection";
 import { Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import LocalOfferIcon from "@material-ui/icons/LocalOfferOutlined";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import LocalOfferIcon from "@material-ui/icons/LocalOfferTwoTone";
+import BarChartIcon from "@material-ui/icons/BarChartTwoTone";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoneyTwoTone";
 import {
   FilterList,
   FilterListItem,

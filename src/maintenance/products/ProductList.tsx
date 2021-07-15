@@ -15,7 +15,9 @@ import {
   Title,
   TopToolbar,
   useListContext,
+  useListController,
 } from "react-admin";
+import { ImportButton } from "react-admin-import-csv";
 
 import { GridList } from "./GridList";
 import { Aside } from "./Aside";
@@ -39,12 +41,13 @@ export const ProductFilter: FC<Omit<FilterProps, "children">> = (props) => (
   </Filter>
 );
 
-const ListActions: FC<any> = ({ isSmall }) => (
+const ListActions: FC<any> = ({ isSmall, ...rest }) => (
   <TopToolbar>
     {isSmall && <ProductFilter context="button" />}
     <SortButton fields={["id", "sales", "stock"]} />
     <CreateButton basePath="/products" />
     <ExportButton />
+    <ImportButton {...rest} />
   </TopToolbar>
 );
 
@@ -58,11 +61,13 @@ export const ProductList: FC<ListProps> = (props) => {
 };
 
 const ProductListView: FC<{ isSmall: boolean }> = ({ isSmall }) => {
-  const { defaultTitle } = useListContext();
+  const controllerProps = useListContext();
+  const { defaultTitle } = controllerProps;
+
   return (
     <>
       <Title defaultTitle={defaultTitle} />
-      <ListActions isSmall={isSmall} />
+      <ListActions isSmall={isSmall} {...controllerProps} />
       {isSmall && (
         <Box m={1}>
           <ProductFilter context="form" />

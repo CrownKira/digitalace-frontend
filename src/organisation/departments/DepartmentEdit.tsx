@@ -19,7 +19,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Department } from "../../types";
 import { formatImage } from "../../utils";
 import { styles as createStyles, requiredValidate } from "./DepartmentCreate";
-import { LineItemsIterator } from "../../utils/components/LineItemsIterator";
+import { TableFormIterator } from "../../utils/components/TableFormIterator";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -68,16 +68,17 @@ export const DepartmentEdit: FC<EditProps> = (props) => {
           resource="designations"
           label="resources.departments.fields.designation_set"
         >
-          <LineItemsIterator resource="designations">
+          <TableFormIterator resource="designations">
             <TextInput source="name" validate={requiredValidate} />
             <ReferenceArrayInput
               reference="employees"
               source="user_set"
               suggestionLimit={5}
+              fullWidth
             >
               <AutocompleteArrayInput optionText="name" />
             </ReferenceArrayInput>
-          </LineItemsIterator>
+          </TableFormIterator>
         </ArrayInput>
       </SimpleForm>
     </Edit>

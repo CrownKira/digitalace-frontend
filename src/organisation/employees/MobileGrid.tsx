@@ -3,9 +3,9 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import { makeStyles } from "@material-ui/core/styles";
-import EmailIcon from "@material-ui/icons/Email";
-import DomainIcon from "@material-ui/icons/Domain";
-import GroupIcon from "@material-ui/icons/Group";
+import EmailIcon from "@material-ui/icons/EmailTwoTone";
+import DomainIcon from "@material-ui/icons/DomainTwoTone";
+import GroupIcon from "@material-ui/icons/GroupTwoTone";
 import {
   EditButton,
   Identifier,

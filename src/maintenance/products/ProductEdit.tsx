@@ -13,6 +13,7 @@ import {
 } from "react-admin";
 import { InputAdornment } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { Alert } from "@material-ui/lab";
 import RichTextInput from "ra-input-rich-text";
 
 import {
@@ -51,8 +52,11 @@ const useStyles = makeStyles({
     whiteSpace: "nowrap",
   },
   tab: {
-    maxWidth: "40em",
+    // maxWidth: "40em",
     display: "block",
+  },
+  alert: {
+    width: "100%",
   },
 });
 
@@ -142,12 +146,24 @@ const ProductForm = (props: any) => {
       >
         <RichTextInput source="description" label="" />
       </FormTab>
-      <FormTab label="resources.products.tabs.reviews" path="reviews" />
-      <FormTab label="resources.products.tabs.stock" path="stock" />
-      <FormTab
-        label="resources.products.tabs.transactions"
-        path="transactions"
-      />
+      <FormTab label="resources.products.tabs.reviews" path="reviews">
+        <Alert severity="warning" className={classes.alert}>
+          <strong>Work in progress</strong> - This feature isn&apos;t
+          implemented yet. It&apos;s coming.
+        </Alert>
+      </FormTab>
+      <FormTab label="resources.products.tabs.stock" path="stock">
+        <Alert severity="warning" className={classes.alert}>
+          <strong>Work in progress</strong> - This feature isn&apos;t
+          implemented yet. It&apos;s coming.
+        </Alert>
+      </FormTab>
+      <FormTab label="resources.products.tabs.transactions" path="transactions">
+        <Alert severity="warning" className={classes.alert}>
+          <strong>Work in progress</strong> - This feature isn&apos;t
+          implemented yet. It&apos;s coming.
+        </Alert>
+      </FormTab>
     </TabbedForm>
   );
 };
