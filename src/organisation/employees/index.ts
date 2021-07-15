@@ -1,4 +1,4 @@
-import EmployeeIcon from "@material-ui/icons/People";
+import EmployeeIcon from "@material-ui/icons/PeopleTwoTone";
 
 import { EmployeeList } from "./EmployeeList";
 import { EmployeeCreate } from "./EmployeeCreate";

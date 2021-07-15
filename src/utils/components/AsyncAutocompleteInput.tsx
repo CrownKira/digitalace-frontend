@@ -18,7 +18,7 @@ import {
   LinearProgress,
   ReferenceInputProps,
 } from "react-admin";
-import EditIcon from "@material-ui/icons/Edit";
+import EditIcon from "@material-ui/icons/EditTwoTone";
 import { IconButton } from "@material-ui/core";
 
 // TODO: write js doc

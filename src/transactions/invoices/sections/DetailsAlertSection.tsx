@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import Alert from "@material-ui/lab/Alert";
+import { Alert } from "@material-ui/lab";
 import Button from "@material-ui/core/Button";
 import { useTranslate, useRedirect, Record } from "react-admin";
 

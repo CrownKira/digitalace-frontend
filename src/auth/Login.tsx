@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-import LockIcon from "@material-ui/icons/Lock";
+import LockIcon from "@material-ui/icons/LockTwoTone";
 import {
   Notification,
   useTranslate,

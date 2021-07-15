@@ -8,7 +8,7 @@ import {
   EditButton,
   useTranslate,
 } from "react-admin";
-import Alert from "@material-ui/lab/Alert";
+import { Alert } from "@material-ui/lab";
 
 import { statuses } from "../../credit_notes/data";
 import { Separator } from "../../../utils/components/Divider";

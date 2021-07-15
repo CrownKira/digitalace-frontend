@@ -4,9 +4,9 @@ import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import { makeStyles } from "@material-ui/core/styles";
 import { EditButton, Identifier, EmailField, TextField } from "react-admin";
-import EmailIcon from "@material-ui/icons/Email";
-import PhoneIcon from "@material-ui/icons/Phone";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import EmailIcon from "@material-ui/icons/EmailTwoTone";
+import PhoneIcon from "@material-ui/icons/PhoneTwoTone";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoneyTwoTone";
 
 import { IconText } from "../../utils/components/IconText";
 import { AvatarField } from "./AvatarField";

@@ -78,17 +78,6 @@ export const validateForm = ({}: AnyObject): any => {
   return errors;
 };
 
-// a fix for DateField parse not working
-// export const transform = ({
-//   creditsapplication_set,
-//   ...data
-// }: Record): Record => ({
-//   ...data,
-//   date: dateParser(data.date),
-//   payment_date: dateParser(data.payment_date),
-//   creditsapplication_set: creditsapplication_set, // TODO: better way to not pre-fill but send data?
-// });
-
 export const getTotals = (
   formData: any
 ): {

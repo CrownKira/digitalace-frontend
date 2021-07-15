@@ -8,7 +8,7 @@ import {
   Link,
   linkToRecord,
 } from "react-admin";
-import Alert from "@material-ui/lab/Alert";
+import { Alert } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { CreateInvoiceButton } from "./CreateInvoiceButton";

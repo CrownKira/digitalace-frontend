@@ -1,4 +1,4 @@
-import ReceiveIcon from "@material-ui/icons/Description";
+import ReceiveIcon from "@material-ui/icons/DescriptionTwoTone";
 
 import { ReceiveList } from "./ReceiveList";
 import { ReceiveCreate } from "./ReceiveCreate";

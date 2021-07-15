@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import VpnKeyIcon from "@material-ui/icons/VpnKeyTwoTone";
 import {
   Notification,
   useTranslate,

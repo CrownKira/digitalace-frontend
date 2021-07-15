@@ -24,7 +24,7 @@ import {
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import ChevronLeft from "@material-ui/icons/ChevronLeft";
+import ChevronLeft from "@material-ui/icons/ChevronLeftTwoTone";
 
 import { useOnFailure } from "../../utils/hooks";
 import {

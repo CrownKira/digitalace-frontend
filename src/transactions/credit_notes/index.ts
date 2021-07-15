@@ -1,4 +1,4 @@
-import CreditNoteIcon from "@material-ui/icons/Description";
+import CreditNoteIcon from "@material-ui/icons/DescriptionTwoTone";
 
 import { CreditNoteList } from "./CreditNoteList";
 import { CreditNoteCreate } from "./CreditNoteCreate";

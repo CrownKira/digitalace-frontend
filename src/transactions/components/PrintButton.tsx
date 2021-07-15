@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FC, ReactElement } from "react";
-import ActionList from "@material-ui/icons/List";
+import PrintTwoToneIcon from "@material-ui/icons/PrintTwoTone";
 import { Link } from "react-router-dom";
 import {
   useResourceContext,
@@ -25,7 +25,7 @@ export const PrintButton: FC<PrintButtonProps> = ({
   return (
     <Button
       component={Link}
-      to={basePath || `/${resource}`}
+      // to={basePath || `/${resource}`}
       label={label}
       onClick={handleClick}
       {...(rest as any)}
@@ -35,7 +35,7 @@ export const PrintButton: FC<PrintButtonProps> = ({
   );
 };
 
-const defaultIcon = <ActionList />;
+const defaultIcon = <PrintTwoToneIcon />;
 
 interface Props {
   basePath?: string;

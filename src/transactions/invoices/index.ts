@@ -1,4 +1,4 @@
-import InvoiceIcon from "@material-ui/icons/Description";
+import InvoiceIcon from "@material-ui/icons/DescriptionTwoTone";
 
 import { InvoiceList } from "./InvoiceList";
 import { InvoiceCreate } from "./InvoiceCreate";

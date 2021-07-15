@@ -1,4 +1,4 @@
-import SupplierIcon from "@material-ui/icons/People";
+import SupplierIcon from "@material-ui/icons/PeopleTwoTone";
 
 import { SupplierList } from "./SupplierList";
 import { SupplierCreate } from "./SupplierCreate";

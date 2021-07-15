@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Button, ButtonProps, useTranslate } from "react-admin";
-import ContentAdd from "@material-ui/icons/Add";
+import ContentAdd from "@material-ui/icons/AddTwoTone";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 

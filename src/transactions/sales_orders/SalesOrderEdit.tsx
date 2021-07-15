@@ -11,10 +11,13 @@ import {
   useRefresh,
   Record,
   Pagination,
+  EditActionsProps,
+  TopToolbar,
+  ListButton,
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import ChevronLeft from "@material-ui/icons/ChevronLeft";
+import ChevronLeft from "@material-ui/icons/ChevronLeftTwoTone";
 
 import { useOnFailure } from "../../utils/hooks";
 import {
@@ -23,9 +26,6 @@ import {
   Wrapper,
   validateForm,
   getTotals,
-  EditActionsProps,
-  TopToolbar,
-  ListButton,
 } from "./SalesOrderCreate";
 import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
 import { ReferenceManyFieldWithActions } from "../../utils/components/ReferenceManyFieldWithActions";

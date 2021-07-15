@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FC, ReactElement } from "react";
-import ActionList from "@material-ui/icons/List";
+import PictureAsPdfTwoToneIcon from "@material-ui/icons/PictureAsPdfTwoTone";
 import { Link } from "react-router-dom";
 import {
   useResourceContext,
@@ -25,7 +25,7 @@ export const PdfButton: FC<PdfButtonProps> = ({
   return (
     <Button
       component={Link}
-      to={basePath || `/${resource}`}
+      // to={basePath || `/${resource}`}
       label={label}
       onClick={handleClick}
       {...(rest as any)}
@@ -35,7 +35,7 @@ export const PdfButton: FC<PdfButtonProps> = ({
   );
 };
 
-const defaultIcon = <ActionList />;
+const defaultIcon = <PictureAsPdfTwoToneIcon />;
 
 interface Props {
   basePath?: string;

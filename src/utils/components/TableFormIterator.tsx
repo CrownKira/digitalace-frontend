@@ -20,8 +20,8 @@ import {
 import Button from "@material-ui/core/Button";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { makeStyles } from "@material-ui/core/styles";
-import CloseIcon from "@material-ui/icons/RemoveOutlined";
-import AddIcon from "@material-ui/icons/AddOutlined";
+import CloseIcon from "@material-ui/icons/RemoveTwoTone";
+import AddIcon from "@material-ui/icons/AddTwoTone";
 import ReorderIcon from "@material-ui/icons/Reorder";
 import {
   useTranslate,
