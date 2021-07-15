@@ -7,6 +7,7 @@ import {
   Record,
   useDataProvider,
   useNotify,
+  linkToRecord,
 } from "react-admin";
 
 interface Props {
@@ -42,9 +43,8 @@ export const DetailsAlertSection: FC<Props> = ({ record }) => {
             <Button
               color="inherit"
               size="small"
-              // TODO: better way to redirect to other tab?
               onClick={() => {
-                redirect(`/invoices/${record.created_from}`);
+                redirect(linkToRecord("/invoices", record.created_from));
               }}
             >
               {translate("resources.credit_notes.action.view")}

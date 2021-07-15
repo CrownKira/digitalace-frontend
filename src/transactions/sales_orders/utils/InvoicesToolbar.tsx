@@ -6,6 +6,7 @@ import {
   Record,
   useNotify,
   Link,
+  linkToRecord,
 } from "react-admin";
 import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
@@ -92,7 +93,7 @@ export const InvoicesToolbar: FC<Props> = ({ record, ...rest }) => {
             className={classes.alert}
           >
             {translate("resources.invoices.name", { smart_count: 1 })}{" "}
-            <Link to={`/invoices/${data.id}`}>
+            <Link to={linkToRecord("/invoices", data.id)}>
               <strong>{data.reference}</strong>
             </Link>{" "}
             {translate("resources.sales_orders.notification.created_invoice", {
