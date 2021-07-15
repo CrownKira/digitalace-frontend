@@ -666,7 +666,7 @@ export const customEnglishMessages: TranslationMessages = {
         created_invoice: "successfully created from %{reference}",
         fulfill_order_tip:
           "You can create invoices to complete this sales order.",
-        no_invoice: "No associated Invoice so far.",
+        no_invoice: "No associated invoice so far.",
         total_invoices:
           "1 invoice associated to this sales order. |||| %{total} invoices associated to this sales order.",
       },

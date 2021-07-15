@@ -15,7 +15,6 @@ import {
   TopToolbar,
   ListButton,
 } from "react-admin";
-import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ChevronLeft from "@material-ui/icons/ChevronLeftTwoTone";
 
@@ -23,7 +22,6 @@ import { useOnFailure } from "../../utils/hooks";
 import {
   transform,
   styles as createStyles,
-  Wrapper,
   validateForm,
   getTotals,
 } from "./CreditNoteCreate";
@@ -56,12 +54,7 @@ const PostEditActions: FC<EditActionsProps> = ({ basePath }) => (
 
 export const CreditNoteEdit: FC<EditProps> = (props) => {
   return (
-    <Edit
-      actions={<PostEditActions />}
-      component="div"
-      mutationMode="pessimistic"
-      {...props}
-    >
+    <Edit actions={<PostEditActions />} mutationMode="pessimistic" {...props}>
       <CreditNoteForm />
     </Edit>
   );
@@ -121,81 +114,76 @@ const CreditNoteForm = (props: any) => {
       {...props}
       render={(formProps: any) => {
         return (
-          <Card>
-            <Wrapper>
-              <TabbedFormView
-                {...formProps}
-                toolbar={
-                  <Toolbar
-                    // props from react-admin demo VisitorEdit
-                    resource="credit_notes"
-                    record={formProps.record}
-                    basePath={formProps.basePath}
-                    invalid={formProps.invalid}
-                    handleSubmit={formProps.handleSubmit}
-                    saving={formProps.saving}
-                    pristine={formProps.pristine}
-                    classes={{ toolbar: classes.toolbar }}
-                  >
-                    <SaveButton
-                      // props from Toolbar.tsx
-                      // TODO: disable when pristine?
-                      handleSubmitWithRedirect={
-                        formProps.handleSubmitWithRedirect ||
-                        formProps.handleSubmit
-                      }
-                      disabled={formProps.disabled}
-                      invalid={formProps.invalid}
-                      redirect={formProps.redirect}
-                      saving={formProps.saving}
-                      submitOnEnter={formProps.submitOnEnter}
-                      transform={transform}
-                      onFailure={onFailure}
-                      onSuccess={onSuccess}
-                    />
-                    <PdfButton />
-                    <PrintButton />
-                    {formProps.record && formProps.record.id !== undefined && (
-                      <DeleteButton
-                        // props from Toolbar.tsx
-                        basePath={formProps.basePath}
-                        record={formProps.record}
-                        resource={formProps.resource}
-                        mutationMode={formProps.mutationMode}
-                      />
-                    )}
-                  </Toolbar>
-                }
+          <TabbedFormView
+            {...formProps}
+            toolbar={
+              <Toolbar
+                // props from react-admin demo VisitorEdit
+                resource="credit_notes"
+                record={formProps.record}
+                basePath={formProps.basePath}
+                invalid={formProps.invalid}
+                handleSubmit={formProps.handleSubmit}
+                saving={formProps.saving}
+                pristine={formProps.pristine}
+                classes={{ toolbar: classes.toolbar }}
               >
-                <FormTabWithoutLayout label="resources.credit_notes.tabs.details">
-                  <DetailsAlertSection record={formProps.record} />
-                  <Separator />
-                  <DetailsTopSection props={props} />
-                  <LineItemsSection
-                    source="creditnoteitem_set"
-                    resource="credit_note_items"
-                    label="resources.credit_notes.fields.creditnoteitem_set"
-                    updateTotals={updateTotals}
+                <SaveButton
+                  // props from Toolbar.tsx
+                  // TODO: disable when pristine?
+                  handleSubmitWithRedirect={
+                    formProps.handleSubmitWithRedirect || formProps.handleSubmit
+                  }
+                  disabled={formProps.disabled}
+                  invalid={formProps.invalid}
+                  redirect={formProps.redirect}
+                  saving={formProps.saving}
+                  submitOnEnter={formProps.submitOnEnter}
+                  transform={transform}
+                  onFailure={onFailure}
+                  onSuccess={onSuccess}
+                />
+                <PdfButton />
+                <PrintButton />
+                {formProps.record && formProps.record.id !== undefined && (
+                  <DeleteButton
+                    // props from Toolbar.tsx
+                    basePath={formProps.basePath}
+                    record={formProps.record}
+                    resource={formProps.resource}
+                    mutationMode={formProps.mutationMode}
                   />
-                  <DetailsBottomSection
-                    totals={totals}
-                    updateTotals={updateTotals}
-                  />
-                </FormTabWithoutLayout>
-                <FormTabWithoutLayout label="resources.credit_notes.tabs.invoices_credited">
-                  <ReferenceManyFieldWithActions
-                    reference="credits_applications"
-                    target="credit_note"
-                    addLabel={false}
-                    pagination={<Pagination />}
-                    fullWidth
-                  >
-                    <InvoicesDatagrid />
-                  </ReferenceManyFieldWithActions>
-                </FormTabWithoutLayout>
-              </TabbedFormView>
-            </Wrapper>
-          </Card>
+                )}
+              </Toolbar>
+            }
+          >
+            <FormTabWithoutLayout label="resources.credit_notes.tabs.details">
+              <DetailsAlertSection record={formProps.record} />
+              <Separator />
+              <DetailsTopSection props={props} />
+              <LineItemsSection
+                source="creditnoteitem_set"
+                resource="credit_note_items"
+                label="resources.credit_notes.fields.creditnoteitem_set"
+                updateTotals={updateTotals}
+              />
+              <DetailsBottomSection
+                totals={totals}
+                updateTotals={updateTotals}
+              />
+            </FormTabWithoutLayout>
+            <FormTabWithoutLayout label="resources.credit_notes.tabs.invoices_credited">
+              <ReferenceManyFieldWithActions
+                reference="credits_applications"
+                target="credit_note"
+                addLabel={false}
+                pagination={<Pagination />}
+                fullWidth
+              >
+                <InvoicesDatagrid />
+              </ReferenceManyFieldWithActions>
+            </FormTabWithoutLayout>
+          </TabbedFormView>
         );
       }}
     />
