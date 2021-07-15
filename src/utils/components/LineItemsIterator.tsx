@@ -331,7 +331,6 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                                 {...draggableProvided.draggableProps}
                                 style={{
                                   ...draggableProvided.draggableProps.style,
-
                                   ...(snapshot.isDragging && {
                                     background: "rgb(245,245,245,0.75)",
                                   }),
@@ -344,7 +343,6 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
                                     {!isDragDisabled && <ReorderIcon />}
                                   </div>
                                 </TableCell>
-
                                 {Children.map(
                                   children,
                                   (input: ReactElement, index2) => {

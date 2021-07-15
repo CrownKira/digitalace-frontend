@@ -493,7 +493,10 @@ export const customEnglishMessages: TranslationMessages = {
         invoices_credited: "Invoices Credited",
       },
       notification: {
-        created_from: "Credit Note created from",
+        created_from: "Credit note created from",
+        no_invoice: "No invoice credited so far.",
+        total_invoices:
+          "Credits applied to 1 invoice. |||| Credits applied to %{smart_count} invoices.",
       },
       action: {
         print: "Print",
@@ -590,7 +593,7 @@ export const customEnglishMessages: TranslationMessages = {
         created_credit_note: "successfully created from %{reference}",
         no_credit_note: "No Credit Note created so far.",
         total_credit_notes:
-          "1 Credit Note created from this Invoice. |||| %{smart_count} Credit Notes created from this Invoice.",
+          "1 credit note created from this invoice. |||| %{smart_count} credit notes created from this invoice.",
       },
     },
     invoice_items: {
@@ -659,6 +662,9 @@ export const customEnglishMessages: TranslationMessages = {
         created_invoice: "successfully created from %{reference}",
         fulfill_order_tip:
           "You can create invoices to complete this sales order.",
+        no_invoice: "No associated Invoice so far.",
+        total_invoices:
+          "1 invoice associated to this sales order. |||| %{total} invoices associated to this sales order.",
       },
     },
     sales_order_items: {

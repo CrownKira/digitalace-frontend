@@ -34,7 +34,6 @@ export const CreditNotesDatagrid: FC<DatagridProps> = (props) => {
           </Alert>
         )
       )}
-
       <Separator />
       <Datagrid {...props}>
         <TextField source="reference" />
