@@ -13,7 +13,7 @@ import { useForm } from "react-final-form";
 
 import { TotalCreditsSection } from "./TotalCreditsSection";
 import { validateCredits } from "../InvoiceCreate";
-import { LineItemsIterator } from "../../../utils/components/LineItemsIterator";
+import { TableFormIterator } from "../../../utils/components/TableFormIterator";
 import { SectionTitle } from "../../../utils/components/Divider";
 import { ccyFormat } from "../../../utils";
 import { Totals } from "../InvoiceCreate";
@@ -71,7 +71,7 @@ const _ApplyCreditsSection: FC<Props> = ({
         resource="credits_applications"
         label=""
       >
-        <LineItemsIterator
+        <TableFormIterator
           resource="credits_applications"
           disableAdd
           disableRemove
@@ -125,7 +125,7 @@ const _ApplyCreditsSection: FC<Props> = ({
               ) : null
             }
           </FormDataConsumer>
-        </LineItemsIterator>
+        </TableFormIterator>
       </ArrayInput>
       <Box display={{ sm: "block", md: "flex" }}>
         <Box flex={3} mr={{ sm: 0, md: "0.5em" }}></Box>

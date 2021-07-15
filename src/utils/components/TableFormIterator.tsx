@@ -105,7 +105,7 @@ const useStyles = makeStyles(
       marginRight: theme.spacing(1),
     },
   }),
-  { name: "RaLineItemsIterator" }
+  { name: "RaTableFormIterator" }
 );
 
 const DefaultAddButton = (props: any) => {
@@ -143,7 +143,7 @@ const DefaultRemoveButton = (props: any) => {
 
 // TODO: use Datagrid?
 // https://material-ui.com/components/data-grid/editing/
-export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
+export const TableFormIterator: FC<TableFormIteratorProps> = (props) => {
   const {
     addButton = <DefaultAddButton />,
     removeButton = <DefaultRemoveButton />,
@@ -434,7 +434,7 @@ export const LineItemsIterator: FC<LineItemsIteratorProps> = (props) => {
   ) : null;
 };
 
-LineItemsIterator.defaultProps = {
+TableFormIterator.defaultProps = {
   disableAdd: false,
   disableRemove: false,
 };
@@ -449,7 +449,7 @@ TODO: pass down as a prop to this component
 
 type DisableRemoveFunction = (record: Record) => boolean;
 
-export interface LineItemsIteratorProps
+export interface TableFormIteratorProps
   extends Partial<
     Omit<FieldArrayRenderProps<any, HTMLElement>, "meta" | "children">
   > {
