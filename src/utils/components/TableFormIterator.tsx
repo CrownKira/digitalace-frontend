@@ -217,8 +217,8 @@ export const TableFormIterator: FC<TableFormIteratorProps> = (props) => {
     fields?.push(undefined);
   };
 
-  const swapFields = (startIndex: number, endIndex: number) => {
-    fields?.swap(startIndex, endIndex);
+  const moveFields = (startIndex: number, endIndex: number) => {
+    fields?.move(startIndex, endIndex);
   };
 
   // add field and call the onClick event of the button passed as addButton prop
@@ -244,7 +244,8 @@ export const TableFormIterator: FC<TableFormIteratorProps> = (props) => {
     if (!result.destination) {
       return;
     }
-    swapFields(result.source.index, result.destination.index);
+
+    moveFields(result.source.index, result.destination.index);
   };
 
   const records = get(record, source as PropertyPath);
