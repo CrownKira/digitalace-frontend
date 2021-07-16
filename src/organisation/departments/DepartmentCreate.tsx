@@ -14,7 +14,7 @@ import {
   Record,
 } from "react-admin";
 
-import { Department } from "../../types";
+import { Department, Designation } from "../../types";
 import { TableFormIterator } from "../../utils/components/TableFormIterator";
 
 export const styles = {
@@ -30,15 +30,15 @@ const postDefaultValue = () => ({
   image: "",
 });
 
+export const transform = (data: Record) => {
+  if (data.designation_set) {
+    data.designation_set = data.designation_set.filter((x: Designation) => x);
+  }
+  return data;
+};
+
 export const DepartmentCreate: FC<CreateProps> = (props) => {
   const classes = useStyles();
-
-  const transform = (data: Record) => {
-    (data as Department).designation_set = (
-      data as Department
-    ).designation_set.filter((x) => x);
-    return data;
-  };
 
   return (
     <Create transform={transform} {...props}>
