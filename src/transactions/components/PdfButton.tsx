@@ -23,7 +23,7 @@ export const PdfButton: FC<PdfButtonProps> = ({
 
   return (
     <Button
-      component={Link}
+      // component={Link}
       // to={basePath || `/${resource}`}
       label={label}
       onClick={handleClick}

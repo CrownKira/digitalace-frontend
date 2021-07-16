@@ -62,6 +62,7 @@ export const validateForm = ({}: AnyObject) => {
 export const transform = (data: Record) => ({
   ...data,
   date: dateParser(data.date),
+  description: data.description || "",
 });
 
 export const getTotals = (

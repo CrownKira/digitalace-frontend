@@ -155,12 +155,15 @@ const InvoiceForm = (props: any) => {
   });
   const { loading: loadingUserConfig, data: userConfig } = useGetUserConfig();
 
-  const transform = (data: Record): Record => ({
-    ...data,
-    date: dateParser(data.date),
-    payment_date: dateParser(data.payment_date),
-    ...(!applyCreditsIsOpen && { creditsapplication_set: [] }),
-  });
+  const transform = (data: Record): Record => {
+    return {
+      ...data,
+      date: dateParser(data.date),
+      payment_date: dateParser(data.payment_date),
+      ...(!applyCreditsIsOpen && { creditsapplication_set: [] }),
+      description: data.description || "",
+    };
+  };
 
   const updateTotals = (formData: any) => {
     // formData needed since this function is not within <Form>
