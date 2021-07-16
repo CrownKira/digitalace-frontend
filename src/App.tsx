@@ -1,4 +1,6 @@
 // TODO: order dependencies
+import "./styles/app.scss";
+
 import React, { useEffect, ReactNode } from "react";
 import { Admin, Resource, DataProvider } from "react-admin";
 import polyglotI18nProvider from "ra-i18n-polyglot";
