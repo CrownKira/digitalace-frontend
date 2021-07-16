@@ -269,6 +269,7 @@ export const customEnglishMessages: TranslationMessages = {
     },
     customers: {
       name: "Customer |||| Customers",
+      unused_credits: "%{amount} unused credits",
       fields: {
         attention: "Attention",
         address: "Address",
@@ -284,12 +285,12 @@ export const customEnglishMessages: TranslationMessages = {
         confirm_password: "Confirm Password",
         state: "State",
         phone_no: "Phone",
-        commands: "Orders",
         first_seen: "First seen",
         groups: "Segments",
         last_seen: "Last seen",
         last_seen__gte: "Visited Since",
         total_spent: "Total spent",
+        unused_credits: "Unused Credits",
       },
       filters: {
         agent: "Agent",
@@ -343,7 +344,6 @@ export const customEnglishMessages: TranslationMessages = {
         confirm_password: "Confirm Password",
         state: "State",
         product_set: "Products",
-        commands: "Orders",
         first_seen: "First seen",
         groups: "Segments",
         last_seen: "Last seen",
