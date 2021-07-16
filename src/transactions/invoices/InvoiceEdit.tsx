@@ -22,14 +22,12 @@ import {
   ListButton,
   EditActionsProps,
 } from "react-admin";
-import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ChevronLeft from "@material-ui/icons/ChevronLeftTwoTone";
 
 import { useOnFailure } from "../../utils/hooks";
 import {
   styles as createStyles,
-  Wrapper,
   validateForm,
   getTotals,
   getCreditsTotals,
@@ -70,12 +68,7 @@ const PostEditActions: FC<EditActionsProps> = ({ basePath }) => (
 
 export const InvoiceEdit: FC<EditProps> = (props) => {
   return (
-    <Edit
-      actions={<PostEditActions />}
-      component="div"
-      mutationMode="pessimistic"
-      {...props}
-    >
+    <Edit actions={<PostEditActions />} mutationMode="pessimistic" {...props}>
       <InvoiceForm />
     </Edit>
   );
@@ -162,150 +155,139 @@ const InvoiceForm = (props: any) => {
       {...props}
       render={(formProps: any) => {
         return (
-          <Card>
-            <Wrapper>
-              <TabbedFormView
-                {...formProps}
-                toolbar={
-                  <Toolbar
-                    // props from react-admin demo VisitorEdit
-                    resource="invoices"
-                    record={formProps.record}
+          <TabbedFormView
+            {...formProps}
+            toolbar={
+              <Toolbar
+                // props from react-admin demo VisitorEdit
+                resource="invoices"
+                record={formProps.record}
+                basePath={formProps.basePath}
+                invalid={formProps.invalid}
+                handleSubmit={formProps.handleSubmit}
+                saving={formProps.saving}
+                pristine={formProps.pristine}
+                classes={{ toolbar: classes.toolbar }}
+              >
+                <SaveButton
+                  // props from Toolbar.tsx
+                  // TODO: disable when pristine?
+                  handleSubmitWithRedirect={
+                    formProps.handleSubmitWithRedirect || formProps.handleSubmit
+                  }
+                  disabled={formProps.disabled}
+                  invalid={formProps.invalid}
+                  redirect={formProps.redirect}
+                  saving={formProps.saving}
+                  submitOnEnter={formProps.submitOnEnter}
+                  transform={transform}
+                  onFailure={onFailure}
+                  onSuccess={onSuccess}
+                />
+                {formProps.record && formProps.record.id !== undefined && (
+                  <DeleteButton
+                    // props from Toolbar.tsx
                     basePath={formProps.basePath}
-                    invalid={formProps.invalid}
-                    handleSubmit={formProps.handleSubmit}
-                    saving={formProps.saving}
-                    pristine={formProps.pristine}
-                    classes={{ toolbar: classes.toolbar }}
-                  >
-                    <SaveButton
-                      // props from Toolbar.tsx
-                      // TODO: disable when pristine?
-                      handleSubmitWithRedirect={
-                        formProps.handleSubmitWithRedirect ||
-                        formProps.handleSubmit
-                      }
-                      disabled={formProps.disabled}
-                      invalid={formProps.invalid}
-                      redirect={formProps.redirect}
-                      saving={formProps.saving}
-                      submitOnEnter={formProps.submitOnEnter}
-                      transform={transform}
-                      onFailure={onFailure}
-                      onSuccess={onSuccess}
-                    />
-                    {formProps.record && formProps.record.id !== undefined && (
-                      <DeleteButton
-                        // props from Toolbar.tsx
-                        basePath={formProps.basePath}
-                        record={formProps.record}
-                        resource={formProps.resource}
-                        mutationMode={formProps.mutationMode}
-                      />
-                    )}
-                  </Toolbar>
+                    record={formProps.record}
+                    resource={formProps.resource}
+                    mutationMode={formProps.mutationMode}
+                  />
+                )}
+              </Toolbar>
+            }
+          >
+            <FormTabWithoutLayout label="resources.invoices.tabs.details">
+              <DetailsAlertSection
+                record={formProps.record}
+                creditsAvailable={creditsAvailable}
+                totals={totals}
+                applyCreditsIsOpen={applyCreditsIsOpen}
+              />
+              <Separator />
+              <DetailsTopSection
+                props={props}
+                isPaid={isPaid}
+                setIsPaid={setIsPaid}
+                applyCreditsIsOpen={applyCreditsIsOpen}
+                setApplyCreditsIsOpen={setApplyCreditsIsOpen}
+                setCreditsAvailable={setCreditsAvailable}
+              />
+              <LineItemsSection
+                source="invoiceitem_set"
+                resource="invoice_items"
+                label="resources.invoices.fields.invoiceitem_set"
+                updateTotals={updateTotals}
+              />
+              <DetailsBottomSection
+                totals={totals}
+                updateTotals={updateTotals}
+              />
+            </FormTabWithoutLayout>
+            {isPaid ? (
+              <FormTabWithoutLayout
+                /**
+                 * TODO: hide tab when unpaid
+                 * for some reason, this tab cannot be toggled using
+                 * formProps?.form?.getFieldState('status')?.value === 'UPD' ? null : (...)
+                 */
+                label="resources.invoices.tabs.record_payment"
+              >
+                <PaymentSection />
+              </FormTabWithoutLayout>
+            ) : null}
+            <FormTabWithoutLayout
+              // TODO: move to show view
+              label="resources.invoices.tabs.credits_applied"
+            >
+              <CreditsAlertSection />
+              <Separator />
+              <SectionTitle label="resources.invoices.fieldGroups.credits_applied" />
+              <ReferenceManyFieldWithActions
+                reference="credits_applications"
+                target="invoice"
+                addLabel={false}
+                pagination={<Pagination />}
+                fullWidth
+                actions={
+                  <CreditsToolbar
+                    setApplyCreditsIsOpen={setApplyCreditsIsOpen}
+                    applyCreditsIsOpen={applyCreditsIsOpen}
+                  />
                 }
               >
-                <FormTabWithoutLayout label="resources.invoices.tabs.details">
-                  <DetailsAlertSection
-                    record={formProps.record}
-                    creditsAvailable={creditsAvailable}
-                    totals={totals}
-                    applyCreditsIsOpen={applyCreditsIsOpen}
+                <Datagrid>
+                  <DateField source="date" />
+                  <ReferenceField source="credit_note" reference="credit_notes">
+                    <TextField source="reference" />
+                  </ReferenceField>
+                  <NumberField
+                    label="resources.invoices.fields.credits_applied"
+                    source="amount_to_credit"
                   />
-                  <Separator />
-                  <DetailsTopSection
-                    props={props}
-                    isPaid={isPaid}
-                    setIsPaid={setIsPaid}
-                    applyCreditsIsOpen={applyCreditsIsOpen}
-                    setApplyCreditsIsOpen={setApplyCreditsIsOpen}
-                    setCreditsAvailable={setCreditsAvailable}
-                  />
-                  <LineItemsSection
-                    source="invoiceitem_set"
-                    resource="invoice_items"
-                    label="resources.invoices.fields.invoiceitem_set"
-                    updateTotals={updateTotals}
-                  />
-                  <DetailsBottomSection
-                    totals={totals}
-                    updateTotals={updateTotals}
-                  />
-                </FormTabWithoutLayout>
-                {isPaid ? (
-                  <FormTabWithoutLayout
-                    /**
-                     * TODO: hide tab when unpaid
-                     * for some reason, this tab cannot be toggled using
-                     * formProps?.form?.getFieldState('status')?.value === 'UPD' ? null : (...)
-                     */
-                    label="resources.invoices.tabs.record_payment"
-                  >
-                    <PaymentSection />
-                  </FormTabWithoutLayout>
-                ) : null}
-                <FormTabWithoutLayout
-                  // TODO: move to show view
-                  label="resources.invoices.tabs.credits_applied"
-                >
-                  <CreditsAlertSection />
-                  <Separator />
-                  <SectionTitle label="resources.invoices.fieldGroups.credits_applied" />
-                  <ReferenceManyFieldWithActions
-                    reference="credits_applications"
-                    target="invoice"
-                    addLabel={false}
-                    pagination={<Pagination />}
-                    fullWidth
-                    actions={
-                      <CreditsToolbar
-                        setApplyCreditsIsOpen={setApplyCreditsIsOpen}
-                        applyCreditsIsOpen={applyCreditsIsOpen}
-                      />
-                    }
-                  >
-                    <Datagrid>
-                      <DateField source="date" />
-                      <ReferenceField
-                        source="credit_note"
-                        reference="credit_notes"
-                      >
-                        <TextField source="reference" />
-                      </ReferenceField>
-                      <NumberField
-                        label="resources.invoices.fields.credits_applied"
-                        source="amount_to_credit"
-                      />
-                      <DeleteButton
-                        mutationMode="pessimistic"
-                        redirect={false}
-                      />
-                    </Datagrid>
-                  </ReferenceManyFieldWithActions>
-                  <Separator />
-                  <ApplyCreditsSection
-                    isOpen={applyCreditsIsOpen}
-                    totals={totals}
-                    updateCreditsTotals={updateCreditsTotals}
-                    record={formProps.record}
-                  />
-                </FormTabWithoutLayout>
-                <FormTabWithoutLayout label="resources.invoices.tabs.credit_notes">
-                  <ReferenceManyFieldWithActions
-                    reference="credit_notes"
-                    target="created_from"
-                    addLabel={false}
-                    pagination={<Pagination />}
-                    fullWidth
-                    actions={<CreditNotesToolbar record={formProps.record} />}
-                  >
-                    <CreditNotesDatagrid />
-                  </ReferenceManyFieldWithActions>
-                </FormTabWithoutLayout>
-              </TabbedFormView>
-            </Wrapper>
-          </Card>
+                  <DeleteButton mutationMode="pessimistic" redirect={false} />
+                </Datagrid>
+              </ReferenceManyFieldWithActions>
+              <Separator />
+              <ApplyCreditsSection
+                isOpen={applyCreditsIsOpen}
+                totals={totals}
+                updateCreditsTotals={updateCreditsTotals}
+                record={formProps.record}
+              />
+            </FormTabWithoutLayout>
+            <FormTabWithoutLayout label="resources.invoices.tabs.credit_notes">
+              <ReferenceManyFieldWithActions
+                reference="credit_notes"
+                target="created_from"
+                addLabel={false}
+                pagination={<Pagination />}
+                fullWidth
+                actions={<CreditNotesToolbar record={formProps.record} />}
+              >
+                <CreditNotesDatagrid />
+              </ReferenceManyFieldWithActions>
+            </FormTabWithoutLayout>
+          </TabbedFormView>
         );
       }}
     />

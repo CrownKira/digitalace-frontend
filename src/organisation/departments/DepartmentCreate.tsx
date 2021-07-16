@@ -62,6 +62,7 @@ export const DepartmentCreate: FC<CreateProps> = (props) => {
               reference="employees"
               source="user_set"
               suggestionLimit={5}
+              fullWidth
             >
               <AutocompleteArrayInput optionText="name" />
             </ReferenceArrayInput>

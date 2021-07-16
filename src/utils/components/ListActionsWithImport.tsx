@@ -1,5 +1,4 @@
-import * as React from "react";
-import { cloneElement, useMemo, FC } from "react";
+import React, { cloneElement, useMemo, FC } from "react";
 import {
   sanitizeListRestProps,
   useListContext,
@@ -10,11 +9,21 @@ import {
   TopToolbar,
   CreateButton,
   ExportButton,
+  useNotify,
 } from "react-admin";
-import { ImportButton } from "react-admin-import-csv";
+import { ImportButton, ImportConfig } from "react-admin-import-csv";
+import { getErrorMessage } from "..";
 
-export const ListActionsWithImport: FC<ListActionsProps> = (props) => {
-  const { className, exporter, filters, ...rest } = props;
+interface Props extends ListActionsProps {
+  importConfig?: ImportConfig;
+}
+
+const getError = (error: any) => {
+  return error[0].err;
+};
+
+export const ListActionsWithImport: FC<Props> = (props) => {
+  const { className, exporter, filters, importConfig = {}, ...rest } = props;
   const {
     currentSort,
     displayedFilters,
@@ -26,6 +35,14 @@ export const ListActionsWithImport: FC<ListActionsProps> = (props) => {
   } = useListContext(props);
   const resource = useResourceContext(rest);
   const { hasCreate } = useResourceDefinition(rest);
+  const notify = useNotify();
+  const config: ImportConfig = {
+    postCommitCallback: (error: any) => {
+      notify(getErrorMessage(getError(error)), "warning");
+    },
+    ...importConfig,
+  };
+
   return useMemo(
     () => (
       <TopToolbar className={className} {...sanitizeListRestProps(rest)}>
@@ -46,7 +63,7 @@ export const ListActionsWithImport: FC<ListActionsProps> = (props) => {
             filterValues={filterValues}
           />
         )}
-        <ImportButton {...props} />
+        <ImportButton {...props} {...config} />
       </TopToolbar>
     ),
     [resource, displayedFilters, filterValues, selectedIds, filters, total] // eslint-disable-line react-hooks/exhaustive-deps

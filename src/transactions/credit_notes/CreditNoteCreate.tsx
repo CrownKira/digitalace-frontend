@@ -12,9 +12,8 @@ import {
   number,
   minValue,
 } from "react-admin";
-import { Card, CardContent } from "@material-ui/core";
+import { Card } from "@material-ui/core";
 import { useGetUserConfig } from "../../userMenu/configuration/useGetUserConfig";
-import { withStyles } from "@material-ui/core/styles";
 import { AnyObject } from "react-final-form";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -45,19 +44,9 @@ export const styles = {
 
 const useStyles = makeStyles(styles);
 
-// TODO: move to utils
-export const Wrapper = withStyles(() => ({
-  root: {
-    padding: 0,
-    "&:last-child": {
-      paddingBottom: 0,
-    },
-  },
-}))(CardContent);
-
 export const CreditNoteCreate: FC<CreateProps> = (props) => {
   return (
-    <Create component="div" {...props}>
+    <Create {...props}>
       <CreditNoteForm />
     </Create>
   );
@@ -174,54 +163,49 @@ const CreditNoteForm = (props: any) => {
       {...props}
       render={(formProps: any) => {
         return (
-          <Card>
-            <Wrapper>
-              <TabbedFormView
-                {...formProps}
-                toolbar={
-                  <Toolbar
-                    // props from react-admin demo VisitorEdit
-                    resource="credit_notes"
-                    record={formProps.record}
-                    basePath={formProps.basePath}
-                    invalid={formProps.invalid}
-                    handleSubmit={formProps.handleSubmit}
-                    saving={formProps.saving}
-                    pristine={formProps.pristine}
-                  >
-                    <SaveButton
-                      // props from Toolbar.tsx
-                      handleSubmitWithRedirect={
-                        formProps.handleSubmitWithRedirect ||
-                        formProps.handleSubmit
-                      }
-                      disabled={formProps.disabled}
-                      invalid={formProps.invalid}
-                      redirect={formProps.redirect}
-                      saving={formProps.saving}
-                      submitOnEnter={formProps.submitOnEnter}
-                      transform={transform}
-                      onFailure={onFailure}
-                    />
-                  </Toolbar>
-                }
+          <TabbedFormView
+            {...formProps}
+            toolbar={
+              <Toolbar
+                // props from react-admin demo VisitorEdit
+                resource="credit_notes"
+                record={formProps.record}
+                basePath={formProps.basePath}
+                invalid={formProps.invalid}
+                handleSubmit={formProps.handleSubmit}
+                saving={formProps.saving}
+                pristine={formProps.pristine}
               >
-                <FormTabWithoutLayout label="resources.credit_notes.tabs.details">
-                  <DetailsTopSection props={props} />
-                  <LineItemsSection
-                    source="creditnoteitem_set"
-                    resource="credit_note_items"
-                    label="resources.credit_notes.fields.creditnoteitem_set"
-                    updateTotals={updateTotals}
-                  />
-                  <DetailsBottomSection
-                    totals={totals}
-                    updateTotals={updateTotals}
-                  />
-                </FormTabWithoutLayout>
-              </TabbedFormView>
-            </Wrapper>
-          </Card>
+                <SaveButton
+                  // props from Toolbar.tsx
+                  handleSubmitWithRedirect={
+                    formProps.handleSubmitWithRedirect || formProps.handleSubmit
+                  }
+                  disabled={formProps.disabled}
+                  invalid={formProps.invalid}
+                  redirect={formProps.redirect}
+                  saving={formProps.saving}
+                  submitOnEnter={formProps.submitOnEnter}
+                  transform={transform}
+                  onFailure={onFailure}
+                />
+              </Toolbar>
+            }
+          >
+            <FormTabWithoutLayout label="resources.credit_notes.tabs.details">
+              <DetailsTopSection props={props} />
+              <LineItemsSection
+                source="creditnoteitem_set"
+                resource="credit_note_items"
+                label="resources.credit_notes.fields.creditnoteitem_set"
+                updateTotals={updateTotals}
+              />
+              <DetailsBottomSection
+                totals={totals}
+                updateTotals={updateTotals}
+              />
+            </FormTabWithoutLayout>
+          </TabbedFormView>
         );
       }}
     />

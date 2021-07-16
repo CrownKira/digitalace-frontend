@@ -5,7 +5,7 @@ import { FormTabHeader, Record } from "react-admin";
 const hiddenStyle = { display: "none" };
 
 export const FormTabWithoutLayout: FC<FormTabProps> = ({
-  // basePath,
+  basePath,
   className,
   classes,
   contentClassName,
@@ -14,11 +14,11 @@ export const FormTabWithoutLayout: FC<FormTabProps> = ({
   icon,
   intent,
   label,
-  // margin,
-  // path,
-  // record,
-  // resource,
-  // variant,
+  margin,
+  path,
+  record,
+  resource,
+  variant,
   value,
   ...rest
 }) => {

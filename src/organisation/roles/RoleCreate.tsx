@@ -33,11 +33,13 @@ export const RoleCreate: FC<CreateProps> = (props) => (
         choices={permissions}
         optionText="name"
         optionValue="id"
+        fullWidth
       />
       <ReferenceArrayInput
         reference="employees"
         source="user_set"
         suggestionLimit={5}
+        fullWidth
       >
         <AutocompleteArrayInput optionText="name" />
       </ReferenceArrayInput>

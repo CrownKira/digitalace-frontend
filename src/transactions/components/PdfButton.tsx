@@ -1,5 +1,4 @@
-import * as React from "react";
-import { FC, ReactElement } from "react";
+import React, { FC, ReactElement } from "react";
 import PictureAsPdfTwoToneIcon from "@material-ui/icons/PictureAsPdfTwoTone";
 import { Link } from "react-router-dom";
 import {

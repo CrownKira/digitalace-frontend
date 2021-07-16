@@ -144,6 +144,7 @@ export const CustomerCreate: FC<CreateProps> = (props) => {
           reference="employees"
           source="agents"
           suggestionLimit={5}
+          fullWidth
         >
           <AutocompleteArrayInput optionText="name" />
         </ReferenceArrayInput>

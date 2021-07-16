@@ -202,6 +202,7 @@ export const EmployeeCreate: FC<CreateProps> = (props) => {
             reference="roles"
             source="roles"
             suggestionLimit={5}
+            fullWidth
           >
             <AutocompleteArrayInput optionText="name" />
           </ReferenceArrayInput>
@@ -209,6 +210,7 @@ export const EmployeeCreate: FC<CreateProps> = (props) => {
             reference="customers"
             source="customer_set"
             suggestionLimit={5}
+            fullWidth
           >
             <AutocompleteArrayInput optionText="name" />
           </ReferenceArrayInput>
@@ -216,6 +218,7 @@ export const EmployeeCreate: FC<CreateProps> = (props) => {
             reference="products"
             source="product_set"
             suggestionLimit={5}
+            fullWidth
           >
             <AutocompleteArrayInput optionText="name" />
           </ReferenceArrayInput>

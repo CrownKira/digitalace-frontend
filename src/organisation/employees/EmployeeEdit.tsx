@@ -46,7 +46,7 @@ const EmployeeTitle: FC<FieldProps<Employee>> = ({ record }) =>
 
 export const EmployeeEdit: FC<EditProps> = (props) => {
   return (
-    <Edit title={<EmployeeTitle />} component="div" {...props}>
+    <Edit title={<EmployeeTitle />} {...props}>
       <EmployeeForm />
     </Edit>
   );
