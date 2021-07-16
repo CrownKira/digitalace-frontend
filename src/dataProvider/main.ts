@@ -1,5 +1,4 @@
-import { DataProvider, UpdateParams } from "ra-core";
-import { fetchUtils, Record } from "react-admin";
+import { fetchUtils, Record, DataProvider, UpdateParams } from "react-admin";
 import drfProvider from "ra-data-django-rest-framework";
 import HttpMethodsEnum from "http-methods-enum";
 
@@ -7,6 +6,9 @@ import { baseURL } from "../apis/main";
 import { UserProfile, UserConfig } from "../types";
 
 export const apiUrl = `${baseURL}/api`;
+export interface CreateManyParams {
+  data: any[];
+}
 
 /*
  * includes() slightly faster than has()
@@ -60,6 +62,24 @@ function getFormData(data: Record, method = HttpMethodsEnum.PATCH) {
 
 export const customDataProvider: DataProvider = {
   ...restProvider,
+  createMany: async (resource: string, params: CreateManyParams) => {
+    const { json } = await httpClient(`${apiUrl}/${resource}/`, {
+      method: HttpMethodsEnum.POST,
+      body: JSON.stringify(params.data),
+    });
+    return {
+      data: json,
+    };
+  },
+  updateMany: async (resource, params) => {
+    const { json } = await httpClient(`${apiUrl}/${resource}/`, {
+      method: HttpMethodsEnum.PATCH,
+      body: JSON.stringify(params.data),
+    });
+    return {
+      data: json,
+    };
+  },
   create: async (resource, params) => {
     if (
       fileLabels.every(

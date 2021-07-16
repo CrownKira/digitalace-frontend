@@ -93,8 +93,10 @@ const getAxiosErrorMessage = (error: any) => {
     : statusText;
 };
 
+// get the first error
 export const getErrorMessage = (error: any) => {
   // TODO: extend this to get all errors instead of one
+
   const { isAxiosError, body, status, message } = error;
 
   if (isAxiosError) return getAxiosErrorMessage(error);

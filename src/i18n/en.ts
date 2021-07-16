@@ -63,6 +63,7 @@ export const customEnglishMessages: TranslationMessages = {
     },
     notification: {
       tip: "Tip",
+      work_in_progress: "Work in progress",
     },
     action: {
       pdf: "PDF",
