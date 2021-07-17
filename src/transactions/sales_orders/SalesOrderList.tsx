@@ -25,6 +25,8 @@ import { statuses } from "./data";
 import { ColoredStatusField } from "../components/ColoredStatusField";
 import { ListActionsWithImport } from "../../utils/components/ListActionsWithImport";
 import { dateParser } from "../../utils";
+import { useValidateRow } from "../hooks/useValidateRow";
+import { validateReferenceUnicity } from "./SalesOrderCreate";
 
 const ListFilters = (props: Omit<FilterProps, "children">) => (
   <Filter {...props}>
@@ -50,9 +52,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const transformRows = (csvRowItem: any[]): Promise<any[]> => {
-  if (csvRowItem.length === 0) {
-    return Promise.resolve(csvRowItem);
+const transformRows = (csvRows: any[]): Promise<any[]> => {
+  if (csvRows.length === 0) {
+    return Promise.resolve(csvRows);
   }
 
   const salesOrderKeys = [
@@ -77,7 +79,7 @@ const transformRows = (csvRowItem: any[]): Promise<any[]> => {
     };
   };
 
-  const newCsvRowItem = csvRowItem.reduce((acc, item) => {
+  const newCsvRowItem = csvRows.reduce((acc, item) => {
     if (item.reference) {
       item.salesorderitem_set = [getSalesOrderItem(item)];
       const newItem = transform(pick(item, salesOrderKeys));
@@ -95,13 +97,29 @@ const transformRows = (csvRowItem: any[]): Promise<any[]> => {
 // TODO: customizable table columns
 export const SalesOrderList: FC<ListProps> = (props) => {
   const classes = useStyles();
+
+  const requiredFields = [
+    "date",
+    "reference",
+    "status",
+    "customer",
+    "salesorderitem_set",
+  ];
+
+  const validateRow = useValidateRow({
+    validateReferenceUnicity,
+    requiredFields,
+  });
+
   return (
     <List
       filters={<ListFilters />}
       perPage={25}
       sort={{ field: "date", order: "desc" }}
       bulkActionButtons={<SalesOrderBulkActionButtons />}
-      actions={<ListActionsWithImport importConfig={{ transformRows }} />}
+      actions={
+        <ListActionsWithImport importConfig={{ transformRows, validateRow }} />
+      }
       {...props}
     >
       <Datagrid rowClick="edit" expand={<SalesOrderShow />}>

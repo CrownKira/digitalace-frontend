@@ -25,6 +25,8 @@ import { statuses } from "./data";
 import { ColoredStatusField } from "../components/ColoredStatusField";
 import { ListActionsWithImport } from "../../utils/components/ListActionsWithImport";
 import { dateParser } from "../../utils";
+import { validateReferenceUnicity } from "./CreditNoteCreate";
+import { useValidateRow } from "../hooks/useValidateRow";
 
 const ListFilters = (props: Omit<FilterProps, "children">) => (
   <Filter {...props}>
@@ -50,9 +52,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const transformRows = (csvRowItem: any[]): Promise<any[]> => {
-  if (csvRowItem.length === 0) {
-    return Promise.resolve(csvRowItem);
+const transformRows = (csvRows: any[]): Promise<any[]> => {
+  if (csvRows.length === 0) {
+    return Promise.resolve(csvRows);
   }
 
   const creditNoteKeys = [
@@ -79,7 +81,7 @@ const transformRows = (csvRowItem: any[]): Promise<any[]> => {
     };
   };
 
-  const newCsvRowItem = csvRowItem.reduce((acc, item) => {
+  const newCsvRowItem = csvRows.reduce((acc, item) => {
     if (item.reference) {
       item.creditnoteitem_set = [getCreditNoteItem(item)];
       const newItem = transform(pick(item, creditNoteKeys));
@@ -97,13 +99,29 @@ const transformRows = (csvRowItem: any[]): Promise<any[]> => {
 // TODO: customizable table columns
 export const CreditNoteList: FC<ListProps> = (props) => {
   const classes = useStyles();
+
+  const requiredFields = [
+    "date",
+    "reference",
+    "status",
+    "customer",
+    "creditnoteitem_set",
+  ];
+
+  const validateRow = useValidateRow({
+    validateReferenceUnicity,
+    requiredFields,
+  });
+
   return (
     <List
       filters={<ListFilters />}
       perPage={25}
       sort={{ field: "date", order: "desc" }}
       bulkActionButtons={<CreditNoteBulkActionButtons />}
-      actions={<ListActionsWithImport importConfig={{ transformRows }} />}
+      actions={
+        <ListActionsWithImport importConfig={{ transformRows, validateRow }} />
+      }
       {...props}
     >
       <Datagrid rowClick="edit" expand={<CreditNoteShow />}>

@@ -44,6 +44,7 @@ export const ListActionsWithImport: FC<Props> = (props) => {
       // For all options see: https://www.papaparse.com/docs#config
       dynamicTyping: true,
     },
+    disableImportOverwrite: true,
     ...importConfig,
   };
 

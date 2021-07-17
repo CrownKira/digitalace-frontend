@@ -25,6 +25,8 @@ import { statuses } from "./data";
 import { ColoredStatusField } from "../components/ColoredStatusField";
 import { ListActionsWithImport } from "../../utils/components/ListActionsWithImport";
 import { dateParser } from "../../utils";
+import { validateReferenceUnicity } from "./InvoiceCreate";
+import { useValidateRow } from "../hooks/useValidateRow";
 
 const useStyles = makeStyles((theme) => ({
   hiddenOnSmallScreens: {
@@ -60,9 +62,10 @@ export const transform = (data: any): any => {
   };
 };
 
-const transformRows = (csvRowItem: any[]): Promise<any[]> => {
-  if (csvRowItem.length === 0) {
-    return Promise.resolve(csvRowItem);
+// TODO: validateRow see: https://www.npmjs.com/package/react-admin-import-csv
+const transformRows = (csvRows: any[]): Promise<any[]> => {
+  if (csvRows.length === 0) {
+    return Promise.resolve(csvRows);
   }
 
   const invoiceKeys = [
@@ -86,10 +89,10 @@ const transformRows = (csvRowItem: any[]): Promise<any[]> => {
     return item.invoiceitem_set;
   };
 
-  const newCsvRowItem = csvRowItem.reduce((acc, item) => {
+  const newCsvRowItem = csvRows.reduce((acc, item) => {
     if (item.reference) {
       item.invoiceitem_set = [getInvoiceItem(item)];
-      item.creditsapplication_set = [];
+      item.creditsapplication_set = []; // TODO: remove this after migrating credits application to show view
       const newItem = transform(pick(item, invoiceKeys));
       acc.push(newItem);
       return acc;
@@ -105,13 +108,30 @@ const transformRows = (csvRowItem: any[]): Promise<any[]> => {
 // TODO: customizable table columns
 export const InvoiceList: FC<ListProps> = (props) => {
   const classes = useStyles();
+
+  const requiredFields = [
+    "date",
+    "reference",
+    "status",
+    "customer",
+    "invoiceitem_set",
+    // "creditsapplication_set",
+  ];
+
+  const validateRow = useValidateRow({
+    validateReferenceUnicity,
+    requiredFields,
+  });
+
   return (
     <List
       filters={<ListFilters />}
       perPage={25}
       sort={{ field: "date", order: "desc" }}
       bulkActionButtons={<InvoiceBulkActionButtons />}
-      actions={<ListActionsWithImport importConfig={{ transformRows }} />}
+      actions={
+        <ListActionsWithImport importConfig={{ transformRows, validateRow }} />
+      }
       {...props}
     >
       <Datagrid rowClick="edit" expand={<InvoiceShow />}>
