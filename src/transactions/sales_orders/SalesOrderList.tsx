@@ -115,7 +115,7 @@ export const SalesOrderList: FC<ListProps> = (props) => {
     <List
       filters={<ListFilters />}
       perPage={25}
-      sort={{ field: "date", order: "desc" }}
+      sort={{ field: "id", order: "DESC" }}
       bulkActionButtons={<SalesOrderBulkActionButtons />}
       actions={
         <ListActionsWithImport importConfig={{ transformRows, validateRow }} />

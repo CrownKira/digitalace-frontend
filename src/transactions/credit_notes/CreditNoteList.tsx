@@ -117,7 +117,7 @@ export const CreditNoteList: FC<ListProps> = (props) => {
     <List
       filters={<ListFilters />}
       perPage={25}
-      sort={{ field: "date", order: "desc" }}
+      sort={{ field: "id", order: "DESC" }}
       bulkActionButtons={<CreditNoteBulkActionButtons />}
       actions={
         <ListActionsWithImport importConfig={{ transformRows, validateRow }} />
