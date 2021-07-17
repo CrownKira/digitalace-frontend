@@ -367,6 +367,7 @@ export const TableFormIterator: FC<TableFormIteratorProps> = (props) => {
                                               index: source
                                                 ? undefined
                                                 : index2,
+                                              // qn: why does this not remove the label?
                                               label: "",
                                               disabled,
                                               ...inputProps,

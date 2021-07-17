@@ -54,9 +54,15 @@ export const DepartmentCreate: FC<CreateProps> = (props) => {
         <ArrayInput
           source="designation_set"
           resource="designations"
-          label="resources.departments.fields.designation_set"
+          label="resources.departments.fields.user_set"
         >
-          <TableFormIterator>
+          <TableFormIterator
+            resource="designations"
+            labels={[
+              "resources.employees.fields.designation",
+              "resources.designations.fields.employees",
+            ]}
+          >
             <TextInput source="name" validate={requiredValidate} />
             <ReferenceArrayInput
               reference="employees"

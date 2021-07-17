@@ -11,8 +11,6 @@ import {
   ArrayInput,
   ReferenceArrayInput,
   AutocompleteArrayInput,
-  required,
-  Record,
 } from "react-admin";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -62,7 +60,13 @@ export const DepartmentEdit: FC<EditProps> = (props) => {
           resource="designations"
           label="resources.departments.fields.designation_set"
         >
-          <TableFormIterator resource="designations">
+          <TableFormIterator
+            resource="designations"
+            labels={[
+              "resources.employees.fields.designation",
+              "resources.designations.fields.user_set",
+            ]}
+          >
             <TextInput source="name" validate={requiredValidate} />
             <ReferenceArrayInput
               reference="employees"
