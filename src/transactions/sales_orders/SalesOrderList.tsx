@@ -16,6 +16,7 @@ import {
   BulkDeleteButtonProps,
 } from "react-admin";
 import { makeStyles } from "@material-ui/core/styles";
+import pick from "lodash/pick";
 
 import { FullNameField } from "../../maintenance/customers/FullNameField";
 import { AddressField } from "../../maintenance/customers/AddressField";
@@ -23,6 +24,7 @@ import { SalesOrderShow } from "./SalesOrderShow";
 import { statuses } from "./data";
 import { ColoredStatusField } from "../components/ColoredStatusField";
 import { ListActionsWithImport } from "../../utils/components/ListActionsWithImport";
+import { dateParser } from "../../utils";
 
 const ListFilters = (props: Omit<FilterProps, "children">) => (
   <Filter {...props}>
@@ -48,6 +50,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const transformRows = (csvRowItem: any[]): Promise<any[]> => {
+  if (csvRowItem.length === 0) {
+    return Promise.resolve(csvRowItem);
+  }
+
+  const salesOrderKeys = [
+    "reference",
+    "date",
+    "description",
+    "gst_rate",
+    "discount_rate",
+    "status",
+    "customer",
+    "salesperson",
+  ];
+  const getSalesOrderItem = (item: any) => {
+    return item.salesorderitem_set;
+  };
+
+  const transform = (data: any): any => {
+    return {
+      ...data,
+      date: dateParser(data.date),
+      description: data.description || "",
+    };
+  };
+
+  const newCsvRowItem = csvRowItem.reduce((acc, item) => {
+    if (item.reference) {
+      item.salesorderitem_set = [getSalesOrderItem(item)];
+      const newItem = transform(pick(item, salesOrderKeys));
+      acc.push(newItem);
+      return acc;
+    } else {
+      acc[acc.length - 1].salesorderitem_set.push(getSalesOrderItem(item));
+      return acc;
+    }
+  }, []);
+
+  return Promise.resolve(newCsvRowItem);
+};
+
 // TODO: customizable table columns
 export const SalesOrderList: FC<ListProps> = (props) => {
   const classes = useStyles();
@@ -57,7 +101,7 @@ export const SalesOrderList: FC<ListProps> = (props) => {
       perPage={25}
       sort={{ field: "date", order: "desc" }}
       bulkActionButtons={<SalesOrderBulkActionButtons />}
-      actions={<ListActionsWithImport />}
+      actions={<ListActionsWithImport importConfig={{ transformRows }} />}
       {...props}
     >
       <Datagrid rowClick="edit" expand={<SalesOrderShow />}>

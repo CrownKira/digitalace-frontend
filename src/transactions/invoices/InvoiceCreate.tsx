@@ -160,8 +160,8 @@ const InvoiceForm = (props: any) => {
       ...data,
       date: dateParser(data.date),
       payment_date: dateParser(data.payment_date),
-      ...(!applyCreditsIsOpen && { creditsapplication_set: [] }),
       description: data.description || "",
+      ...(!applyCreditsIsOpen && { creditsapplication_set: [] }),
     };
   };
 
