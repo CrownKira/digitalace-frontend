@@ -14,6 +14,9 @@ import {
   DateInput,
   BulkDeleteButton,
   BulkDeleteButtonProps,
+  ReferenceArrayField,
+  SingleFieldList,
+  ChipField,
 } from "react-admin";
 import { makeStyles } from "@material-ui/core/styles";
 import pick from "lodash/pick";
@@ -139,9 +142,16 @@ export const SalesOrderList: FC<ListProps> = (props) => {
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField source="invoice" reference="invoices">
-          <TextField source="reference" />
-        </ReferenceField>
+        <ReferenceArrayField
+          cellClassName={classes.hiddenOnSmallScreens}
+          headerClassName={classes.hiddenOnSmallScreens}
+          reference="invoices"
+          source="invoice_set"
+        >
+          <SingleFieldList>
+            <ChipField source="reference" />
+          </SingleFieldList>
+        </ReferenceArrayField>
         <ColoredStatusField source="status" choices={statuses} />
         <NumberField source="grand_total" />
       </Datagrid>

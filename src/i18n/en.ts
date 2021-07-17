@@ -481,7 +481,7 @@ export const customEnglishMessages: TranslationMessages = {
         total_lines: "Total Lines",
         creditnoteitem_set: "Credit Note Items",
         creditsapplication_set: "Apply to Invoice",
-        created_from: "Created from",
+        created_from: "Associated Invoice",
       },
       data: {
         statuses: {

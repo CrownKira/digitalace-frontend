@@ -141,7 +141,7 @@ export const CreditNoteList: FC<ListProps> = (props) => {
         >
           <AddressField />
         </ReferenceField>
-        <ReferenceField source="invoice" reference="invoices">
+        <ReferenceField source="created_from" reference="invoices">
           <TextField source="reference" />
         </ReferenceField>
         <ColoredStatusField source="status" choices={statuses} />
