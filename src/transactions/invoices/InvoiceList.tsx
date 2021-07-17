@@ -50,6 +50,16 @@ const InvoiceBulkActionButtons: FC<BulkDeleteButtonProps> = (props) => (
   </Fragment>
 );
 
+export const transform = (data: any): any => {
+  return {
+    ...data,
+    date: dateParser(data.date),
+    payment_date: dateParser(data.payment_date),
+    description: data.description || "",
+    payment_note: data.payment_note || "",
+  };
+};
+
 const transformRows = (csvRowItem: any[]): Promise<any[]> => {
   if (csvRowItem.length === 0) {
     return Promise.resolve(csvRowItem);
@@ -71,18 +81,9 @@ const transformRows = (csvRowItem: any[]): Promise<any[]> => {
     "invoiceitem_set",
     "creditsapplication_set",
   ];
+
   const getInvoiceItem = (item: any) => {
     return item.invoiceitem_set;
-  };
-
-  const transform = (data: any): any => {
-    return {
-      ...data,
-      date: dateParser(data.date),
-      payment_date: dateParser(data.payment_date),
-      description: data.description || "",
-      payment_note: data.payment_note || "",
-    };
   };
 
   const newCsvRowItem = csvRowItem.reduce((acc, item) => {
