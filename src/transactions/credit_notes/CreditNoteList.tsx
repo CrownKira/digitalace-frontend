@@ -111,6 +111,7 @@ export const CreditNoteList: FC<ListProps> = (props) => {
   const validateRow = useValidateRow({
     validateReferenceUnicity,
     requiredFields,
+    itemSetKey: "creditnoteitem_set",
   });
 
   return (

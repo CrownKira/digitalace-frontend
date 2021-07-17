@@ -109,6 +109,7 @@ export const SalesOrderList: FC<ListProps> = (props) => {
   const validateRow = useValidateRow({
     validateReferenceUnicity,
     requiredFields,
+    itemSetKey: "salesorderitem_set",
   });
 
   return (

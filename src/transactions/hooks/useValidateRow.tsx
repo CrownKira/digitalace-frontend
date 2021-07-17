@@ -7,6 +7,7 @@ import { getValidationErrorMessage } from "../../utils";
 export const useValidateRow = ({
   validateReferenceUnicity,
   requiredFields,
+  itemSetKey,
 }: {
   validateReferenceUnicity: (props: any) => ((value: string) => Promise<
     | {
@@ -19,6 +20,7 @@ export const useValidateRow = ({
   >) &
     MemoizedFunction;
   requiredFields: string[];
+  itemSetKey: string;
 }) => {
   const translate = useTranslate();
   const notify = useNotify();
@@ -55,8 +57,8 @@ export const useValidateRow = ({
     const requiredLineItemFields = ["product", "quantity", "unit_price"];
     try {
       requiredLineItemFields.forEach((field) => {
-        csvRowItem.invoiceitem_set.forEach((invoiceItem: any) => {
-          const requiredError = required()(invoiceItem[field], undefined);
+        csvRowItem[itemSetKey].forEach((item: any) => {
+          const requiredError = required()(item[field], undefined);
           if (requiredError) {
             throw new Error(getErrorMessage(field, requiredError));
           }

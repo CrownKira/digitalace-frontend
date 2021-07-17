@@ -121,6 +121,7 @@ export const InvoiceList: FC<ListProps> = (props) => {
   const validateRow = useValidateRow({
     validateReferenceUnicity,
     requiredFields,
+    itemSetKey: "invoiceitem_set",
   });
 
   return (
