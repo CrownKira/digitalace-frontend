@@ -23,7 +23,7 @@ export const PrintButton: FC<PrintButtonProps> = ({
 
   return (
     <Button
-      component={Link}
+      // component={Link}
       // to={basePath || `/${resource}`}
       label={label}
       onClick={handleClick}

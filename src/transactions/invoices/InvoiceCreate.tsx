@@ -14,13 +14,12 @@ import {
   maxValue,
   TopToolbar,
 } from "react-admin";
-import { Card } from "@material-ui/core";
 import { useGetUserConfig } from "../../userMenu/configuration/useGetUserConfig";
 import { AnyObject } from "react-final-form";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { CreditsApplication, InvoiceItem } from "../../types";
-import { dateParser, validateUnicity, toFixedNumber } from "../../utils";
+import { validateUnicity, toFixedNumber } from "../../utils";
 import { memoize } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
@@ -34,6 +33,7 @@ import { DetailsAlertSection } from "./sections/DetailsAlertSection";
 import { CreditsAlertSection } from "./sections/CreditsAlertSection";
 import { Separator } from "../../utils/components/Divider";
 import { useGetNextReference } from "../hooks/useGetNextReference";
+import { transform as listTransform } from "./InvoiceList";
 
 export const styles = {
   leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
@@ -155,12 +155,12 @@ const InvoiceForm = (props: any) => {
   });
   const { loading: loadingUserConfig, data: userConfig } = useGetUserConfig();
 
-  const transform = (data: Record): Record => ({
-    ...data,
-    date: dateParser(data.date),
-    payment_date: dateParser(data.payment_date),
-    ...(!applyCreditsIsOpen && { creditsapplication_set: [] }),
-  });
+  const transform = (data: Record): Record => {
+    return {
+      ...listTransform(data),
+      ...(!applyCreditsIsOpen && { creditsapplication_set: [] }),
+    };
+  };
 
   const updateTotals = (formData: any) => {
     // formData needed since this function is not within <Form>

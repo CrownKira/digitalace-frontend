@@ -49,9 +49,10 @@ function getFormData(data: Record, method = HttpMethodsEnum.PATCH) {
     if (fileLabels.includes(key) && value) {
       if (
         method === HttpMethodsEnum.POST ||
-        value.rawFile !== undefined // no new image upload if undefined
-      )
+        value.rawFile !== undefined // no new media uploaded if undefined
+      ) {
         formData.append(key, value.rawFile);
+      }
     } else {
       jsonData[key] = value;
     }

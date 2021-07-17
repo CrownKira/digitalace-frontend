@@ -18,7 +18,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Department } from "../../types";
 import { formatImage } from "../../utils";
-import { styles as createStyles, requiredValidate } from "./DepartmentCreate";
+import {
+  styles as createStyles,
+  requiredValidate,
+  transform,
+} from "./DepartmentCreate";
 import { TableFormIterator } from "../../utils/components/TableFormIterator";
 
 const useStyles = makeStyles({
@@ -39,16 +43,6 @@ const DepartmentTitle: FC<FieldProps<Department>> = ({ record }) => {
 // TODO: transform to include id=-1 for new designation rows
 export const DepartmentEdit: FC<EditProps> = (props) => {
   const classes = useStyles();
-  // TODO: better way to add default id and user_set?
-  const transform = (data: Record) => {
-    (data as Department).designation_set = (data as Department).designation_set
-      .filter((x) => x)
-      .map((designation_data) => {
-        if (!designation_data.user_set) designation_data.user_set = [];
-        return designation_data;
-      });
-    return data;
-  };
 
   return (
     <Edit title={<DepartmentTitle />} transform={transform} {...props}>

@@ -80,6 +80,17 @@ export function refreshLocalStorage(data: { [key: string]: any }) {
   }
 }
 
+export const getValidationErrorMessage = (
+  error:
+    | string
+    | {
+        message: string;
+        args: any;
+      }
+) => {
+  return typeof error === "string" ? error : error.message;
+};
+
 // TODO: display error in the field helper instead?
 // https://marmelab.com/react-admin/CreateEdit.html#submission-validation
 const getAxiosErrorMessage = (error: any) => {

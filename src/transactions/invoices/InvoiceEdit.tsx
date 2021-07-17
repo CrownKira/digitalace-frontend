@@ -47,7 +47,7 @@ import { CreditNotesDatagrid } from "./sections/CreditNotesDatagrid";
 import { CreditsToolbar } from "./sections/CreditsToolbar";
 import { CreditNotesToolbar } from "./sections/CreditNotesToolbar";
 import { Separator, SectionTitle } from "../../utils/components/Divider";
-import { dateParser } from "../../utils";
+import { transform as listTransform } from "./InvoiceList";
 
 const useStyles = makeStyles({
   ...createStyles,
@@ -95,13 +95,14 @@ const InvoiceForm = (props: any) => {
   const [applyCreditsIsOpen, setApplyCreditsIsOpen] = useState(false);
   const [creditsAvailable, setCreditsAvailable] = useState(0);
 
-  const transform = (data: Record): Record => ({
-    ...data,
-    date: dateParser(data.date),
-    payment_date: dateParser(data.payment_date),
-    // TODO: use state to keep track of creditsapplication_set instead of formData?
-    ...(!applyCreditsIsOpen && { creditsapplication_set: [] }),
-  });
+  const transform = (data: Record): Record => {
+    return {
+      ...listTransform(data),
+      // TODO: use state to keep track of creditsapplication_set instead of formData?
+      ...(!applyCreditsIsOpen && { creditsapplication_set: [] }),
+      description: data.description || "",
+    };
+  };
 
   const getInitialTotals = useCallback(() => {
     const {

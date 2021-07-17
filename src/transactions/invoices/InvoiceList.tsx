@@ -16,6 +16,7 @@ import {
   BulkDeleteButtonProps,
 } from "react-admin";
 import { makeStyles } from "@material-ui/core/styles";
+import pick from "lodash/pick";
 
 import { FullNameField } from "../../maintenance/customers/FullNameField";
 import { AddressField } from "../../maintenance/customers/AddressField";
@@ -23,6 +24,9 @@ import { InvoiceShow } from "./InvoiceShow";
 import { statuses } from "./data";
 import { ColoredStatusField } from "../components/ColoredStatusField";
 import { ListActionsWithImport } from "../../utils/components/ListActionsWithImport";
+import { dateParser } from "../../utils";
+import { validateReferenceUnicity } from "./InvoiceCreate";
+import { useValidateRow } from "../hooks/useValidateRow";
 
 const useStyles = makeStyles((theme) => ({
   hiddenOnSmallScreens: {
@@ -48,16 +52,86 @@ const InvoiceBulkActionButtons: FC<BulkDeleteButtonProps> = (props) => (
   </Fragment>
 );
 
+export const transform = (data: any): any => {
+  return {
+    ...data,
+    date: dateParser(data.date),
+    payment_date: dateParser(data.payment_date),
+    description: data.description || "",
+    payment_note: data.payment_note || "",
+  };
+};
+
+// TODO: validateRow see: https://www.npmjs.com/package/react-admin-import-csv
+const transformRows = (csvRows: any[]): Promise<any[]> => {
+  if (csvRows.length === 0) {
+    return Promise.resolve(csvRows);
+  }
+
+  const invoiceKeys = [
+    "reference",
+    "date",
+    "description",
+    "payment_date",
+    "payment_method",
+    "payment_note",
+    "gst_rate",
+    "discount_rate",
+    "customer",
+    "salesperson",
+    "sales_order",
+    "status",
+    "invoiceitem_set",
+    "creditsapplication_set",
+  ];
+
+  const getInvoiceItem = (item: any) => {
+    return item.invoiceitem_set;
+  };
+
+  const newCsvRowItem = csvRows.reduce((acc, item) => {
+    if (item.reference) {
+      item.invoiceitem_set = [getInvoiceItem(item)];
+      item.creditsapplication_set = []; // TODO: remove this after migrating credits application to show view
+      const newItem = transform(pick(item, invoiceKeys));
+      acc.push(newItem);
+      return acc;
+    } else {
+      acc[acc.length - 1].invoiceitem_set.push(getInvoiceItem(item));
+      return acc;
+    }
+  }, []);
+
+  return Promise.resolve(newCsvRowItem);
+};
+
 // TODO: customizable table columns
 export const InvoiceList: FC<ListProps> = (props) => {
   const classes = useStyles();
+
+  const requiredFields = [
+    "date",
+    "reference",
+    "status",
+    "customer",
+    "invoiceitem_set",
+    // "creditsapplication_set",
+  ];
+
+  const validateRow = useValidateRow({
+    validateReferenceUnicity,
+    requiredFields,
+  });
+
   return (
     <List
       filters={<ListFilters />}
       perPage={25}
-      sort={{ field: "date", order: "desc" }}
+      sort={{ field: "id", order: "DESC" }}
       bulkActionButtons={<InvoiceBulkActionButtons />}
-      actions={<ListActionsWithImport />}
+      actions={
+        <ListActionsWithImport importConfig={{ transformRows, validateRow }} />
+      }
       {...props}
     >
       <Datagrid rowClick="edit" expand={<InvoiceShow />}>

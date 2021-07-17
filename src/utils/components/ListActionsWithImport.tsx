@@ -40,6 +40,11 @@ export const ListActionsWithImport: FC<Props> = (props) => {
     postCommitCallback: (error: any) => {
       notify(getErrorMessage(getError(error)), "warning");
     },
+    parseConfig: {
+      // For all options see: https://www.papaparse.com/docs#config
+      dynamicTyping: true,
+    },
+    disableImportOverwrite: true,
     ...importConfig,
   };
 

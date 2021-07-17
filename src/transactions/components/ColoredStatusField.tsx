@@ -36,7 +36,7 @@ const getColor = (status: string) => {
       "CC", // cancelled
     ].includes(status)
   ) {
-    return "danger";
+    return "error";
   }
 };
 
@@ -45,9 +45,9 @@ export const ColoredStatusField = (props: SelectFieldProps) => {
 
   if (props.record && props.source) {
     switch (getColor(props.record[props.source])) {
-      case "danger":
+      case "disabled":
         return (
-          <span style={{ color: theme.palette.error.main }}>
+          <span style={{ color: theme.palette.action.disabled }}>
             <SelectField {...props} />
           </span>
         );
@@ -65,13 +65,12 @@ export const ColoredStatusField = (props: SelectFieldProps) => {
           </span>
         );
 
-      case "disabled":
+      case "error":
         return (
-          <span style={{ color: theme.palette.action.disabled }}>
+          <span style={{ color: theme.palette.error.main }}>
             <SelectField {...props} />
           </span>
         );
-
       default:
         return <SelectField {...props} />;
     }
