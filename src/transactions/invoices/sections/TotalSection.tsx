@@ -57,6 +57,7 @@ export const TotalSection: FC<Props> = ({
   const { values: formData } = useFormState();
 
   // TODO: update totals on update refresh
+  // TODO: wrap text in Typography
   // ie. update on init, don't rely on initial data
   const handleDiscountRateOnBlur = () => {
     updateTotals(formData);

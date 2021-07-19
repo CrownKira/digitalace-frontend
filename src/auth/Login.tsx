@@ -122,12 +122,12 @@ const Login = () => {
     );
   };
 
-  const validate = (values: FormValues) => {
+  const validate = ({ email, password }: FormValues) => {
     const errors: FormValues = {};
-    if (!values.email) {
+    if (!email) {
       errors.email = translate("ra.validation.required");
     }
-    if (!values.password) {
+    if (!password) {
       errors.password = translate("ra.validation.required");
     }
     return errors;
