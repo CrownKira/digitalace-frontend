@@ -143,8 +143,6 @@ const CreditNoteForm = (props: any) => {
                   onFailure={onFailure}
                   onSuccess={onSuccess}
                 />
-                <PdfButton />
-                <PrintButton />
                 {formProps.record && formProps.record.id !== undefined && (
                   <DeleteButton
                     // props from Toolbar.tsx
