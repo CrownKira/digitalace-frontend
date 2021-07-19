@@ -43,6 +43,15 @@ const ProgressAlert: FC = () => {
       >
         {email}
       </Link>
+      <br />
+      Please feel free to file any issues that you have encountered{" "}
+      <Link
+        className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+        href="https://github.com/CrownKira/digitalace/issues"
+        target="_blank"
+      >
+        here
+      </Link>
     </Alert>
   );
 };

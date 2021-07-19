@@ -669,7 +669,7 @@ export const customEnglishMessages: TranslationMessages = {
           "You can create invoices to complete this sales order.",
         no_invoice: "No associated invoice so far.",
         total_invoices:
-          "1 invoice associated to this sales order. |||| %{total} invoices associated to this sales order.",
+          "1 invoice associated to this sales order. |||| %{smart_count} invoices associated to this sales order.",
       },
     },
     sales_order_items: {
