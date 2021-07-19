@@ -69,6 +69,11 @@ export const customEnglishMessages: TranslationMessages = {
       pdf: "PDF",
       print: "Print",
     },
+    validation: {
+      password_mismatch:
+        "The password confirmation is not the same as the password.",
+      email_mismatch: "The email confirmation is not the same as the email.",
+    },
     // components
     async_autocomplete_input: {
       data_provider_error:
@@ -88,6 +93,9 @@ export const customEnglishMessages: TranslationMessages = {
       register: "Create Account",
       register_title: "Create your account.",
       register_error: "Registration failed, please retry",
+      validation: {
+        passwordMinLength: "Must be 5 characters at least",
+      },
     },
     dashboard: {
       welcome: {

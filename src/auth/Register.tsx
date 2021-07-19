@@ -21,7 +21,12 @@ import {
 } from "react-admin";
 
 import { lightTheme } from "../layout/themes";
-import { styles as loginStyles, renderInput } from "./Login";
+import {
+  styles as loginStyles,
+  TextInput,
+  validateEmail,
+  validatePasswordLength,
+} from "./Login";
 import { getErrorMessage } from "../utils";
 import { instance as main } from "../apis/main";
 
@@ -41,9 +46,6 @@ const register = async ({
     password,
     confirm_password,
   });
-
-  // TODO: remove this?
-  // if (response.status < 200 || response.status >= 300) throw new Error();
 
   const auth = response.data;
   localStorage.setItem("auth", JSON.stringify(auth));
@@ -78,25 +80,40 @@ const Register = () => {
       });
   };
 
-  const validate = (values: FormValues) => {
+  const validate = ({
+    company_name,
+    name,
+    email,
+    password,
+    confirm_email,
+    confirm_password,
+  }: FormValues) => {
     const errors: FormValues = {};
-    if (!values.company_name) {
+    if (!company_name) {
       errors.company_name = translate("ra.validation.required");
     }
-    if (!values.name) {
+    if (!name) {
       errors.name = translate("ra.validation.required");
     }
-    if (!values.email) {
+    if (!email) {
       errors.email = translate("ra.validation.required");
     }
-    if (!values.password) {
+    if (!password) {
       errors.password = translate("ra.validation.required");
     }
-    if (!values.confirm_email) {
+    if (!confirm_email) {
       errors.confirm_email = translate("ra.validation.required");
     }
-    if (!values.confirm_password) {
+    if (!confirm_password) {
       errors.confirm_password = translate("ra.validation.required");
+    }
+
+    if (email && confirm_email && email !== confirm_email) {
+      errors.confirm_email = translate("pos.validation.email_mismatch");
+    }
+
+    if (password && confirm_password && password !== confirm_password) {
+      errors.confirm_password = translate("pos.validation.password_mismatch");
     }
     return errors;
   };
@@ -124,7 +141,7 @@ const Register = () => {
                     // autoFocus
                     name="company_name"
                     // @ts-ignore
-                    component={renderInput}
+                    component={TextInput}
                     label={translate("pos.auth.company_name")}
                     disabled={loading}
                   />
@@ -133,7 +150,7 @@ const Register = () => {
                   <Field
                     name="name"
                     // @ts-ignore
-                    component={renderInput}
+                    component={TextInput}
                     label={translate("ra.auth.username")}
                     disabled={loading}
                   />
@@ -144,18 +161,18 @@ const Register = () => {
                     name="email"
                     // TODO: fix warning
                     // @ts-ignore
-                    component={renderInput}
+                    component={TextInput}
                     label={translate("pos.auth.email")}
                     type="email"
                     disabled={loading}
-                    // validate={validateReferenceUnicity}
+                    validate={validateEmail}
                   />
                 </div>
                 <div className={classes.input}>
                   <Field
                     name="confirm_email"
                     // @ts-ignore
-                    component={renderInput}
+                    component={TextInput}
                     label={translate("pos.auth.confirm_email")}
                     type="email"
                     disabled={loading}
@@ -165,17 +182,18 @@ const Register = () => {
                   <Field
                     name="password"
                     // @ts-ignore
-                    component={renderInput}
+                    component={TextInput}
                     label={translate("ra.auth.password")}
                     type="password"
                     disabled={loading}
+                    validate={validatePasswordLength}
                   />
                 </div>
                 <div className={classes.input}>
                   <Field
                     name="confirm_password"
                     // @ts-ignore
-                    component={renderInput}
+                    component={TextInput}
                     label={translate("pos.auth.confirm_password")}
                     type="password"
                     disabled={loading}

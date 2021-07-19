@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, FC } from "react";
 import PropTypes from "prop-types";
 import { Field, withTypes } from "react-final-form";
 import { useLocation } from "react-router-dom";
@@ -19,10 +19,12 @@ import {
   useLogin,
   Link,
   useNotify,
+  email,
+  minLength,
 } from "react-admin";
 
 import { lightTheme } from "../layout/themes";
-import { getErrorMessage } from "../utils";
+import { getErrorMessage, getValidationErrorMessage } from "../utils";
 
 export const styles = makeStyles((theme) => ({
   main: {
@@ -70,15 +72,18 @@ export const styles = makeStyles((theme) => ({
 }));
 
 // TODO: refactor
-export const renderInput = ({
+export const TextInput = ({
   meta: { touched, error } = { touched: false, error: undefined },
   input: { ...inputProps },
   ...props
 }) => {
+  const translate = useTranslate();
+  const errorOverride = translate(getValidationErrorMessage(error));
+
   return (
     <TextField
-      error={!!(touched && error)}
-      helperText={touched && error}
+      error={!!(touched && errorOverride)}
+      helperText={touched && errorOverride}
       {...inputProps}
       {...props}
       fullWidth
@@ -154,19 +159,21 @@ const Login = () => {
                     // TODO: render using EmailField and PasswordField?
                     // TODO: fix warning
                     // @ts-ignore
-                    component={renderInput}
+                    component={TextInput}
                     label={translate("pos.auth.email")}
                     disabled={loading}
+                    validate={validateEmail}
                   />
                 </div>
                 <div className={classes.input}>
                   <Field
                     name="password"
                     // @ts-ignore
-                    component={renderInput}
+                    component={TextInput}
                     label={translate("ra.auth.password")}
                     type="password"
                     disabled={loading}
+                    validate={validatePasswordLength}
                   />
                 </div>
               </div>
@@ -193,6 +200,12 @@ const Login = () => {
     />
   );
 };
+
+export const validateEmail = email();
+export const validatePasswordLength = minLength(
+  5,
+  "pos.auth.validation.passwordMinLength"
+);
 
 Login.propTypes = {
   authProvider: PropTypes.func,

@@ -81,14 +81,18 @@ export function refreshLocalStorage(data: { [key: string]: any }) {
 }
 
 export const getValidationErrorMessage = (
-  error:
+  error?:
     | string
     | {
         message: string;
         args: any;
       }
 ) => {
-  return typeof error === "string" ? error : error.message;
+  return error === undefined
+    ? ""
+    : typeof error === "string"
+    ? error
+    : error.message;
 };
 
 // TODO: display error in the field helper instead?
