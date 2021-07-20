@@ -1,3 +1,4 @@
+import React, { ReactNode } from "react";
 import lodashMemoize from "lodash/memoize";
 import { Record } from "react-admin";
 
@@ -212,4 +213,24 @@ export const ccyFormat = (
   }
 
   return Number(num).toFixed(2);
+};
+
+export const hasPermission = (
+  permissions: (string | undefined)[],
+  codename: string,
+  action: string
+) => {
+  switch (action) {
+    case "list":
+      return permissions.includes(`view_${codename}`);
+    case "create":
+      return permissions.includes(`add_${codename}`);
+    case "edit":
+      return permissions.includes(`change_${codename}`);
+    case "codename":
+      // TODO: remove codename field
+      return false;
+    default:
+      return true;
+  }
 };

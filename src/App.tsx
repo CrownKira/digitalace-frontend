@@ -26,6 +26,7 @@ import { suppliers } from "./maintenance/suppliers";
 import { categories } from "./maintenance/categories";
 import { products } from "./maintenance/products";
 import { permissions } from "./permissions/data";
+import { hasPermission } from "./utils";
 
 // rafc
 const i18nProvider = polyglotI18nProvider(
@@ -68,103 +69,83 @@ export const App = ({ onUnmount, dataProvider }: AppProps) => {
           .map((x) => permissions.find((y) => y.id === x)?.codename)
           .filter((x) => x);
 
-        const hasPermission = (
-          codename: string,
-          component: ReactNode,
-          action: string
-        ) => {
-          switch (action) {
-            case "list":
-              return permissionCodeNames.includes(`view_${codename}`);
-            case "create":
-              return permissionCodeNames.includes(`add_${codename}`);
-            case "edit":
-              return permissionCodeNames.includes(`change_${codename}`);
-            case "codename":
-              // TODO: remove codename field
-              return false;
-            default:
-              return true;
-          }
-        };
-
         return [
           <Resource
             key="invoices"
             name="invoices"
             // The keys are always strings. This means you can't use an object instance's identity as a key.
             {...pickBy<ReactNode>(invoices, (value, key) =>
-              hasPermission("invoice", value, key)
+              hasPermission(permissionCodeNames, "invoice", key)
             )}
           />,
           <Resource
             key="receives"
             name="receives"
             {...pickBy<ReactNode>(receives, (value, key) =>
-              hasPermission("receive", value, key)
+              hasPermission(permissionCodeNames, "receive", key)
             )}
           />,
           <Resource
             key="credit_notes"
             name="credit_notes"
             {...pickBy<ReactNode>(credit_notes, (value, key) =>
-              hasPermission("creditnote", value, key)
+              hasPermission(permissionCodeNames, "creditnote", key)
             )}
           />,
           <Resource
             key="sales_orders"
             name="sales_orders"
             {...pickBy<ReactNode>(sales_orders, (value, key) =>
-              hasPermission("salesorder", value, key)
+              hasPermission(permissionCodeNames, "salesorder", key)
             )}
           />,
           <Resource
             key="purchase_orders"
             name="purchase_orders"
             {...pickBy<ReactNode>(purchase_orders, (value, key) =>
-              hasPermission("purchaseorder", value, key)
+              hasPermission(permissionCodeNames, "purchaseorder", key)
             )}
           />,
           <Resource
             key="products"
             name="products"
             {...pickBy<ReactNode>(products, (value, key) =>
-              hasPermission("product", value, key)
+              hasPermission(permissionCodeNames, "product", key)
             )}
           />,
           <Resource
             key="customers"
             name="customers"
             {...pickBy<ReactNode>(customers, (value, key) =>
-              hasPermission("customer", value, key)
+              hasPermission(permissionCodeNames, "customer", key)
             )}
           />,
           <Resource
             key="suppliers"
             name="suppliers"
             {...pickBy<ReactNode>(suppliers, (value, key) =>
-              hasPermission("supplier", value, key)
+              hasPermission(permissionCodeNames, "supplier", key)
             )}
           />,
           <Resource
             key="categories"
             name="categories"
             {...pickBy<ReactNode>(categories, (value, key) =>
-              hasPermission("productcategory", value, key)
+              hasPermission(permissionCodeNames, "productcategory", key)
             )}
           />,
           <Resource
             key="departments"
             name="departments"
             {...pickBy<ReactNode>(departments, (value, key) =>
-              hasPermission("department", value, key)
+              hasPermission(permissionCodeNames, "department", key)
             )}
           />,
           <Resource
             key="roles"
             name="roles"
             {...pickBy<ReactNode>(roles, (value, key) =>
-              hasPermission("role", value, key)
+              hasPermission(permissionCodeNames, "role", key)
             )}
           />,
           <Resource key="designations" name="designations" />,
@@ -172,7 +153,7 @@ export const App = ({ onUnmount, dataProvider }: AppProps) => {
             key="employees"
             name="employees"
             {...pickBy<ReactNode>(employees, (value, key) =>
-              hasPermission("user", value, key)
+              hasPermission(permissionCodeNames, "user", key)
             )}
           />,
           <Resource key="credits_applications" name="credits_applications" />,
