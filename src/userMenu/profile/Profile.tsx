@@ -6,6 +6,7 @@ import React, {
   useContext,
 } from "react";
 import { Box, Card, CardContent } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import {
   TextField,
   DateField,
@@ -29,6 +30,7 @@ import {
   ReferenceArrayField,
   SingleFieldList,
   ChipField,
+  useTranslate,
 } from "react-admin";
 import { AnyObject } from "react-final-form";
 
@@ -90,6 +92,7 @@ export const ProfileEdit = () => {
   useAuthenticated();
 
   const notify = useNotify();
+  const translate = useTranslate();
   const onFailure = useOnFailure();
   const dataProvider = useDataProvider();
   const [saving, setSaving] = useState(false);
@@ -155,6 +158,14 @@ export const ProfileEdit = () => {
   // TODO: wrap in MuiCard
   return (
     <SaveContextProvider value={saveContext}>
+      <Alert severity="info">
+        {identity
+          ? identity.is_staff
+            ? translate("resources.user_configs.notification.admin")
+            : translate("resources.user_configs.notification.employee")
+          : null}
+      </Alert>
+      <Separator />
       <FormWithRedirect
         warnWhenUnsavedChanges
         save={handleSave}
@@ -283,6 +294,7 @@ export const ProfileEdit = () => {
                   </Box>
                 )}
                 {identity && !identity.is_staff && (
+                  // TODO: use disabled fields instead
                   <>
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>

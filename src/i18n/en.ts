@@ -207,6 +207,10 @@ export const customEnglishMessages: TranslationMessages = {
         general: "General",
         transactions: "Transactions",
       },
+      notification: {
+        admin: "You are logged in as an admin.",
+        employee: "You are logged in as an employee.",
+      },
     },
     employees: {
       name: "Employee |||| Employees",
