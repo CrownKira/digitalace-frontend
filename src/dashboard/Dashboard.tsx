@@ -24,7 +24,7 @@ const ProgressAlert: FC = () => {
         We are migrating to{" "}
         <Link
           className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-          href="http://eizea.com/"
+          href="https://eizea.com/"
           target="_blank"
         >
           EIZEA.COM
