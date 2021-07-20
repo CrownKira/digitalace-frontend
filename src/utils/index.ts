@@ -5,6 +5,7 @@ import { Record } from "react-admin";
 import { customDataProvider } from "../dataProvider/main";
 import { Memoize } from "../types";
 import { QuickFilter } from "./components/QuickFilter";
+import { permissions } from "../permissions/data";
 
 export { QuickFilter };
 
@@ -233,4 +234,10 @@ export const hasPermission = (
     default:
       return true;
   }
+};
+
+export const getPermissionCodeNames = (userPermissions: number[]) => {
+  return userPermissions
+    .map((x) => permissions.find((y) => y.id === x)?.codename)
+    .filter((x) => x);
 };

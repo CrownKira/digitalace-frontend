@@ -32,7 +32,11 @@ import { purchase_orders } from "../transactions/purchase_orders";
 import { sales_orders } from "../transactions/sales_orders";
 import { SubMenu } from "./SubMenu";
 import { AppState, ThemeName } from "../types";
-import { hasPermission, refreshLocalStorage } from "../utils";
+import {
+  hasPermission,
+  refreshLocalStorage,
+  getPermissionCodeNames,
+} from "../utils";
 
 type MenuName =
   | "menuOrganization"
@@ -95,6 +99,8 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
       });
   }, [dataProvider, dispatch, notify, setLocale]);
 
+  const permissionCodeNames = loaded ? getPermissionCodeNames(permissions) : [];
+
   return loaded ? (
     <Box mt={1}>
       <DashboardMenuItem onClick={onMenuClick} sidebarIsOpen={open} />
@@ -115,7 +121,7 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}
-          disabled={!hasPermission(permissions, "department", "list")}
+          disabled={!hasPermission(permissionCodeNames, "department", "list")}
         />
 
         <MenuItemLink
@@ -127,7 +133,7 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}
-          disabled={!hasPermission(permissions, "role", "list")}
+          disabled={!hasPermission(permissionCodeNames, "role", "list")}
         />
         <MenuItemLink
           to={"/employees"}
@@ -138,7 +144,7 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}
-          disabled={!hasPermission(permissions, "user", "list")}
+          disabled={!hasPermission(permissionCodeNames, "user", "list")}
         />
       </SubMenu>
       <SubMenu
@@ -158,7 +164,7 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}
-          disabled={!hasPermission(permissions, "customer", "list")}
+          disabled={!hasPermission(permissionCodeNames, "customer", "list")}
         />
         <MenuItemLink
           to={"/suppliers"}
@@ -169,7 +175,7 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}
-          disabled={!hasPermission(permissions, "supplier", "list")}
+          disabled={!hasPermission(permissionCodeNames, "supplier", "list")}
         />
         <MenuItemLink
           to={"/categories"}
@@ -180,7 +186,9 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}
-          disabled={!hasPermission(permissions, "productcategory", "list")}
+          disabled={
+            !hasPermission(permissionCodeNames, "productcategory", "list")
+          }
         />
         <MenuItemLink
           to={"/products"}
@@ -191,7 +199,7 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}
-          disabled={!hasPermission(permissions, "product", "list")}
+          disabled={!hasPermission(permissionCodeNames, "product", "list")}
         />
       </SubMenu>
       <SubMenu
@@ -211,7 +219,7 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}
-          disabled={!hasPermission(permissions, "invoice", "list")}
+          disabled={!hasPermission(permissionCodeNames, "invoice", "list")}
         />
         <MenuItemLink
           to={"/receives"}
@@ -222,7 +230,7 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}
-          disabled={!hasPermission(permissions, "receive", "list")}
+          disabled={!hasPermission(permissionCodeNames, "receive", "list")}
         />
         <MenuItemLink
           to={"/credit_notes"}
@@ -233,7 +241,7 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}
-          disabled={!hasPermission(permissions, "creditnote", "list")}
+          disabled={!hasPermission(permissionCodeNames, "creditnote", "list")}
         />
       </SubMenu>
       <SubMenu
@@ -253,7 +261,7 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}
-          disabled={!hasPermission(permissions, "salesorder", "list")}
+          disabled={!hasPermission(permissionCodeNames, "salesorder", "list")}
         />
         <MenuItemLink
           to={"/purchase_orders"}
@@ -264,7 +272,9 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           onClick={onMenuClick}
           sidebarIsOpen={open}
           dense={dense}
-          disabled={!hasPermission(permissions, "purchaseorder", "list")}
+          disabled={
+            !hasPermission(permissionCodeNames, "purchaseorder", "list")
+          }
         />
       </SubMenu>
       {isXSmall && (

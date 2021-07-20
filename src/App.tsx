@@ -25,8 +25,7 @@ import { customers } from "./maintenance/customers";
 import { suppliers } from "./maintenance/suppliers";
 import { categories } from "./maintenance/categories";
 import { products } from "./maintenance/products";
-import { permissions } from "./permissions/data";
-import { hasPermission } from "./utils";
+import { hasPermission, getPermissionCodeNames } from "./utils";
 
 // rafc
 const i18nProvider = polyglotI18nProvider(
@@ -65,9 +64,7 @@ export const App = ({ onUnmount, dataProvider }: AppProps) => {
     >
       {(userPermissions: number[]) => {
         // make sure main passes in a list of numbers
-        const permissionCodeNames = userPermissions
-          .map((x) => permissions.find((y) => y.id === x)?.codename)
-          .filter((x) => x);
+        const permissionCodeNames = getPermissionCodeNames(userPermissions);
 
         return [
           <Resource
