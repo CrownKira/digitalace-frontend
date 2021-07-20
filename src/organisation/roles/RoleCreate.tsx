@@ -9,6 +9,7 @@ import {
   required,
   AutocompleteArrayInput,
   ReferenceArrayInput,
+  CheckboxGroupInput,
 } from "react-admin";
 
 import { permissions } from "../../permissions/data";
@@ -28,13 +29,6 @@ export const RoleCreate: FC<CreateProps> = (props) => (
         <ImageField source="src" title="title" />
       </ImageInput>
       <TextInput source="name" validate={requiredValidate} />
-      <AutocompleteArrayInput
-        source="permissions"
-        choices={permissions}
-        optionText="name"
-        optionValue="id"
-        fullWidth
-      />
       <ReferenceArrayInput
         reference="employees"
         source="user_set"
@@ -43,6 +37,13 @@ export const RoleCreate: FC<CreateProps> = (props) => (
       >
         <AutocompleteArrayInput optionText="name" />
       </ReferenceArrayInput>
+      <CheckboxGroupInput
+        source="permissions"
+        choices={permissions}
+        optionText="name"
+        optionValue="id"
+        row={false}
+      />
     </SimpleForm>
   </Create>
 );

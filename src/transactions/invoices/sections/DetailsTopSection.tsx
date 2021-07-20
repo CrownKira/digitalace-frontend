@@ -16,6 +16,8 @@ interface Props {
   setCreditsAvailable: React.Dispatch<React.SetStateAction<number>>;
 }
 
+// TODO: creatable customer, product, salesperson
+// TODO: re-implement async input with RA autocomplete input
 export const DetailsTopSection: FC<Props> = ({
   props,
   setIsPaid,

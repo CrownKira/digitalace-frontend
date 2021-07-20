@@ -10,6 +10,7 @@ import {
   TextInput,
   ImageInput,
   ImageField,
+  AutocompleteInput,
 } from "react-admin";
 import { InputAdornment } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -97,11 +98,12 @@ const ProductForm = (props: any) => {
           resource="products"
         />
         <ReferenceInput
+          suggestionLimit={5}
           source="category"
           reference="categories"
           validate={requiredValidate}
         >
-          <SelectInput source="name" />
+          <AutocompleteInput resettable source="name" />
         </ReferenceInput>
         <TextInput source="name" validate={requiredValidate} />
         <NumberInput
@@ -132,11 +134,12 @@ const ProductForm = (props: any) => {
           validate={requiredValidate}
         />
         <ReferenceInput
+          suggestionLimit={5}
           source="supplier"
           reference="suppliers"
           validate={requiredValidate}
         >
-          <SelectInput source="name" />
+          <AutocompleteInput resettable source="name" />
         </ReferenceInput>
       </FormTab>
       <FormTab

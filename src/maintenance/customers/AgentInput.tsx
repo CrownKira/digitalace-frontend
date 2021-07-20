@@ -16,6 +16,7 @@ export const AgentInput: FC<Props> = (props) => {
   const classes = useStyles();
   return (
     <ReferenceInput
+      suggestionLimit={5}
       className={classes.input}
       reference="employees"
       source="agents"

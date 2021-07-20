@@ -15,6 +15,7 @@ import {
   Loading,
   number,
   minValue,
+  AutocompleteInput,
 } from "react-admin";
 import { InputAdornment } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -88,8 +89,16 @@ export const ProductCreate: FC<CreateProps> = (props) => {
         </FormTab>
         <FormTab label="resources.products.tabs.details" path="details">
           <TextInput source="reference" validate={validateReference(props)} />
-          <ReferenceInput source="category" reference="categories">
-            <SelectInput source="name" validate={requiredValidate} />
+          <ReferenceInput
+            suggestionLimit={5}
+            source="category"
+            reference="categories"
+          >
+            <AutocompleteInput
+              resettable
+              source="name"
+              validate={requiredValidate}
+            />
           </ReferenceInput>
           <TextInput source="name" validate={requiredValidate} />
           <NumberInput
@@ -119,8 +128,16 @@ export const ProductCreate: FC<CreateProps> = (props) => {
             className={classes.unit}
             validate={requiredValidate}
           />
-          <ReferenceInput source="supplier" reference="suppliers">
-            <SelectInput source="name" validate={requiredValidate} />
+          <ReferenceInput
+            suggestionLimit={5}
+            source="supplier"
+            reference="suppliers"
+          >
+            <AutocompleteInput
+              resettable
+              source="name"
+              validate={requiredValidate}
+            />
           </ReferenceInput>
         </FormTab>
         <FormTab label="resources.products.tabs.description" path="description">

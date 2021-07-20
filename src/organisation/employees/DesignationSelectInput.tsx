@@ -1,10 +1,11 @@
 import React, { FC } from "react";
-import { SelectInput, InputProps, required } from "react-admin";
+import { AutocompleteInput, InputProps, required } from "react-admin";
 
 type Props = Omit<InputProps, "source">;
 
 export const DesignationSelectInput: FC<Props> = ({ record }) => (
-  <SelectInput
+  <AutocompleteInput
+    resettable
     // injected props not needed here since resource can be derived from location
     // qn: how is label derived?
     // component is eval to react native component

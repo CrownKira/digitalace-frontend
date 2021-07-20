@@ -10,7 +10,7 @@ import {
   ImageField,
   ReferenceArrayInput,
   AutocompleteArrayInput,
-  required,
+  CheckboxGroupInput,
 } from "react-admin";
 
 import { Role } from "../../types";
@@ -40,13 +40,6 @@ export const RoleEdit: FC<EditProps> = (props) => (
         <ImageField source="src" title="title" />
       </ImageInput>
       <TextInput source="name" validate={requiredValidate} />
-      <AutocompleteArrayInput
-        source="permissions"
-        choices={permissions}
-        optionText="name"
-        optionValue="id"
-        fullWidth
-      />
       <ReferenceArrayInput
         reference="employees"
         source="user_set"
@@ -55,6 +48,13 @@ export const RoleEdit: FC<EditProps> = (props) => (
       >
         <AutocompleteArrayInput optionText="name" />
       </ReferenceArrayInput>
+      <CheckboxGroupInput
+        source="permissions"
+        choices={permissions}
+        optionText="name"
+        optionValue="id"
+        row={false}
+      />
     </SimpleForm>
   </Edit>
 );

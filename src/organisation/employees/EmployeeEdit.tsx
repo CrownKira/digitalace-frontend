@@ -10,8 +10,6 @@ import {
   ImageInput,
   FileField,
   ImageField,
-  required,
-  email,
   TabbedForm,
   FormTab,
   Edit,

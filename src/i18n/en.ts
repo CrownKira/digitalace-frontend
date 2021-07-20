@@ -612,6 +612,14 @@ export const customEnglishMessages: TranslationMessages = {
           "1 credit note created from this invoice. |||| %{smart_count} credit notes created from this invoice.",
       },
     },
+    payment_methods: {
+      name: "Payment Method |||| Payment Methods",
+      fields: {
+        id: "ID",
+        invoice_set: "Associated Invoices",
+        name: "Name",
+      },
+    },
     invoice_items: {
       name: "Invoice Item |||| Invoice Items",
       fields: {

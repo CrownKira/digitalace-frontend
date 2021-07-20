@@ -154,6 +154,7 @@ export const App = ({ onUnmount, dataProvider }: AppProps) => {
             )}
           />,
           <Resource key="credits_applications" name="credits_applications" />,
+          <Resource key="payment_methods" name="payment_methods" />,
         ];
       }}
     </Admin>

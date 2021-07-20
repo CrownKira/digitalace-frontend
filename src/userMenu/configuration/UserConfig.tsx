@@ -1,7 +1,13 @@
 import React, { useState, useCallback, useMemo } from "react";
-import { Box, Card, CardContent, InputAdornment } from "@material-ui/core";
 import {
-  TextInput,
+  Box,
+  Card,
+  CardContent,
+  InputAdornment,
+  TextField as MuiTextField,
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import {
   required,
   useDataProvider,
   useNotify,
@@ -12,6 +18,9 @@ import {
   SaveButton,
   useTranslate,
   Title,
+  ArrayInput,
+  TextInput,
+  FormDataConsumer,
 } from "react-admin";
 
 import { SectionTitle, Separator } from "../../utils/components/Divider";
@@ -21,10 +30,21 @@ import { LanguageSelectInput } from "./LanguageSelectInput";
 import { UserConfig } from "../../types";
 import { refreshLocalStorage } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
+import { TableFormIterator } from "../../utils/components/TableFormIterator";
+
+const useStyles = makeStyles({
+  leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
+  rightFormGroup: {
+    display: "inline-block",
+  },
+  lineItemInput: { width: 150 },
+  lineItemReferenceInput: { width: 300 },
+});
 
 export const UserConfigEdit = () => {
   useAuthenticated();
 
+  const classes = useStyles();
   const onFailure = useOnFailure();
   const notify = useNotify();
   const translate = useTranslate();
@@ -147,3 +167,35 @@ export const UserConfigEdit = () => {
 };
 
 const requiredValidate = required();
+
+/*
+TODO: add payment edit
+<ArrayInput
+source={"payment_methods"}
+resource={"payment_methods"}
+>
+<TableFormIterator resource={"payment_methods"}>
+  <TextInput source="id" disabled />
+  <TextInput
+    source="name"
+    className={classes.lineItemInput}
+  />
+</TableFormIterator>
+</ArrayInput>
+*/
+
+/*
+TODO: show invoices count
+
+<FormDataConsumer label="resources.invoice_items.fields.quantity">
+{({ scopedFormData }) => {
+  return scopedFormData && scopedFormData.invoice_set ? (
+    <MuiTextField
+      value={scopedFormData.invoice_set.length}
+      className={classes.lineItemInput}
+      disabled
+    />
+  ) : null;
+}}
+</FormDataConsumer>
+*/

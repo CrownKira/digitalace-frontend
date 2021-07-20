@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { SelectInput, ReferenceInput, InputProps } from "react-admin";
+import { AutocompleteInput, ReferenceInput, InputProps } from "react-admin";
 import { useForm } from "react-final-form";
 
 interface Props extends Omit<InputProps, "source"> {
@@ -15,6 +15,7 @@ export const DepartmentSelectInput: FC<Props> = (props) => {
 
   return (
     <ReferenceInput
+      suggestionLimit={5}
       source="department"
       reference="departments"
       allowEmpty
@@ -23,7 +24,7 @@ export const DepartmentSelectInput: FC<Props> = (props) => {
       }}
       {...props}
     >
-      <SelectInput source="name" />
+      <AutocompleteInput resettable source="name" />
     </ReferenceInput>
   );
 };

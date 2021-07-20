@@ -14,6 +14,7 @@ export const DesignationInput: FC<Props> = (props) => {
   const classes = useStyles();
   return (
     <ReferenceInput
+      suggestionLimit={5}
       className={classes.input}
       reference="designations"
       source="designation"

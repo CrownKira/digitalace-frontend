@@ -15,7 +15,6 @@ import {
   Title,
   TopToolbar,
   useListContext,
-  useListController,
 } from "react-admin";
 import { ImportButton } from "react-admin-import-csv";
 
@@ -27,6 +26,7 @@ export const ProductFilter: FC<Omit<FilterProps, "children">> = (props) => (
   <Filter {...props}>
     <SearchInput source="q" alwaysOn />
     <ReferenceInput
+      suggestionLimit={5}
       source="category"
       reference="categories"
       sort={{ field: "id", order: "ASC" }}
