@@ -77,50 +77,43 @@ export const UserConfigEdit = () => {
             <form>
               <CardContent>
                 <SectionTitle label="resources.user_configs.fieldGroups.general" />
-
                 <Title title={translate("pos.configuration")} />
-                <Card>
-                  <CardContent>
-                    <ThemeSelectInput source="theme" />
-                  </CardContent>
-                  <CardContent>
-                    <LanguageSelectInput source="language" />
-                  </CardContent>
-                </Card>
+                <Box>
+                  <ThemeSelectInput source="theme" />
+                </Box>
+                <Box>
+                  <LanguageSelectInput source="language" />{" "}
+                </Box>
                 <Separator />
                 <SectionTitle label="resources.user_configs.fieldGroups.transactions" />
-                <Card>
-                  <CardContent>
-                    <Box display={{ xs: "block", sm: "flex" }}>
-                      <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                        <TextInput
-                          source="gst_rate"
-                          resource="user_configs"
-                          fullWidth
-                          validate={requiredValidate}
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">%</InputAdornment>
-                            ),
-                          }}
-                        />
-                      </Box>
-                      <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
-                        <TextInput
-                          source="discount_rate"
-                          resource="user_configs"
-                          fullWidth
-                          validate={requiredValidate}
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">%</InputAdornment>
-                            ),
-                          }}
-                        />
-                      </Box>
-                    </Box>
-                  </CardContent>
-                </Card>
+                <Box display={{ xs: "block", sm: "flex" }}>
+                  <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+                    <TextInput
+                      source="gst_rate"
+                      resource="user_configs"
+                      fullWidth
+                      validate={requiredValidate}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">%</InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Box>
+                  <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
+                    <TextInput
+                      source="discount_rate"
+                      resource="user_configs"
+                      fullWidth
+                      validate={requiredValidate}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">%</InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Box>
+                </Box>
               </CardContent>
               <Toolbar
                 // props from react-admin demo VisitorEdit
