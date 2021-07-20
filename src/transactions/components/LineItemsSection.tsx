@@ -66,6 +66,7 @@ export const LineItemsSection: FC<Props> = ({
           {({ getSource }) =>
             getSource ? (
               <AsyncAutocompleteInput
+                // TODO: replace with RA Autocomplete Input?
                 validate={requiredValidate}
                 optionText="name"
                 optionValue="id"

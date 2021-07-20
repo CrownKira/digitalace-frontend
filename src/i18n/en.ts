@@ -164,11 +164,10 @@ export const customEnglishMessages: TranslationMessages = {
         date_of_commencement: "Date of Commencement",
         date_of_cessation: "Date of Cessation",
         department: "Department",
-        designation: "Hello",
+        designation: "Designation",
         roles: "Roles",
         password: "Password",
         confirm_password: "Confirm Password",
-
         is_staff: "Is Staff",
         image: "Image",
       },
@@ -199,8 +198,8 @@ export const customEnglishMessages: TranslationMessages = {
     user_configs: {
       name: "User Config |||| User Configs",
       fields: {
-        gst_rate: "GST Rate",
-        discount_rate: "Discount Rate",
+        gst_rate: "Default GST Rate",
+        discount_rate: "Default Discount Rate",
         theme: "Theme",
         language: "Language",
       },

@@ -15,7 +15,6 @@ import {
   ImageInput,
   PasswordInput,
   SelectInput,
-  ReferenceInput,
   Labeled,
   required,
   email,
@@ -26,6 +25,10 @@ import {
   Toolbar,
   SaveButton,
   useNotify,
+  ReferenceField,
+  ReferenceArrayField,
+  SingleFieldList,
+  ChipField,
 } from "react-admin";
 import { AnyObject } from "react-final-form";
 
@@ -266,19 +269,20 @@ export const ProfileEdit = () => {
                 </Box>
                 <Separator />
                 <SectionTitle label="resources.users.fieldGroups.company_details" />
-                <Box display={{ xs: "block", sm: "flex" }}>
-                  <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                    <TextInput
-                      source="company_name"
-                      resource="users"
-                      validate={requiredValidate}
-                      fullWidth
-                      disabled={!identity?.is_staff}
-                    />
+                {identity && identity.is_staff && (
+                  <Box display={{ xs: "block", sm: "flex" }}>
+                    <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+                      <TextInput
+                        source="company_name"
+                        resource="users"
+                        validate={requiredValidate}
+                        fullWidth
+                      />
+                    </Box>
+                    <Box flex={2} ml={{ xs: 0, sm: "0.5em" }} />
                   </Box>
-                  <Box flex={2} ml={{ xs: 0, sm: "0.5em" }} />
-                </Box>
-                {!identity?.is_staff && (
+                )}
+                {identity && !identity.is_staff && (
                   <>
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
@@ -286,26 +290,35 @@ export const ProfileEdit = () => {
                           // TODO: provide the resource and source props instead of the label?
                           label="resources.users.fields.department"
                         >
-                          <ReferenceInput
+                          <ReferenceField
                             record={identity}
                             source="department"
                             reference="departments"
-                            validate={requiredValidate}
                           >
-                            <SelectInput source="name" />
-                          </ReferenceInput>
+                            <TextField source="name" />
+                          </ReferenceField>
                         </Labeled>
                       </Box>
                       <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
                         <Labeled label="resources.users.fields.designation">
-                          <TextField source="designation" record={identity} />
+                          <ReferenceField
+                            record={identity}
+                            source="designation"
+                            reference="designations"
+                          >
+                            <TextField source="name" />
+                          </ReferenceField>
                         </Labeled>
                       </Box>
                     </Box>
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                        <Labeled label="resources.users.fields.role">
-                          <TextField source="role" record={identity} />
+                        <Labeled label="resources.users.fields.roles">
+                          <ReferenceArrayField reference="roles" source="roles">
+                            <SingleFieldList>
+                              <ChipField source="name" />
+                            </SingleFieldList>
+                          </ReferenceArrayField>
                         </Labeled>
                       </Box>
                       <Box flex={2} ml={{ xs: 0, sm: "0.5em" }} />

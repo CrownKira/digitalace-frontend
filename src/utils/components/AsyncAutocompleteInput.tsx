@@ -22,9 +22,9 @@ import EditIcon from "@material-ui/icons/EditTwoTone";
 import { IconButton } from "@material-ui/core";
 
 // TODO: write js doc
-// TODO: show top results if empty
 // TODO: add renderOption
 // TODO: remove optionValue? since we only query using id?
+// TODO: use Downshift (see RA AutocompleteInput)
 // https://material-ui.com/components/autocomplete/#google-maps-place
 export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   /**
