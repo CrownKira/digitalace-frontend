@@ -466,7 +466,6 @@ export const customEnglishMessages: TranslationMessages = {
       fields: {
         id: "Credit Note ID",
         reference: "Reference",
-        description: "Description",
         payment_date: "Payment Date",
         payment_method: "Payment Method",
         payment_note: "Payment Note",
@@ -493,6 +492,7 @@ export const customEnglishMessages: TranslationMessages = {
         creditnoteitem_set: "Credit Note Items",
         creditsapplication_set: "Apply to Invoice",
         created_from: "Associated Invoice",
+        description: "Notes",
       },
       data: {
         statuses: {
@@ -542,7 +542,6 @@ export const customEnglishMessages: TranslationMessages = {
       fields: {
         id: "Invoice ID",
         reference: "Reference",
-        description: "Description",
         payment_date: "Payment Date",
         payment_method: "Payment Method",
         payment_note: "Payment Note",
@@ -569,6 +568,7 @@ export const customEnglishMessages: TranslationMessages = {
         credits_available: "Credits Available",
         credits_applied: "Credits Applied",
         balance_due: "Balance Due",
+        description: "Notes",
       },
       fieldGroups: {
         apply_credits_for: "Apply Credits for %{reference}",
@@ -637,7 +637,6 @@ export const customEnglishMessages: TranslationMessages = {
       name: "Sales Order |||| Sales Orders",
       fields: {
         reference: "Reference",
-        description: "Description",
         payment_date: "Payment Date",
         payment_method: "Payment Method",
         payment_note: "Payment Note",
@@ -661,6 +660,7 @@ export const customEnglishMessages: TranslationMessages = {
         grand_total: "Grand Total",
         total_lines: "Total Lines",
         salesorderitem_set: "Sales Order Items",
+        description: "Notes",
       },
       data: {
         statuses: {
@@ -708,7 +708,6 @@ export const customEnglishMessages: TranslationMessages = {
       name: "Receive |||| Receives",
       fields: {
         reference: "Reference",
-        description: "Description",
         payment_date: "Payment Date",
         payment_method: "Payment Method",
         payment_note: "Payment Note",
@@ -730,6 +729,8 @@ export const customEnglishMessages: TranslationMessages = {
         grand_total: "Grand Total",
         total_lines: "Total Lines",
         receiveitem_set: "Receive Items",
+
+        description: "Notes",
       },
       validation: {
         reference_already_used: "Reference already used",
@@ -752,7 +753,6 @@ export const customEnglishMessages: TranslationMessages = {
       name: "Purchase Order |||| Purchase Orders",
       fields: {
         reference: "Reference",
-        description: "Description",
         payment_date: "Payment Date",
         payment_method: "Payment Method",
         payment_note: "Payment Note",
@@ -774,6 +774,7 @@ export const customEnglishMessages: TranslationMessages = {
         grand_total: "Grand Total",
         total_lines: "Total Lines",
         purchaseorderitem_set: "Purchase Order Items",
+        description: "Notes",
       },
       data: {
         statuses: {
