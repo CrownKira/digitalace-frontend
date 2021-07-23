@@ -298,35 +298,42 @@ export const ProfileEdit = () => {
                   <>
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                        <Labeled
-                          // TODO: provide the resource and source props instead of the label?
-                          label="resources.users.fields.department"
+                        <ReferenceField
+                          record={identity}
+                          source="department"
+                          reference="departments"
                         >
-                          <ReferenceField
-                            record={identity}
-                            source="department"
-                            reference="departments"
-                          >
-                            <TextField source="name" />
-                          </ReferenceField>
-                        </Labeled>
+                          <TextInput
+                            label="resources.users.fields.department"
+                            source="name"
+                            fullWidth
+                            disabled
+                          />
+                        </ReferenceField>
                       </Box>
                       <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
-                        <Labeled label="resources.users.fields.designation">
-                          <ReferenceField
-                            record={identity}
-                            source="designation"
-                            reference="designations"
-                          >
-                            <TextField source="name" />
-                          </ReferenceField>
-                        </Labeled>
+                        <ReferenceField
+                          record={identity}
+                          source="designation"
+                          reference="designations"
+                        >
+                          <TextInput
+                            label="resources.users.fields.designation"
+                            source="name"
+                            fullWidth
+                            disabled
+                          />
+                        </ReferenceField>
                       </Box>
                     </Box>
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                         <Labeled label="resources.users.fields.roles">
-                          <ReferenceArrayField reference="roles" source="roles">
+                          <ReferenceArrayField
+                            reference="roles"
+                            source="roles"
+                            fullWidth
+                          >
                             <SingleFieldList>
                               <ChipField source="name" />
                             </SingleFieldList>
@@ -337,28 +344,27 @@ export const ProfileEdit = () => {
                     </Box>
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                        <Labeled label="resources.users.fields.date_of_commencement">
-                          <DateField
-                            // https://marmelab.com/react-admin/Fields.html
-                            // https://stackoverflow.com/questions/64351273/custom-show-form-in-react-admin
-                            source="date_of_commencement"
-                            record={identity}
-                          />
-                        </Labeled>
+                        <DateInput
+                          // https://marmelab.com/react-admin/Fields.html
+                          // https://stackoverflow.com/questions/64351273/custom-show-form-in-react-admin
+                          source="date_of_commencement"
+                          record={identity}
+                          fullWidth
+                          disabled
+                        />
                       </Box>
                       <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
-                        <Labeled label="resources.users.fields.date_of_cessation">
-                          <DateField
-                            source="date_of_cessation"
-                            record={identity}
-                          />
-                        </Labeled>
+                        <DateInput
+                          source="date_of_cessation"
+                          record={identity}
+                          fullWidth
+                          disabled
+                        />
                       </Box>
                     </Box>
                   </>
                 )}
               </CardContent>
-
               <Toolbar
                 // props from react-admin demo VisitorEdit
                 resource="user_configs"
