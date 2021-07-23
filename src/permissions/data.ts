@@ -34,11 +34,11 @@ export const permissions = [
     codename: "delete_productcategory",
     name: "Can delete product category",
   },
-  {
-    id: 56,
-    // codename: "view_productcategory",
-    name: "Can view product category",
-  },
+  // {
+  //   id: 56,
+  //   codename: "view_productcategory",
+  //   name: "Can view product category",
+  // },
   { id: 57, codename: "add_customer", name: "Can add customer" },
   { id: 58, codename: "change_customer", name: "Can change customer" },
   { id: 59, codename: "delete_customer", name: "Can delete customer" },
@@ -86,7 +86,7 @@ export const permissions = [
   //   codename: "delete_stockbalance",
   //   name: "Can delete stock balance",
   // },
-  { id: 104, codename: "view_stockbalance", name: "Can view stock balance" },
+  // { id: 104, codename: "view_stockbalance", name: "Can view stock balance" },
   { id: 105, codename: "add_designation", name: "Can add designation" },
   { id: 106, codename: "change_designation", name: "Can change designation" },
   { id: 107, codename: "delete_designation", name: "Can delete designation" },
@@ -122,11 +122,11 @@ export const permissions = [
     codename: "delete_creditsapplication",
     name: "Can delete credits application",
   },
-  {
-    id: 120,
-    // codename: "view_creditsapplication",
-    name: "Can view credits application",
-  },
+  // {
+  //   id: 120,
+  //   codename: "view_creditsapplication",
+  //   name: "Can view credits application",
+  // },
   { id: 121, codename: "add_deliveryorder", name: "Can add delivery order" },
   {
     id: 122,
@@ -154,11 +154,11 @@ export const permissions = [
     codename: "delete_adjustmentitem",
     name: "Can delete adjustment item",
   },
-  {
-    id: 132,
-    // codename: "view_adjustmentitem",
-    name: "Can view adjustment item",
-  },
+  // {
+  //   id: 132,
+  //   codename: "view_adjustmentitem",
+  //   name: "Can view adjustment item",
+  // },
   { id: 133, codename: "add_creditnoteitem", name: "Can add credit note item" },
   {
     id: 134,
@@ -170,9 +170,9 @@ export const permissions = [
     codename: "delete_creditnoteitem",
     name: "Can delete credit note item",
   },
-  {
-    id: 136,
-    // codename: "view_creditnoteitem",
-    name: "Can view credit note item",
-  },
+  // {
+  //   id: 136,
+  //   codename: "view_creditnoteitem",
+  //   name: "Can view credit note item",
+  // },
 ];
