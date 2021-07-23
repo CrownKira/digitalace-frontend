@@ -735,6 +735,13 @@ export const customEnglishMessages: TranslationMessages = {
       validation: {
         reference_already_used: "Reference already used",
       },
+      data: {
+        statuses: {
+          draft: "Draft",
+          paid: "Paid",
+          unpaid: "Unpaid",
+        },
+      },
     },
     receive_items: {
       name: "Receive Item |||| Receive Items",

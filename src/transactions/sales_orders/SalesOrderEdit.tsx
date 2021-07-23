@@ -80,8 +80,8 @@ const SalesOrderForm = (props: any) => {
       gst_amount = 0,
       grand_total = 0,
       balance_due = 0,
-      credits_applied = 0,
-      amount_to_credit = 0,
+      // credits_applied = 0,
+      // amount_to_credit = 0,
     } = props.record;
 
     return {
@@ -91,8 +91,8 @@ const SalesOrderForm = (props: any) => {
       gst_amount,
       grand_total,
       balance_due,
-      credits_applied,
-      amount_to_credit,
+      // credits_applied,
+      // amount_to_credit,
     };
   }, [props.record]);
   const [totals, setTotals] = useState(getInitialTotals());
