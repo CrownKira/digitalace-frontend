@@ -15,11 +15,12 @@ import {
   InputHelperText,
   sanitizeInputRestProps,
   linkToRecord,
-  LinearProgress,
   ReferenceInputProps,
 } from "react-admin";
 import EditIcon from "@material-ui/icons/EditTwoTone";
 import { IconButton } from "@material-ui/core";
+
+import { AutocompleteInputLoader } from "./AutocompleteInputLoader";
 
 // TODO: write js doc
 // TODO: add renderOption
@@ -59,7 +60,6 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
    */
   className,
   fullWidth,
-  InputProps: InputPropsOverride,
   /**
    * custom props
    */
@@ -181,6 +181,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
      */
     return !input.value && autocompleteValue;
   }, [autocompleteValue, input.value]);
+  const loading = !(dataIsFetched() && valueIsConsistent());
   const fetchFromCache = useCallback(() => {
     if (input.value === undefined) {
       return;
@@ -308,9 +309,7 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
   }, [autocompleteValue, inputValue, fetch, showSuggestions]);
 
   // FIXME: temporary blink
-  return !(dataIsFetched() && valueIsConsistent()) ? (
-    <LinearProgress />
-  ) : (
+  return (
     <Autocomplete
       options={autocompleteOptions}
       getOptionLabel={(option) => option[optionText]}
@@ -342,6 +341,28 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
       fullWidth={fullWidth}
       renderInput={(params) => {
         const { InputProps, ...rest } = params;
+        const { endAdornment, ...InputPropsWithoutEndAdornment } =
+          InputProps || {};
+
+        const getEndAdornment = () => {
+          return loading ? (
+            <AutocompleteInputLoader className="MuiAutocomplete-endAdornment" />
+          ) : (
+            endAdornment
+          );
+        };
+        const getStartAdornment = () => {
+          return showEdit && input.value ? (
+            <IconButton
+              size="small"
+              color="primary"
+              component={Link}
+              to={linkToRecord(`/${reference}`, input.value)}
+            >
+              <EditIcon />
+            </IconButton>
+          ) : null;
+        };
 
         return (
           /**
@@ -374,20 +395,9 @@ export const AsyncAutocompleteInput: FC<AsyncAutocompleteInputProps> = ({
             {...sanitizeInputRestProps(input)}
             {...rest}
             InputProps={{
-              ...InputProps,
-              startAdornment:
-                showEdit && input.value ? (
-                  <IconButton
-                    size="small"
-                    color="primary"
-                    component={Link}
-                    to={linkToRecord(`/${reference}`, input.value)}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                ) : null,
-
-              ...InputPropsOverride,
+              endAdornment: getEndAdornment(),
+              ...InputPropsWithoutEndAdornment,
+              startAdornment: getStartAdornment(),
             }}
           />
         );

@@ -76,6 +76,7 @@ const CreatePaymentMethod = () => {
       <form onSubmit={handleSubmit}>
         <DialogContent>
           <TextField
+            // TODO: make each item deletable
             label={translate("resources.invoices.fields.payment_method")}
             value={value}
             onChange={(event) => setValue(event.target.value)}

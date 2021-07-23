@@ -5,12 +5,13 @@ import {
   FormTab,
   NumberInput,
   ReferenceInput,
-  SelectInput,
   TabbedForm,
   TextInput,
   ImageInput,
   ImageField,
   AutocompleteInput,
+  Labeled,
+  NumberField,
 } from "react-admin";
 import { InputAdornment } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -156,10 +157,12 @@ const ProductForm = (props: any) => {
         </Alert>
       </FormTab>
       <FormTab label="resources.products.tabs.stock" path="stock">
-        <Alert severity="warning" className={classes.alert}>
-          <strong>Work in progress</strong> - This feature isn&apos;t
-          implemented yet. It&apos;s coming.
-        </Alert>
+        <Labeled label="resources.products.fields.stock">
+          <NumberField source="stock" resource="products" />
+        </Labeled>
+        <Labeled label="resources.products.fields.sales">
+          <NumberField source="sales" resource="products" />
+        </Labeled>
       </FormTab>
       <FormTab label="resources.products.tabs.transactions" path="transactions">
         <Alert severity="warning" className={classes.alert}>
