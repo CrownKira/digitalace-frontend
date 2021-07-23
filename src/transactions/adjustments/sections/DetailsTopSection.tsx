@@ -20,7 +20,7 @@ export const DetailsTopSection: FC<Props> = ({ props }) => {
           fullWidth
           validate={requiredValidate}
         />
-        <TextInput multiline source="reason" />
+        <TextInput multiline source="reason" fullWidth />
       </Box>
       <Box flex={1} ml={{ sm: 0, md: "0.5em" }}>
         <Box display={{ sm: "block", md: "flex" }}>
