@@ -4,7 +4,7 @@ import { Box } from "@material-ui/core";
 import { DateInput, TextInput, SelectInput } from "react-admin";
 
 import { statuses } from "../data";
-import { requiredValidate, validateReference } from "../ReceiveCreate";
+import { requiredValidate, validateReference } from "../PurchaseOrderCreate";
 import { SupplierNameInput } from "../../components/SupplierNameInput";
 import { AsyncAutocompleteInput } from "../../../utils/components/AsyncAutocompleteInput";
 
@@ -18,7 +18,7 @@ export const DetailsTopSection: FC<Props> = ({ props }) => {
       <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
         <DateInput
           source="date"
-          resource="receives"
+          resource="purchase_orders"
           fullWidth
           validate={requiredValidate}
         />
@@ -26,7 +26,7 @@ export const DetailsTopSection: FC<Props> = ({ props }) => {
           <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
             <SupplierNameInput
               validate={requiredValidate}
-              resource="receives"
+              resource="purchase_orders"
             />
           </Box>
           <Box flex={1} ml={{ sm: 0, md: "0.5em" }} />
@@ -37,7 +37,7 @@ export const DetailsTopSection: FC<Props> = ({ props }) => {
           <Box flex={1} mr={{ sm: 0, md: "0.5em" }}>
             <TextInput
               source="reference"
-              resource="receives"
+              resource="purchase_orders"
               fullWidth
               validate={validateReference(props)}
             />
@@ -48,9 +48,9 @@ export const DetailsTopSection: FC<Props> = ({ props }) => {
               // refer to ProductNameInput.tsx
               optionText="reference"
               optionValue="id"
-              source="purchase_order"
-              resource="receives"
-              reference="purchase_orders"
+              source="receive"
+              resource="purchase_orders"
+              reference="receives"
               fullWidth
             />
           </Box>

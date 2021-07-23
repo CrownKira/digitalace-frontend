@@ -742,6 +742,9 @@ export const customEnglishMessages: TranslationMessages = {
           unpaid: "Unpaid",
         },
       },
+      tabs: {
+        details: "Details",
+      },
     },
     receive_items: {
       name: "Receive Item |||| Receive Items",
@@ -793,6 +796,9 @@ export const customEnglishMessages: TranslationMessages = {
       },
       validation: {
         reference_already_used: "Reference already used",
+      },
+      tabs: {
+        details: "Details",
       },
     },
     purchase_order_items: {

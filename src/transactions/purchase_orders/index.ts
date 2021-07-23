@@ -5,7 +5,7 @@ import { PurchaseOrderCreate } from "./PurchaseOrderCreate";
 import { PurchaseOrderEdit } from "./PurchaseOrderEdit";
 
 export const purchase_orders = {
-  codename: "purchaseorder",
+  codename: "purchase_order",
   list: PurchaseOrderList,
   create: PurchaseOrderCreate,
   edit: PurchaseOrderEdit,

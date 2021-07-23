@@ -125,7 +125,7 @@ const ReceiveForm = (props: any) => {
 
   const { reference, loading: loadingReference } = useGetNextReference({
     resource: "receives",
-    prefix: "R",
+    prefix: "REC",
   });
   const { loading: loadingUserConfig, data: userConfig } = useGetUserConfig();
 
