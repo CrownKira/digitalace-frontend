@@ -14,7 +14,7 @@ interface Props {
 // TODO: apply credits in show
 export const DetailsBottomSection: FC<Props> = ({ totals, updateTotals }) => {
   const translate = useTranslate();
-  const label = translate("resources.credit_notes.fields.description");
+  const label = translate("resources.sales_orders.fields.description");
 
   return (
     <Box display={{ sm: "block", md: "flex" }}>

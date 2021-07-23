@@ -238,6 +238,26 @@ export interface SalesOrderItem extends Record {
   sales_order: Identifier;
 }
 
+export interface Adjustment extends Record {
+  reference: string;
+  status: string;
+  mode: string;
+  date: Date;
+  address: string;
+  adjustmentitem_set: AdjustmentItem[];
+  description: string;
+  reason: string;
+}
+
+export interface AdjustmentItem extends Record {
+  product: Identifier;
+  unit: number;
+  cost: number;
+  quantity: number;
+  unit_price: number;
+  adjustment: Identifier;
+}
+
 export interface Receive extends Record {
   reference: string;
   company: Identifier;

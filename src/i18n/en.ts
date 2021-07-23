@@ -704,6 +704,53 @@ export const customEnglishMessages: TranslationMessages = {
         sales_order: "Sales Order",
       },
     },
+    adjustments: {
+      name: "Adjustment |||| Adjustments",
+      fields: {
+        reference: "Reference",
+        status: "Status",
+        mode: "Mode",
+        date: "Date",
+        date__gte: "Passed Since",
+        date__lte: "Passed Before",
+        address: "Address",
+        total_lines: "Total Lines",
+        adjustmentitem_set: "Adjustment Items",
+        description: "Notes",
+        reason: "Reason",
+      },
+      data: {
+        statuses: {
+          draft: "Draft",
+          adjusted: "Adjusted",
+        },
+        modes: {
+          increase: "Increase",
+          decrease: "Decrease",
+        },
+      },
+      validation: {
+        reference_already_used: "Reference already used",
+      },
+      tabs: {
+        details: "Details",
+      },
+      action: {},
+      notification: {},
+    },
+    adjustment_items: {
+      name: "Adjustment Item |||| Adjustment Items",
+      fields: {
+        id: "ID",
+        product: "Product",
+        unit: "Unit",
+        cost: "Cost",
+        quantity: "Quantity",
+        unit_price: "Unit Price",
+        amount: "Amount",
+        adjustment: "Adjustment",
+      },
+    },
     receives: {
       name: "Receive |||| Receives",
       fields: {

@@ -43,7 +43,7 @@ export const PurchaseOrderShow = (props: any) => {
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h6" gutterBottom align="right">
-              Sales Order {record.reference}
+              Purchase Order {record.reference}
             </Typography>
           </Grid>
         </Grid>

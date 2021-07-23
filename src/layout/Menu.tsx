@@ -28,6 +28,7 @@ import { products } from "../maintenance/products";
 import { invoices } from "../transactions/invoices";
 import { receives } from "../transactions/receives";
 import { credit_notes } from "../transactions/credit_notes";
+import { adjustments } from "../transactions/adjustments";
 import { purchase_orders } from "../transactions/purchase_orders";
 import { sales_orders } from "../transactions/sales_orders";
 import { SubMenu } from "./SubMenu";
@@ -242,6 +243,17 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           sidebarIsOpen={open}
           dense={dense}
           disabled={!hasPermission(permissionCodeNames, "creditnote", "list")}
+        />
+        <MenuItemLink
+          to={"/adjustments"}
+          primaryText={translate("resources.adjustments.name", {
+            smart_count: 2,
+          })}
+          leftIcon={<adjustments.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+          disabled={!hasPermission(permissionCodeNames, "adjustment", "list")}
         />
       </SubMenu>
       <SubMenu

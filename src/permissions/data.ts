@@ -1,4 +1,4 @@
-// list(Permission.objects.values('id', 'codename', 'name'))
+// list(Permission.objects.order_by('id').values('id', 'codename', 'name'))
 // TODO: limit permissions, group permissions
 /**
  * control of view permission is disabled

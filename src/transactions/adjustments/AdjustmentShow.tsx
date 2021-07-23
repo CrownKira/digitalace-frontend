@@ -12,7 +12,7 @@ import {
 } from "react-admin";
 
 import { Basket } from "./sections/Basket";
-import { Receive, Customer } from "../../types";
+import { Adjustment, Customer } from "../../types";
 
 const CustomerField: FC<FieldProps<Customer>> = ({ record }) =>
   record ? (
@@ -26,8 +26,8 @@ const CustomerField: FC<FieldProps<Customer>> = ({ record }) =>
     </Typography>
   ) : null;
 
-export const ReceiveShow = (props: any) => {
-  const { record } = useShowController<Receive>(props);
+export const AdjustmentShow = (props: any) => {
+  const { record } = useShowController<Adjustment>(props);
   const classes = useStyles();
 
   if (!record) return null;
@@ -43,7 +43,7 @@ export const ReceiveShow = (props: any) => {
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h6" gutterBottom align="right">
-              Receive {record.reference}
+              Adjustment {record.reference}
             </Typography>
           </Grid>
         </Grid>
@@ -51,10 +51,10 @@ export const ReceiveShow = (props: any) => {
           <Grid item xs={12} container alignContent="flex-end">
             <ReferenceField
               reference="suppliers"
-              resource="receives"
+              resource="adjustments"
               source="supplier"
               link={false}
-              basePath="/receives"
+              basePath="/adjustments"
               record={record}
             >
               <CustomerField />
@@ -76,14 +76,14 @@ export const ReceiveShow = (props: any) => {
               {/* Sales Order */}
             </Typography>
             <TextField
-              source="receive"
+              source="adjustment"
               align="center"
               component="p"
               gutterBottom
             />
           </Grid>
         </Grid>
-        <div className={classes.receives}>
+        <div className={classes.adjustments}>
           <Basket record={record} />
         </div>
       </CardContent>
@@ -94,5 +94,5 @@ export const ReceiveShow = (props: any) => {
 const useStyles = makeStyles({
   root: { width: 600, margin: "auto" },
   spacer: { height: 20 },
-  receives: { margin: "10px 0" },
+  adjustments: { margin: "10px 0" },
 });

@@ -19,6 +19,7 @@ import { employees } from "./organisation/employees";
 import { invoices } from "./transactions/invoices";
 import { receives } from "./transactions/receives";
 import { credit_notes } from "./transactions/credit_notes";
+import { adjustments } from "./transactions/adjustments";
 import { sales_orders } from "./transactions/sales_orders";
 import { purchase_orders } from "./transactions/purchase_orders";
 import { customers } from "./maintenance/customers";
@@ -87,6 +88,13 @@ export const App = ({ onUnmount, dataProvider }: AppProps) => {
             name="credit_notes"
             {...pickBy<ReactNode>(credit_notes, (value, key) =>
               hasPermission(permissionCodeNames, "creditnote", key)
+            )}
+          />,
+          <Resource
+            key="adjustments"
+            name="adjustments"
+            {...pickBy<ReactNode>(adjustments, (value, key) =>
+              hasPermission(permissionCodeNames, "adjustment", key)
             )}
           />,
           <Resource
