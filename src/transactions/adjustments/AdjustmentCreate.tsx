@@ -183,12 +183,8 @@ const AdjustmentForm = (props: any) => {
                 source="adjustmentitem_set"
                 resource="adjustment_items"
                 label="resources.adjustments.fields.adjustmentitem_set"
-                updateTotals={updateTotals}
               />
-              <DetailsBottomSection
-                totals={totals}
-                updateTotals={updateTotals}
-              />
+              <DetailsBottomSection />
             </FormTabWithoutLayout>
           </TabbedFormView>
         );
