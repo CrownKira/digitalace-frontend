@@ -223,7 +223,9 @@ export const hasPermission = (
 ) => {
   switch (action) {
     case "list":
-      return permissions.includes(`view_${codename}`);
+      // return permissions.includes(`view_${codename}`);
+      // view_permission is no longer in use
+      return true;
     case "create":
       return permissions.includes(`add_${codename}`);
     case "edit":
