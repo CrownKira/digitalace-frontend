@@ -24,7 +24,8 @@ const ProgressAlert: FC = () => {
     useGetList<Announcement>(
       "announcements",
       { page: 1, perPage: 100 },
-      { field: "id", order: "DESC" }
+      { field: "id", order: "DESC" },
+      { status: "OP" }
     );
 
   return (
