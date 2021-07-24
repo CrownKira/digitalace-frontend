@@ -72,7 +72,12 @@ export const lightTheme = {
     borderRadius: 10,
   },
   overrides: {
-    // RaLayout: { root: { minWidth: "none" }, appFrame: { width: "100%" } },
+    RaLayout: {
+      root: {
+        background:
+          "linear-gradient(to right, #FFFFFF, #ECE9E6)" /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */,
+      },
+    },
     RaLabeled: {
       label: {
         fontSize: "1.25rem",
