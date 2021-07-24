@@ -60,7 +60,7 @@ export const DepartmentCreate: FC<CreateProps> = (props) => {
             resource="designations"
             labels={[
               "resources.employees.fields.designation",
-              "resources.designations.fields.employees",
+              "resources.designations.fields.user_set",
             ]}
           >
             <TextInput source="name" validate={requiredValidate} />
