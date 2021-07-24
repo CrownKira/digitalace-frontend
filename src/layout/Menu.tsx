@@ -298,6 +298,26 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
         />
       </SubMenu>
       <SubMenu
+        handleToggle={() => handleToggle("menuPayroll")}
+        isOpen={state.menuPayroll}
+        sidebarIsOpen={open}
+        name="pos.menu.payroll"
+        icon={<TollTwoToneIcon />}
+        dense={dense}
+      >
+        <MenuItemLink
+          to={"/payslips"}
+          primaryText={translate("resources.payslips.name", {
+            smart_count: 2,
+          })}
+          leftIcon={<payslips.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+          disabled={!hasPermission(permissionCodeNames, "payslip", "list")}
+        />
+      </SubMenu>
+      <SubMenu
         handleToggle={() => handleToggle("menuMiscellaneous")}
         isOpen={state.menuMiscellaneous}
         sidebarIsOpen={open}
@@ -317,26 +337,6 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           disabled={
             !hasPermission(permissionCodeNames, "paymentmethod", "list")
           }
-        />
-      </SubMenu>
-      <SubMenu
-        handleToggle={() => handleToggle("menuPayroll")}
-        isOpen={state.menuPayroll}
-        sidebarIsOpen={open}
-        name="pos.menu.payroll"
-        icon={<TollTwoToneIcon />}
-        dense={dense}
-      >
-        <MenuItemLink
-          to={"/payslips"}
-          primaryText={translate("resources.payslips.name", {
-            smart_count: 2,
-          })}
-          leftIcon={<payslips.icon />}
-          onClick={onMenuClick}
-          sidebarIsOpen={open}
-          dense={dense}
-          // disabled={!hasPermission(permissionCodeNames, "payslip", "list")}
         />
       </SubMenu>
       {isXSmall && (

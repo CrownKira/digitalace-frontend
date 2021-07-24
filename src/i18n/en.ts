@@ -500,6 +500,7 @@ export const customEnglishMessages: TranslationMessages = {
         created_from: "Associated Invoice",
         description: "Notes",
       },
+      nb_items: "1 item |||| %{smart_count} items",
       data: {
         statuses: {
           draft: "Draft",
@@ -594,6 +595,7 @@ export const customEnglishMessages: TranslationMessages = {
         apply_credits: "Apply Credits",
         credits_applied: "Credits Applied",
       },
+      nb_items: "1 item |||| %{smart_count} items",
       data: {
         statuses: {
           draft: "Draft",
@@ -673,6 +675,7 @@ export const customEnglishMessages: TranslationMessages = {
         salesorderitem_set: "Sales Order Items",
         description: "Notes",
       },
+      nb_items: "1 item |||| %{smart_count} items",
       data: {
         statuses: {
           draft: "Draft",
@@ -790,6 +793,7 @@ export const customEnglishMessages: TranslationMessages = {
 
         description: "Notes",
       },
+      nb_items: "1 item |||| %{smart_count} items",
       validation: {
         reference_already_used: "Reference already used",
       },
@@ -844,6 +848,7 @@ export const customEnglishMessages: TranslationMessages = {
         purchaseorderitem_set: "Purchase Order Items",
         description: "Notes",
       },
+      nb_items: "1 item |||| %{smart_count} items",
       data: {
         statuses: {
           draft: "Draft",

@@ -40,44 +40,7 @@ const ProgressAlert: FC = () => {
         >
           survey
         </Link>
-        . We embrace any critiques with open arms!
-      </Alert>
-      <Separator />
-      <Alert severity="warning">
-        <AlertTitle>Work in Progress</AlertTitle>
-        Here is a non-exhaustive and nonchronological list of features we are
-        working on:
-        <ul>
-          <li>Inventory Reports</li>
-          <li>PDF/Print</li>
-          <li>Import Data</li>
-          <li>Email Verification on Account Creation</li>
-          <li>Delivery Order System</li>
-          <li>Data Visualization</li>
-          <li>Receives</li>
-          <li>Purchase Orders</li>
-          <li>Inventory adjustments</li>
-          <li>Payroll management</li>
-          <li>Attendance management</li>
-          <li>Show view for all tabs</li>
-        </ul>
-        Want to suggest a feature? Feel free to drop us an email at{" "}
-        <Link
-          className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-          href={`mailto:${email}`}
-          onClick={stopPropagation}
-        >
-          {email}
-        </Link>
-        <br />
-        Please feel free to file any issues that you have encountered{" "}
-        <Link
-          className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-          href="https://github.com/CrownKira/digitalace/issues"
-          target="_blank"
-        >
-          here
-        </Link>
+        . We welcome any critiques with open arms!
       </Alert>
     </>
   );
@@ -112,3 +75,43 @@ export const Dashboard: FC = () => {
     </>
   );
 };
+
+/*
+<Separator />
+<Alert severity="warning">
+  <AlertTitle>Work in Progress</AlertTitle>
+  Here is a non-exhaustive and nonchronological list of features we are
+  working on:
+  <ul>
+    <li>Inventory Reports</li>
+    <li>PDF/Print</li>
+    <li>Import Data</li>
+    <li>Email Verification on Account Creation</li>
+    <li>Delivery Order System</li>
+    <li>Data Visualization</li>
+    <li>Receives</li>
+    <li>Purchase Orders</li>
+    <li>Inventory adjustments</li>
+    <li>Payroll management</li>
+    <li>Attendance management</li>
+    <li>Show view for all tabs</li>
+  </ul>
+  Want to suggest a feature? Feel free to drop us an email at{" "}
+  <Link
+    className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+    href={`mailto:${email}`}
+    onClick={stopPropagation}
+  >
+    {email}
+  </Link>
+  <br />
+  Please feel free to file any issues that you have encountered{" "}
+  <Link
+    className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+    href="https://github.com/CrownKira/digitalace/issues"
+    target="_blank"
+  >
+    here
+  </Link>
+</Alert>
+*/

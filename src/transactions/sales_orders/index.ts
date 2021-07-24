@@ -1,4 +1,4 @@
-import SalesOrderIcon from "@material-ui/icons/DescriptionTwoTone";
+import SalesOrderIcon from "@material-ui/icons/AttachMoneyTwoTone";
 
 import { SalesOrderList } from "./SalesOrderList";
 import { SalesOrderCreate } from "./SalesOrderCreate";

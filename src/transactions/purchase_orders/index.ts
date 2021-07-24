@@ -1,4 +1,4 @@
-import PurchaseOrderIcon from "@material-ui/icons/DescriptionTwoTone";
+import PurchaseOrderIcon from "@material-ui/icons/AttachMoneyTwoTone";
 
 import { PurchaseOrderList } from "./PurchaseOrderList";
 import { PurchaseOrderCreate } from "./PurchaseOrderCreate";
