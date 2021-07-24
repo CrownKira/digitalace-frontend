@@ -11,6 +11,7 @@ import {
   TabbedFormView,
   number,
   minValue,
+  maxValue,
 } from "react-admin";
 import { Card } from "@material-ui/core";
 import { useGetUserConfig } from "../../userMenu/configuration/useGetUserConfig";
@@ -226,6 +227,12 @@ export const validateReference = memoize((props: any) => [
   requiredValidate,
   validateReferenceUnicity(props),
 ]);
+export const validateRate = [
+  requiredValidate,
+  number(),
+  maxValue(100),
+  minValue(0),
+];
 
 export interface Totals {
   total_amount: number;

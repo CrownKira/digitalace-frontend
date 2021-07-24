@@ -13,7 +13,7 @@ import {
 import { makeStyles, withStyles } from "@material-ui/styles";
 import { useForm, useFormState } from "react-final-form";
 
-import { validateNumber, Totals } from "../ReceiveCreate";
+import { validateRate, Totals } from "../ReceiveCreate";
 import { ccyFormat } from "../../../utils";
 
 const useStyles = makeStyles({
@@ -72,7 +72,7 @@ export const TotalSection: FC<Props> = ({
               <NumberInput
                 source="discount_rate"
                 resource="receives"
-                validate={validateNumber}
+                validate={validateRate}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment
@@ -100,7 +100,7 @@ export const TotalSection: FC<Props> = ({
               <NumberInput
                 source="gst_rate"
                 resource="receives"
-                validate={validateNumber}
+                validate={validateRate}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">%</InputAdornment>

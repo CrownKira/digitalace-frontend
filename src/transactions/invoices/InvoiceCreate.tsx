@@ -11,8 +11,8 @@ import {
   TabbedFormView,
   number,
   minValue,
-  maxValue,
   TopToolbar,
+  maxValue,
 } from "react-admin";
 import { useGetUserConfig } from "../../userMenu/configuration/useGetUserConfig";
 import { AnyObject } from "react-final-form";
@@ -316,6 +316,12 @@ export const validateCredits = (scopedFormData: any) => [
   number(),
   minValue(0),
   maxValue(Number(scopedFormData?.credits_remaining)),
+];
+export const validateRate = [
+  requiredValidate,
+  number(),
+  maxValue(100),
+  minValue(0),
 ];
 
 export interface Totals {

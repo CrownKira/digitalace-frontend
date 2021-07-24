@@ -11,6 +11,7 @@ import {
   TabbedFormView,
   number,
   minValue,
+  maxValue,
 } from "react-admin";
 import { useGetUserConfig } from "../../userMenu/configuration/useGetUserConfig";
 import { AnyObject } from "react-final-form";
@@ -215,6 +216,12 @@ export const validateReference = memoize((props: any) => [
   requiredValidate,
   validateReferenceUnicity(props),
 ]);
+export const validateRate = [
+  requiredValidate,
+  number(),
+  maxValue(100),
+  minValue(0),
+];
 
 export interface Totals {
   total_amount: number;

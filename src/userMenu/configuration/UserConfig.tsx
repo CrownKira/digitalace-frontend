@@ -4,7 +4,6 @@ import {
   Card,
   CardContent as MuiCardContent,
   InputAdornment,
-  TextField as MuiTextField,
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
@@ -17,21 +16,19 @@ import {
   Toolbar,
   SaveButton,
   useTranslate,
-  Title,
-  ArrayInput,
   TextInput,
-  FormDataConsumer,
   TabbedFormView,
+  number,
+  maxValue,
+  minValue,
 } from "react-admin";
 
-import { SectionTitle, Separator } from "../../utils/components/Divider";
 import { useGetUserConfig } from "./useGetUserConfig";
 import { ThemeSelectInput } from "./ThemeSelectInput";
 import { LanguageSelectInput } from "./LanguageSelectInput";
 import { UserConfig } from "../../types";
-import { refreshLocalStorage } from "../../utils";
+import { getErrorMessage, refreshLocalStorage } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
-import { TableFormIterator } from "../../utils/components/TableFormIterator";
 import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
 
 const useStyles = makeStyles({
@@ -71,9 +68,9 @@ export const UserConfigEdit = () => {
           refreshLocalStorage({ theme, language });
           notify("pos.user_menu.user_config.success", "info");
         })
-        .catch(() => {
+        .catch((error: any) => {
           setSaving(false);
-          notify("pos.user_menu.user_config.failure", "warning");
+          notify(getErrorMessage(error), "warning");
         });
     },
     [dataProvider, notify]
@@ -149,7 +146,7 @@ export const UserConfigEdit = () => {
                       <TextInput
                         source="gst_rate"
                         resource="user_configs"
-                        validate={requiredValidate}
+                        validate={validateRate}
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end">%</InputAdornment>
@@ -161,7 +158,7 @@ export const UserConfigEdit = () => {
                       <TextInput
                         source="discount_rate"
                         resource="user_configs"
-                        validate={requiredValidate}
+                        validate={validateRate}
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end">%</InputAdornment>
@@ -181,6 +178,12 @@ export const UserConfigEdit = () => {
 };
 
 const requiredValidate = required();
+export const validateRate = [
+  requiredValidate,
+  number(),
+  maxValue(100),
+  minValue(0),
+];
 
 /*
 TODO: add payment edit
