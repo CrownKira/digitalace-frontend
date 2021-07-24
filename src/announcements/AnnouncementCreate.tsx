@@ -19,7 +19,7 @@ export const AnnouncementCreate: FC<CreateProps> = (props) => (
   <Create {...props}>
     <SimpleForm warnWhenUnsavedChanges initialValues={postDefaultValue}>
       <TextInput source="title" validate={requiredValidate} />
-      <TextInput source="message" validate={requiredValidate} />
+      <TextInput multiline source="message" validate={requiredValidate} />
       <SelectInput
         source="status"
         choices={statuses}

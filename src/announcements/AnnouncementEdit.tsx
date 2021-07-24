@@ -14,7 +14,7 @@ export const AnnouncementEdit: FC<EditProps> = (props) => (
   <Edit {...props}>
     <SimpleForm warnWhenUnsavedChanges>
       <TextInput source="title" validate={requiredValidate} />
-      <TextInput source="message" validate={requiredValidate} />
+      <TextInput multiline source="message" validate={requiredValidate} />
       <SelectInput
         source="status"
         choices={statuses}
