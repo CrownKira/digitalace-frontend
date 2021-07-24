@@ -551,6 +551,28 @@ export const customEnglishMessages: TranslationMessages = {
         name: "Name",
       },
     },
+    announcements: {
+      name: "Announcement |||| Announcements",
+      fields: {
+        id: "ID",
+        title: "Title",
+        message: "Message",
+        status: "Status",
+        severity: "Severity",
+      },
+      data: {
+        severities: {
+          success: "Success",
+          info: "Info",
+          warning: "Warning",
+          error: "Error",
+        },
+        statuses: {
+          draft: "Draft",
+          open: "Open",
+        },
+      },
+    },
     payslips: {
       name: "Payslip |||| Payslips",
       fields: {

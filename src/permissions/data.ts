@@ -175,4 +175,8 @@ export const permissions = [
   //   codename: "view_creditnoteitem",
   //   name: "Can view credit note item",
   // },
+  { id: 137, codename: "add_announcement", name: "Can add announcement" },
+  { id: 138, codename: "change_announcement", name: "Can change announcement" },
+  { id: 139, codename: "delete_announcement", name: "Can delete announcement" },
+  // { id: 140, codename: "view_announcement", name: "Can view announcement" },
 ];

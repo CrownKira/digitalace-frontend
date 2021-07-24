@@ -3,11 +3,9 @@ import { Edit, EditProps, SimpleForm, TextInput } from "react-admin";
 
 import { requiredValidate } from "./PaymentMethodCreate";
 
-const postDefaultValue = () => ({});
-
 export const PaymentMethodEdit: FC<EditProps> = (props) => (
   <Edit {...props}>
-    <SimpleForm warnWhenUnsavedChanges initialValues={postDefaultValue}>
+    <SimpleForm warnWhenUnsavedChanges>
       <TextInput source="name" validate={requiredValidate} />
     </SimpleForm>
   </Edit>

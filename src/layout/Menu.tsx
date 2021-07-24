@@ -34,6 +34,7 @@ import { adjustments } from "../transactions/adjustments";
 import { purchase_orders } from "../transactions/purchase_orders";
 import { sales_orders } from "../transactions/sales_orders";
 import { payment_methods } from "../payment_methods";
+import { announcements } from "../announcements";
 import { payslips } from "../payslips";
 import { SubMenu } from "./SubMenu";
 import { AppState, ThemeName } from "../types";
@@ -337,6 +338,17 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           disabled={
             !hasPermission(permissionCodeNames, "paymentmethod", "list")
           }
+        />
+        <MenuItemLink
+          to={"/announcements"}
+          primaryText={translate("resources.announcements.name", {
+            smart_count: 2,
+          })}
+          leftIcon={<announcements.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+          disabled={!hasPermission(permissionCodeNames, "announcement", "list")}
         />
       </SubMenu>
       {isXSmall && (

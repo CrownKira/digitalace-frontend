@@ -28,6 +28,7 @@ import { categories } from "./maintenance/categories";
 import { products } from "./maintenance/products";
 import { payment_methods } from "./payment_methods";
 import { payslips } from "./payslips";
+import { announcements } from "./announcements";
 import { hasPermission, getPermissionCodeNames } from "./utils";
 
 // rafc
@@ -176,6 +177,13 @@ export const App = ({ onUnmount, dataProvider }: AppProps) => {
             name="payslips"
             {...pickBy<ReactNode>(payslips, (value, key) =>
               hasPermission(permissionCodeNames, "payslip", key)
+            )}
+          />,
+          <Resource
+            key="announcements"
+            name="announcements"
+            {...pickBy<ReactNode>(announcements, (value, key) =>
+              hasPermission(permissionCodeNames, "announcement", key)
             )}
           />,
         ];

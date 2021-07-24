@@ -27,6 +27,13 @@ export interface PaymentMethod extends Record {
   name: string;
 }
 
+export interface Announcement extends Record {
+  title: string;
+  message: string;
+  status: "DFT" | "OP";
+  severity: "SUCC" | "INFO" | "WARN" | "ERR";
+}
+
 export interface UserProfile extends Record {
   fullName: string;
   avatar: string;
