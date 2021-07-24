@@ -17,6 +17,7 @@ import {
   ReferenceArrayField,
   SingleFieldList,
   ChipField,
+  SelectInput,
 } from "react-admin";
 import { makeStyles } from "@material-ui/core/styles";
 import pick from "lodash/pick";
@@ -36,6 +37,7 @@ const ListFilters = (props: Omit<FilterProps, "children">) => (
     <SearchInput source="q" alwaysOn />
     <DateInput source="date__gte" />
     <DateInput source="date__lte" />
+    <SelectInput source="status" choices={statuses} />
   </Filter>
 );
 
