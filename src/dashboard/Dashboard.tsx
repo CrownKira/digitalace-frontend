@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties } from "react";
+import React, { FC, CSSProperties, Fragment } from "react";
 import { useMediaQuery, Theme, Link } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { useGetList } from "react-admin";
@@ -35,13 +35,13 @@ const ProgressAlert: FC = () => {
           const announcement = announcements[id];
 
           return (
-            <>
+            <Fragment key={announcement.id}>
               <Alert severity={getSeverity(announcement.severity)}>
                 <AlertTitle>{announcement.title}</AlertTitle>
                 {announcement.message}
               </Alert>
               <Separator />
-            </>
+            </Fragment>
           );
         })}
     </>
