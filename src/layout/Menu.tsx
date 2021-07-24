@@ -6,6 +6,8 @@ import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWalletTwo
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCartTwoTone";
 import StorageIcon from "@material-ui/icons/StorageTwoTone";
 import BusinessIcon from "@material-ui/icons/BusinessTwoTone";
+import TuneTwoToneIcon from "@material-ui/icons/TuneTwoTone";
+import TollTwoToneIcon from "@material-ui/icons/TollTwoTone";
 import {
   useTranslate,
   DashboardMenuItem,
@@ -31,6 +33,8 @@ import { credit_notes } from "../transactions/credit_notes";
 import { adjustments } from "../transactions/adjustments";
 import { purchase_orders } from "../transactions/purchase_orders";
 import { sales_orders } from "../transactions/sales_orders";
+import { payment_methods } from "../payment_methods";
+import { payslips } from "../payslips";
 import { SubMenu } from "./SubMenu";
 import { AppState, ThemeName } from "../types";
 import {
@@ -43,14 +47,18 @@ type MenuName =
   | "menuOrganization"
   | "menuMaintenance"
   | "menuTransaction"
-  | "menuOrder";
+  | "menuOrder"
+  | "menuMiscellaneous"
+  | "menuPayroll";
 
 export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
   const [state, setState] = useState({
-    menuOrganization: true,
-    menuMaintenance: true,
+    menuOrganization: false,
+    menuMaintenance: false,
     menuTransaction: true,
-    menuOrder: true,
+    menuOrder: false,
+    menuPayroll: false,
+    menuMiscellaneous: false,
   });
   const translate = useTranslate();
   const isXSmall = useMediaQuery((theme: Theme) =>
@@ -287,6 +295,48 @@ export const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }) => {
           disabled={
             !hasPermission(permissionCodeNames, "purchaseorder", "list")
           }
+        />
+      </SubMenu>
+      <SubMenu
+        handleToggle={() => handleToggle("menuMiscellaneous")}
+        isOpen={state.menuMiscellaneous}
+        sidebarIsOpen={open}
+        name="pos.menu.miscellaneous"
+        icon={<TuneTwoToneIcon />}
+        dense={dense}
+      >
+        <MenuItemLink
+          to={"/payment_methods"}
+          primaryText={translate("resources.payment_methods.name", {
+            smart_count: 2,
+          })}
+          leftIcon={<payment_methods.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+          disabled={
+            !hasPermission(permissionCodeNames, "paymentmethod", "list")
+          }
+        />
+      </SubMenu>
+      <SubMenu
+        handleToggle={() => handleToggle("menuPayroll")}
+        isOpen={state.menuPayroll}
+        sidebarIsOpen={open}
+        name="pos.menu.payroll"
+        icon={<TollTwoToneIcon />}
+        dense={dense}
+      >
+        <MenuItemLink
+          to={"/payslips"}
+          primaryText={translate("resources.payslips.name", {
+            smart_count: 2,
+          })}
+          leftIcon={<payslips.icon />}
+          onClick={onMenuClick}
+          sidebarIsOpen={open}
+          dense={dense}
+          // disabled={!hasPermission(permissionCodeNames, "payslip", "list")}
         />
       </SubMenu>
       {isXSmall && (

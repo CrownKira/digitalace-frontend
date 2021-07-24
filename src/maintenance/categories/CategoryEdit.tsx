@@ -22,6 +22,7 @@ import { Category } from "../../types";
 import { FullNameField } from "../suppliers/FullNameField";
 import { formatImage } from "../../utils";
 import { PriceField } from "../../utils/components/PriceField";
+import { requiredValidate } from "./CategoryCreate";
 
 const CategoryTitle: FC<FieldProps<Category>> = ({ record }) => {
   const translate = useTranslate();
@@ -44,7 +45,7 @@ export const CategoryEdit: FC<EditProps> = (props) => (
       >
         <ImageField source="src" title="title" />
       </ImageInput>
-      <TextInput source="name" />
+      <TextInput source="name" validate={requiredValidate} />
       <ReferenceManyField
         reference="products"
         target="category"

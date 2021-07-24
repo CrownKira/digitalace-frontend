@@ -20,6 +20,7 @@ import pick from "lodash/pick";
 import { AdjustmentShow } from "./AdjustmentShow";
 import { statuses, modes } from "./data";
 import { ColoredStatusField } from "../components/ColoredStatusField";
+import { ColoredModeField } from "../components/ColoredModeField";
 import { ListActionsWithImport } from "../../utils/components/ListActionsWithImport";
 import { dateParser } from "../../utils";
 import { useValidateRow } from "../hooks/useValidateRow";
@@ -115,7 +116,7 @@ export const AdjustmentList: FC<ListProps> = (props) => {
         <TextField source="reference" />
         <DateField source="date" />
         <ColoredStatusField source="status" choices={statuses} />
-        <SelectField source="mode" choices={modes} />
+        <ColoredModeField source="mode" choices={modes} />
         <TextField source="reason" />
       </Datagrid>
     </List>

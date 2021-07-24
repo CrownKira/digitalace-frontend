@@ -114,9 +114,15 @@ const getAxiosErrorMessage = (error: any) => {
 export const getErrorMessage = (error: any) => {
   // TODO: extend this to get all errors instead of one
 
-  const { isAxiosError, body, status, message } = error;
+  const { isAxiosError, body, status, message, code } = error;
 
-  if (isAxiosError) return getAxiosErrorMessage(error);
+  if (isAxiosError) {
+    return getAxiosErrorMessage(error);
+  }
+
+  if (code === "server_error") {
+    return error?.error?.message;
+  }
 
   return status === 400
     ? `${Object.keys(body)[0]} - ${JSON.stringify(Object.values(body)[0])}`

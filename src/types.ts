@@ -23,6 +23,10 @@ export interface UserConfig extends Record {
   language: string;
 }
 
+export interface PaymentMethod extends Record {
+  name: string;
+}
+
 export interface UserProfile extends Record {
   fullName: string;
   avatar: string;

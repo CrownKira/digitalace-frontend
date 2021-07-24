@@ -125,6 +125,8 @@ export const customEnglishMessages: TranslationMessages = {
       maintenance: "Maintenance",
       transactions: "Transactions",
       orders: "Orders",
+      miscellaneous: "Miscellaneous",
+      payroll: "Payroll",
     },
     user_menu: {
       // menu on the top right
@@ -210,6 +212,10 @@ export const customEnglishMessages: TranslationMessages = {
       notification: {
         admin: "You are logged in as an admin.",
         employee: "You are logged in as an employee.",
+      },
+      tabs: {
+        general: "General",
+        transactions: "Transactions",
       },
     },
     employees: {
@@ -537,6 +543,19 @@ export const customEnglishMessages: TranslationMessages = {
         credit_note: "Credit Note",
       },
     },
+    payment_methods: {
+      name: "Payment Method |||| Payment Methods",
+      fields: {
+        id: "ID",
+        name: "Name",
+      },
+    },
+    payslips: {
+      name: "Payslip |||| Payslips",
+      fields: {
+        id: "ID",
+      },
+    },
     invoices: {
       name: "Invoice |||| Invoices",
       fields: {
@@ -610,14 +629,6 @@ export const customEnglishMessages: TranslationMessages = {
         no_credit_note: "No Credit Note created so far.",
         total_credit_notes:
           "1 credit note created from this invoice. |||| %{smart_count} credit notes created from this invoice.",
-      },
-    },
-    payment_methods: {
-      name: "Payment Method |||| Payment Methods",
-      fields: {
-        id: "ID",
-        invoice_set: "Associated Invoices",
-        name: "Name",
       },
     },
     invoice_items: {

@@ -26,6 +26,8 @@ import { customers } from "./maintenance/customers";
 import { suppliers } from "./maintenance/suppliers";
 import { categories } from "./maintenance/categories";
 import { products } from "./maintenance/products";
+import { payment_methods } from "./payment_methods";
+import { payslips } from "./payslips";
 import { hasPermission, getPermissionCodeNames } from "./utils";
 
 // rafc
@@ -162,7 +164,20 @@ export const App = ({ onUnmount, dataProvider }: AppProps) => {
             )}
           />,
           <Resource key="credits_applications" name="credits_applications" />,
-          <Resource key="payment_methods" name="payment_methods" />,
+          <Resource
+            key="payment_methods"
+            name="payment_methods"
+            {...pickBy<ReactNode>(payment_methods, (value, key) =>
+              hasPermission(permissionCodeNames, "paymentmethod", key)
+            )}
+          />,
+          <Resource
+            key="payslips"
+            name="payslips"
+            {...pickBy<ReactNode>(payslips, (value, key) =>
+              hasPermission(permissionCodeNames, "payslip", key)
+            )}
+          />,
         ];
       }}
     </Admin>

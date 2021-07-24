@@ -7,13 +7,12 @@ import { Register } from "./auth";
 
 export const routes = [
   <Route key={0} exact path="/profile" component={ProfileEdit} />,
-  <Route key={1} exact path="/configuration" component={UserConfigEdit} />,
+  <Route key={1} path="/configuration" component={UserConfigEdit} />,
   <RouteWithoutLayout
     key={2}
     exact
     path="/register"
     component={Register}
-    // noLayout={true}
     noLayout
   />,
 ];

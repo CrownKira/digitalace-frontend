@@ -2,11 +2,11 @@ import React, { useState, useCallback, useMemo } from "react";
 import {
   Box,
   Card,
-  CardContent,
+  CardContent as MuiCardContent,
   InputAdornment,
   TextField as MuiTextField,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
   required,
   useDataProvider,
@@ -21,6 +21,7 @@ import {
   ArrayInput,
   TextInput,
   FormDataConsumer,
+  TabbedFormView,
 } from "react-admin";
 
 import { SectionTitle, Separator } from "../../utils/components/Divider";
@@ -31,6 +32,7 @@ import { UserConfig } from "../../types";
 import { refreshLocalStorage } from "../../utils";
 import { useOnFailure } from "../../utils/hooks";
 import { TableFormIterator } from "../../utils/components/TableFormIterator";
+import { FormTabWithoutLayout } from "../../utils/components/FormTabWithoutLayout";
 
 const useStyles = makeStyles({
   leftFormGroup: { display: "inline-block", marginRight: "0.5em" },
@@ -40,6 +42,13 @@ const useStyles = makeStyles({
   lineItemInput: { width: 150 },
   lineItemReferenceInput: { width: 300 },
 });
+
+const CardContent = withStyles((theme) => ({
+  root: {
+    padding: 0,
+    "&:last-child": { padding: 0 },
+  },
+}))(MuiCardContent);
 
 export const UserConfigEdit = () => {
   useAuthenticated();
@@ -92,75 +101,80 @@ export const UserConfigEdit = () => {
         warnWhenUnsavedChanges
         save={handleSave}
         record={data}
-        render={(formProps: any) => (
-          <Card>
-            <form>
+        render={(formProps: any) => {
+          return (
+            <Card>
               <CardContent>
-                <SectionTitle label="resources.user_configs.fieldGroups.general" />
-                <Title title={translate("pos.configuration")} />
-                <Box>
-                  <ThemeSelectInput source="theme" />
-                </Box>
-                <Box>
-                  <LanguageSelectInput source="language" />{" "}
-                </Box>
-                <Separator />
-                <SectionTitle label="resources.user_configs.fieldGroups.transactions" />
-                <Box display={{ xs: "block", sm: "flex" }}>
-                  <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                    <TextInput
-                      source="gst_rate"
+                <TabbedFormView
+                  {...formProps}
+                  toolbar={
+                    <Toolbar
+                      // props from react-admin demo VisitorEdit
                       resource="user_configs"
-                      fullWidth
-                      validate={requiredValidate}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">%</InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Box>
-                  <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
-                    <TextInput
-                      source="discount_rate"
-                      resource="user_configs"
-                      fullWidth
-                      validate={requiredValidate}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">%</InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Box>
-                </Box>
-              </CardContent>
-              <Toolbar
-                // props from react-admin demo VisitorEdit
-                resource="user_configs"
-                record={formProps.record}
-                basePath={formProps.basePath}
-                invalid={formProps.invalid}
-                handleSubmit={formProps.handleSubmit}
-                saving={formProps.saving}
-                pristine={formProps.pristine}
-              >
-                <SaveButton
-                  // props from Toolbar.tsx
-                  handleSubmitWithRedirect={
-                    formProps.handleSubmitWithRedirect || formProps.handleSubmit
+                      record={formProps.record}
+                      basePath={formProps.basePath}
+                      invalid={formProps.invalid}
+                      handleSubmit={formProps.handleSubmit}
+                      saving={formProps.saving}
+                      pristine={formProps.pristine}
+                      // classes={{ toolbar: classes.toolbar }}
+                    >
+                      <SaveButton
+                        // props from Toolbar.tsx
+                        // TODO: disable when pristine?
+                        handleSubmitWithRedirect={
+                          formProps.handleSubmitWithRedirect ||
+                          formProps.handleSubmit
+                        }
+                        disabled={formProps.disabled}
+                        invalid={formProps.invalid}
+                        redirect={formProps.redirect}
+                        saving={formProps.saving}
+                        submitOnEnter={formProps.submitOnEnter}
+                        onFailure={onFailure}
+                      />
+                    </Toolbar>
                   }
-                  disabled={formProps.disabled}
-                  invalid={formProps.invalid}
-                  redirect={formProps.redirect}
-                  saving={formProps.saving}
-                  submitOnEnter={formProps.submitOnEnter}
-                  onFailure={onFailure}
-                />
-              </Toolbar>
-            </form>
-          </Card>
-        )}
+                >
+                  <FormTabWithoutLayout label="resources.user_configs.tabs.general">
+                    <Box>
+                      <ThemeSelectInput source="theme" />
+                    </Box>
+                    <Box>
+                      <LanguageSelectInput source="language" />{" "}
+                    </Box>
+                  </FormTabWithoutLayout>
+                  <FormTabWithoutLayout label="resources.user_configs.tabs.transactions">
+                    <Box>
+                      <TextInput
+                        source="gst_rate"
+                        resource="user_configs"
+                        validate={requiredValidate}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">%</InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
+                    <Box>
+                      <TextInput
+                        source="discount_rate"
+                        resource="user_configs"
+                        validate={requiredValidate}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">%</InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
+                  </FormTabWithoutLayout>
+                </TabbedFormView>
+              </CardContent>
+            </Card>
+          );
+        }}
       />
     </SaveContextProvider>
   );
