@@ -211,7 +211,7 @@ const EventList: FC<EventListProps> = ({ record, basePath }) => {
 
 interface AsideEvent {
   type: string;
-  date: Date;
+  date: string;
   data: PurchaseOrderRecord | ReceiveRecord;
 }
 
