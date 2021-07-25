@@ -74,7 +74,11 @@ export const UnpaidInvoices: FC<Props> = ({
               )}
             </ListItemAvatar>
             <ListItemText
-              primary={new Date(record.date).toLocaleString("en-GB")}
+              primary={new Date(record.date).toLocaleString("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
               secondary={translate("pos.dashboard.invoice.items", {
                 smart_count: record.invoiceitem_set?.length,
                 nb_items: record.invoiceitem_set?.length,

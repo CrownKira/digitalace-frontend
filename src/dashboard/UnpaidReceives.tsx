@@ -74,7 +74,11 @@ export const UnpaidReceives: FC<Props> = ({
               )}
             </ListItemAvatar>
             <ListItemText
-              primary={new Date(record.date).toLocaleString("en-GB")}
+              primary={new Date(record.date).toLocaleString("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
               secondary={translate("pos.dashboard.receive.items", {
                 smart_count: record.receiveitem_set?.length,
                 nb_items: record.receiveitem_set?.length,
