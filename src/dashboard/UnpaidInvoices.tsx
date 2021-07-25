@@ -17,6 +17,7 @@ import { CardWithIcon } from "./CardWithIcon";
 import { stringify } from "query-string";
 
 import { Invoice, Customer } from "../types";
+import { ccyFormat } from "../utils";
 
 interface Props {
   invoices?: Invoice[];
@@ -26,7 +27,8 @@ interface Props {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flex: 1,
+    // flex: 1,
+    minWidth: "350px",
   },
   cost: {
     marginRight: "1em",
@@ -50,7 +52,7 @@ export const UnpaidInvoices: FC<Props> = ({
 
   return (
     <CardWithIcon
-      // className={classes.root}
+      className={classes.root}
       to="/invoices"
       icon={AttachMoneyTwoToneIcon}
       title={translate("pos.dashboard.receivables")}
@@ -88,7 +90,9 @@ export const UnpaidInvoices: FC<Props> = ({
               })}
             />
             <ListItemSecondaryAction>
-              <span className={classes.cost}>{record.grand_total}S$</span>
+              <span className={classes.cost}>
+                {ccyFormat(record.grand_total, true)}
+              </span>
             </ListItemSecondaryAction>
           </ListItem>
         ))}

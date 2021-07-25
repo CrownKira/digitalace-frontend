@@ -12,11 +12,12 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { useTranslate } from "react-admin";
-import AttachMoneyTwoToneIcon from "@material-ui/icons/AttachMoneyTwoTone";
+import PaymentTwoToneIcon from "@material-ui/icons/PaymentTwoTone";
 import { CardWithIcon } from "./CardWithIcon";
 import { stringify } from "query-string";
 
 import { Receive, Supplier } from "../types";
+import { ccyFormat } from "../utils";
 
 interface Props {
   receives?: Receive[];
@@ -26,7 +27,7 @@ interface Props {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flex: 1,
+    minWidth: "350px",
   },
   cost: {
     marginRight: "1em",
@@ -50,9 +51,9 @@ export const UnpaidReceives: FC<Props> = ({
 
   return (
     <CardWithIcon
-      // className={classes.root}
+      className={classes.root}
       to="/receives"
-      icon={AttachMoneyTwoToneIcon}
+      icon={PaymentTwoToneIcon}
       title={translate("pos.dashboard.payables")}
       subtitle={payables}
     >
@@ -88,7 +89,9 @@ export const UnpaidReceives: FC<Props> = ({
               })}
             />
             <ListItemSecondaryAction>
-              <span className={classes.cost}>{record.grand_total}S$</span>
+              <span className={classes.cost}>
+                {ccyFormat(record.grand_total, true)}
+              </span>
             </ListItemSecondaryAction>
           </ListItem>
         ))}

@@ -3,6 +3,7 @@ import { Card, Box, Typography, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { LocationDescriptor, Location } from "history";
+import classNames from "classnames";
 
 import cartouche from "./cartouche.png";
 import cartoucheDark from "./cartoucheDark.png";
@@ -14,6 +15,7 @@ interface Props {
     | ((location: Location<unknown>) => LocationDescriptor<unknown>);
   title?: string;
   subtitle?: string | number;
+  className?: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -44,11 +46,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const CardWithIcon: FC<Props> = (props) => {
-  const { icon, title, subtitle, to, children } = props;
+  const { icon, title, subtitle, to, children, className } = props;
   const classes = useStyles(props);
 
   return (
-    <Card className={classes.card}>
+    <Card className={classNames(classes.card, className)}>
       <Link to={to}>
         <div className={classes.main}>
           <Box width="3em" className="icon">

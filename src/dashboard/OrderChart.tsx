@@ -129,7 +129,11 @@ export const OrderChart: FC<{
                 domain={[addDays(aMonthAgo, 1).getTime(), new Date().getTime()]}
                 tickFormatter={dateFormatter}
               />
-              <YAxis dataKey="total" name="Revenue" unit="S$" />
+              <YAxis
+                dataKey="total"
+                name="Revenue"
+                // unit="S$"
+              />
               <CartesianGrid strokeDasharray="3 3" />
               <Tooltip
                 cursor={{ strokeDasharray: "3 3" }}
