@@ -11,7 +11,7 @@ import {
 export const PdfButton: FC<PdfButtonProps> = ({
   basePath = "",
   icon = defaultIcon,
-  label = "pos.action.print",
+  label = "pos.action.pdf",
   ...rest
 }) => {
   const resource = useResourceContext();

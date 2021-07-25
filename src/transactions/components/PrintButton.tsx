@@ -11,14 +11,15 @@ import {
 export const PrintButton: FC<PrintButtonProps> = ({
   basePath = "",
   icon = defaultIcon,
-  label = "pos.action.pdf",
+  label = "pos.action.print",
   ...rest
 }) => {
   const resource = useResourceContext();
   const notify = useNotify();
 
   const handleClick = (event: any) => {
-    notify("pos.message.coming_soon");
+    // notify("pos.message.coming_soon");
+    window.print();
   };
 
   return (

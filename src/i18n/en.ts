@@ -109,6 +109,7 @@ export const customEnglishMessages: TranslationMessages = {
       monthly_revenue: "Monthly Revenue",
       month_history: "30 Day Revenue History",
       new_orders: "New Orders",
+      new_invoices: "New Invoices",
       pending_reviews: "Pending Reviews",
       all_reviews: "See all reviews",
       new_customers: "New Customers",

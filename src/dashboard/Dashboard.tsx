@@ -1,12 +1,23 @@
-import React, { FC, CSSProperties, Fragment } from "react";
+import React, {
+  FC,
+  CSSProperties,
+  Fragment,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import { useMediaQuery, Theme, Link } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
-import { useGetList } from "react-admin";
+import { useDataProvider, useGetList, useVersion } from "react-admin";
+import { subDays } from "date-fns";
 
 import { Welcome } from "./Welcome";
 import { Separator } from "../utils/components/Divider";
-import { Announcement } from "../types";
+import { Announcement, CreditNote, Invoice, Receive } from "../types";
 import { getSeverity } from "../announcements/data";
+import { ccyFormat, dateFormatter, toFixedNumber } from "../utils";
+import { MonthlyRevenue } from "./ MonthlyRevenue";
+import { NbNewInvoices } from "./NbNewInvoices";
 
 const styles = {
   flex: { display: "flex" },
@@ -48,11 +59,154 @@ const ProgressAlert: FC = () => {
   );
 };
 
+interface OrderStats {
+  revenue: number;
+  nbNewInvoices: number;
+  receivables: number;
+  payables: number;
+  unpaidInvoices: Invoice[];
+  unpaidReceives: Receive[];
+}
+
+interface State {
+  revenue?: string;
+  nbNewInvoices?: number;
+  receivables?: number;
+  payables?: number;
+  unpaidInvoices?: Invoice[];
+  unpaidReceives?: Receive[];
+  recentInvoices?: Invoice[];
+  recentReceives?: Receive[];
+  recentCreditNotes?: CreditNote[];
+}
+
+const Spacer = () => <span style={{ width: "1em" }} />;
+const VerticalSpacer = () => <span style={{ height: "1em" }} />;
+
 export const Dashboard: FC = () => {
+  const [state, setState] = useState<State>({});
+  const version = useVersion();
+  const dataProvider = useDataProvider();
   const isXSmall = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("xs")
   );
   const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
+
+  const fetchOrders = useCallback(async () => {
+    const aMonthAgo = subDays(new Date(), 30);
+
+    const { data: recentInvoices } = await dataProvider.getList<Invoice>(
+      "invoices",
+      {
+        filter: { date__gte: dateFormatter(aMonthAgo) },
+        sort: { field: "date", order: "DESC" },
+        // TODO: set limit of invoices per month
+        pagination: { page: 1, perPage: Infinity },
+      }
+    );
+
+    const { data: recentReceives } = await dataProvider.getList<Receive>(
+      "receives",
+      {
+        filter: { date__gte: dateFormatter(aMonthAgo) },
+        sort: { field: "date", order: "DESC" },
+        // TODO: set limit of receives per month
+        pagination: { page: 1, perPage: Infinity },
+      }
+    );
+
+    const { data: recentCreditNotes } = await dataProvider.getList<CreditNote>(
+      "credit_notes",
+      {
+        filter: { date__gte: dateFormatter(aMonthAgo) },
+        sort: { field: "date", order: "DESC" },
+        // TODO: set limit of credit notes per month
+        pagination: { page: 1, perPage: Infinity },
+      }
+    );
+
+    let aggregations = recentInvoices
+      .filter((invoice) => invoice.status !== "DFT")
+      .reduce(
+        (stats: OrderStats, invoice) => {
+          if (invoice.status !== "DFT") {
+            stats.revenue += toFixedNumber(invoice.grand_total, 2);
+            stats.nbNewInvoices++;
+          }
+          if (invoice.status === "UPD") {
+            stats.receivables += toFixedNumber(invoice.grand_total, 2);
+            stats.unpaidInvoices.push(invoice);
+          }
+          return stats;
+        },
+        {
+          revenue: 0,
+          nbNewInvoices: 0,
+          receivables: 0,
+          payables: 0,
+          unpaidInvoices: [],
+          unpaidReceives: [],
+          // TODO: include incoming and outgoing
+        }
+      );
+
+    aggregations = recentReceives
+      .filter((receive) => receive.status !== "DFT")
+      .reduce(
+        (stats: OrderStats, receive) => {
+          if (receive.status !== "DFT") {
+            stats.revenue -= toFixedNumber(receive.grand_total, 2);
+          }
+
+          if (receive.status === "UPD") {
+            stats.payables += toFixedNumber(receive.grand_total, 2);
+            stats.unpaidReceives.push(receive);
+          }
+
+          return stats;
+        },
+
+        aggregations
+      );
+
+    aggregations = recentCreditNotes
+      .filter((credit_note) => credit_note.status !== "DFT")
+      .reduce((stats: OrderStats, credit_note) => {
+        if (credit_note.status !== "DFT") {
+          stats.revenue -= toFixedNumber(credit_note.refund, 2);
+        }
+        return stats;
+      }, aggregations);
+
+    setState((state) => ({
+      ...state,
+      revenue: ccyFormat(aggregations.revenue, true),
+      unpaidInvoices: aggregations.unpaidInvoices,
+      unpaidReceives: aggregations.unpaidReceives,
+      receivables: aggregations.receivables,
+      payables: aggregations.payables,
+      nbNewInvoices: aggregations.nbNewInvoices,
+      recentInvoices,
+      recentReceives,
+      recentCreditNotes,
+    }));
+  }, [dataProvider]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders, version]);
+
+  const {
+    revenue,
+    unpaidInvoices,
+    unpaidReceives,
+    receivables,
+    payables,
+    nbNewInvoices,
+    recentInvoices,
+    recentReceives,
+    recentCreditNotes,
+  } = state;
 
   return isXSmall ? (
     <div>
@@ -74,11 +228,29 @@ export const Dashboard: FC = () => {
     <>
       <ProgressAlert />
       <Welcome />
+      <div style={styles.flex}>
+        <div style={styles.leftCol}>
+          <div style={styles.flex}>
+            <MonthlyRevenue value={revenue} />
+            <Spacer />
+            <NbNewInvoices value={nbNewInvoices} />
+          </div>
+          <div style={styles.singleCol}></div>
+        </div>
+      </div>
     </>
   );
 };
 
 /*
+ <OrderChart
+              invoices={recentInvoices}
+              receives={recentReceives}
+              credit_notes={recentCreditNotes}
+            />
+
+
+            
 <Separator />
 <Alert severity="warning">
   <AlertTitle>Work in Progress</AlertTitle>
