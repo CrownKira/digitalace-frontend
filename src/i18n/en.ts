@@ -105,19 +105,26 @@ export const customEnglishMessages: TranslationMessages = {
         ra_button: "GitHub repo",
         demo_button: "Source for this demo",
       },
-
       monthly_revenue: "Monthly Revenue",
       month_history: "30 Day Revenue History",
       new_orders: "New Orders",
-      new_invoices: "New Invoices",
+      new_invoices: "This Month's Invoices",
       pending_reviews: "Pending Reviews",
+      receivables: "Total Receivables",
+      payables: "Total Payables",
       all_reviews: "See all reviews",
+      all_unpaid_invoices: "See all unpaid invoices",
+      all_unpaid_receives: "See all unpaid receives",
       new_customers: "New Customers",
       all_customers: "See all customers",
       pending_orders: "Pending Orders",
-      order: {
+      invoice: {
         items:
           "by %{customer_name}, one item |||| by %{customer_name}, %{nb_items} items",
+      },
+      receive: {
+        items:
+          "to %{supplier_name}, one item |||| to %{supplier_name}, %{nb_items} items",
       },
     },
     menu: {

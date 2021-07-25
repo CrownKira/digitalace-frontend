@@ -50,9 +50,9 @@ export interface UserProfile extends Record {
   ic_no: string;
   nationality: string;
   gender: string;
-  date_of_birth: Date;
-  date_of_commencement: Date;
-  date_of_cessation: Date;
+  date_of_birth: string;
+  date_of_commencement: string;
+  date_of_cessation: string;
   phone_no: string;
 }
 
@@ -106,9 +106,9 @@ export interface Employee extends Record {
   ic_no: string;
   nationality: string;
   gender: string;
-  date_of_birth: Date;
-  date_of_commencement: Date;
-  date_of_cessation: Date;
+  date_of_birth: string;
+  date_of_commencement: string;
+  date_of_cessation: string;
   phone_no: string;
 }
 
@@ -146,7 +146,7 @@ export interface CreditsApplication extends Record {
   id: Identifier;
   invoice: Identifier;
   credit_note: Identifier;
-  date: Date;
+  date: string;
   amount_to_credit: number;
 }
 
@@ -155,9 +155,9 @@ export interface CreditNote extends Record {
   created_from: string;
   company: Identifier;
   company_name: string;
-  date: Date;
+  date: string;
   description: string;
-  payment_date: Date;
+  payment_date: string;
   payment_method: string;
   payment_note: string;
   gst_rate: number;
@@ -189,9 +189,9 @@ export interface Invoice extends Record {
   reference: string;
   company: Identifier;
   company_name: string;
-  date: Date;
+  date: string;
   description: string;
-  payment_date: Date;
+  payment_date: string;
   payment_method: string;
   payment_note: string;
   gst_rate: number;
@@ -221,9 +221,9 @@ export interface SalesOrder extends Record {
   reference: string;
   company: Identifier;
   company_name: string;
-  date: Date;
+  date: string;
   description: string;
-  payment_date: Date;
+  payment_date: string;
   payment_method: string;
   payment_note: string;
   gst_rate: number;
@@ -253,7 +253,7 @@ export interface Adjustment extends Record {
   reference: string;
   status: string;
   mode: string;
-  date: Date;
+  date: string;
   address: string;
   adjustmentitem_set: AdjustmentItem[];
   description: string;
@@ -273,9 +273,9 @@ export interface Receive extends Record {
   reference: string;
   company: Identifier;
   company_name: string;
-  date: Date;
+  date: string;
   description: string;
-  payment_date: Date;
+  payment_date: string;
   payment_method: string;
   payment_note: string;
   gst_rate: number;
@@ -304,9 +304,9 @@ export interface PurchaseOrder extends Record {
   reference: string;
   company: Identifier;
   company_name: string;
-  date: Date;
+  date: string;
   description: string;
-  payment_date: Date;
+  payment_date: string;
   payment_method: string;
   payment_note: string;
   gst_rate: number;
@@ -336,7 +336,7 @@ export type OrderStatus = "ordered" | "delivered" | "cancelled";
 export interface Order extends Record {
   status: OrderStatus;
   basket: BasketItem[];
-  date: Date;
+  date: string;
   total: number;
 }
 
@@ -348,7 +348,7 @@ export interface BasketItem {
 export type ReviewStatus = "accepted" | "pending" | "rejected";
 
 export interface Review extends Record {
-  date: Date;
+  date: string;
   status: ReviewStatus;
   customer_id: Identifier;
   product_id: Identifier;

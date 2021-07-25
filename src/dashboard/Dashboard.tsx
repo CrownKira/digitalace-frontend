@@ -6,18 +6,28 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import { useMediaQuery, Theme, Link } from "@material-ui/core";
+import { useMediaQuery, Theme } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { useDataProvider, useGetList, useVersion } from "react-admin";
 import { subDays } from "date-fns";
 
 import { Welcome } from "./Welcome";
 import { Separator } from "../utils/components/Divider";
-import { Announcement, CreditNote, Invoice, Receive } from "../types";
+import {
+  Announcement,
+  CreditNote,
+  Customer,
+  Invoice,
+  Receive,
+  Supplier,
+} from "../types";
 import { getSeverity } from "../announcements/data";
 import { ccyFormat, dateFormatter, toFixedNumber } from "../utils";
 import { MonthlyRevenue } from "./ MonthlyRevenue";
 import { NbNewInvoices } from "./NbNewInvoices";
+import { OrderChart } from "./OrderChart";
+import { UnpaidInvoices } from "./UnpaidInvoices";
+import { UnpaidReceives } from "./UnpaidReceives";
 
 const styles = {
   flex: { display: "flex" },
@@ -26,9 +36,6 @@ const styles = {
   rightCol: { flex: 1, marginLeft: "0.5em" },
   singleCol: { marginTop: "1em", marginBottom: "1em" },
 };
-
-// const stopPropagation = (e: any) => e.stopPropagation();
-// const email = "t.karwi@yahoo.com";
 
 const ProgressAlert: FC = () => {
   const { data: announcements, ids: announcementIds } =
@@ -66,18 +73,32 @@ interface OrderStats {
   payables: number;
   unpaidInvoices: Invoice[];
   unpaidReceives: Receive[];
+  nbUnpaidInvoices: number;
+  nbUnpaidReceives: number;
+}
+
+interface CustomerData {
+  [key: string]: Customer;
+}
+
+interface SupplierData {
+  [key: string]: Supplier;
 }
 
 interface State {
   revenue?: string;
   nbNewInvoices?: number;
-  receivables?: number;
-  payables?: number;
+  receivables?: string;
+  payables?: string;
   unpaidInvoices?: Invoice[];
   unpaidReceives?: Receive[];
   recentInvoices?: Invoice[];
   recentReceives?: Receive[];
   recentCreditNotes?: CreditNote[];
+  unpaidInvoicesCustomers?: CustomerData;
+  unpaidReceivesSuppliers?: SupplierData;
+  nbUnpaidInvoices?: number;
+  nbUnpaidReceives?: number;
 }
 
 const Spacer = () => <span style={{ width: "1em" }} />;
@@ -135,7 +156,10 @@ export const Dashboard: FC = () => {
           }
           if (invoice.status === "UPD") {
             stats.receivables += toFixedNumber(invoice.grand_total, 2);
-            stats.unpaidInvoices.push(invoice);
+            stats.nbUnpaidInvoices++;
+            if (stats.unpaidInvoices.length < 10) {
+              stats.unpaidInvoices.push(invoice);
+            }
           }
           return stats;
         },
@@ -146,6 +170,8 @@ export const Dashboard: FC = () => {
           payables: 0,
           unpaidInvoices: [],
           unpaidReceives: [],
+          nbUnpaidInvoices: 0,
+          nbUnpaidReceives: 0,
           // TODO: include incoming and outgoing
         }
       );
@@ -160,7 +186,10 @@ export const Dashboard: FC = () => {
 
           if (receive.status === "UPD") {
             stats.payables += toFixedNumber(receive.grand_total, 2);
-            stats.unpaidReceives.push(receive);
+            stats.nbUnpaidReceives++;
+            if (stats.unpaidReceives.length < 10) {
+              stats.unpaidReceives.push(receive);
+            }
           }
 
           return stats;
@@ -183,12 +212,54 @@ export const Dashboard: FC = () => {
       revenue: ccyFormat(aggregations.revenue, true),
       unpaidInvoices: aggregations.unpaidInvoices,
       unpaidReceives: aggregations.unpaidReceives,
-      receivables: aggregations.receivables,
-      payables: aggregations.payables,
+      receivables: ccyFormat(aggregations.receivables, true),
+      payables: ccyFormat(aggregations.payables, true),
       nbNewInvoices: aggregations.nbNewInvoices,
+      nbUnpaidInvoices: aggregations.nbUnpaidInvoices,
+      nbUnpaidReceives: aggregations.nbUnpaidReceives,
       recentInvoices,
       recentReceives,
       recentCreditNotes,
+    }));
+
+    const { data: customers } = await dataProvider.getMany<Customer>(
+      "customers",
+      {
+        ids: aggregations.unpaidInvoices.map(
+          (invoice: Invoice) => invoice.customer
+        ),
+      }
+    );
+
+    setState((state) => ({
+      ...state,
+      unpaidInvoicesCustomers: customers.reduce(
+        (prev: CustomerData, customer) => {
+          prev[customer.id] = customer;
+          return prev;
+        },
+        {}
+      ),
+    }));
+
+    const { data: suppliers } = await dataProvider.getMany<Supplier>(
+      "suppliers",
+      {
+        ids: aggregations.unpaidReceives.map(
+          (receive: Receive) => receive.supplier
+        ),
+      }
+    );
+
+    setState((state) => ({
+      ...state,
+      unpaidReceivesSuppliers: suppliers.reduce(
+        (prev: SupplierData, supplier) => {
+          prev[supplier.id] = supplier;
+          return prev;
+        },
+        {}
+      ),
     }));
   }, [dataProvider]);
 
@@ -206,6 +277,10 @@ export const Dashboard: FC = () => {
     recentInvoices,
     recentReceives,
     recentCreditNotes,
+    unpaidInvoicesCustomers,
+    unpaidReceivesSuppliers,
+    nbUnpaidInvoices,
+    nbUnpaidReceives,
   } = state;
 
   return isXSmall ? (
@@ -213,14 +288,60 @@ export const Dashboard: FC = () => {
       <ProgressAlert />
       <div style={styles.flexColumn as CSSProperties}>
         <Welcome />
+        <MonthlyRevenue value={revenue} />
+        <VerticalSpacer />
+        <NbNewInvoices value={nbNewInvoices} />
+        <VerticalSpacer />
+        <OrderChart
+          invoices={recentInvoices}
+          receives={recentReceives}
+          credit_notes={recentCreditNotes}
+        />
+        <VerticalSpacer />
+        <UnpaidInvoices
+          invoices={unpaidInvoices}
+          customers={unpaidInvoicesCustomers}
+          receivables={receivables}
+        />
+        <VerticalSpacer />
+        <UnpaidReceives
+          receives={unpaidReceives}
+          suppliers={unpaidReceivesSuppliers}
+          payables={payables}
+        />
       </div>
     </div>
   ) : isSmall ? (
     <div>
       <ProgressAlert />
       <div style={styles.flexColumn as CSSProperties}>
-        <div style={styles.flex}>
+        <div style={styles.singleCol}>
           <Welcome />
+        </div>
+        <div style={styles.flex}>
+          <MonthlyRevenue value={revenue} />
+          <Spacer />
+          <NbNewInvoices value={nbNewInvoices} />
+        </div>
+        <div style={styles.singleCol}>
+          <OrderChart
+            invoices={recentInvoices}
+            receives={recentReceives}
+            credit_notes={recentCreditNotes}
+          />
+        </div>
+        <div style={styles.flex}>
+          <UnpaidInvoices
+            invoices={unpaidInvoices}
+            customers={unpaidInvoicesCustomers}
+            receivables={receivables}
+          />
+          <Spacer />
+          <UnpaidReceives
+            receives={unpaidReceives}
+            suppliers={unpaidReceivesSuppliers}
+            payables={payables}
+          />
         </div>
       </div>
     </div>
@@ -235,81 +356,31 @@ export const Dashboard: FC = () => {
             <Spacer />
             <NbNewInvoices value={nbNewInvoices} />
           </div>
-          <div style={styles.singleCol}></div>
+          <div style={styles.singleCol}>
+            <OrderChart
+              invoices={recentInvoices}
+              receives={recentReceives}
+              credit_notes={recentCreditNotes}
+            />
+          </div>
+        </div>
+
+        <div style={styles.rightCol}>
+          <div style={styles.flex}>
+            <UnpaidInvoices
+              invoices={unpaidInvoices}
+              customers={unpaidInvoicesCustomers}
+              receivables={receivables}
+            />
+            <Spacer />
+            <UnpaidReceives
+              receives={unpaidReceives}
+              suppliers={unpaidReceivesSuppliers}
+              payables={payables}
+            />
+          </div>
         </div>
       </div>
     </>
   );
 };
-
-/*
- <OrderChart
-              invoices={recentInvoices}
-              receives={recentReceives}
-              credit_notes={recentCreditNotes}
-            />
-
-
-            
-<Separator />
-<Alert severity="warning">
-  <AlertTitle>Work in Progress</AlertTitle>
-  Here is a non-exhaustive and nonchronological list of features we are
-  working on:
-  <ul>
-    <li>Inventory Reports</li>
-    <li>PDF/Print</li>
-    <li>Import Data</li>
-    <li>Email Verification on Account Creation</li>
-    <li>Delivery Order System</li>
-    <li>Data Visualization</li>
-    <li>Receives</li>
-    <li>Purchase Orders</li>
-    <li>Inventory adjustments</li>
-    <li>Payroll management</li>
-    <li>Attendance management</li>
-    <li>Show view for all tabs</li>
-  </ul>
-  Want to suggest a feature? Feel free to drop us an email at{" "}
-  <Link
-    className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-    href={`mailto:${email}`}
-    onClick={stopPropagation}
-  >
-    {email}
-  </Link>
-  <br />
-  Please feel free to file any issues that you have encountered{" "}
-  <Link
-    className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-    href="https://github.com/CrownKira/digitalace/issues"
-    target="_blank"
-  >
-    here
-  </Link>
-</Alert>
-
-<Alert severity="info">
-        <AlertTitle>We are moving</AlertTitle>
-        We are migrating to{" "}
-        <Link
-          className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-          href="https://eizea.com/"
-          target="_blank"
-        >
-          EIZEA.COM
-        </Link>
-        ! You can pronounce it as /ˈiːzi/ or /ˈeɪ.zɪə/... up to you! Let us know
-        what you think about our new name! Meanwhile, we are conducting our
-        final round of user testing. We would appreciate it if you could set
-        aside your precious 15min to complete our{" "}
-        <Link
-          className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-          href="https://docs.google.com/forms/d/e/1FAIpQLSdH_svSkLrqfGPoOAGCQ1-SRT4Vw6mBpkGTqGtiXmtkHELUng/viewform"
-          target="_blank"
-        >
-          survey
-        </Link>
-        . We welcome any critiques with open arms!
-      </Alert>
-*/
