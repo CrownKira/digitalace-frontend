@@ -295,6 +295,7 @@ export const customEnglishMessages: TranslationMessages = {
     customers: {
       name: "Customer |||| Customers",
       unused_credits: "%{amount} unused credits",
+      receivables: "%{amount} receivables",
       fields: {
         attention: "Attention",
         address: "Address",
@@ -354,6 +355,7 @@ export const customEnglishMessages: TranslationMessages = {
     },
     suppliers: {
       name: "Supplier |||| Suppliers",
+      payables: "%{amount} payables",
       fields: {
         attention: "Attention",
         address: "Address",

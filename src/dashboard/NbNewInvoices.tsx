@@ -10,7 +10,7 @@ import { dateFormatter } from "../utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    minWidth: "300px",
+    minWidth: "250px",
   },
 }));
 
