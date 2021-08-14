@@ -69,12 +69,6 @@ const ProgressAlert: FC = () => {
 interface OrderStats {
   revenue: number;
   nbNewInvoices: number;
-  receivables: number;
-  payables: number;
-  unpaidInvoices: Invoice[];
-  unpaidReceives: Receive[];
-  nbUnpaidInvoices: number;
-  nbUnpaidReceives: number;
 }
 
 interface CustomerData {
@@ -97,8 +91,6 @@ interface State {
   recentCreditNotes?: CreditNote[];
   unpaidInvoicesCustomers?: CustomerData;
   unpaidReceivesSuppliers?: SupplierData;
-  nbUnpaidInvoices?: number;
-  nbUnpaidReceives?: number;
 }
 
 const Spacer = () => <span style={{ width: "1em" }} />;
@@ -115,6 +107,26 @@ export const Dashboard: FC = () => {
 
   const fetchOrders = useCallback(async () => {
     const aMonthAgo = subDays(new Date(), 30);
+
+    const { data: unpaidInvoices } = await dataProvider.getList<Invoice>(
+      "invoices",
+      {
+        filter: { status: "UPD" },
+        sort: { field: "date", order: "DESC" },
+        // TODO: set limit of invoices per month
+        pagination: { page: 1, perPage: Infinity },
+      }
+    );
+
+    const { data: unpaidReceives } = await dataProvider.getList<Receive>(
+      "receives",
+      {
+        filter: { status: "UPD" },
+        sort: { field: "date", order: "DESC" },
+        // TODO: set limit of receives per month
+        pagination: { page: 1, perPage: Infinity },
+      }
+    );
 
     const { data: recentInvoices } = await dataProvider.getList<Invoice>(
       "invoices",
@@ -154,49 +166,23 @@ export const Dashboard: FC = () => {
             stats.revenue += toFixedNumber(invoice.grand_total, 2);
             stats.nbNewInvoices++;
           }
-          if (invoice.status === "UPD") {
-            stats.receivables += toFixedNumber(invoice.grand_total, 2);
-            stats.nbUnpaidInvoices++;
-            if (stats.unpaidInvoices.length < 10) {
-              stats.unpaidInvoices.push(invoice);
-            }
-          }
           return stats;
         },
         {
           revenue: 0,
           nbNewInvoices: 0,
-          receivables: 0,
-          payables: 0,
-          unpaidInvoices: [],
-          unpaidReceives: [],
-          nbUnpaidInvoices: 0,
-          nbUnpaidReceives: 0,
           // TODO: include incoming and outgoing
         }
       );
 
     aggregations = recentReceives
       .filter((receive) => receive.status !== "DFT")
-      .reduce(
-        (stats: OrderStats, receive) => {
-          if (receive.status !== "DFT") {
-            stats.revenue -= toFixedNumber(receive.grand_total, 2);
-          }
-
-          if (receive.status === "UPD") {
-            stats.payables += toFixedNumber(receive.grand_total, 2);
-            stats.nbUnpaidReceives++;
-            if (stats.unpaidReceives.length < 10) {
-              stats.unpaidReceives.push(receive);
-            }
-          }
-
-          return stats;
-        },
-
-        aggregations
-      );
+      .reduce((stats: OrderStats, receive) => {
+        if (receive.status !== "DFT") {
+          stats.revenue -= toFixedNumber(receive.grand_total, 2);
+        }
+        return stats;
+      }, aggregations);
 
     aggregations = recentCreditNotes
       .filter((credit_note) => credit_note.status !== "DFT")
@@ -210,24 +196,33 @@ export const Dashboard: FC = () => {
     setState((state) => ({
       ...state,
       revenue: ccyFormat(aggregations.revenue, true),
-      unpaidInvoices: aggregations.unpaidInvoices,
-      unpaidReceives: aggregations.unpaidReceives,
-      receivables: ccyFormat(aggregations.receivables, true),
-      payables: ccyFormat(aggregations.payables, true),
+      payables: ccyFormat(
+        unpaidReceives.reduce(
+          (acc, receive) => acc + toFixedNumber(receive.grand_total, 2),
+          0
+        ),
+        true
+      ),
+      receivables: ccyFormat(
+        unpaidInvoices.reduce(
+          (acc, invoice) => acc + toFixedNumber(invoice.grand_total, 2),
+          0
+        ),
+
+        true
+      ),
       nbNewInvoices: aggregations.nbNewInvoices,
-      nbUnpaidInvoices: aggregations.nbUnpaidInvoices,
-      nbUnpaidReceives: aggregations.nbUnpaidReceives,
       recentInvoices,
       recentReceives,
       recentCreditNotes,
+      unpaidInvoices,
+      unpaidReceives,
     }));
 
     const { data: customers } = await dataProvider.getMany<Customer>(
       "customers",
       {
-        ids: aggregations.unpaidInvoices.map(
-          (invoice: Invoice) => invoice.customer
-        ),
+        ids: unpaidInvoices.map((invoice: Invoice) => invoice.customer),
       }
     );
 
@@ -245,9 +240,7 @@ export const Dashboard: FC = () => {
     const { data: suppliers } = await dataProvider.getMany<Supplier>(
       "suppliers",
       {
-        ids: aggregations.unpaidReceives.map(
-          (receive: Receive) => receive.supplier
-        ),
+        ids: unpaidReceives.map((receive: Receive) => receive.supplier),
       }
     );
 
@@ -279,8 +272,6 @@ export const Dashboard: FC = () => {
     recentCreditNotes,
     unpaidInvoicesCustomers,
     unpaidReceivesSuppliers,
-    nbUnpaidInvoices,
-    nbUnpaidReceives,
   } = state;
 
   return isXSmall ? (
@@ -364,17 +355,16 @@ export const Dashboard: FC = () => {
             />
           </div>
         </div>
-
         <div style={styles.rightCol}>
           <div style={styles.flex}>
             <UnpaidInvoices
-              invoices={unpaidInvoices}
+              invoices={unpaidInvoices?.slice(0, 10)}
               customers={unpaidInvoicesCustomers}
               receivables={receivables}
             />
             <Spacer />
             <UnpaidReceives
-              receives={unpaidReceives}
+              receives={unpaidReceives?.slice(0, 10)}
               suppliers={unpaidReceivesSuppliers}
               payables={payables}
             />
