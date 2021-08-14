@@ -106,7 +106,7 @@ export const customEnglishMessages: TranslationMessages = {
         demo_button: "Source for this demo",
       },
       monthly_revenue: "Monthly Revenue",
-      month_history: "30 Day Revenue History",
+      month_history: "30 Day Cash Flow",
       new_orders: "New Orders",
       new_invoices: "This Month's Invoices",
       pending_reviews: "Pending Reviews",
